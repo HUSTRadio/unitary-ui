@@ -53,6 +53,7 @@ const SheetOverlay = React.forwardRef<
   SheetOverlayProps
 >(({ className, ...props }, ref) => (
   <LayerDialogPrimitiveOverlay
+    data-material="mask-backdrop"
     ref={ref}
     data-slot="sheet-overlay"
     className={cn(
@@ -89,6 +90,7 @@ const SheetContent = React.forwardRef<
   <SheetPortal>
     {!noOverlay && <SheetOverlay />}
     <LayerDialogPrimitiveContent
+      data-material="floating"
       ref={ref}
       data-slot="sheet-content"
       className={cn(

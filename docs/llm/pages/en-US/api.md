@@ -8,7 +8,7 @@ Find package-root hooks and utilities by purpose. Component pages own their prop
 
 ## Theme & localization
 
-Theme preferences and framework messages.
+Light/dark preferences, document-wide Solid, Hybrid and Glass appearances, and framework messages; UI palettes and code themes stay independent.
 
 ```tsx
 import { ThemeProvider, useTheme, I18nProvider, useI18n } from "@hustradio/unitary-ui";
@@ -137,25 +137,33 @@ import {
 
 ## Providers and hooks
 
-ThemeProvider accepts children; useTheme requires it and returns preference, resolvedTheme and setPreference. Preferences are light, dark or system, persisted locally and applied to the document root. I18nProvider accepts children and locale (zh-CN by default); useI18n returns locale and t(key, values?), with English outside a provider.
+ThemeProvider accepts children and texture, defaultTexture and onTextureChange. useTheme requires it: preference, resolvedTheme and setPreference manage light, dark or system; texture, resolvedTexture and setTexture manage solid, hybrid or glass (Solid, Hybrid, Glass). Texture defaults to solid; uncontrolled choices persist independently, and applied appearance can fall back to Solid according to browser capabilities and accessibility conditions. The root provider applies texture to the whole document and portals; nested providers inherit its texture preference. I18nProvider accepts children and locale (zh-CN by default); useI18n returns locale and t(key, values?), with English outside a provider.
+
+[Materials and global texture controls](#/materials) · `TexturePreference = "solid" | "hybrid" | "glass"`
 
 ```tsx
 import { ThemeProvider, I18nProvider, useTheme, useI18n } from "@hustradio/unitary-ui";
 import "@hustradio/unitary-ui/styles.css";
 
 function Preferences() {
-  const { preference, resolvedTheme, setPreference } = useTheme();
+  const { preference, resolvedTheme, setPreference, texture, resolvedTexture, setTexture } =
+    useTheme();
   const { locale, t } = useI18n();
   return (
-    <button onClick={() => setPreference("system")}>
-      {t("System")} — {locale} / {preference} / {resolvedTheme}
-    </button>
+    <div>
+      <button onClick={() => setPreference("system")}>
+        {t("System")} — {locale} / {preference} / {resolvedTheme}
+      </button>
+      <button onClick={() => setTexture("glass")}>
+        {texture} / {resolvedTexture}
+      </button>
+    </div>
   );
 }
 
 export function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTexture="solid">
       <I18nProvider locale="zh-CN">
         <Preferences />
       </I18nProvider>

@@ -69,6 +69,7 @@ export function Navbar({
   return (
     <header
       data-slot="navbar"
+      data-material={filled ? "navigation" : undefined}
       data-behavior={scrollBehavior}
       data-solid-on-scroll={solidOnScroll ? "true" : undefined}
       className={`${positionClass} ${heightClass} ${hidden ? "-translate-y-full " : ""}${surfaceClass}${className ? ` ${className}` : ""}`}

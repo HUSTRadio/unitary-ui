@@ -346,6 +346,7 @@ function Feedback({
         <div
           ref={inlineRef}
           data-slot="rating-pill"
+          data-material={open ? "floating" : undefined}
           data-state={open ? "open" : "closed"}
           onBlurCapture={(event) => {
             // 仅当焦点确实落在容器外的元素上才收起；relatedTarget 为 null（窗口失焦、
@@ -461,6 +462,7 @@ function Feedback({
         </Popover.Trigger>
         <Popover.Portal>
           <LayerPopoverContent
+            data-material="floating"
             data-slot="feedback-popup"
             role="dialog"
             align="center"

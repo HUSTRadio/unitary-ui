@@ -264,10 +264,12 @@ function ResponsiveDrawerContent({
   return (
     <DialogPrimitive.Portal>
       <LayerDialogPrimitiveOverlay
+        data-material="mask-scrim"
         data-slot="responsive-drawer-overlay"
         className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none"
       />
       <LayerDialogPrimitiveContent
+        data-material="floating"
         tabIndex={-1}
         data-slot="responsive-drawer-content"
         data-placement={placement}

@@ -273,6 +273,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
             }}
             role="status"
             data-kind={toast.kind}
+            data-material="floating"
             data-exiting={toast.exiting ? "" : undefined}
             // HIG-AUD-014：被 CSS 隐藏的第 5 个及更旧项此前仍留在 Tab 序列与无障碍树里
             // （`nth-last-[n+4]` 只改视觉）。`inert` 同时移出 Tab 序列与 AT，`aria-hidden` 兜底。

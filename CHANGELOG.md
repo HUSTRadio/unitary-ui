@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- **材质页与单选焦点**：全局外观统一为 Solid / Hybrid / Glass，接口值使用 `solid` / `hybrid` / `glass`。Radio 标签点击保持当前滚动位置，保留原生选择和键盘行为；材质页接入共享块间距与照片小字署名。Mask 场景共用圆角裁切，Hybrid / Glass 的功能层改用透光细边和柔和投影，带箭头的提示保持稳定填充。
+
 - **文档导航分类**：将 LazyLoad 与 Prefetch 从“组件 / 异步加载”移至 API 下方独立的“网络与异步”栏目；侧栏、移动导航、搜索及上下页顺序同步调整，机器可读索引归类为 `network`，现有页面链接保持兼容。
 
 - **API 表格扩展标记**：全表均为框架扩展时改为表格前的一次说明，移除逐行重复标签；官方与扩展 API 混合的表格保留逐行标记，必填提示保持可见。
@@ -37,6 +39,8 @@
 - **EditMenu 选区操作列统一横向**：编辑区域选中文字后，触屏、鼠标和键盘均显示横向胶囊工具条（`role="toolbar"`、左右方向键及 Home/End），与右键唤出的竖向 ContextMenu 区分；保留触摸生成鼠标事件防闪烁、选区锚定与视口边界保护。双主题浏览器及键盘回归覆盖横向布局。
 
 ### Added
+
+- **全局材质外观与 Mask 规范**：`ThemeProvider` 新增 `texture`、`defaultTexture` 与 `onTextureChange`，`useTheme` 新增 `texture`、`resolvedTexture` 与 `setTexture`，并导出 `TexturePreference`、`ThemeProviderProps`。默认保留 Solid，可全局切换 Hybrid 或 Glass；导航、功能浮层及 Portal／SubFrame 同步生效，正文与内部控件保持清晰。材质独立于明暗主题、UI 配色和代码主题，非受控偏好独立保存；不支持背景模糊／颜色混合、强制颜色或减少透明度时回退 Solid。新增 `--material-texture-*` 变量、`material-mask` 与 `material-mask-scrim` 工具类；状态色 Tooltip／Toast 保持不透明，避免嵌套重复采样。材质规范页、框架 API 与中英示例同步说明接口、兼容性及渲染边界。
 
 - **活动项滚动跟踪**：`SidebarNav` 与 `Tabs` 新增可选的 `scrollTracking`（`disabled` / `on-reload` / `always`，默认禁用），并从包入口导出 `ScrollTrackingMode`。载入时或活动项变化时，对齐到滚动容器顶部或水平起始边，首选 16px 留白；若会露出前一条目或标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等，目标受滚动边界限制。复用 250ms 非线性动效，支持 RTL、减少动画与手动中断。SidebarNav 另提供 `scrollTrackingTarget`（默认 `item`）；`category` 定位当前条目所属的二级分类小标题，无二级分类时定位一级标题，包入口导出 `SidebarNavScrollTrackingTarget`。文档侧栏启用 `on-reload` + `category`，双语 API、指南、可交互演示、Show Code 与 living styleguide 同步覆盖。
 

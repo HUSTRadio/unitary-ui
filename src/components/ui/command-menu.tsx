@@ -50,10 +50,12 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
         {/* 官方 cmdk 写法（design-gate 冻结）：两族遮罩 token 之外的单列例外，
             理由见 index.css「遮罩两族」注释（HIG-AUD-010） */}
         <LayerDialogPrimitiveOverlay
+          data-material="mask-backdrop"
           data-slot="command-menu-overlay"
           className="command-menu-overlay fixed inset-0 z-[var(--uni-z-modal)] bg-background-100 opacity-80"
         />
         <LayerDialogPrimitiveContent
+          data-material="floating"
           data-slot="command-menu-content"
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
@@ -105,7 +107,7 @@ const CommandMenuInput = React.forwardRef<
         value={query}
         onValueChange={setQuery}
         className={cn(
-          "h-7 flex-1 border-none bg-transparent text-base text-[var(--uni-gray-1000)] outline-hidden placeholder:text-[var(--uni-gray-700)] sm:text-lg",
+          "h-7 flex-1 border-none bg-transparent text-base text-[var(--uni-gray-1000)] outline-hidden placeholder:text-[var(--material-texture-muted,var(--uni-gray-700))] sm:text-lg",
           className,
         )}
         {...props}

@@ -208,6 +208,7 @@ function CalendarCombobox({
         {Object.keys(presets).length > 0 && (
           <PopoverPrimitive.Portal>
             <LayerPopoverPrimitiveContent
+              data-material="floating"
               align="start"
               sideOffset={8}
               className={cn(COMBO_MENU_CLASS, full && "grid-cols-2")}
@@ -514,6 +515,7 @@ function Calendar({
         </span>
         <PopoverPrimitive.Portal>
           <LayerPopoverPrimitiveContent
+            data-material="floating"
             side="bottom"
             align="start"
             sideOffset={4}

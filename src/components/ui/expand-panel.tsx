@@ -197,6 +197,7 @@ function ExpandPanel({
       {(open || present) && (
         <DialogPrimitive.Portal container={container} forceMount>
           <LayerDialogPrimitiveOverlay
+            data-material="mask-scrim"
             forceMount
             data-motion-state={motionOpen ? "open" : "closed"}
             data-below-topbar={belowTopbar || undefined}
@@ -211,6 +212,7 @@ function ExpandPanel({
             )}
           />
           <LayerDialogPrimitiveContent
+            data-material="floating"
             forceMount
             ref={contentRef}
             tabIndex={-1}
@@ -251,7 +253,7 @@ function ExpandPanel({
               // 触摸滚动跟随手指：touch-action: pan-y 明确声明仅垂直平移，避免
               // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
               // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
-              "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
+              "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto border-[color:var(--_uni-material-border,var(--border))] bg-background shadow-lg outline-none",
               "transition-[translate,clip-path] duration-(--uni-duration-slower) ease-snap motion-reduce:!transition-none",
               SIDE_CLASSES[side],
               container && "absolute",

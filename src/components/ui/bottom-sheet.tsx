@@ -201,8 +201,9 @@ function BottomSheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Portal container={container}>
-        <LayerDialogPrimitiveOverlay className={cn("inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none", container ? "absolute" : "fixed")} />
+        <LayerDialogPrimitiveOverlay data-material="mask-scrim" className={cn("inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none", container ? "absolute" : "fixed")} />
         <LayerDialogPrimitiveContent
+          data-material="floating"
           tabIndex={-1}
           data-slot="bottom-sheet"
           data-resizable={resizable && showGrabber ? "true" : undefined}
@@ -220,7 +221,7 @@ function BottomSheet({
             }
           }}
           className={cn(
-            "inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t bg-background outline-none",
+            "inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t border-[color:var(--_uni-material-border,var(--border))] bg-background outline-none",
             container ? "absolute" : "fixed",
             "pb-[env(safe-area-inset-bottom)] overscroll-none",
             dragging && "select-none",

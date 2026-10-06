@@ -187,6 +187,7 @@ const MultiSelectContent = React.forwardRef<
     return (
       <PopoverPrimitive.Portal>
         <LayerPopoverPrimitiveContent
+          data-material="floating"
           ref={setContentRef}
           data-slot="multi-select-content"
           role="dialog"

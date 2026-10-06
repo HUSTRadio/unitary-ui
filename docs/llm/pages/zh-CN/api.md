@@ -8,7 +8,7 @@
 
 ## 主题与国际化
 
-管理主题偏好和框架消息语言。
+管理明暗偏好、文档全局 Solid、Hybrid、Glass 外观和框架消息语言；UI 配色与代码主题独立设置。
 
 ```tsx
 import { ThemeProvider, useTheme, I18nProvider, useI18n } from "@hustradio/unitary-ui";
@@ -137,25 +137,33 @@ import {
 
 ## Provider 与钩子
 
-ThemeProvider 接收 children；useTheme 必须在其内部调用，返回 preference、resolvedTheme 和 setPreference。偏好为 light、dark 或 system，保存在本地存储并应用到页面根元素。I18nProvider 接收 children 和 locale（默认 zh-CN）；useI18n 返回 locale 与 t(key, values?)，无 Provider 时使用英语。
+ThemeProvider 接收 children，以及材质设置 texture、defaultTexture 和 onTextureChange。useTheme 必须在其内部调用：preference、resolvedTheme 和 setPreference 管理 light、dark 或 system；texture、resolvedTexture 和 setTexture 管理 solid、hybrid 或 glass（Solid、Hybrid、Glass）。材质默认 solid，非受控选择独立持久化；实际外观会随浏览器能力与辅助功能条件回退为 Solid。根 Provider 对整个文档及 Portal 生效，嵌套 Provider 继承根材质设置。I18nProvider 接收 children 和 locale（默认 zh-CN）；useI18n 返回 locale 与 t(key, values?)，无 Provider 时使用英语。
+
+[材质规范与全局切换](#/materials) · `TexturePreference = "solid" | "hybrid" | "glass"`
 
 ```tsx
 import { ThemeProvider, I18nProvider, useTheme, useI18n } from "@hustradio/unitary-ui";
 import "@hustradio/unitary-ui/styles.css";
 
 function Preferences() {
-  const { preference, resolvedTheme, setPreference } = useTheme();
+  const { preference, resolvedTheme, setPreference, texture, resolvedTexture, setTexture } =
+    useTheme();
   const { locale, t } = useI18n();
   return (
-    <button onClick={() => setPreference("system")}>
-      {t("System")} — {locale} / {preference} / {resolvedTheme}
-    </button>
+    <div>
+      <button onClick={() => setPreference("system")}>
+        {t("System")} — {locale} / {preference} / {resolvedTheme}
+      </button>
+      <button onClick={() => setTexture("glass")}>
+        {texture} / {resolvedTexture}
+      </button>
+    </div>
   );
 }
 
 export function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTexture="solid">
       <I18nProvider locale="zh-CN">
         <Preferences />
       </I18nProvider>

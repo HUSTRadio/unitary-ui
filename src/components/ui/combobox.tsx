@@ -510,6 +510,7 @@ function Combobox({
       )}
       <PopoverPrimitive.Portal>
         <LayerPopoverPrimitiveContent
+          data-material="floating"
           align="start"
           sideOffset={8}
           // 与 select-content / menu 面板一致的可定位槽位，供浮层材质（阴影）契约核查使用

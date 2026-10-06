@@ -31,6 +31,17 @@ function consume(mode) {
       assert.equal(typeof api[name], 'function', name);
     }
     assert.equal(Object.hasOwn(api, 'Stack'), false);
+    assert.equal(typeof api.ThemeProvider, 'function');
+    assert.equal(typeof api.useTheme, 'function');
+    const TextureState = () => {
+      const {texture, resolvedTexture, setTexture} = api.useTheme();
+      assert.equal(typeof setTexture, 'function');
+      return h('output', null, texture + '/' + resolvedTexture);
+    };
+    assert.equal(render(h(api.ThemeProvider, null, h(TextureState))), '<output>solid/solid</output>');
+    assert.equal(render(h(api.ThemeProvider, {defaultTexture: 'glass'}, h(TextureState))), '<output>glass/solid</output>');
+    assert.equal(render(h(api.ThemeProvider, {texture: 'glass'},
+      h(api.ThemeProvider, {texture: 'hybrid'}, h(TextureState)))), '<output>glass/solid</output>');
     assert.match(render(h(api.Flex, {direction: 'row'}, 'Flex content')), /data-slot="flex"/);
     assert.match(render(h(api.LayerScope, {levels: {popover: 71}}, h(api.Layer, {level: 'popover'}))), /--uni-z-popover:71/);
     assert.equal(render(h(api.LayerPortal, null, 'Client portal')), '');

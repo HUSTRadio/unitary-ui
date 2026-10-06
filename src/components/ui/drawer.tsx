@@ -134,12 +134,13 @@ function DrawerPanel({
 
   return (
     <LayerDialogPrimitiveContent
+      data-material="floating"
       tabIndex={-1}
       data-slot="drawer"
       data-swipe-direction="down"
       {...accessibilityProps}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background shadow-[var(--material-shadow-menu)] outline-none pb-[env(safe-area-inset-bottom)]",
+        "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t border-[color:var(--_uni-material-border,var(--border))] bg-background shadow-[var(--material-shadow-menu)] outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[80dvh] overscroll-none",
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
@@ -222,7 +223,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
+        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" data-material="mask-scrim" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}

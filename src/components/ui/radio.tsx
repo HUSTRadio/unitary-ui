@@ -183,9 +183,27 @@ export interface RadioGroupItemProps extends Omit<RadioProps, "checked" | "onCha
 }
 
 function RadioGroupItem({ value, children, className, ...radioProps }: RadioGroupItemProps) {
+  const handlePointerDown: React.PointerEventHandler<HTMLLabelElement> = (event) => {
+    if (event.defaultPrevented || !event.isPrimary || event.button !== 0) return;
+    const input = event.currentTarget.control;
+    if (!(input instanceof HTMLInputElement) || input.matches(":disabled") || event.target === input) return;
+    if (!(event.target instanceof Element)) return;
+    const interactive = event.target.closest(
+      "a[href], button, input, select, textarea, summary, [role='button'], [role='link'], [tabindex], [contenteditable]:not([contenteditable='false'])",
+    );
+    if (interactive && event.currentTarget.contains(interactive)) return;
+
+    // Label activation otherwise focuses its input with native auto-scrolling,
+    // even when the clicked option is visible beside a scroll-padding inset.
+    // Keep the subsequent native click/change and keyboard behavior intact.
+    event.preventDefault();
+    input.focus({ preventScroll: true });
+  };
+
   return (
     <label
       data-slot="radio-item-wrapper"
+      onPointerDown={handlePointerDown}
       className={cn(
         "group flex items-center text-copy-13 leading-[19.5px] [--radio-color:var(--gray-700)]",
         "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:text-gray-500 has-[input:disabled]:[--radio-color:var(--gray-500)]",

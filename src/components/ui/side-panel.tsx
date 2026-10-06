@@ -70,6 +70,7 @@ const SidePanelOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <LayerDialogPrimitiveOverlay
+    data-material="mask-backdrop"
     ref={ref}
     data-slot="side-panel-overlay"
     className={cn(
@@ -93,10 +94,12 @@ const SidePanelContent = React.forwardRef<
 
   return (
     <LayerDialogPrimitiveContent
+      data-material="floating"
       ref={ref}
       data-slot="side-panel-content"
       className={cn(
         "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
+        "shadow-[var(--_uni-material-shadow,var(--material-shadow-medium))]",
         "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
         "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
         "motion-reduce:animate-none! motion-reduce:transition-none",

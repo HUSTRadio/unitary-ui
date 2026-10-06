@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Materials and radio focus**: Global appearances use Solid / Hybrid / Glass with `solid` / `hybrid` / `glass` API values. Radio label clicks preserve scroll position and native selection and keyboard behavior. Materials use shared block spacing and a small photo caption; mask scenes share one rounded clip. Hybrid / Glass functional layers use translucent contours and soft projections, while stem-bearing hints retain stable fills.
+
 - **Docs navigation categories**: Move LazyLoad and Prefetch from Components / Async Loading to a separate Network & Async section immediately after API. Sidebar, mobile navigation, search and adjacent-page order follow the new section, the machine-readable index uses `network`, and existing URLs stay compatible.
 
 - **API table provenance**: Replace repeated row badges with one introductory note when every API is a framework extension. Mixed official/extension tables keep row badges, and required markers remain visible.
@@ -37,6 +39,8 @@ All notable changes to this project are documented in this file. The format foll
 - **Horizontal EditMenu selection actions**: touch, mouse, and keyboard text selection now share a horizontal capsule toolbar (`role="toolbar"`, Left/Right arrows, and Home/End), distinct from the vertical right-click ContextMenu. Touch-generated mouse-event suppression, selection anchoring, and viewport clamping remain in place. Browser and keyboard checks cover the layout in both themes.
 
 ### Added
+
+- **Global texture appearance and Mask specification**: `ThemeProvider` adds `texture`, `defaultTexture` and `onTextureChange`; `useTheme` adds `texture`, `resolvedTexture` and `setTexture`, with exported `TexturePreference` and `ThemeProviderProps`. Solid remains the default, with document-wide Hybrid and Glass choices applying to navigation, functional layers, portals and SubFrame content while reading surfaces and inner controls stay clear. Texture is independent of light/dark mode, UI palettes and code themes; uncontrolled preferences persist separately. Missing backdrop blur/color mixing, forced colors or reduced transparency resolve to Solid. Adds `--material-texture-*` controls and `material-mask` / `material-mask-scrim` utilities, protects opaque status tooltips/toasts and avoids repeated nested sampling. Materials, framework API and bilingual examples document the interfaces, compatibility and rendering boundaries.
 
 - **Active-item scroll tracking**: Adds optional `scrollTracking` to `SidebarNav` and `Tabs` (`disabled` / `on-reload` / `always`, disabled by default), with package-root `ScrollTrackingMode`. On initial load or active-item changes, align at the scroll container's top or horizontal start edge with a preferred 16px inset. If preceding item or heading text or icons would remain visible, reduce spacing to 8px, 4px and so on; clamp the target to its scroll range. Reuses 250ms nonlinear motion and supports RTL, reduced motion and manual interruption. SidebarNav also provides `scrollTrackingTarget` (default `item`); `category` aligns the active item’s subgroup heading, falling back to its group heading, with package-root `SidebarNavScrollTrackingTarget`. The docs sidebar enables `on-reload` + `category`; bilingual API references, guides, interactive examples, Show Code and the living styleguide cover the same behavior.
 

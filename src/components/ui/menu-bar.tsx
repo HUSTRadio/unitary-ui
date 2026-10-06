@@ -98,6 +98,7 @@ const MenuBar = React.forwardRef<
       {...props}
       ref={setRefs}
       data-slot="menu-bar"
+      data-material="navigation"
       data-overflow-left={edges.left || undefined}
       data-overflow-right={edges.right || undefined}
       onScroll={(event) => {
@@ -151,6 +152,7 @@ const MenuBarContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <MenubarPrimitive.Portal>
     <LayerMenubarPrimitiveContent
+      data-material="floating"
       ref={ref}
       data-slot="menu-bar-content"
       className={cn(
@@ -289,6 +291,7 @@ const MenuBarSubContent = React.forwardRef<
   return (
     <MenubarPrimitive.Portal>
       <LayerMenubarPrimitiveSubContent
+        data-material="floating"
         {...props}
         ref={setRefs}
         data-slot="menu-bar-sub-content"

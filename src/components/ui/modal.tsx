@@ -58,6 +58,7 @@ const ModalOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <LayerDialogPrimitiveOverlay
+    data-material="mask-backdrop"
     ref={ref}
     className={cn(
       // 用合成色而非元素 opacity-*：本 Overlay 带着 Content 子节点，元素透明度会把
@@ -134,6 +135,7 @@ const ModalContent = React.forwardRef<
       <ModalPortal>
         <ModalOverlay>
           <LayerDialogPrimitiveContent
+            data-material="floating"
             ref={ref}
             aria-modal="true"
             data-slot="modal-content"

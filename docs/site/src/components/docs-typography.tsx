@@ -52,6 +52,14 @@ export function DocsParagraph({
   return <p {...props} data-slot="docs-prose-paragraph" className={cn("docs-prose-paragraph", className)} />;
 }
 
+export function DocsCaption({
+  className,
+  style: _style,
+  ...props
+}: ComponentProps<"figcaption">): ReactNode {
+  return <figcaption {...props} data-slot="docs-prose-caption" className={cn("docs-prose-caption", className)} />;
+}
+
 export function DocsList({
   className,
   style: _style,

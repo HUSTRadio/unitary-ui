@@ -218,6 +218,8 @@ const CategoryBar = React.forwardRef<HTMLDivElement, CategoryBarProps>(
                   </HoverCardPrimitive.Trigger>
                   <HoverCardPrimitive.Portal>
                     <LayerHoverCardPrimitiveContent
+                      data-material="floating"
+                      data-material-surface="inverted"
                       sideOffset={10}
                       side="top"
                       align="center"

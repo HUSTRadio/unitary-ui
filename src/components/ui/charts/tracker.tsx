@@ -45,6 +45,8 @@ const Block = ({
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
         <LayerHoverCardPrimitiveContent
+          data-material="floating"
+          data-material-surface="inverted"
           sideOffset={10}
           side="top"
           align="center"

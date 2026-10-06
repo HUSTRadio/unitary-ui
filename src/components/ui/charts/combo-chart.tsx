@@ -478,6 +478,7 @@ const ChartTooltip = ({
     const filteredPayload = payload.filter((item: any) => item.type !== "none")
     return (
       <div
+        data-material="floating"
         className={cn(
           // base
           "rounded-overlay border text-copy-14",

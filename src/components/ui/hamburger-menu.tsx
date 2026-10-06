@@ -404,7 +404,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
             ref={inputRef}
-            className="h-9 flex-1 border-none bg-transparent text-copy-14 text-[var(--uni-gray-1000)] outline-none placeholder:text-[var(--uni-gray-700)]"
+            className="h-9 flex-1 border-none bg-transparent text-copy-14 text-[var(--uni-gray-1000)] outline-none placeholder:text-[var(--material-texture-muted,var(--uni-gray-700))]"
           />
           {searching ? (
             <button
@@ -418,7 +418,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               <HamburgerIcon open size={10} />
             </button>
           ) : (
-            <kbd className="hidden shrink-0 rounded border border-gray-alpha-400 px-1.5 py-0.5 text-xs text-[var(--uni-gray-700)] pointer-fine:inline-block">
+            <kbd className="hidden shrink-0 rounded border border-gray-alpha-400 px-1.5 py-0.5 text-xs text-[var(--material-texture-muted,var(--uni-gray-700))] pointer-fine:inline-block">
               {t("Ctrl K")}
             </kbd>
           )}

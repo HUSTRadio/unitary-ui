@@ -26,6 +26,24 @@
    Media queries need a build-time constant rather than a runtime CSS variable. */
 @custom-variant docs-feedback-compact (@media (width < 480px));
 
+/* Locally bundled CC0 landscape; source and license are retained in assets.
+   All samples share one decoded photo, including masks and the live layer demo. */
+.materials-texture-stage {
+  background-color: var(--background);
+  background-image: url("./assets/materials-alpsee.jpg");
+  background-size: cover;
+  background-position: center 62%;
+  background-repeat: no-repeat;
+}
+
+/* Figure captions have their own prose semantics and use the existing footnote scale. */
+.docs-prose-caption {
+  margin-block: var(--uni-doc-space-paragraph) 0;
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote);
+  color: var(--muted-foreground);
+}
+
 /* Color scheme showcase: geometry stays in docs; colors come from scoped presets. */
 .scheme-lab { min-width: 0; }
 .scheme-lab .lab-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; margin-bottom: 24px; }

@@ -74,6 +74,7 @@ const ChartTooltip = ({
   if (active && payload && payload.length) {
     return (
       <div
+        data-material="floating"
         className={cn(
           // base
           "rounded-overlay border text-copy-14",

@@ -133,6 +133,7 @@ const Menu = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Content>, Me
       <MenuStatefulContext.Provider value={stateful}>
         <MenuPrimitive.Portal>
           <LayerMenuPrimitiveContent
+            data-material="floating"
             ref={ref}
             sideOffset={sideOffset}
             {...positionProps[position]}

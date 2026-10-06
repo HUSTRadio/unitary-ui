@@ -535,6 +535,7 @@ function EditMenu({
         aria-orientation="horizontal"
         aria-label={t("Edit menu")}
         data-slot="edit-menu-capsule"
+        data-material="floating"
         data-presentation="capsule"
         data-placement={position?.placement}
         data-exiting={exiting ? "" : undefined}

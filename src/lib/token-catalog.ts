@@ -2486,6 +2486,102 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
+  "--material-texture-edge-opacity": {
+    "value": "10%",
+    "darkValue": "12%",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-blur": {
+    "value": "20px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-edge": {
+    "value": "rgb(255 255 255 / 12%)",
+    "darkValue": "rgb(255 255 255 / 8%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-highlight": {
+    "value": "rgb(255 255 255 / 6%)",
+    "darkValue": "rgb(255 255 255 / 4%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-opacity": {
+    "value": "60%",
+    "darkValue": "74%",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-hybrid-blur": {
+    "value": "8px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-hybrid-opacity": {
+    "value": "80%",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-mask-backdrop-opacity": {
+    "value": "65%",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-mask-blur": {
+    "value": "8px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-shadow-menu": {
+    "value": "0 2px 8px -2px rgb(0 0 0 / 8%), 0 12px 24px -8px rgb(0 0 0 / 12%)",
+    "darkValue": "0 2px 8px -2px rgb(0 0 0 / 24%), 0 12px 24px -8px rgb(0 0 0 / 32%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-shadow-modal": {
+    "value": "0 8px 24px -8px rgb(0 0 0 / 12%), 0 24px 48px -16px rgb(0 0 0 / 18%)",
+    "darkValue": "0 8px 24px -8px rgb(0 0 0 / 28%), 0 24px 48px -16px rgb(0 0 0 / 36%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-shadow-tooltip": {
+    "value": "0 2px 4px -2px rgb(0 0 0 / 8%), 0 6px 12px -4px rgb(0 0 0 / 10%)",
+    "darkValue": "0 2px 4px -2px rgb(0 0 0 / 20%), 0 6px 12px -4px rgb(0 0 0 / 24%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
   "--muted": {
     "value": "var(--color-bg-subtle)",
     "darkValue": "var(--color-bg-subtle)",

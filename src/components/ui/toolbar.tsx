@@ -200,6 +200,7 @@ function Toolbar({ className, children, collapse = true, ...props }: ToolbarProp
       <div
         ref={containerRef}
         data-slot="toolbar"
+      data-material="navigation"
         data-collapsed={collapsed || undefined}
         className={cn(
           "flex w-full items-center gap-1 overflow-hidden rounded-lg bg-background p-1 shadow-[0_0_0_1px_var(--gray-alpha-400)]",

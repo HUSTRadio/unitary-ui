@@ -78,6 +78,7 @@ const ContextMenuContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
     <LayerContextMenuPrimitiveContent
+      data-material="floating"
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
@@ -230,6 +231,7 @@ function QuickActionsScrim({ exiting }: { exiting: boolean }) {
       aria-hidden="true"
       style={vars}
       data-slot="context-menu-quick-actions-overlay"
+      data-material="mask-scrim"
       data-exiting={exiting ? "" : undefined}
       className={cn(
         QUICK_ACTIONS_SCRIM_CLASS,
@@ -305,6 +307,7 @@ const ContextMenuQuickActionsContent = React.forwardRef<
   return (
     <ContextMenuPrimitive.Portal>
       <LayerContextMenuPrimitiveContent
+        data-material="floating"
         ref={composedRef}
         onContextMenu={(event) => event.preventDefault()}
         onAnimationStart={handleAnimationStart}

@@ -228,6 +228,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
           </SelectPrimitive.Trigger>
           <SelectPrimitive.Portal>
             <LayerSelectPrimitiveContent
+              data-material="floating"
               position="popper"
               sideOffset={6}
               data-slot="select-content"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { DocsCardGrid } from "./docs-cards";
+import { MaterialsCompatibilitySection, MaterialsMaskSection, MaterialsTextureSection } from "./docs-materials-texture";
 import {
   DocsList,
   DocsPageLead,
@@ -638,13 +639,13 @@ const FLOATING_MATERIALS: MaterialSpec[] = [
     name: "Tooltip",
     radius: "6px",
     usage:
-      "Lightest shadow. Corner 6px. Tooltips will be the only floating element with a triangular stem.",
+      "Lightest shadow. Corner 6px. For short contextual hints.",
   },
   {
     className: "material-menu",
     name: "Menu",
-    radius: "12px",
-    usage: "Lift from page. Radius 12px.",
+    radius: "6px",
+    usage: "Lift from page. Radius 6px.",
   },
   {
     className: "material-modal",
@@ -670,7 +671,10 @@ function MaterialCard({ material }: { material: MaterialSpec }) {
         aria-hidden
         className="rounded-md border border-gray-alpha-300 bg-background p-4 [background-image:linear-gradient(to_right,var(--color-gray-alpha-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-gray-alpha-200)_1px,transparent_1px)] [background-size:8px_8px]"
       >
-        <div className={cn(material.className, "flex h-24 items-end justify-end p-2")}>
+        <div
+          className={cn(material.className, "flex h-24 items-end justify-end p-2")}
+          data-material={FLOATING_MATERIALS.includes(material) ? "floating" : undefined}
+        >
           <span className="font-mono text-label-12 text-muted-foreground">{material.className}</span>
         </div>
       </div>
@@ -698,7 +702,7 @@ function MaterialCard({ material }: { material: MaterialSpec }) {
 export function MaterialsPage() {
   const { language } = useLanguage();
   return (
-    <div>
+    <div data-slot="materials-page">
       <DocsPageTitle>{demoText(language, "Materials")}</DocsPageTitle>
       <DocsPageLead className="max-w-xl">
         {demoText(language, "Presets for radii, fills, strokes, and shadows.")}
@@ -710,6 +714,8 @@ export function MaterialsPage() {
           "Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.",
         )}
       </DocsParagraph>
+
+      <MaterialsTextureSection />
 
       <DocsSection>
         <DocsSectionTitle>{demoText(language, "Surface")}</DocsSectionTitle>
@@ -743,7 +749,9 @@ export function MaterialsPage() {
           ))}
         </div>
       </DocsSection>
+
+      <MaterialsMaskSection />
+      <MaterialsCompatibilitySection />
     </div>
   );
 }
-

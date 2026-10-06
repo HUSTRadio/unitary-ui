@@ -7,15 +7,15 @@
 ## 1. Vercel Geist 设计系统
 
 - 站点：<https://vercel.com/geist>
-- 性质：**设计规范参考**（非代码派生）。本框架的视觉权威——token 体系、排版、材质、组件行为、Best Practices 与 Web Interface Guidelines 均以其官方文档为基准。
+- 性质：**设计规范参考**（非代码派生）。本框架的 token 体系、排版、经典平面材质、组件行为、Best Practices 与 Web Interface Guidelines 以其官方文档为基准；全局模糊与玻璃材质为本项目扩展。
 - 参考范围：整体视觉语言、颜色/排版/材质 token 角色、组件 API 形态与交互/无障碍约定。
 - 唯一基础参考调色盘：**Vercel Geist Colors**。基础色阶的证据快照是 `docs/geist-markdown-refs/foundations/colors.md`，运行时 owner 是 `src/styles/index.css`。
-- `--uni-*` 是语义映射层，不是第二套调色盘；Apple HIG 仅提供布局、行为和无障碍约束，不是第二套调色盘。用户强制 override 必须具名来源、理由和作用域。
+- `--uni-*` 是语义映射层，不是第二套调色盘；Apple HIG 提供布局、行为和无障碍原则，也为材质层级提供参考，不提供额外调色盘。用户强制 override 必须具名来源、理由和作用域。
 
 ## 2. Apple Human Interface Guidelines
 
 - 站点：<https://developer.apple.com/design/human-interface-guidelines/>
-- 性质：**平台规范参考**。Phone 组件的 iOS 状态栏布局、Safari chrome 形态与安全区语义以其公开文档描述为参照。
+- 性质：**平台规范参考**。Phone 组件的 iOS 状态栏布局、Safari chrome 形态与安全区语义，以及材质的层级、上下文和可读性原则，以其公开文档描述为参照。
 - 参考范围：仅公开文档描述；**未复制或打包任何 Apple 官方图标、Product Bezels 或营销素材**，状态栏/Safari 图标均为独立绘制的通用几何图形。
 
 ## 3. react-mockframe
@@ -82,3 +82,10 @@
 - 来源：[VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes)、[Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json)、[Solarized](https://ethanschoonover.com/solarized/)。
 - 理由：按用户要求提供独立于 UI 色盘的公认代码主题。仅将公开色值适配到 Prism 语法角色，不复制完整编辑器主题规则或实现代码。
 - 作用域：显式应用的行内代码与代码块容器及其 CSS 导出。UI 基础色阶仍由项目既有色盘提供；品牌蓝来自 Unitary logo。
+
+## 材质演示风景照片
+
+- 作品：*View of lake in forest*（Alpsee，巴伐利亚），摄影：mirobo。
+- 来源与许可记录：[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg)。
+- 许可：[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)，独立于仓库的 MIT 许可。
+- 使用范围：材质文档的演示背景，原图 4288×2704，仅随文档站打包；文件与校验记录见 [素材声明](docs/site/src/assets/materials-alpsee.LICENSE.md)。

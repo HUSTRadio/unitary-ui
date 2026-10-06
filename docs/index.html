@@ -31,6 +31,27 @@
         } catch (e) {}
       })();
     </script>
+    <script>
+      // Texture is independent of color preference, including storage failures.
+      (function () {
+        var texture = "solid";
+        try {
+          var stored = localStorage.getItem("unitary-texture-preference");
+          if (stored === "solid" || stored === "hybrid" || stored === "glass") texture = stored;
+        } catch (e) {}
+        var supported = false;
+        try {
+          supported =
+            (CSS.supports("backdrop-filter", "blur(1px)") ||
+              CSS.supports("-webkit-backdrop-filter", "blur(1px)")) &&
+            CSS.supports("color", "color-mix(in srgb, white 50%, transparent)") &&
+            !matchMedia("(forced-colors: active)").matches &&
+            !matchMedia("(prefers-reduced-transparency: reduce)").matches;
+        } catch (e) {}
+        document.documentElement.dataset.texturePreference = texture;
+        document.documentElement.dataset.texture = supported ? texture : "solid";
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

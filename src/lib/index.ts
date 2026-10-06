@@ -6,6 +6,7 @@ import "../styles/index.css";
 
 // Theme & i18n providers
 export { ThemeProvider, useTheme } from "./theme";
+export type { ThemeProviderProps, ThemePreference, ResolvedTheme, TexturePreference } from "./theme";
 export { I18nProvider, useI18n } from "./i18n";
 
 // Global design tokens / 全局设计 token

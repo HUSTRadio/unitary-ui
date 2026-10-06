@@ -610,6 +610,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
       "Surface 用于页面内的容器，Floating 用于浮层。材质预设定义圆角、背景、边框和阴影；显示顺序由层级变量单独控制。",
     "Surface": "表面",
     "Floating": "浮层",
+    "Lift from page. Radius 6px.": "浮起于页面。圆角为 6px。",
     "On the page, in normal document flow. Choose the lowest elevation that reads clearly.":
       "用于页面内的容器。用较轻的阴影区分层次，避免过度突出。",
     "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.":
@@ -620,6 +621,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Fullscreen": "全屏",
     "Everyday use. Radius 6px.": "日常使用。圆角 6px。",
     "Slightly raised. Radius 6px.": "轻微抬升。圆角 6px。",
+    "Lightest shadow. Corner 6px. For short contextual hints.": "最轻的阴影。圆角 6px。用于简短的上下文提示。",
     "Further raised. Radius 12px.": "进一步抬升。圆角 12px。",
     "Biggest lift. Radius 16px.": "最大抬升。圆角 16px。",
     "Only to be used within components that render buttons.": "仅用于渲染按钮的组件内部。",

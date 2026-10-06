@@ -7,14 +7,14 @@ This repository's implementation references and benefits from the following proj
 ## 1. Vercel Geist design system
 
 - Site: <https://vercel.com/geist>
-- Nature: **design-spec reference** (no code derivation). The visual authority of this framework — token system, typography, materials, component behavior, best practices, and Web Interface Guidelines all follow its official documentation.
+- Nature: **design-spec reference** (no code derivation). The framework's token system, typography, classic flat materials, component behavior, best practices, and Web Interface Guidelines use its official documentation as a baseline; global blur and glass materials are project extensions.
 - Sole foundation reference palette: **Vercel Geist Colors**. Its evidence snapshot is `docs/geist-markdown-refs/foundations/colors.md`; `src/styles/index.css` is the runtime owner of the foundation scales.
-- `--uni-*` is a semantic mapping layer, not a second palette; Apple HIG supplies layout, behavior, and accessibility constraints only, not a second palette. A user-forced override must name its source, reason, and scope.
+- `--uni-*` is a semantic mapping layer, not a second palette; Apple HIG supplies layout, behavior, and accessibility principles and informs material hierarchy without adding another palette. A user-forced override must name its source, reason, and scope.
 
 ## 2. Apple Human Interface Guidelines
 
 - Site: <https://developer.apple.com/design/human-interface-guidelines/>
-- Nature: **platform-spec reference**. The Phone component's iOS status-bar layout, Safari chrome shapes, and safe-area semantics follow its public documentation. No official Apple icons, product bezels, or marketing assets are copied or bundled; status-bar/Safari icons are independently drawn generic geometry.
+- Nature: **platform-spec reference**. The Phone component's iOS status-bar layout, Safari chrome shapes, safe-area semantics, and the materials' hierarchy, context, and readability principles reference its public documentation. No official Apple icons, product bezels, or marketing assets are copied or bundled; status-bar/Safari icons are independently drawn generic geometry.
 
 ## 3. react-mockframe
 
@@ -80,3 +80,10 @@ This repository's implementation references and benefits from the following proj
 - Sources: [VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes), [Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json), [Solarized](https://ethanschoonover.com/solarized/).
 - Reason: the user requested recognized code themes independent of the UI palette. Published color values are adapted to Prism roles; complete editor theme rules and implementation code are not copied.
 - Scope: explicitly selected inline code and code block containers and their CSS exports. UI scales continue to use the existing project palette; brand blue comes from the Unitary logo.
+
+## Materials demonstration photograph
+
+- Work: *View of lake in forest* (Alpsee, Bavaria), photographed by mirobo.
+- Source and license record: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg).
+- License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), separate from the repository's MIT license.
+- Scope: materials documentation backgrounds, original 4288×2704 image bundled only with the docs site; file details and checksum are retained in the [asset notice](docs/site/src/assets/materials-alpsee.LICENSE.md).

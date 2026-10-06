@@ -11,6 +11,13 @@ type GeistTypographyGroup =
 const mergeClasses = extendTailwindMerge<GeistTypographyGroup>({
   extend: {
     classGroups: {
+      // These variables contain complete shadow recipes. Without their known
+      // type, an arbitrary CSS variable is classified as a shadow color and
+      // survives an author's shadow-none or shadow-size override.
+      shadow: [{ shadow: [(value: string) =>
+        /^\[var\(--(?:material-(?:texture-)?shadow-[\w-]+|uni-shadow-[\w-]+|_uni-material-shadow)(?=[,)])/.test(value) ||
+        /^\(--(?:material-(?:texture-)?shadow-[\w-]+|uni-shadow-[\w-]+|_uni-material-shadow)\)$/.test(value),
+      ] }],
       "geist-heading": [
         {
           text: [

@@ -92,6 +92,8 @@ function RelativeTimeCard({
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
         <LayerHoverCardPrimitiveContent
+          data-material="floating"
+          data-slot="relative-time-card-popover"
           side={side}
           sideOffset={6}
           align="start"

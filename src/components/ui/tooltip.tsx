@@ -72,6 +72,9 @@ function Tooltip({
         <TooltipPrimitive.Trigger asChild>{trigger}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
           <LayerTooltipPrimitiveContent
+            data-material="floating"
+            data-material-surface={type}
+            data-material-stem={tip ? "true" : undefined}
             side={position}
             align={boxAlign === "left" ? "start" : boxAlign === "right" ? "end" : "center"}
             sideOffset={10}
@@ -83,12 +86,13 @@ function Tooltip({
                 /* 官方 tooltip 材质：1px 边框（shadow-as-border）+ 轻投影；
                    箭头描边与主体边框同源，保证气泡轮廓连续。 */
                 "--tooltip-tip-stroke": "var(--gray-alpha-400)",
-                boxShadow:
+                "--_uni-tooltip-shadow":
                   "0 0 0 1px var(--gray-alpha-400), 0 1px 1px #00000005, 0 4px 8px #0000000a",
               } as React.CSSProperties
             }
             className={cn(
               "z-[var(--uni-z-tooltip)] max-w-[250px] rounded-overlay bg-[var(--tooltip-background)] px-2 py-1.5 text-[13px]/[1.3] text-[var(--tooltip-foreground)] outline-none data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:duration-(--uni-duration-fast) data-[state=delayed-open]:ease-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:duration-(--uni-duration-fast) motion-reduce:animate-none!",
+              "shadow-[var(--_uni-material-shadow,var(--_uni-tooltip-shadow))]",
               center ? "text-center" : "text-left",
               className,
             )}
@@ -96,7 +100,7 @@ function Tooltip({
             {text}
             {tip ? (
               <TooltipPrimitive.Arrow asChild>
-                <svg width="14" height="7" viewBox="0 0 14 7" fill="none" aria-hidden>
+                <svg data-slot="tooltip-tip" width="14" height="7" viewBox="0 0 14 7" fill="none" aria-hidden>
                   <g clipPath={`url(#${tipClipId})`}>
                     <path
                       d={TIP_ARROW_PATH}

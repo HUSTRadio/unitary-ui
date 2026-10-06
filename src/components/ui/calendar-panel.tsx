@@ -293,7 +293,7 @@ export function CalendarPanel({
                                   ? "bg-[var(--calendar-range-soft-bg)] text-[var(--calendar-range-soft-fg)]"
                                   : inMonth
                                     ? "text-gray-1000"
-                                    : "text-gray-700"),
+                                    : "text-[var(--material-texture-muted,var(--gray-700))]"),
                           )}
                           onClick={() => {
                             if (!disabled) selectDate(d);

@@ -85,6 +85,8 @@ function ContextCardTrigger({
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
         <LayerHoverCardPrimitiveContent
+          data-material="floating"
+          data-material-stem="true"
           side={side}
           align={align}
           sideOffset={sideOffset}
