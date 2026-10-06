@@ -30,11 +30,13 @@ Open the menu, switch between items, empty and loading data, or search for an un
 
 - The trigger has an accessible name; Escape closes the menu and returns focus.
 - Empty navigation and unmatched search expose role=status; the loading state marks navigation aria-busy and shows a status indicator.
+- The selection indicator does not take focus. Reduced motion positions it immediately; enabling that preference during a slide cancels the current motion.
 
 ## Controlled behavior
 
 - Use open with onOpenChange for controlled state; omit open for internal state.
 - Set loading while data loads; emptyMessage optionally overrides both empty-navigation and unmatched-search messages.
+- While the menu stays open, its regular list is shown and entrance motion has finished, activeTo changes within the same leaf list slide the indicator smoothly: a subgroup when present, otherwise a top-level group; flat items share one list. Initial display, cross-group changes and search-state changes position immediately; rapid changes continue from the current visible position.
 
 ## Responsive behavior
 
@@ -43,6 +45,7 @@ Open the menu, switch between items, empty and loading data, or search for an un
 ## Theme behavior
 
 - The panel and links use shared semantic color tokens.
+- The indicator retains the theme accent color; sliding reuses --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
 
 ## Live Demo
 

@@ -147,7 +147,8 @@ describe("Tabs — compact variant (owner extension: spacing/height halved)", ()
     expect(markup).not.toContain("py-3.5");
     // 字号与选中态保持
     expect(markup).toContain("text-copy-14");
-    expect(markup).toContain("data-[state=active]:border-foreground");
+    expect(markup).toContain('data-slot="tabs-indicator"');
+    expect(markup).toContain("h-0.5 bg-foreground");
   });
 
   it("halves secondary tab gap and pill height (8→4 gap, 24→20 pill)", () => {

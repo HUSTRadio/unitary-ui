@@ -30,11 +30,13 @@ An expandable navigation menu with grouped links and built-in search.
 
 - 触发按钮提供无障碍名称；菜单打开后支持 Escape 关闭与焦点归还。
 - 空数据与无匹配搜索通过 role=status 报告；加载时导航区标记 aria-busy 并显示状态指示。
+- 选中指示条不获取焦点；减少动画时直接定位，运行期间启用该偏好会取消当前滑动。
 
 ## 受控行为
 
 - 使用 open + onOpenChange 受控；不传 open 时由组件管理展开状态。
 - 调用方传入 loading 显示加载态，emptyMessage 可覆盖空数据及无匹配搜索的默认提示。
+- 菜单保持打开、常规列表显示且入场动画结束时，activeTo 在同一最基层列表内变化会让指示条平滑滑动：有 subgroups 时以子分类为边界，否则以一级分组为边界；扁平 items 共用一个列表。首次显示、跨组或搜索状态切换时直接定位，快速切换从当前可见位置继续。
 
 ## 响应式行为
 
@@ -43,6 +45,7 @@ An expandable navigation menu with grouped links and built-in search.
 ## 主题行为
 
 - 面板和导航条目沿用共享语义颜色 token。
+- 指示条沿用主题强调色，滑动复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
 
 ## 实时示例
 

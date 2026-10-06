@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { useSlidingIndicator } from "@/lib/selection-indicator";
 
 import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import { ExpandPanel, type Side } from "./expand-panel";
@@ -224,6 +225,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+  const menuListRef = React.useRef<HTMLDivElement | null>(null);
   const wasOpenRef = React.useRef(isOpen);
 
   // ExpandPanel uses a controlled Radix Root without Dialog.Trigger, so Radix
@@ -312,6 +314,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     ? t('No results found for "{query}".', { query: query.trim() })
     : t("No results found"));
   const groupIdPrefix = React.useId();
+  useSlidingIndicator({
+    rootRef: menuListRef, activeKey: activeTo,
+    enabled: isOpen && !searching && !loading && !staggerActive,
+  });
   let navigationIndex = 0;
 
   return (
@@ -458,6 +464,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           ) : null}
           {!loading && navigationItems.length > 0 ? (
             <div
+              ref={menuListRef}
               data-slot="menu-list"
               className={cn(
                 "list-none transition-opacity duration-(--uni-duration-slow)",
@@ -475,7 +482,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 : undefined;
               // stagger 索引按分组内条目的扁平顺序递增（子分类不打断首屏时序）
               const renderItems = (groupItems: MenuItem[]) => (
-                <ul className="space-y-1">
+                <ul data-selection-indicator-group="" className="space-y-1">
                   {groupItems.map((item) => {
                     const itemIndex = navigationIndex++;
                     // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
@@ -520,13 +527,12 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                               : NAV_ITEM_STATE_IDLE,
                           )}
                         >
-                          {item.to === activeTo ? (
-                            <span
-                              aria-hidden
-                              data-slot="menu-item-indicator"
-                              className={NAV_ITEM_INDICATOR}
-                            />
-                          ) : null}
+                          <span
+                            aria-hidden
+                            data-selection-indicator=""
+                            data-slot={item.to === activeTo ? "menu-item-indicator" : undefined}
+                            className={cn(NAV_ITEM_INDICATOR, item.to !== activeTo && "invisible")}
+                          />
                           <span className="truncate ink-shift-cjk">{item.label}</span>
                           {item.badge ? (
                             <NavStatusBadge className="ml-auto" {...item.badge} />

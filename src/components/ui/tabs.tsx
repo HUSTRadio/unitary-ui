@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { useScrollTracking, type ScrollTrackingMode } from "@/lib/scroll-tracking";
+import { useSlidingIndicator } from "@/lib/selection-indicator";
 import { Tooltip } from "@/components/ui/tooltip";
 
 /**
@@ -87,7 +88,7 @@ const tabsTriggerClasses = (variant: TabsVariant, compact?: boolean) =>
     "outline-none focus-ring",
     variant === "secondary"
       ? "flex h-6 items-center justify-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
-      : "flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
+      : "relative flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
     // compact 垂直高度收半档：primary 上下 pad 14→8（tab 高 50→38）、secondary
     // pill 高 24→20（twMerge 覆盖上方基准 py/h）
     compact && (variant === "secondary" ? "h-5" : "py-2"),
@@ -123,6 +124,7 @@ function OfficialTabs({
   );
   const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
   const listRef = React.useRef<HTMLDivElement>(null);
+  useSlidingIndicator({ rootRef: listRef, activeKey: selected, enabled: variant === "primary" });
   useScrollTracking({
     mode: scrollTracking, activeKey: selected, rootRef: listRef,
     axis: "inline", owner: "self",
@@ -183,6 +185,7 @@ function OfficialTabs({
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
       data-slot="tabs"
+      data-selection-indicator-group={variant === "primary" ? "" : undefined}
       className={cn(tabsListClasses(variant, compact), className)}
     >
       {tabs.map((tab, index) => {
@@ -209,6 +212,14 @@ function OfficialTabs({
               scrollTracking !== "disabled" && "scroll-tracking-inset",
             )}
           >
+            {variant === "primary" ? (
+              <span
+                aria-hidden
+                data-selection-indicator=""
+                data-slot={isSelected ? "tabs-indicator" : undefined}
+                className={cn("pointer-events-none absolute -bottom-0.5 inset-x-0 h-0.5 bg-foreground", !isSelected && "invisible")}
+              />
+            ) : null}
             {tab.icon ? (
               <span
                 aria-hidden

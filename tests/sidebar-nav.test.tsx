@@ -169,7 +169,7 @@ describe("SidebarNav", () => {
       /data-slot="sidebar-nav-item"[^>]*class="[^"]*nav-item-row[^"]*rounded-md[^"]*text-style-nav-item/,
     );
     expect(markup).toMatch(/data-slot="sidebar-nav-heading"[^>]*class="[^"]*h-8/);
-    expect(markup).toContain('<ul class="space-y-1">');
+    expect(markup).toMatch(/<ul [^>]*class="space-y-1">/);
   });
 
   it("does not constrain width (outer layer controls width; only the 2px indicator has a width)", () => {
@@ -177,8 +177,8 @@ describe("SidebarNav", () => {
     const navTag = markup.slice(0, markup.indexOf(">"));
     expect(navTag).not.toMatch(/\bw-/);
     expect(markup).not.toContain("w-full");
-    // 除指示条 h-4 w-0.5 外不得出现其它宽度工具类
-    expect(markup.match(/\bw-[^\s"]+/g)).toEqual(["w-0.5"]);
+    // 指示条常驻但只有活动项可见；宽度仍由外部布局拥有。
+    expect([...new Set(markup.match(/\bw-[^\s"]+/g))]).toEqual(["w-0.5"]);
   });
 
   it("renders an optional lucide icon per item", () => {
@@ -342,7 +342,7 @@ describe("SidebarNav", () => {
     expect(markup).toMatch(
       /data-slot="sidebar-nav-subheading"[^>]*class="[^"]*-mx-1[^"]*text-style-nav-subheading[^"]*font-medium/,
     );
-    expect([...(markup.match(/\bw-[^\s"]+/g) ?? [])].sort()).toEqual(["w-0.5", "w-10"]);
+    expect([...new Set(markup.match(/\bw-[^\s"]+/g))].sort()).toEqual(["w-0.5", "w-10"]);
 
     // 条目顺序按二级分类拼接，active 态照旧生效
     const links = Array.from(markup.matchAll(/href="([^"]+)"/g)).map((match) => match[1]);

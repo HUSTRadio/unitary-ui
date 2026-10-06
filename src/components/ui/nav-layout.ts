@@ -59,7 +59,7 @@ export const NAV_ITEM_STATE_ACTIVE = "bg-gray-100 font-medium text-gray-1000";
 export const NAV_ITEM_STATE_IDLE = "text-gray-900 hover:bg-gray-100 hover:text-gray-1000";
 /** 选中指示条：2×14px、垂直居中、距药丸左缘 8px、跟随主题强调色。 */
 export const NAV_ITEM_INDICATOR =
-  "absolute top-1/2 left-2 h-3.5 w-0.5 -translate-y-1/2 rounded-full bg-theme-accent";
+  "pointer-events-none absolute top-1/2 left-2 h-3.5 w-0.5 -translate-y-1/2 rounded-full bg-theme-accent";
 
 /**
  * 条目行高（值见 index.css 的 --uni-nav-item-height*）：
