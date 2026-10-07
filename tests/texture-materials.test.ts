@@ -41,6 +41,7 @@ describe("global functional texture materials", () => {
       ["--material-texture-hybrid-blur", "8px", 12],
       ["--material-texture-glass-blur", "20px", 20],
       ["--material-texture-mask-blur", "8px", 8],
+      ["--material-texture-control-blur", "6px", 8],
     ] as const) {
       expect(tokens[name]).toMatchObject({ kind: "runtime", group: "materials", status: "active" });
       expect(tokens[name].value).toBe(expected);
@@ -59,6 +60,14 @@ describe("global functional texture materials", () => {
     expect(tokens["--material-texture-blur"]).toBeUndefined();
     expect(tokens["--material-texture-blur-opacity"]).toBeUndefined();
     expect(tokens["--material-texture-edge-opacity"]).toMatchObject({ value: "10%", darkValue: "12%" });
+    expect(tokens["--material-texture-line-opacity"]).toMatchObject({ value: "18%", darkValue: "22%" });
+    expect(tokens["--material-texture-mask-opacity"].value).toBe("8%");
+    expect(tokens["--material-texture-mask-saturation"].value).toBe("85%");
+    expect(tokens["--material-texture-mask-backdrop-opacity"]).toMatchObject({
+      status: "deprecated", replacement: "--material-texture-mask-opacity",
+      value: "var(--material-texture-mask-opacity)",
+    });
+    expect(tokens["--material-texture-control-opacity"]).toMatchObject({ value: "72%", darkValue: "80%" });
     for (const role of ["tooltip", "menu", "modal"]) {
       const token = tokens[`--material-texture-shadow-${role}`];
       expect(token.group).toBe("materials");
@@ -141,7 +150,7 @@ describe("global functional texture materials", () => {
     const preference = stylesheet.nodes.find(node => node.type === "atrule" &&
       node.name === "media" && node.params.includes("prefers-reduced-transparency"));
     if (preference?.type !== "atrule") throw new Error("Missing preference fallback");
-    for (const property of ["--_uni-material-shadow", "--_uni-material-border", "--_uni-material-outline"]) {
+    for (const property of ["--_uni-material-shadow", "--_uni-material-border", "--_uni-material-outline", "--_uni-material-line-opacity"]) {
       const resets: string[] = [];
       preference.walkDecls(property, decl => { resets.push(decl.value); });
       expect(resets).toContain("initial");

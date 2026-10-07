@@ -29,8 +29,10 @@ const buttonVariants = cva(
         // 按压态 active: 为框架扩展（Apple HIG press-state 要求）；官方 Geist 无 :active 样式。
         default:
           "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground active:brightness-90",
+        // 次要操作仅过渡交互反馈，避免全局材质切换插值 backdrop-filter；作者可覆盖。
+        // Transition feedback only: texture switches must not interpolate blur. Authors can override.
         secondary:
-          "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground active:bg-gray-alpha-300",
+          "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground active:bg-gray-alpha-300 transition-[color,background-color,border-color,text-decoration-color,box-shadow,outline-color,opacity,transform,filter]",
         tertiary:
           "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground disabled:bg-transparent disabled:text-foreground disabled:opacity-50 active:bg-gray-alpha-300",
         error:

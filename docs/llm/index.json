@@ -81,8 +81,8 @@
         "en-US": "pages/en-US/materials.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:39c2c3b93e1e6bcff3b8e25b39598e284e194e310b91dd397b6d1aae5d7051ac",
-        "en-US": "sha256:7734c4d8b13efa46bd89a7989515c7022b4ea7e57cc523c80a1b52aa4948c737"
+        "zh-CN": "sha256:345730fefd147b0b59d463f93fc240ebbb635d3d782744fc2b5d4f03bbf0347c",
+        "en-US": "sha256:f258465f5fda4eb02f9aae686b3e246b94202b8f07d0dd3f210457b6feea41f0"
       }
     },
     {
@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/api/tokens.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:0bc7a6ba05c3ec0ae006ec1d517dfe21f50edfb79fd03ade5d0d333b0f10ef16",
-        "en-US": "sha256:49b87977362957162112f693c4696795d1921ec8efe7392eb981aa7bae8f75ff"
+        "zh-CN": "sha256:648f76522b9a4b897ba04cbb74bda6a48f8e34768e43e27de32ad18b7c6f4375",
+        "en-US": "sha256:6161a6e55ab57c23694d2f02d0525882d8777bd96e464ddb4fce5cab48252249"
       }
     },
     {
@@ -657,8 +657,8 @@
         "en-US": "pages/en-US/components/radio.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:660e3efb53ec9af5d04ca3164ed7500b6f8b272a1b4bc044f8c7ece5a5808941",
-        "en-US": "sha256:c10ff691c184c5c3b0c8b8d20d1dac399a9fcfade91fd371b54ea8a1255b5c5a"
+        "zh-CN": "sha256:4240e931f6426051da34f5a92ecf80865e1416ae159489489a94f4a08f47f2d9",
+        "en-US": "sha256:de3803e3cf2aabf9ed097701e9cdea1c42987f2fc89337814a8b7eee36cfa773"
       }
     },
     {

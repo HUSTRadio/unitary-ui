@@ -72,6 +72,7 @@ for (const theme of ["light", "dark"] as const) {
         const materials = await open(page, theme, "zh-CN", fixture.width);
         await page.setViewportSize({ width: fixture.width, height: fixture.height });
         const input = materials.locator('[data-texture-option="glass"]').first();
+        const circle = input.locator('xpath=following-sibling::span');
         const label = input.locator('xpath=ancestor::label');
         await label.evaluate(el => {
           const main = document.getElementById("main-content")!;
@@ -93,12 +94,16 @@ for (const theme of ["light", "dark"] as const) {
           else await page.mouse.click(position.x, position.y);
           await expect(input).toBeChecked();
           await expect(input).toBeFocused();
+          await expect(circle).toHaveCSS("box-shadow", "none");
           await expect(page.locator("html")).toHaveAttribute("data-texture", "glass");
           const after = await page.evaluate(() => ({ scroll: document.getElementById("main-content")!.scrollTop,
             rootScroll: document.scrollingElement!.scrollTop, url: location.href }));
           expect(Math.abs(after.scroll - position.scroll)).toBeLessThanOrEqual(1);
           expect(after.rootScroll).toBe(position.rootScroll);
           expect(after.url).toBe(position.url);
+          await page.keyboard.press("Space");
+          await expect(input).toBeChecked();
+          await expect(circle).not.toHaveCSS("box-shadow", "none");
         }
       });
     });

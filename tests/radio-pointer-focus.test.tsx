@@ -82,6 +82,30 @@ describe("RadioGroupItem pointer focus", () => {
     expect(focus).not.toHaveBeenCalled();
   });
 
+  test("keyboard and blur clear pointer focus while preserving author callbacks", () => {
+    const onKeyDownCapture = vi.fn((event: React.KeyboardEvent<HTMLInputElement>) => event.preventDefault());
+    const onBlur = vi.fn();
+    render(
+      <RadioGroup defaultValue="one">
+        <RadioGroupItem value="one">Option 1</RadioGroupItem>
+        <RadioGroupItem value="two" onKeyDownCapture={onKeyDownCapture} onBlur={onBlur}>Option 2</RadioGroupItem>
+      </RadioGroup>,
+    );
+    const { input, text } = option();
+    pointerDown(text);
+    expect(input.hasAttribute("data-uni-pointer-focus")).toBe(true);
+    const key = new KeyboardEvent("keydown", { key: " ", bubbles: true, cancelable: true });
+    act(() => input.dispatchEvent(key));
+    expect(input.hasAttribute("data-uni-pointer-focus")).toBe(false);
+    expect(onKeyDownCapture).toHaveBeenCalledOnce();
+    expect(key.defaultPrevented).toBe(true);
+    pointerDown(text);
+    expect(input.hasAttribute("data-uni-pointer-focus")).toBe(true);
+    act(() => option("one").input.focus());
+    expect(input.hasAttribute("data-uni-pointer-focus")).toBe(false);
+    expect(onBlur).toHaveBeenCalledOnce();
+  });
+
   test("direct input pointer events retain their native default", () => {
     const onPointerDown = vi.fn();
     render(<RadioGroupItem value="two" onPointerDown={onPointerDown}>Option 2</RadioGroupItem>);

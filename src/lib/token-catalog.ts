@@ -2486,6 +2486,22 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
+  "--material-texture-control-blur": {
+    "value": "6px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-control-opacity": {
+    "value": "72%",
+    "darkValue": "80%",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
   "--material-texture-edge-opacity": {
     "value": "10%",
     "darkValue": "12%",
@@ -2503,8 +2519,8 @@ export const GLOBAL_TOKENS = {
     "group": "materials"
   },
   "--material-texture-glass-edge": {
-    "value": "rgb(255 255 255 / 12%)",
-    "darkValue": "rgb(255 255 255 / 8%)",
+    "value": "rgb(255 255 255 / 18%)",
+    "darkValue": "rgb(255 255 255 / 16%)",
     "kind": "runtime",
     "variants": {},
     "status": "active",
@@ -2542,16 +2558,41 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
+  "--material-texture-line-opacity": {
+    "value": "18%",
+    "darkValue": "22%",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
   "--material-texture-mask-backdrop-opacity": {
-    "value": "65%",
+    "value": "var(--material-texture-mask-opacity)",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "deprecated",
+    "replacement": "--material-texture-mask-opacity",
+    "group": "materials"
+  },
+  "--material-texture-mask-blur": {
+    "value": "8px",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-mask-blur": {
-    "value": "8px",
+  "--material-texture-mask-opacity": {
+    "value": "8%",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-mask-saturation": {
+    "value": "85%",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
