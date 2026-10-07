@@ -5,7 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { SidePanel, SidePanelClose } from "../src/components/ui/side-panel";
 
@@ -19,6 +19,8 @@ afterEach(() => {
   for (const r of roots) act(() => r.unmount());
   roots = [];
   document.body.innerHTML = "";
+  vi.clearAllTimers();
+  vi.useRealTimers();
 });
 
 function renderPanel(node: React.ReactNode): string {
@@ -145,6 +147,10 @@ describe("SidePanel API contract（DD-001b）", () => {
 });
 
 describe("SidePanel 焦点与模态语义（HIG-AUD-006/007）", () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+  });
+
   /** 受控 harness：外部 trigger + 页面内容 + 受控面板（对齐真实用法 show/onDismiss）。 */
   function Harness({
     noOverlay = false,
@@ -181,10 +187,10 @@ describe("SidePanel 焦点与模态语义（HIG-AUD-006/007）", () => {
     });
   }
 
-  /** 焦点归还走 setTimeout(0)（后台标签页 rAF 挂起的 drawer 先例），等真实定时器排空。 */
+  /** 排空 Radix 关闭事件和组件回焦的嵌套定时器，不依赖机器负载下的固定等待。 */
   async function flushTimers() {
     await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 16));
+      await vi.runAllTimersAsync();
     });
   }
 

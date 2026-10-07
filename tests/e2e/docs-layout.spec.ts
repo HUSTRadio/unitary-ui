@@ -5,6 +5,12 @@ import { fileURLToPath } from "node:url";
 import { expect, test, type Page } from "@playwright/test";
 
 import { collectLocalScrollOwners } from "./helpers/scroll-owner-bounds";
+import {
+  LAYOUT_VIEWPORTS,
+  LAYOUT_THEMES,
+  selectLayoutRoutes,
+  layoutCoverage,
+} from "./helpers/layout-matrix";
 
 import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
 
@@ -19,20 +25,18 @@ import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
 
 /* ---------------- 固定矩阵 ---------------- */
 
-const VIEWPORTS: ReadonlyArray<{ width: number; height: number }> = [
-  { width: 1440, height: 900 },
-  { width: 1100, height: 800 },
-  { width: 1024, height: 768 },
-  { width: 768, height: 1024 },
-  { width: 390, height: 844 },
-  { width: 320, height: 700 },
-];
-const THEMES = ["light", "dark"] as const;
+const VIEWPORTS = LAYOUT_VIEWPORTS;
+const THEMES = LAYOUT_THEMES;
 type Theme = (typeof THEMES)[number];
 
-const ROUTES = DOCS_ROUTE_SEQUENCE.map((route) => route.to);
-const STATIC_ROUTES = DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind !== "component-detail").map((route) => route.to);
-const COMPONENT_ROUTES = DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind === "component-detail").map((route) => route.to);
+const FILTERED_ROUTES = selectLayoutRoutes(DOCS_ROUTE_SEQUENCE, process.env.UNITARY_VERIFY_ROUTES);
+const ROUTES = FILTERED_ROUTES.map((route) => route.to);
+const STATIC_ROUTES = FILTERED_ROUTES.filter(
+  (route) => route.renderer.kind !== "component-detail",
+).map((route) => route.to);
+const COMPONENT_ROUTES = FILTERED_ROUTES.filter(
+  (route) => route.renderer.kind === "component-detail",
+).map((route) => route.to);
 
 const SCRATCH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../.scratch");
 const JSONL_PATH = path.join(SCRATCH, "docs-layout-audit.jsonl");
@@ -211,7 +215,8 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
       for (const button of Array.from(navbar.querySelectorAll("button"))) {
         if (!isVisible(button)) continue;
         mobileTopbarButtons.push({
-          label: button.getAttribute("aria-label") ?? (button.textContent ?? "").trim().slice(0, 24),
+          label:
+            button.getAttribute("aria-label") ?? (button.textContent ?? "").trim().slice(0, 24),
           rect: rectJson(button)!,
         });
       }
@@ -248,16 +253,13 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
       sidebarVisible: isVisible(sidebar),
       hamburger: rectJson(hamburger ?? null),
       hamburgerVisible: isVisible(hamburger),
-      desktopSearchVisible: isVisible(
-        document.querySelector('[data-slot="docs-desktop-search"]'),
-      ),
+      desktopSearchVisible: isVisible(document.querySelector('[data-slot="docs-desktop-search"]')),
       topbarBlocks,
       mobileTopbarButtons,
       activeItem: activeEl?.textContent?.trim() ?? null,
       localScrollOwners,
       stickyDelta,
-      hasPageInProgress:
-        bodyText.includes("Page in progress") || bodyText.includes("页面开发中"),
+      hasPageInProgress: bodyText.includes("Page in progress") || bodyText.includes("页面开发中"),
     };
 
     /* ---- /colors：token-sensitive computed 抽样 ---- */
@@ -274,9 +276,7 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
         const token = el.getAttribute("data-color-token")!;
         // swatch 结构：<button><span 色块/><span 信息区>step/token/显示值</span></button>
         const displayed = (el.lastElementChild?.lastElementChild?.textContent ?? "").trim();
-        const computed = getComputedStyle(document.documentElement)
-          .getPropertyValue(token)
-          .trim();
+        const computed = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
         return { token, displayed, computed };
       });
     }
@@ -292,8 +292,8 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
 
     /* ---- /grid：真实 Grid DOM 与 guide/clipping 记录 ---- */
     if (location.hash.startsWith("#/layout/grid")) {
-      const sections = Array.from(document.querySelectorAll("[data-grid-demo]")).map(
-        (el) => el.getAttribute("data-grid-demo")!,
+      const sections = Array.from(document.querySelectorAll("[data-grid-demo]")).map((el) =>
+        el.getAttribute("data-grid-demo")!,
       );
       const responsive = document.querySelector<HTMLElement>(
         '[data-grid-demo="responsive-breakpoints"] [data-slot="grid"]',
@@ -315,7 +315,11 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
           guideCount: guides.length,
           hiddenEdges: guides.reduce((count, guide) => {
             const style = getComputedStyle(guide);
-            return count + Number(style.borderRightWidth === "0px") + Number(style.borderBottomWidth === "0px");
+            return (
+              count +
+              Number(style.borderRightWidth === "0px") +
+              Number(style.borderBottomWidth === "0px")
+            );
           }, 0),
         };
       });
@@ -377,17 +381,12 @@ function runChecks(
 
   // 2/3. sidebar / hamburger / desktop search 断点行为
   if (width >= 1024) {
-    if (!ev.sidebarVisible)
-      fail("sidebar-visible-desktop", "sidebar 应可见");
-    if (ev.hamburgerVisible)
-      fail("hamburger-hidden-desktop", "hamburger 应隐藏");
-    if (!ev.desktopSearchVisible)
-      fail("desktop-search-visible", "desktop search 应可见");
+    if (!ev.sidebarVisible) fail("sidebar-visible-desktop", "sidebar 应可见");
+    if (ev.hamburgerVisible) fail("hamburger-hidden-desktop", "hamburger 应隐藏");
+    if (!ev.desktopSearchVisible) fail("desktop-search-visible", "desktop search 应可见");
   } else {
-    if (ev.sidebarVisible)
-      fail("sidebar-hidden-below-lg", "sidebar 应隐藏");
-    if (!ev.hamburgerVisible)
-      fail("hamburger-visible-below-lg", "hamburger 应可见");
+    if (ev.sidebarVisible) fail("sidebar-hidden-below-lg", "sidebar 应隐藏");
+    if (!ev.hamburgerVisible) fail("hamburger-visible-below-lg", "hamburger 应可见");
   }
 
   // 4. topbar 主区块互不交叠且都在 navbar 内
@@ -433,10 +432,7 @@ function runChecks(
 
   // 6. sticky 误差 ≤1px（仅测得的组合）
   if (ev.stickyDelta !== null && Math.abs(ev.stickyDelta) > 1) {
-    fail(
-      "sidebar-sticky-alignment",
-      `sidebar top 与 navbar bottom 误差 ${ev.stickyDelta}px > 1px`,
-    );
+    fail("sidebar-sticky-alignment", `sidebar top 与 navbar bottom 误差 ${ev.stickyDelta}px > 1px`);
   }
 
   // 7. 局部滚动 owner 白名单：pre、显式 docs-local-scroll，以及 canonical scroll primitives。
@@ -520,13 +516,7 @@ function runChecks(
         .map((key) => vars[key])
         .find((value) => value !== undefined && value !== "");
       const expected =
-        resolved != null
-          ? Number(resolved)
-          : width >= 1024
-            ? 3
-            : width >= 640
-              ? 2
-              : 1;
+        resolved != null ? Number(resolved) : width >= 1024 ? 3 : width >= 640 ? 2 : 1;
       if (ev.gridStats.responsiveColumns !== expected) {
         fail(
           "grid-responsive-columns",
@@ -537,7 +527,10 @@ function runChecks(
         );
       }
     }
-    if (ev.gridStats.responsiveRows === null || ev.gridStats.clipping.some((entry) => entry.guideCount === 0)) {
+    if (
+      ev.gridStats.responsiveRows === null ||
+      ev.gridStats.clipping.some((entry) => entry.guideCount === 0)
+    ) {
       fail(
         "grid-row-guide-clipping-evidence",
         "Grid row/guide/clipping 证据不完整",
@@ -584,6 +577,14 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
+function collectedLayoutEvidence(): LayoutEvidence[] {
+  if (!existsSync(JSONL_PATH)) return [];
+  return readFileSync(JSONL_PATH, "utf8")
+    .split("\n")
+    .filter((line) => line.trim())
+    .map((line) => JSON.parse(line) as LayoutEvidence);
+}
+
 test.describe("docs layout audit — evidence lifecycle", () => {
   test.describe.configure({ retries: 0 });
   test.beforeAll(() => {
@@ -592,74 +593,82 @@ test.describe("docs layout audit — evidence lifecycle", () => {
     if (existsSync(JSONL_PATH)) writeFileSync(JSONL_PATH, "");
   });
 
-test.afterAll(() => {
-  const entries: LayoutEvidence[] = [];
-  if (existsSync(JSONL_PATH)) {
-    for (const line of readFileSync(JSONL_PATH, "utf8").split("\n")) {
-      if (line.trim()) entries.push(JSON.parse(line) as LayoutEvidence);
-    }
-  }
-  const byAssertion: Record<string, number> = {};
-  for (const f of ALL_FAILURES) byAssertion[f.assertion] = (byAssertion[f.assertion] ?? 0) + 1;
-  writeFileSync(
-    JSON_PATH,
-    JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        matrix: { routes: ROUTES.length, viewports: VIEWPORTS.length, themes: THEMES.length },
-        totals: {
-          combos: entries.length,
-          combosWithFailures: new Set(
-            ALL_FAILURES.map((f) => `${f.route}|${f.viewport.width}x${f.viewport.height}|${f.theme}`),
-          ).size,
-          failures: ALL_FAILURES.length,
-          byAssertion,
+  test.afterAll(() => {
+    const entries = collectedLayoutEvidence();
+    const coverage = layoutCoverage(ROUTES, entries);
+    const byAssertion: Record<string, number> = {};
+    for (const f of ALL_FAILURES) byAssertion[f.assertion] = (byAssertion[f.assertion] ?? 0) + 1;
+    writeFileSync(
+      JSON_PATH,
+      JSON.stringify(
+        {
+          generatedAt: new Date().toISOString(),
+          status: coverage.complete ? (ALL_FAILURES.length ? "FAIL" : "PASS") : "INCOMPLETE",
+          coverage,
+          matrix: { routes: ROUTES.length, viewports: VIEWPORTS.length, themes: THEMES.length },
+          totals: {
+            combos: entries.length,
+            combosWithFailures: new Set(
+              ALL_FAILURES.map(
+                (f) => `${f.route}|${f.viewport.width}x${f.viewport.height}|${f.theme}`,
+              ),
+            ).size,
+            failures: ALL_FAILURES.length,
+            byAssertion,
+          },
+          failures: ALL_FAILURES,
+          evidence: entries,
         },
-        failures: ALL_FAILURES,
-        evidence: entries,
-      },
-      null,
-      2,
-    ),
-  );
-});
+        null,
+        2,
+      ),
+    );
+  });
 
-test.describe("docs layout audit — full registry matrix", () => {
-  for (const theme of THEMES) {
-    test.describe(`theme=${theme}`, () => {
-      test.beforeEach(async ({ page }) => {
-        await setTheme(page, theme);
+  test.describe("docs layout audit — full registry matrix", () => {
+    for (const theme of THEMES) {
+      test.describe(`theme=${theme}`, () => {
+        test.beforeEach(async ({ page }) => {
+          await setTheme(page, theme);
+        });
+
+        // 静态路由同样分块（与 component routes 一致）：同一个 page 累计加载约 18 条路由后，
+        // 该页渲染进程会失去响应——JSONL 停在 108 组合处不再增长，`page.evaluate` 永不返回
+        // （2026-09-22 两次独立复现；见交付书 §4）。分块后每个用例使用全新 page/context。
+        for (const [index, group] of chunk(STATIC_ROUTES, 8).entries()) {
+          test(`static routes chunk ${index + 1}/${Math.ceil(STATIC_ROUTES.length / 8)} (${theme})`, async ({
+            page,
+          }) => {
+            test.setTimeout(15 * 60_000);
+            for (const route of group) {
+              for (const viewport of VIEWPORTS) {
+                await auditCombo(page, route, theme, viewport);
+              }
+            }
+          });
+        }
+
+        for (const [index, group] of chunk(COMPONENT_ROUTES, 8).entries()) {
+          test(`component routes chunk ${index + 1}/${Math.ceil(COMPONENT_ROUTES.length / 8)} (${theme})`, async ({
+            page,
+          }) => {
+            test.setTimeout(15 * 60_000);
+            for (const route of group) {
+              for (const viewport of VIEWPORTS) {
+                await auditCombo(page, route, theme, viewport);
+              }
+            }
+          });
+        }
       });
-
-      // 静态路由同样分块（与 component routes 一致）：同一个 page 累计加载约 18 条路由后，
-      // 该页渲染进程会失去响应——JSONL 停在 108 组合处不再增长，`page.evaluate` 永不返回
-      // （2026-09-22 两次独立复现；见交付书 §4）。分块后每个用例使用全新 page/context。
-      for (const [index, group] of chunk(STATIC_ROUTES, 8).entries()) {
-        test(`static routes chunk ${index + 1}/${Math.ceil(STATIC_ROUTES.length / 8)} (${theme})`, async ({ page }) => {
-          test.setTimeout(15 * 60_000);
-          for (const route of group) {
-            for (const viewport of VIEWPORTS) {
-              await auditCombo(page, route, theme, viewport);
-            }
-          }
-        });
-      }
-
-      for (const [index, group] of chunk(COMPONENT_ROUTES, 8).entries()) {
-        test(`component routes chunk ${index + 1}/${Math.ceil(COMPONENT_ROUTES.length / 8)} (${theme})`, async ({ page }) => {
-          test.setTimeout(15 * 60_000);
-          for (const route of group) {
-            for (const viewport of VIEWPORTS) {
-              await auditCombo(page, route, theme, viewport);
-            }
-          }
-        });
-      }
-    });
-  }
-});
+    }
+  });
 
   test("aggregate layout audit gate", () => {
+    expect(
+      layoutCoverage(ROUTES, collectedLayoutEvidence()),
+      "Every selected route must retain every viewport/theme exactly once",
+    ).toMatchObject({ complete: true });
     const lines = ALL_FAILURES.map(
       (failure) =>
         `[${failure.assertion}] ${failure.route} @${failure.viewport.width}x${failure.viewport.height} ${failure.theme}: ${failure.detail}`,
@@ -670,252 +679,264 @@ test.describe("docs layout audit — full registry matrix", () => {
 
 /* ---------------- /colors Clipboard 真值契约 ---------------- */
 
-test.describe("/colors clipboard contract", () => {
-  for (const theme of THEMES) {
-    test(`clipboard writes computed value (${theme})`, async ({ page }) => {
-      await setTheme(page, theme);
-      await gotoRoute(page, "/colors", { width: 1440, height: 900 });
-      const swatch = page.locator("[data-color-token]").first();
-      const token = await swatch.getAttribute("data-color-token");
-      expect(token).toBeTruthy();
-      await swatch.click();
-      const expected = await page.evaluate(
-        (name) => getComputedStyle(document.documentElement).getPropertyValue(name!).trim(),
-        token,
-      );
-      const displayed = (await swatch.locator("span").last().innerText()).trim();
-      // 紧凑显示约定：卡内 hex 可省略 # 前缀（title 与剪贴板始终是完整值），比较时前缀无关
-      expect(
-        displayed.replace(/^#/, ""),
-        "swatch 显示值应等于该 token 的 computed value（前缀无关）",
-      ).toBe(expected.replace(/^#/, ""));
-      const clipped = await page.evaluate(() => navigator.clipboard.readText());
-      expect(clipped, "Clipboard 写入值应等于该 token 的 computed value").toBe(expected);
-    });
-  }
-});
+// Supplemental whole-site probes remain part of unfiltered runs. The selected-route
+// audit above always retains every viewport/theme and its aggregate failure gate.
+if (
+  process.env.UNITARY_VERIFY_ROUTES === undefined ||
+  FILTERED_ROUTES.some(({ renderer }) => renderer.kind !== "component-detail")
+) {
+  test.describe("/colors clipboard contract", () => {
+    for (const theme of THEMES) {
+      test(`clipboard writes computed value (${theme})`, async ({ page }) => {
+        await setTheme(page, theme);
+        await gotoRoute(page, "/colors", { width: 1440, height: 900 });
+        const swatch = page.locator("[data-color-token]").first();
+        const token = await swatch.getAttribute("data-color-token");
+        expect(token).toBeTruthy();
+        await swatch.click();
+        const expected = await page.evaluate(
+          (name) => getComputedStyle(document.documentElement).getPropertyValue(name!).trim(),
+          token,
+        );
+        const displayed = (await swatch.locator("span").last().innerText()).trim();
+        // 紧凑显示约定：卡内 hex 可省略 # 前缀（title 与剪贴板始终是完整值），比较时前缀无关
+        expect(
+          displayed.replace(/^#/, ""),
+          "swatch 显示值应等于该 token 的 computed value（前缀无关）",
+        ).toBe(expected.replace(/^#/, ""));
+        const clipped = await page.evaluate(() => navigator.clipboard.readText());
+        expect(clipped, "Clipboard 写入值应等于该 token 的 computed value").toBe(expected);
+      });
+    }
+  });
 
-/* ---------------- 浮层 stacking（计划步骤 5 #12） ---------------- */
+  /* ---------------- 浮层 stacking（计划步骤 5 #12） ---------------- */
 
-test.describe("floating layers above modal overlay", () => {
-  test("tooltip / menu / toast 可见且未被遮挡；toast 可在 modal 上方触发", async ({ page }) => {
-    test.setTimeout(120_000);
-    await setTheme(page, "light");
-    const width = 1440;
+  test.describe("floating layers above modal overlay", () => {
+    test("tooltip / menu / toast 可见且未被遮挡；toast 可在 modal 上方触发", async ({ page }) => {
+      test.setTimeout(120_000);
+      await setTheme(page, "light");
+      const width = 1440;
 
-    /* tooltip：hover 触发，内容可见 */
-    await gotoRoute(page, "/components/tooltip", { width, height: 900 });
-    await page.getByRole("button", { name: "Bottom" }).first().hover();
-    const tooltip = page.getByRole("tooltip").first();
-    await expect(tooltip, "tooltip 应在 hover 后可见").toBeVisible();
+      /* tooltip：hover 触发，内容可见 */
+      await gotoRoute(page, "/components/tooltip", { width, height: 900 });
+      await page.getByRole("button", { name: "Bottom" }).first().hover();
+      const tooltip = page.getByRole("tooltip").first();
+      await expect(tooltip, "tooltip 应在 hover 后可见").toBeVisible();
 
-    /* menu：点击 MenuButton 触发，menu 面板可见 */
-    await gotoRoute(page, "/components/menu", { width, height: 900 });
-    await page.getByRole("button", { name: "Actions" }).first().click();
-    const menuVisible = await page
-      .locator('[role="menu"]')
-      .first()
-      .isVisible()
-      .catch(() => false);
-    expect(menuVisible, "menu 应在点击后可见").toBe(true);
+      /* menu：点击 MenuButton 触发，menu 面板可见 */
+      await gotoRoute(page, "/components/menu", { width, height: 900 });
+      await page.getByRole("button", { name: "Actions" }).first().click();
+      const menuVisible = await page
+        .locator('[role="menu"]')
+        .first()
+        .isVisible()
+        .catch(() => false);
+      expect(menuVisible, "menu 应在点击后可见").toBe(true);
 
-    /* toast：点击 Show Toast，toast 容器出现条目并可见 */
-    await gotoRoute(page, "/components/toast", { width, height: 900 });
-    const toastDemo = page.locator('[data-demo-card="Default"]');
-    await toastDemo.getByRole("button").first().click();
-    const toastItem = page.locator('[data-slot="toasts"] li, [data-slot="toasts"] > div').first();
-    await toastItem.waitFor({ state: "visible" });
-    expect(await toastItem.isVisible(), "toast 应可见").toBe(true);
+      /* toast：点击 Show Toast，toast 容器出现条目并可见 */
+      await gotoRoute(page, "/components/toast", { width, height: 900 });
+      const toastDemo = page.locator('[data-demo-card="Default"]');
+      await toastDemo.getByRole("button").first().click();
+      const toastItem = page.locator('[data-slot="toasts"] li, [data-slot="toasts"] > div').first();
+      await toastItem.waitFor({ state: "visible" });
+      expect(await toastItem.isVisible(), "toast 应可见").toBe(true);
 
-    /* modal + toast：toasts-focus-trap 卡片内打开 modal，再从 modal 内触发 toast，
+      /* modal + toast：toasts-focus-trap 卡片内打开 modal，再从 modal 内触发 toast，
        toast 必须渲染在 modal 遮罩之上（elementFromPoint 命中 toast 自身子树） */
-    await gotoRoute(page, "/components/modal", { width, height: 900 });
-    const card = page.locator('[data-demo-card="toasts-focus-trap"]');
-    await card.getByRole("button").first().click();
-    const modalContent = page.locator('[data-slot="modal-content"]');
-    await modalContent.waitFor({ state: "visible" });
-    await modalContent.getByRole("button").first().click();
-    const modalToast = page.locator('[data-slot="toasts"] li, [data-slot="toasts"] > div').first();
-    await modalToast.waitFor({ state: "visible" });
+      await gotoRoute(page, "/components/modal", { width, height: 900 });
+      const card = page.locator('[data-demo-card="toasts-focus-trap"]');
+      await card.getByRole("button").first().click();
+      const modalContent = page.locator('[data-slot="modal-content"]');
+      await modalContent.waitFor({ state: "visible" });
+      await modalContent.getByRole("button").first().click();
+      const modalToast = page
+        .locator('[data-slot="toasts"] li, [data-slot="toasts"] > div')
+        .first();
+      await modalToast.waitFor({ state: "visible" });
 
-    const toastOk = await modalToast.evaluate((el) => {
-      const r = el.getBoundingClientRect();
-      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-      return !!(hit && (hit === el || el.contains(hit)));
-    });
-    if (!toastOk) {
-      const diagnostics = await page.evaluate(() => {
-        const el = document.querySelector('[data-slot="toasts"] li, [data-slot="toasts"] > div');
-        if (!el) return "toast 不在 DOM";
+      const toastOk = await modalToast.evaluate((el) => {
         const r = el.getBoundingClientRect();
         const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-        const describeEl = (node: Element | null) =>
-          node
-            ? `${node.tagName.toLowerCase()}${
-                node.getAttribute("data-slot")
-                  ? `[data-slot=${node.getAttribute("data-slot")}]`
-                  : ""
-              }`
-            : null;
-        let ancestor: Element | null = el.parentElement;
-        let found: Element | null = null;
-        while (ancestor) {
-          const s = getComputedStyle(ancestor);
-          if (
-            s.transform !== "none" ||
-            (s.position !== "static" && s.zIndex !== "auto") ||
-            Number(s.opacity) < 1 ||
-            s.isolation === "isolate"
-          ) {
-            found = ancestor;
-            break;
+        return !!(hit && (hit === el || el.contains(hit)));
+      });
+      if (!toastOk) {
+        const diagnostics = await page.evaluate(() => {
+          const el = document.querySelector('[data-slot="toasts"] li, [data-slot="toasts"] > div');
+          if (!el) return "toast 不在 DOM";
+          const r = el.getBoundingClientRect();
+          const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+          const describeEl = (node: Element | null) =>
+            node
+              ? `${node.tagName.toLowerCase()}${
+                  node.getAttribute("data-slot")
+                    ? `[data-slot=${node.getAttribute("data-slot")}]`
+                    : ""
+                }`
+              : null;
+          let ancestor: Element | null = el.parentElement;
+          let found: Element | null = null;
+          while (ancestor) {
+            const s = getComputedStyle(ancestor);
+            if (
+              s.transform !== "none" ||
+              (s.position !== "static" && s.zIndex !== "auto") ||
+              Number(s.opacity) < 1 ||
+              s.isolation === "isolate"
+            ) {
+              found = ancestor;
+              break;
+            }
+            ancestor = ancestor.parentElement;
           }
-          ancestor = ancestor.parentElement;
-        }
-        return JSON.stringify({
-          toastRect: r.toJSON(),
-          toastZIndex: getComputedStyle(el).zIndex,
-          obscuredBy: describeEl(hit),
-          nearestStackingAncestor: describeEl(found),
+          return JSON.stringify({
+            toastRect: r.toJSON(),
+            toastZIndex: getComputedStyle(el).zIndex,
+            obscuredBy: describeEl(hit),
+            nearestStackingAncestor: describeEl(found),
+          });
         });
-      });
-      expect.soft(toastOk, `modal 上方 toast 未通过命中检测：${diagnostics}`).toBe(true);
-    }
+        expect.soft(toastOk, `modal 上方 toast 未通过命中检测：${diagnostics}`).toBe(true);
+      }
 
-    // modal 本体可见（未被自身遮罩挡住）
-    expect(await modalContent.isVisible(), "modal content 应可见").toBe(true);
-    await page.keyboard.press("Escape");
-  });
-});
-
-/* ---------------- Registry rendering regressions ---------------- */
-
-test.describe("registry-driven component demos", () => {
-  test("video keeps a visible default live demo", async ({ page }) => {
-    await gotoRoute(page, "/components/video", { width: 1440, height: 900 });
-
-    const card = page.locator('[data-demo-component="video"] [data-demo-card="default"]');
-    await expect(card).toBeVisible();
-    await expect(card.locator("video")).toBeVisible();
-    const box = await card.boundingBox();
-    expect(box?.width).toBeGreaterThan(0);
-    expect(box?.height).toBeGreaterThan(0);
-  });
-
-  test("inventory-only switch examples do not duplicate titled sections", async ({ page }) => {
-    await gotoRoute(page, "/components/switch", { width: 1440, height: 900 });
-
-    for (const id of ["disabled", "sizes", "full-width", "tooltip", "icon"]) {
-      await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(0);
-    }
-    for (const id of ["Disabled", "Sizes", "Full width", "Tooltip", "Icon"]) {
-      await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(1);
-    }
-  });
-});
-
-/* ---------------- Drawer 行为自动化（计划步骤 6） ---------------- */
-
-test.describe("drawer behaviors at mobile/tablet viewports", () => {
-  const drawerViewports = [
-    { width: 768, height: 1024 },
-    { width: 390, height: 844 },
-    { width: 320, height: 700 },
-  ];
-
-  for (const viewport of drawerViewports) {
-    test(`open/current/scroll/Escape/panel-close @${viewport.width}x${viewport.height}`, async ({ page }) => {
-      await setTheme(page, "light");
-
-      // 基础行为：aria-expanded、aria-current、Escape 关闭焦点归还
-      await gotoRoute(page, "/", viewport);
-      const trigger = page.locator('[data-slot="hamburger-trigger"]');
-      await expect(trigger).toBeVisible();
-      await expect(trigger).toHaveAttribute("aria-expanded", "false");
-      await trigger.click();
-      const panel = page.locator('[data-slot="expand-panel"]');
-      await expect(panel).toBeVisible();
-      await expect(trigger).toHaveAttribute("aria-expanded", "true");
-      const currentItem = panel.locator('[aria-current="page"]');
-      await expect(currentItem).toHaveCount(1);
-      await expect(currentItem).toHaveText(/Introduction|介绍/);
-
+      // modal 本体可见（未被自身遮罩挡住）
+      expect(await modalContent.isVisible(), "modal content 应可见").toBe(true);
       await page.keyboard.press("Escape");
-      await expect(panel).not.toBeVisible();
-      await expect(trigger).toHaveAttribute("aria-expanded", "false");
-      await expect(trigger).toBeFocused();
+    });
+  });
 
-      // 长页滚动可见性 + panel-close 关闭
-      await gotoRoute(page, "/components/button", viewport);
-      await trigger.click();
-      await expect(panel).toBeVisible();
-      await panel.evaluate((el) => {
-        el.scrollTop = el.scrollHeight;
-      });
-      await settle(page);
-      // 面板动画收敛后仍在视口内且可交互；轮询避免把合法滑入过程误判为最终越界。
-      await expect
-        .poll(
-          () =>
-            panel.evaluate((el) => {
-              const r = el.getBoundingClientRect();
-              return r.top >= -1 && r.left >= -1 && r.bottom <= window.innerHeight + 1 && r.right <= window.innerWidth + 1;
-            }),
-          { message: "长页滚动后面板动画应收敛并完整落在视口内" },
-        )
-        .toBe(true);
+  /* ---------------- Registry rendering regressions ---------------- */
 
-      const closeButton = page.locator('[data-slot="panel-close"]');
-      if ((await closeButton.count()) > 0) {
-        await closeButton.first().click();
-        await expect(panel).not.toBeVisible();
-        await expect(trigger).toHaveAttribute("aria-expanded", "false");
-      } else {
-        await page.keyboard.press("Escape");
-        await expect(panel).not.toBeVisible();
+  test.describe("registry-driven component demos", () => {
+    test("video keeps a visible default live demo", async ({ page }) => {
+      await gotoRoute(page, "/components/video", { width: 1440, height: 900 });
+
+      const card = page.locator('[data-demo-component="video"] [data-demo-card="default"]');
+      await expect(card).toBeVisible();
+      await expect(card.locator("video")).toBeVisible();
+      const box = await card.boundingBox();
+      expect(box?.width).toBeGreaterThan(0);
+      expect(box?.height).toBeGreaterThan(0);
+    });
+
+    test("inventory-only switch examples do not duplicate titled sections", async ({ page }) => {
+      await gotoRoute(page, "/components/switch", { width: 1440, height: 900 });
+
+      for (const id of ["disabled", "sizes", "full-width", "tooltip", "icon"]) {
+        await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(0);
+      }
+      for (const id of ["Disabled", "Sizes", "Full width", "Tooltip", "Icon"]) {
+        await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(1);
       }
     });
-  }
-});
+  });
 
-/* ---------------- 视觉截图证据（计划步骤 4 清单） ---------------- */
+  /* ---------------- Drawer 行为自动化（计划步骤 6） ---------------- */
 
-test.describe("visual evidence screenshots", () => {
-  const shots: Array<[route: string, width: number, themes: Theme[]]> = [
-    ...(["/", "/components/device"] as const).flatMap((route) =>
-      VIEWPORTS.map(
-        (v) => [route, v.width, [...THEMES]] as [string, number, Theme[]],
-      ).filter(([, w]) => route === "/" || [1100, 768, 390, 320].includes(w)),
-    ),
-    ...(
-      [
-        ["/components/badge", 1440],
-        ["/components/badge", 390],
-        ["/patterns/app-shell", 1440],
-        ["/patterns/app-shell", 320],
-      ] as Array<[string, number]>
-    ).map(([route, w]) => [route, w, ["light"] as Theme[]] as [string, number, Theme[]]),
-    ...(["/colors", "/materials", "/layout/grid"] as const).flatMap((route) =>
-      ([1440, 768, 390] as const).map(
-        (w) => [route, w, [...THEMES]] as [string, number, Theme[]],
-      ),
-    ),
-  ] as Array<[string, number, Theme[]]>;
+  test.describe("drawer behaviors at mobile/tablet viewports", () => {
+    const drawerViewports = [
+      { width: 768, height: 1024 },
+      { width: 390, height: 844 },
+      { width: 320, height: 700 },
+    ];
 
-  for (const [route, width, shotThemes] of shots) {
-    for (const theme of shotThemes) {
-      test(`shot ${route} @${width} ${theme}`, async ({ page }) => {
-        await setTheme(page, theme);
-        const viewport =
-          VIEWPORTS.find((v) => v.width === width) ?? { width, height: 900 };
-        await gotoRoute(page, route, viewport);
-        const file = path.join(
-          SHOT_DIR,
-          `${route.replace(/\//g, "_")}-${width}-${theme}.png`,
-        );
-        await page.screenshot({ path: file, fullPage: false });
-        expect(existsSync(file)).toBe(true);
+    for (const viewport of drawerViewports) {
+      test(`open/current/scroll/Escape/panel-close @${viewport.width}x${viewport.height}`, async ({
+        page,
+      }) => {
+        await setTheme(page, "light");
+
+        // 基础行为：aria-expanded、aria-current、Escape 关闭焦点归还
+        await gotoRoute(page, "/", viewport);
+        const trigger = page.locator('[data-slot="hamburger-trigger"]');
+        await expect(trigger).toBeVisible();
+        await expect(trigger).toHaveAttribute("aria-expanded", "false");
+        await trigger.click();
+        const panel = page.locator('[data-slot="expand-panel"]');
+        await expect(panel).toBeVisible();
+        await expect(trigger).toHaveAttribute("aria-expanded", "true");
+        const currentItem = panel.locator('[aria-current="page"]');
+        await expect(currentItem).toHaveCount(1);
+        await expect(currentItem).toHaveText(/Introduction|介绍/);
+
+        await page.keyboard.press("Escape");
+        await expect(panel).not.toBeVisible();
+        await expect(trigger).toHaveAttribute("aria-expanded", "false");
+        await expect(trigger).toBeFocused();
+
+        // 长页滚动可见性 + panel-close 关闭
+        await gotoRoute(page, "/components/button", viewport);
+        await trigger.click();
+        await expect(panel).toBeVisible();
+        await panel.evaluate((el) => {
+          el.scrollTop = el.scrollHeight;
+        });
+        await settle(page);
+        // 面板动画收敛后仍在视口内且可交互；轮询避免把合法滑入过程误判为最终越界。
+        await expect
+          .poll(
+            () =>
+              panel.evaluate((el) => {
+                const r = el.getBoundingClientRect();
+                return (
+                  r.top >= -1 &&
+                  r.left >= -1 &&
+                  r.bottom <= window.innerHeight + 1 &&
+                  r.right <= window.innerWidth + 1
+                );
+              }),
+            { message: "长页滚动后面板动画应收敛并完整落在视口内" },
+          )
+          .toBe(true);
+
+        const closeButton = page.locator('[data-slot="panel-close"]');
+        if ((await closeButton.count()) > 0) {
+          await closeButton.first().click();
+          await expect(panel).not.toBeVisible();
+          await expect(trigger).toHaveAttribute("aria-expanded", "false");
+        } else {
+          await page.keyboard.press("Escape");
+          await expect(panel).not.toBeVisible();
+        }
       });
     }
-  }
-});
+  });
+
+  /* ---------------- 视觉截图证据（计划步骤 4 清单） ---------------- */
+
+  test.describe("visual evidence screenshots", () => {
+    const shots: Array<[route: string, width: number, themes: Theme[]]> = [
+      ...(["/", "/components/device"] as const).flatMap((route) =>
+        VIEWPORTS.map((v) => [route, v.width, [...THEMES]] as [string, number, Theme[]]).filter(
+          ([, w]) => route === "/" || [1100, 768, 390, 320].includes(w),
+        ),
+      ),
+      ...(
+        [
+          ["/components/badge", 1440],
+          ["/components/badge", 390],
+          ["/patterns/app-shell", 1440],
+          ["/patterns/app-shell", 320],
+        ] as Array<[string, number]>
+      ).map(([route, w]) => [route, w, ["light"] as Theme[]] as [string, number, Theme[]]),
+      ...(["/colors", "/materials", "/layout/grid"] as const).flatMap((route) =>
+        ([1440, 768, 390] as const).map(
+          (w) => [route, w, [...THEMES]] as [string, number, Theme[]],
+        ),
+      ),
+    ] as Array<[string, number, Theme[]]>;
+
+    for (const [route, width, shotThemes] of shots) {
+      for (const theme of shotThemes) {
+        test(`shot ${route} @${width} ${theme}`, async ({ page }) => {
+          await setTheme(page, theme);
+          const viewport = VIEWPORTS.find((v) => v.width === width) ?? { width, height: 900 };
+          await gotoRoute(page, route, viewport);
+          const file = path.join(SHOT_DIR, `${route.replace(/\//g, "_")}-${width}-${theme}.png`);
+          await page.screenshot({ path: file, fullPage: false });
+          expect(existsSync(file)).toBe(true);
+        });
+      }
+    }
+  });
+}

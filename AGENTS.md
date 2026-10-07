@@ -116,7 +116,33 @@ steps; follow those steps, commit generated changes when requested, then run `gi
 ## Validation
 
 Run the narrowest relevant test first, then expand verification before completion.
-Common repository checks are:
+Use the unified entrypoint for routine task completion:
+
+```sh
+pnpm run verify -- --dry-run
+pnpm run verify
+```
+
+It includes staged, unstaged and untracked changes relative to HEAD. Use `--base <ref>` to include
+committed changes since the merge-base with a ref, or `--full` for complete verification. Do not
+discard pre-existing changes when determining the scope. A clean checkout reports no pending changes;
+it is not proof that a committed task was tested. Use its starting ref or `--full` in that case.
+
+The planner unions native Vitest import associations with declared indirect inputs. Unknown paths,
+deletions, renames, shared source/configuration and unreliable associations fall back conservatively.
+New file-reading or subprocess tests require indirect input declarations in the verification policy;
+unmapped browser specs require full browser coverage. Scope may be wider than the changed component.
+
+The runner stops at the first failure, reports unexecuted checks, deduplicates prerequisites only
+within that invocation, and rejects evidence if repository inputs change during verification.
+Check `.scratch/verification/<run-id>/summary.json` for reasons, selected files and fresh exit codes.
+Its unified browser invocation keeps configured retries, stops after the first final failure and
+records remaining cases in the run's `browser.json`. Missing browser evidence cannot pass the gate.
+It preserves complete corpus/screenshot checks and every viewport/theme of selected layout routes.
+Generation remains an explicit step when those checks detect drift; do not treat a failed or partial
+verification as completion. CI retains its full unit suite and nightly browser suite.
+
+Independent checks remain available for investigation and recovery:
 
 ```sh
 pnpm run typecheck
@@ -168,8 +194,8 @@ Before reporting completion:
 
 1. Confirm the intended files changed and unrelated files did not.
 2. Run focused regression tests.
-3. Run type checking and the relevant build.
-4. Run deterministic LLM corpus verification for documentation changes.
-5. Run browser coverage for layout or interaction changes.
+3. Run `pnpm run verify` with the appropriate base (or `--full`); source/tooling changes include type checking and relevant builds.
+4. Run deterministic LLM corpus verification when canonical docs or their component inputs change.
+5. Run browser coverage for affected layout or interaction routes, retaining both themes and all applicable viewports.
 6. Inspect package contents for release-boundary changes.
 7. Record any genuine blocker with its exact failing command and evidence.
