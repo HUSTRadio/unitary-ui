@@ -7,6 +7,7 @@ async function openActivityView(page: Page, width = 390) {
   await page.locator('[data-demo-card="default"]').getByRole("button", { name: "Share", exact: true }).click();
   const row = page.locator('[data-slot="activity-view-targets"]');
   await expect(row.getByRole("button")).toHaveCount(8);
+  await page.locator('[data-slot="bottom-sheet"]').scrollIntoViewIfNeeded();
   return row;
 }
 
