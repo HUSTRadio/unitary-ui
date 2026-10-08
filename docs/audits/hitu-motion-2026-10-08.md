@@ -24,6 +24,8 @@ v1 accepts React SVG shapes with intrinsic dimensions and the Box/File assets. S
 
 ## Consumer build measurements / 消费构建测量
 
+以下体积和独立检查记录来自整合主线之前的接入快照，基线为 `39a4d5c`；不把后续主线的材质样式变化算作 Motion/Hitu 增量。/ The measurements and standalone checks below describe the integration snapshot before merging the latest mainline, based on `39a4d5c`; later mainline material-style changes are not attributed to Motion/Hitu.
+
 环境 / Environment: Node 24.21.0, pnpm 11.20.0, React / ReactDOM 19.2.8, Vite 8.2.1, Motion 14.0.0。
 
 使用 [measure-motion-bundles.mjs](../../scripts/measure-motion-bundles.mjs) 构建真实包根消费者，不使用源码 alias。各例均包含 React、一个 Button 和发布 CSS；Hitu 例使用试点的两个资产及 0 / 60 / 119 关键帧，组合例另含 MotionProvider、motion、AnimatePresence 与时序 hook。Vite 生产压缩后，对所有 JS / CSS 文件分别按 gzip level 9 压缩并求和，包含 lazy chunks，不包含字体、图片和 sourcemap；这是完整输出大小，不能当作首屏传输量。
@@ -95,3 +97,18 @@ An initial diagnostic requiring final computed styles immediately at DOM attachm
 Styleguide 与官网生产构建仍有大于 500 kB chunk 的体积提示。按需加载及真实受控慢请求浏览器验证支持首页内容不等待插画；这里没有作跨设备性能或帧率保证。
 
 Styleguide and website builds retain the large-chunk warning. Lazy loading and the held-request browser check demonstrate that original introduction content does not wait for the illustration; no cross-device performance or frame-rate guarantee is claimed.
+
+## Mainline integration gate / 主线整合验证
+
+整合主线 `3c2fe29` 后，采用其新增的统一验证入口，并将 Motion/Hitu 的运行时、EmptyState 组合、官网示例与介绍页归属登记到浏览器覆盖策略。双语独立接入指南的 4 段 TSX 已对公共声明严格编译，双语代码块和相对链接也已检查。
+
+After integrating mainline `3c2fe29`, completion uses its new unified verification entrypoint. Browser ownership covers the Motion/Hitu runtime, EmptyState composition, documentation examples and introduction. Four standalone TSX guide snippets compile strictly against the public declarations; bilingual code blocks and relative links are checked.
+
+```sh
+pnpm run verify -- --dry-run --base 39a4d5c4170fd7804d8eef14a92019371ae7a7fc
+pnpm run verify -- --base 39a4d5c4170fd7804d8eef14a92019371ae7a7fc
+```
+
+该起点包含本次已提交更改及主线整合，不以干净工作区缩小检查范围。规划器对本次共享入口、依赖、样式和官网变更选择完整单元及浏览器回归，同时检查类型、lint、三种构建、发布包、语料和全部 README 截图。每次实际运行的退出码、未执行项及原生浏览器报告保存在忽略的 `.scratch/verification/<run-id>/summary.json` 和 `browser.json`；失败或部分运行不能作为验收通过。
+
+The starting ref includes the committed implementation and mainline integration; a clean tree does not narrow coverage. Shared entrypoints, dependencies, styles and documentation changes require full unit/browser regression, types, lint, all three builds, package checks, corpus and every README screenshot. Each actual run records exit codes, unexecuted checks and native browser evidence in ignored `.scratch/verification/<run-id>/summary.json` and `browser.json`; failed or partial runs do not establish completion.

@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
  * 中心圆点 bg-[var(--radio-color)] scale-0 → scale-100（官方 peer-checked:after:scale-100 等价）；
  * 禁用态实色灰：选项文字 gray-400、圆点边框 gray-400、禁用选中圆点 gray-400（官方实测 #c9c9c9），
  * cursor-not-allowed，无 opacity 变暗；
- * 焦点环 focus-ring；颜色全部消费语义 token（--gray-700 / --gray-500 / --gray-1000 / --background-100），零 `dark:` 分支。
+ * 焦点环仅在 :focus-visible 时显示；颜色全部消费语义 token（--gray-700 / --gray-500 / --gray-1000 / --background-100），零 `dark:` 分支。
  * 语义：单个多选一（2–6 项）；超过 6 项改用 Select/Combobox，二选一布尔用 Toggle。
  */
 
@@ -41,7 +41,7 @@ export interface RadioProps extends Omit<React.ComponentProps<"input">, "type" |
  * 在 RadioGroup 内时自动消费组的 value/disabled/required/name。
  */
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, checked, onChange, value, disabled, required, name, ...props }, ref) => {
+  ({ className, checked, onChange, onBlur, onKeyDownCapture, value, disabled, required, name, ...props }, ref) => {
     const group = React.useContext(RadioGroupContext);
     const inGroup = group.inGroup === true;
     const isChecked = checked ?? (inGroup ? group.value === String(value) : undefined);
@@ -68,6 +68,14 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           value={value}
           checked={isChecked}
           onChange={handleChange}
+          onBlur={(event) => {
+            event.currentTarget.removeAttribute("data-uni-pointer-focus");
+            onBlur?.(event);
+          }}
+          onKeyDownCapture={(event) => {
+            event.currentTarget.removeAttribute("data-uni-pointer-focus");
+            onKeyDownCapture?.(event);
+          }}
           disabled={disabled ?? group.disabled}
           required={required ?? group.required}
           name={inputName}
@@ -79,7 +87,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           className={cn(
             "relative size-4 rounded-full border border-[var(--radio-color)] bg-background-100",
             "transition-[border-color,background] duration-(--uni-duration-base) ease-in",
-            "peer-focus:shadow-[var(--focus-ring-outline)]",
+            "peer-[:focus-visible:not([data-uni-pointer-focus])]:shadow-[var(--focus-ring-outline)]",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
             "peer-disabled:[--radio-color:var(--gray-500)]",
             "peer-checked:[&>span]:scale-100",
@@ -193,10 +201,11 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
     );
     if (interactive && event.currentTarget.contains(interactive)) return;
 
-    // Label activation otherwise focuses its input with native auto-scrolling,
-    // even when the clicked option is visible beside a scroll-padding inset.
-    // Keep the subsequent native click/change and keyboard behavior intact.
+    // Prevent native focus scrolling without cancelling label click/change.
+    // Browsers mark this programmatic focus as :focus-visible, so retain its
+    // pointer origin until a keyboard event or blur clears it.
     event.preventDefault();
+    input.setAttribute("data-uni-pointer-focus", "");
     input.focus({ preventScroll: true });
   };
 

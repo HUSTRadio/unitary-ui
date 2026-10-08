@@ -42,7 +42,8 @@ Showcases the RadioGroup's required marker and validation feedback to help users
 
 - Related radio buttons should be wrapped in <fieldset> with a <legend> labeling the group name, ensuring screen readers announce the group before each option.
 - The Required state should be set at the RadioGroup level rather than on individual options to avoid redundant announcements.
-- Keyboard users can cycle through options with Up/Down arrows, and activate a selection with Enter or Space.
+- Keyboard users can switch options with arrow keys and select the focused option with Space.
+- The focus ring appears only on :focus-visible, preserving keyboard navigation feedback without adding a ring for pointer or touch selection.
 
 ## Controlled behavior
 

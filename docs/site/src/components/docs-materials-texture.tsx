@@ -1,5 +1,6 @@
 import { useId } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/ui/code-block";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -83,7 +84,7 @@ function TextureControls() {
             key={option}
             value={option}
             data-texture-option={option}
-            className={`min-h-11 cursor-pointer rounded-md border px-3 text-foreground ${texture === option ? "border-foreground bg-muted" : "border-border bg-background"}`}
+            className={`relative min-h-11 cursor-pointer rounded-md border px-3 text-foreground ${texture === option ? "border-foreground bg-muted" : "border-border bg-background"}`}
           >
             {TEXTURE_LABELS[language][option]}
           </RadioGroupItem>
@@ -116,6 +117,15 @@ function TextureInteractionDemo() {
         <p className="mt-2 text-copy-14 text-foreground">
           {zh ? "背景表达层次，文字和控件保持清晰。打开浮层，观察全局材质切换。" : "The background adds depth while text and controls stay clear. Open a layer and change the global texture."}
         </p>
+        <div className="mt-4 flex flex-wrap items-center gap-2" data-slot="texture-demo-information">
+          <Badge variant="green" size="compact" data-slot="texture-demo-saved">
+            {zh ? "已保存" : "Saved"}
+          </Badge>
+          {" "}
+          <Badge variant="outline" size="compact" data-slot="texture-demo-task-count">
+            {zh ? "3 项任务" : "3 tasks"}
+          </Badge>
+        </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <MenuContainer>
             <MenuButton variant="secondary" data-slot="texture-demo-menu-trigger">{zh ? "打开菜单" : "Open menu"}</MenuButton>
@@ -175,7 +185,7 @@ export function MaterialsTextureSection() {
       <DocsList className="list-disc pl-[var(--uni-doc-list-indent)]">
         <li>{zh ? "Solid 是默认值，保留现有填充、描边、阴影及少量既有遮罩模糊。" : "Solid is the default and preserves existing fills, strokes, shadows and the few existing blurred masks."}</li>
         <li>{zh ? "Hybrid 在导航、浮层和遮罩增加轻微背景散射，内部控件保持平面。" : "Hybrid adds gentle background diffusion to navigation, floating layers and masks; inner controls stay flat."}</li>
-        <li>{zh ? "Glass 增加薄层透光、静态高光与微弱边缘反射。首版不使用真实折射、色散或随指针移动的炫光。" : "Glass adds thin-layer transmission, static highlights and faint edge reflection. This release does not use refraction, dispersion or pointer-driven glare."}</li>
+        <li>{zh ? "Glass 在功能层、次要操作按钮和具有卡片外观的 Radio 选项上增加透光、静态高光与亮暗边缘，提示材质厚度。不使用真实折射、色散或随指针移动的炫光。" : "Glass adds transmission, static highlights and light-and-dark edges to functional layers, secondary action buttons and surface-styled Radio options, suggesting material thickness. It does not use true refraction, dispersion or pointer-driven glare."}</li>
       </DocsList>
       <DocsBlock><TextureControls /></DocsBlock>
       <DocsParagraph>
@@ -214,6 +224,33 @@ export function MaterialsTextureSection() {
           ? "功能层按用途选择材质厚度。Hybrid 与 Glass 使用柔和投影和透光细边；导航栏与工具栏只保留描边。带箭头的默认 Tooltip 与 ContextCard 使用稳定的不透明表面，避免箭头接缝；默认 Tooltip 关闭箭头后可以透光。状态色 Tooltip、Toast 和反色图表提示保持不透明填充，保护原有对比度。"
           : "Functional layers choose material thickness by purpose. Hybrid and Glass use soft projections and translucent hairlines; navigation bars and toolbars retain strokes only. Default tooltips with stems and ContextCard use stable opaque surfaces to avoid stem seams; default tooltips without stems can transmit the backdrop. Status-colored tooltips, toasts and inverted chart hints retain opaque fills to preserve contrast."}
       </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "Glass 中使用默认表面填充的启用态次要 Button、ButtonLink 和具有卡片外观的 Radio 选项采用透光填充，以静态亮暗边缘建立轮廓。独立控件的填充为浅色 72%、深色 80%，背景模糊为 6px。仅在最近的功能层使用默认中性填充时，控件填充减至三分之一，避免叠加成实色块；透明、自定义或语义色功能层和单独遮罩保留完整填充，确保文字对比度。功能层和遮罩内均不重复采样。材质按操作语义选择：主要操作、状态色按钮、输入区域和单选指示器保留清晰的原有样式；选中轮廓与键盘焦点提示保持可辨。Hybrid 的控件保持平面。"
+          : "Enabled secondary Button, ButtonLink and surface-styled Radio options with default surface fills in Glass transmit the backdrop, with static light-and-dark edges defining their contour. Standalone controls use 72% fill in light mode, 80% in dark mode and 6px backdrop blur. Control fill falls to one-third only when the nearest functional layer has a default neutral fill, avoiding stacked solid-looking fills. Transparent, custom or semantic-colored layers and masks alone retain the full fill to protect text contrast. Neither context samples again. Material follows the action’s semantics: primary actions, status-colored buttons, input areas and radio indicators retain their clear existing styles; selected outlines and keyboard focus cues stay distinguishable. Hybrid controls stay flat."}
+        {" "}<code>--material-texture-control-opacity</code>
+        {zh ? " 与 " : " and "}<code>--material-texture-control-blur</code>
+        {zh ? " 可统一调整填充与独立控件的模糊强度。" : " adjust the shared fill and standalone control blur."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "Glass 以窄高光、柔和羽化和底部暗边提示厚度，中性描边继续帮助识别边界。这些是静态预计算的照明提示：参考折射率约 1.5 的 Schlick 近似，法向反射率约 4%，70° 斜入射约 16%，再按明暗主题校准。这些值属于本项目，不是 Apple HIG 的规定，也不模拟真实场景的 Fresnel 反射或折射。"
+          : "Glass suggests thickness with a narrow highlight, a softly feathered edge and a darker lower seam, while a neutral stroke keeps boundaries clear. These are static, precomputed lighting cues calibrated for this project: Schlick’s approximation at an index of refraction around 1.5 gives roughly 4% reflection head-on and 16% at 70°. These values are not prescribed by Apple HIG, and the interface does not simulate scene-dependent Fresnel reflection or refraction."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "集中表达状态、数量或类别的小型控件保留稳定的实色前景和语义色，必要时使用局部填充突出信息。文字或图标补足颜色表达，不要求整块玻璃化。"
+          : "Compact controls that communicate a state, count or category keep stable solid foregrounds and semantic colors, using a local fill when emphasis is needed. Text or icons supplement color; the whole control does not need a glass treatment."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "Hybrid 与 Glass 的功能性分隔线及控件已有边框，使用所在配色主文字色派生的中性透光线，与装饰高光独立；"
+          : "In Hybrid and Glass, functional dividers and existing control borders use neutral translucent lines derived from the current palette’s primary text color, independently of decorative highlights; "}
+        <code>--material-texture-line-opacity</code>
+        {zh
+          ? " 统一调节强度，默认浅色 18%、深色 22%。Solid 保持现有边线，自定义边框色保留。"
+          : " adjusts their shared strength, defaulting to 18% in light mode and 22% in dark mode. Solid retains its existing lines, and custom border colors are preserved."}
+      </DocsParagraph>
     </DocsSection>
   );
 }
@@ -226,8 +263,8 @@ export function MaterialsMaskSection() {
       <DocsSectionTitle>{zh ? "Mask · 背景弱化" : "Mask · Background emphasis"}</DocsSectionTitle>
       <DocsParagraph>
         {zh
-          ? "Mask 将注意力移向前景，同时保留背景上下文。Backdrop 洗淡背景；Scrim 暗化背景。它们是视觉材质，不替代组件的关闭行为、焦点约束、ARIA 或背景不可交互语义，也不同于 SkeletonMask 加载占位。"
-          : "Masks draw attention to the foreground while retaining context. Backdrop washes out the background; Scrim dims it. These visual materials do not replace dismissal, focus management, ARIA or background interaction rules, and differ from SkeletonMask loading placeholders."}
+          ? "Mask 将注意力移向前景，同时保留背景上下文。Solid 保留历史样式：Backdrop 随明暗主题选择遮罩色调，Scrim 暗化背景。Hybrid 与 Glass 则统一使用轻微的中性遮罩、背景模糊与适度降低饱和度，不再因弹窗或抽屉而大幅改变背景明暗。它们是视觉材质，不替代组件的关闭行为、焦点约束、ARIA 或背景不可交互语义，也不同于 SkeletonMask 加载占位。"
+          : "Masks draw attention to the foreground while retaining context. Solid keeps its historical treatments: Backdrop tint follows the light/dark theme and Scrim dims the background. Hybrid and Glass share a faint neutral veil, backdrop blur and modest desaturation, avoiding a large brightness shift between modals and drawers. These visual materials do not replace dismissal, focus management, ARIA or background interaction rules, and differ from SkeletonMask loading placeholders."}
       </DocsParagraph>
       <DocsBlock className="grid gap-6 sm:grid-cols-2" data-material-group="mask">
         {(["mask-backdrop", "mask-scrim"] as const).map((role) => (
@@ -237,7 +274,7 @@ export function MaterialsMaskSection() {
               <div className={role === "mask-backdrop" ? "material-mask absolute inset-0 rounded-[inherit]" : "material-mask-scrim absolute inset-0 rounded-[inherit]"} data-material-sample={role} aria-hidden />
               <span className="material-menu absolute bottom-4 left-4 right-4 px-4 py-3 text-label-14 text-foreground" data-material="floating">{zh ? "保持清晰的前景" : "A clear foreground"}</span>
             </div>
-            <p className="mt-3 text-label-14 font-medium text-foreground">{role === "mask-backdrop" ? (zh ? "Backdrop · 洗淡" : "Backdrop · Wash") : (zh ? "Scrim · 暗化" : "Scrim · Dim")}</p>
+            <p className="mt-3 text-label-14 font-medium text-foreground">{role === "mask-backdrop" ? "Backdrop" : "Scrim"}</p>
             <p className="mt-1 font-mono text-copy-13 text-muted-foreground">{role === "mask-backdrop" ? "material-mask" : "material-mask-scrim"}</p>
           </div>
         ))}
@@ -246,6 +283,15 @@ export function MaterialsMaskSection() {
         {zh
           ? "模糊仅采样背景，文字不参与模糊。遮罩使用带 alpha 的颜色合成，避免降低父容器整体透明度。不要在内部按钮、输入控件或嵌套功能层上重复添加模糊。"
           : "Blur samples the backdrop, never the text. Masks use alpha color compositing rather than lowering the parent element's opacity. Avoid repeated blur on inner buttons, inputs or nested functional layers."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "Hybrid 与 Glass 的遮罩颜色取所在配色的表面色与主文字色的中点，默认不透明度为 8%、背景模糊为 8px、饱和度为 85%。它轻微收敛极亮或极暗区域，不保证每个像素的亮度不变。"
+          : "Hybrid and Glass mask color is the midpoint between the local palette’s surface and primary text colors, with 8% opacity, 8px backdrop blur and 85% saturation by default. It gently moderates very bright or dark regions rather than preserving every pixel’s brightness."}
+        {" "}<code>--material-texture-mask-opacity</code>
+        {zh ? " 与 " : " and "}<code>--material-texture-mask-saturation</code>
+        {zh ? " 用于全局调整；旧名称 " : " allow global adjustment; the old name "}<code>--material-texture-mask-backdrop-opacity</code>
+        {zh ? " 作为弃用兼容别名保留。这些数值是本项目的设计取舍，并非 Apple HIG 规定的参数。" : " remains as a deprecated compatibility alias. These values are project design choices, not parameters prescribed by Apple HIG."}
       </DocsParagraph>
       <DocsBlock><CodeBlock language="tsx" filename="mask-materials.tsx">{MASK_EXAMPLE}</CodeBlock></DocsBlock>
     </DocsSection>
@@ -261,7 +307,7 @@ export function MaterialsCompatibilitySection() {
       <DocsList className="list-disc pl-[var(--uni-doc-list-indent)]">
         <li>{zh ? "使用 CSS 背景模糊、颜色混合和渐变，无需实验开关；缺少所需能力时，全局回退为 Solid。" : "CSS backdrop blur, color mixing and gradients need no experimental flags. Missing capabilities fall back globally to Solid."}</li>
         <li>{zh ? "尊重强制颜色、减少透明度与减少动态效果偏好；减少透明度检测作为渐进增强，Solid 始终可手动选择。" : "Respect forced colors, reduced transparency and reduced motion. Transparency detection is a progressive enhancement; Solid is always available manually."}</li>
-        <li>{zh ? "功能层默认模糊不超过 20px，遮罩为 8px；采用静态效果，避免逐帧计算、重复采样和模糊动画，保持内容与交互清晰。" : "Default blur stays within 20px for functional layers and 8px for masks. Static effects avoid per-frame computation, repeated sampling and blur animation, keeping content and interaction clear."}</li>
+        <li>{zh ? "功能层默认模糊不超过 20px，遮罩为 8px，独立次要按钮和卡片选项为 6px；采用静态效果，无需逐帧 JavaScript 计算，避免重复采样和模糊动画，保持内容与交互清晰。" : "Default blur stays within 20px for functional layers, 8px for masks and 6px for standalone secondary buttons and surface-styled options. Static effects need no per-frame JavaScript computation and avoid repeated sampling and blur animation, keeping content and interaction clear."}</li>
       </DocsList>
       <DocsParagraph>
         <a className="text-link underline underline-offset-4" href="https://developer.apple.com/design/human-interface-guidelines/materials">Apple HIG · Materials</a>

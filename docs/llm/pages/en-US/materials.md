@@ -14,7 +14,7 @@ Materials express the relationship between functional layers and content. Follow
 
 - Solid is the default and preserves existing fills, strokes, shadows and the few existing blurred masks.
 - Hybrid adds gentle background diffusion to navigation, floating layers and masks; inner controls stay flat.
-- Glass adds thin-layer transmission, static highlights and faint edge reflection. This release does not use refraction, dispersion or pointer-driven glare.
+- Glass adds transmission, static highlights and light-and-dark edges to functional layers, secondary action buttons and surface-styled Radio options, suggesting material thickness. It does not use true refraction, dispersion or pointer-driven glare.
 
 Global texture
 
@@ -27,6 +27,8 @@ These controls change the whole documentation interface, portal layers and SubFr
 A clear workspace
 
 The background adds depth while text and controls stay clear. Open a layer and change the global texture.
+
+Saved 3 tasks
 
 Photograph by [mirobo](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg) · Alpsee · [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -79,6 +81,14 @@ For CSS-only use, declare `<html data-texture="glass">` on the document root to 
 Hybrid uses 8px diffusion and 80% fill. Glass uses 20px diffusion with 60% fill in light mode and 74% in dark mode. Secondary copy gains contrast on floating surfaces; reading content and inner controls remain clear. The --material-texture-\* tokens allow shared adjustments. When a continuous-corner shadow container creates a backdrop sampling boundary, its inner surface uses an opaque fill to preserve clipping and shadows.
 
 Functional layers choose material thickness by purpose. Hybrid and Glass use soft projections and translucent hairlines; navigation bars and toolbars retain strokes only. Default tooltips with stems and ContextCard use stable opaque surfaces to avoid stem seams; default tooltips without stems can transmit the backdrop. Status-colored tooltips, toasts and inverted chart hints retain opaque fills to preserve contrast.
+
+Enabled secondary Button, ButtonLink and surface-styled Radio options with default surface fills in Glass transmit the backdrop, with static light-and-dark edges defining their contour. Standalone controls use 72% fill in light mode, 80% in dark mode and 6px backdrop blur. Control fill falls to one-third only when the nearest functional layer has a default neutral fill, avoiding stacked solid-looking fills. Transparent, custom or semantic-colored layers and masks alone retain the full fill to protect text contrast. Neither context samples again. Material follows the action’s semantics: primary actions, status-colored buttons, input areas and radio indicators retain their clear existing styles; selected outlines and keyboard focus cues stay distinguishable. Hybrid controls stay flat. `--material-texture-control-opacity` and `--material-texture-control-blur` adjust the shared fill and standalone control blur.
+
+Glass suggests thickness with a narrow highlight, a softly feathered edge and a darker lower seam, while a neutral stroke keeps boundaries clear. These are static, precomputed lighting cues calibrated for this project: Schlick’s approximation at an index of refraction around 1.5 gives roughly 4% reflection head-on and 16% at 70°. These values are not prescribed by Apple HIG, and the interface does not simulate scene-dependent Fresnel reflection or refraction.
+
+Compact controls that communicate a state, count or category keep stable solid foregrounds and semantic colors, using a local fill when emphasis is needed. Text or icons supplement color; the whole control does not need a glass treatment.
+
+In Hybrid and Glass, functional dividers and existing control borders use neutral translucent lines derived from the current palette’s primary text color, independently of decorative highlights; `--material-texture-line-opacity` adjusts their shared strength, defaulting to 18% in light mode and 22% in dark mode. Solid retains its existing lines, and custom border colors are preserved.
 
 ## Surface
 
@@ -202,13 +212,13 @@ Radius
 
 ## Mask · Background emphasis
 
-Masks draw attention to the foreground while retaining context. Backdrop washes out the background; Scrim dims it. These visual materials do not replace dismissal, focus management, ARIA or background interaction rules, and differ from SkeletonMask loading placeholders.
+Masks draw attention to the foreground while retaining context. Solid keeps its historical treatments: Backdrop tint follows the light/dark theme and Scrim dims the background. Hybrid and Glass share a faint neutral veil, backdrop blur and modest desaturation, avoiding a large brightness shift between modals and drawers. These visual materials do not replace dismissal, focus management, ARIA or background interaction rules, and differ from SkeletonMask loading placeholders.
 
 Background content
 
 A clear foreground
 
-Backdrop · Wash
+Backdrop
 
 material-mask
 
@@ -216,11 +226,13 @@ Background content
 
 A clear foreground
 
-Scrim · Dim
+Scrim
 
 material-mask-scrim
 
 Blur samples the backdrop, never the text. Masks use alpha color compositing rather than lowering the parent element's opacity. Avoid repeated blur on inner buttons, inputs or nested functional layers.
+
+Hybrid and Glass mask color is the midpoint between the local palette’s surface and primary text colors, with 8% opacity, 8px backdrop blur and 85% saturation by default. It gently moderates very bright or dark regions rather than preserving every pixel’s brightness. `--material-texture-mask-opacity` and `--material-texture-mask-saturation` allow global adjustment; the old name `--material-texture-mask-backdrop-opacity` remains as a deprecated compatibility alias. These values are project design choices, not parameters prescribed by Apple HIG.
 
 mask-materials.tsx
 
@@ -240,6 +252,6 @@ export function Scrim() {
 
 - CSS backdrop blur, color mixing and gradients need no experimental flags. Missing capabilities fall back globally to Solid.
 - Respect forced colors, reduced transparency and reduced motion. Transparency detection is a progressive enhancement; Solid is always available manually.
-- Default blur stays within 20px for functional layers and 8px for masks. Static effects avoid per-frame computation, repeated sampling and blur animation, keeping content and interaction clear.
+- Default blur stays within 20px for functional layers, 8px for masks and 6px for standalone secondary buttons and surface-styled options. Static effects need no per-frame JavaScript computation and avoid repeated sampling and blur animation, keeping content and interaction clear.
 
 [Apple HIG · Materials](https://developer.apple.com/design/human-interface-guidelines/materials) · [MDN · backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/backdrop-filter) · [MDN · prefers-reduced-transparency](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-transparency)

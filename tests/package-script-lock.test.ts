@@ -220,6 +220,7 @@ describe("locked package command entrypoints", () => {
       "run-locked-script.mjs",
       "lib/locked-package-scripts.mjs",
       "lib/package-script-lock.mjs",
+      "lib/package-command.mjs",
     ]) {
       cpSync(path.join(ROOT, "scripts", file), path.join(root, "scripts", file));
     }

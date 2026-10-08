@@ -17,8 +17,13 @@ export const LOCKED_PACKAGE_SCRIPTS = {
     bin("vite", "vite", "build", "--mode", "lib"),
     node("scripts/fix-css-font-urls.mjs"),
   ),
+  "build:docs": checks(
+    script("tokens:check"),
+    bin("vite", "vite", "build", "--config", "docs/vite.config.ts"),
+  ),
   lint: checks(bin("oxlint", "oxlint")),
   test: checks(bin("vitest", "vitest", "run")),
+  verify: checks(node("scripts/verify.mjs")),
   typecheck: checks(script("tokens:check"), bin("typescript", "tsc", "-b")),
   "tokens:generate": checks(node("scripts/generate-token-catalog.mjs")),
   "tokens:check": checks(node("scripts/generate-token-catalog.mjs", "--check")),

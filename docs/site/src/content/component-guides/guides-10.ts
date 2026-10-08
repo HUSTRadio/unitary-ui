@@ -226,7 +226,8 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
       content: [
         "相关单选按钮应在 <fieldset> 内并用 <legend> 标注组名称，确保屏幕阅读器先报组名再报选项。",
         "Required 状态应设置在 RadioGroup 级别而非单个选项上，避免重复宣告。",
-        "键盘用户可以通过 Up/Down 箭头在选项间切换焦点，Enter 或 Space 激活选择。",
+        "键盘用户可通过方向键切换选项，并用 Space 选择当前聚焦项。",
+        "焦点环仅在 :focus-visible 时显示，保留键盘导航提示；鼠标或触摸选择不额外显示该环。",
       ],
     },
     controlledBehavior: {
@@ -546,7 +547,8 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
       content: [
         "Related radio buttons should be wrapped in <fieldset> with a <legend> labeling the group name, ensuring screen readers announce the group before each option.",
         "The Required state should be set at the RadioGroup level rather than on individual options to avoid redundant announcements.",
-        "Keyboard users can cycle through options with Up/Down arrows, and activate a selection with Enter or Space.",
+        "Keyboard users can switch options with arrow keys and select the focused option with Space.",
+        "The focus ring appears only on :focus-visible, preserving keyboard navigation feedback without adding a ring for pointer or touch selection.",
       ],
     },
     controlledBehavior: {

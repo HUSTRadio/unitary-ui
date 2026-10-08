@@ -139,9 +139,11 @@ test("Radio keyboard selection, focus and group tab order remain native", async 
   await page.keyboard.press("ArrowRight");
   await expect(two).toBeChecked();
   await expect(two).toBeFocused();
+  await expect(two.locator('xpath=following-sibling::span')).not.toHaveCSS("box-shadow", "none");
   await page.keyboard.press("ArrowLeft");
   await expect(one).toBeChecked();
   await expect(one).toBeFocused();
+  await expect(one.locator('xpath=following-sibling::span')).not.toHaveCSS("box-shadow", "none");
   await page.keyboard.press("Space");
   await expect(one).toBeChecked();
   await expect(group).toHaveAttribute("data-native-events", JSON.stringify({ click: 2, change: 2 }));
@@ -155,4 +157,5 @@ test("Radio keyboard selection, focus and group tab order remain native", async 
   expect(await group.evaluate((node) => node.contains(document.activeElement))).toBe(false);
   await page.keyboard.press("Shift+Tab");
   await expect(two).toBeFocused();
+  await expect(two.locator('xpath=following-sibling::span')).not.toHaveCSS("box-shadow", "none");
 });
