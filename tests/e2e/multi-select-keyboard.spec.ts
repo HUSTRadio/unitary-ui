@@ -42,6 +42,13 @@ test("keyboard-only: named dialog, Tab reaches rows, Tab leaves the panel", asyn
     const state = await focusState();
     trail.push(state);
     if (!state.inside) break;
+    // 边缘 Tab 已关闭面板后，等待退场 presence 与焦点归还，再判定是否离开。
+    if ((await trigger.getAttribute("data-state")) === "closed") {
+      await expect(dialog).toHaveCount(0);
+      await expect(trigger).toBeFocused();
+      trail.push(await focusState());
+      break;
+    }
   }
 
   expect(trail.some((step) => step.inside), `Tab 应能进入面板：${JSON.stringify(trail)}`).toBe(true);
