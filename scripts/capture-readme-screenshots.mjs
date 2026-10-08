@@ -7,7 +7,8 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { chromium } from "@playwright/test";
-import { screenshotsMatch } from "./lib/readme-screenshots.mjs";
+import { createScreenshotArtifacts, screenshotsMatch } from "./lib/readme-screenshots.mjs";
+import { packageCommand } from "./lib/package-command.mjs";
 import { withPackageLock } from "./lib/package-script-lock.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -16,7 +17,6 @@ const README_ZH = path.join(ROOT, "README.md");
 const README_EN = path.join(ROOT, "README.en.md");
 const WIDTH = 1440;
 const HEIGHT = 900;
-const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 /**
  * 首屏导航预算。根 styleguide 的 dev 冷启动要按需转换全部示例模块，
  * 实测（2026-09-21，1440x900）：26s 才渲染出导航、30.3s 才 networkidle——
@@ -61,8 +61,18 @@ async function startPreview() {
   const port = await findAvailablePort(5202);
   const url = `http://127.0.0.1:${port}`;
   const child = spawn(
-    VP_COMMAND,
-    ["dev", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    process.execPath,
+    packageCommand(ROOT, [
+      "bin",
+      "vite-plus",
+      "vp",
+      "dev",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      String(port),
+      "--strictPort",
+    ]),
     { cwd: ROOT, stdio: "ignore", shell: false, detached: process.platform !== "win32" },
   );
 
@@ -198,7 +208,7 @@ async function selectPage(page, key) {
   await settle(page);
 }
 
-async function capture(outputDir) {
+async function capture(outputDir, onPages) {
   const preview = await startPreview();
   let browser;
   try {
@@ -210,6 +220,7 @@ async function capture(outputDir) {
     });
     await page.locator("header nav").waitFor({ state: "visible", timeout: NAVIGATION_TIMEOUT_MS });
     const pages = await discoverPages(page);
+    onPages(pages);
 
     for (const item of pages) {
       await selectPage(page, item.key);
@@ -260,11 +271,16 @@ function replaceBlock(markdown, replacement, filename) {
 }
 
 function runFormatter(targetPath) {
-  const result = spawnSync(VP_COMMAND, ["fmt", targetPath, "--write"], {
-    cwd: ROOT,
-    encoding: "utf8",
-    shell: false,
-  });
+  const args = ["fmt", targetPath, "--write"];
+  const result = spawnSync(
+    process.execPath,
+    packageCommand(ROOT, ["bin", "vite-plus", "vp", ...args]),
+    {
+      cwd: ROOT,
+      encoding: "utf8",
+      shell: false,
+    },
+  );
   if (result.error) throw result.error;
   if (result.status !== 0) {
     throw new Error(
@@ -341,9 +357,15 @@ async function applyGenerated(stagingDir, pages, expectedReadmes) {
 }
 
 async function main() {
-  const stagingRoot = await fs.mkdtemp(path.join(os.tmpdir(), "unitary-readme-shots-"));
+  const artifacts = await createScreenshotArtifacts(ROOT, process.argv.slice(2));
+  let stagingRoot;
+  let pages = [];
+  let drift = [];
   try {
-    const pages = await capture(stagingRoot);
+    stagingRoot = await fs.mkdtemp(path.join(os.tmpdir(), "unitary-readme-shots-"));
+    pages = await capture(stagingRoot, (discovered) => {
+      pages = discovered;
+    });
     const [currentZh, currentEn] = await Promise.all([
       fs.readFile(README_ZH, "utf8"),
       fs.readFile(README_EN, "utf8"),
@@ -353,9 +375,17 @@ async function main() {
       zh: replaceBlock(currentZh, blocks.zh, "README.md"),
       en: replaceBlock(currentEn, blocks.en, "README.en.md"),
     };
-    const drift = await findDrift(stagingRoot, pages, expectedReadmes);
+    drift = await findDrift(stagingRoot, pages, expectedReadmes);
 
     if (CHECK) {
+      await artifacts?.write(
+        {
+          status: drift.length > 0 ? "drift" : "passed",
+          pages: pages.map((item) => item.key),
+          drift,
+        },
+        stagingRoot,
+      );
       if (drift.length > 0) {
         process.stderr.write(
           `[readme-screenshots] drift detected:\n${drift.map((item) => `  ${item}`).join("\n")}\n`,
@@ -384,8 +414,25 @@ async function main() {
         out: OUT,
       }),
     );
+  } catch (error) {
+    await artifacts
+      ?.write(
+        {
+          status: "error",
+          pages: pages.map((item) => item.key),
+          drift,
+          error: error.message ?? String(error),
+        },
+        stagingRoot,
+      )
+      .catch((reportError) => {
+        console.error(
+          `[readme-screenshots] failed to save diagnostics: ${reportError.message ?? reportError}`,
+        );
+      });
+    throw error;
   } finally {
-    await fs.rm(stagingRoot, { recursive: true, force: true });
+    if (stagingRoot) await fs.rm(stagingRoot, { recursive: true, force: true });
   }
 }
 

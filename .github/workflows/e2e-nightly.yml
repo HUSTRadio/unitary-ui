@@ -6,29 +6,33 @@ on:
     - cron: "0 18 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
-  group: e2e-nightly
+  group: e2e-nightly-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   e2e:
     name: Playwright docs-layout
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.20.0
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install
         run: pnpm install --frozen-lockfile
@@ -36,15 +40,81 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      # e2e 约 15 分钟串行，不阻塞 PR（PR 门禁见 ci.yml）
+      # Keep the full viewport/theme matrix; the PR checks live in ci.yml.
       - name: Run e2e
-        run: pnpm test:docs-layout
+        id: audit
+        run: pnpm run test:docs-layout -- --reporter=list,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: .scratch/playwright-report/results.json
+
+      - name: Upload browser report
+        if: ${{ !cancelled() && steps.audit.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: playwright-report
+          path: .scratch/playwright-report/results.json
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: error
 
       - name: Upload artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
+        if: ${{ failure() && steps.audit.outcome == 'failure' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: playwright-results
           path: .scratch/playwright-results
           retention-days: 7
-          if-no-files-found: ignore
+          include-hidden-files: true
+          if-no-files-found: warn
+
+  readme-screenshots:
+    name: README screenshots
+    runs-on: windows-2025
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Check README screenshots without updating baselines
+        id: audit
+        run: pnpm run docs:readme:screenshots:check -- --output-dir .scratch/readme-screenshots
+
+      - name: Upload screenshot report
+        if: ${{ !cancelled() && steps.audit.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: readme-screenshot-report
+          path: .scratch/readme-screenshots/report.json
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: error
+
+      - name: Upload screenshot comparisons on failure
+        if: ${{ failure() && steps.audit.outcome == 'failure' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: readme-screenshot-comparisons
+          path: |
+            .scratch/readme-screenshots/actual
+            .scratch/readme-screenshots/expected
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: warn

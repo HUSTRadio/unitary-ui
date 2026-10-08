@@ -7,6 +7,14 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("ci-workflows.test.ts"),
+    inputs: [".github/workflows/**", "package.json", "tests/audit/requirements.txt"],
+  },
+  {
+    tests: unitFiles("readme-screenshot-artifacts.test.ts"),
+    inputs: ["scripts/capture-readme-screenshots.mjs", "scripts/lib/readme-screenshots.mjs"],
+  },
+  {
     tests:
       unitFiles(`ai-docs-pre-push.test.ts ai-docs-prompt-contract.test.ts llm-task-contract.test.ts
       llm-task-runner.test.ts llm-task-docs-contract.test.ts pre-push-context.test.ts

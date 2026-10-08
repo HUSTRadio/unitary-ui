@@ -8,6 +8,9 @@ async function openComponent(page: Page, slug: string) {
   });
   await page.goto(`/#${getComponentDocsPath(slug)}`);
   await page.waitForSelector('[data-slot="navbar"]');
+  // 导航先于按需示例就绪；测量前等待真实示例挂载。
+  // Navigation precedes lazy examples; wait for a real demo before measuring.
+  await expect(page.locator('[data-demo-card]').first()).toBeAttached();
   await page.evaluate(async () => {
     await document.fonts.ready;
     await new Promise<void>((resolve) =>
@@ -44,9 +47,11 @@ test("split button minor trigger is square, equal-height, and flush", async ({ p
 
 test("split button size matrix keeps square flush triggers at every documented size", async ({ page }) => {
   await openComponent(page, "split-button");
-  const groups = page.locator('[data-slot="split-button"]');
+  const groups = page.locator(
+    '[data-demo-card="Title with Icon"] [data-slot="split-button"]',
+  );
+  await expect(groups).toHaveCount(6);
   const count = await groups.count();
-  expect(count).toBeGreaterThanOrEqual(6);
 
   const heights = new Set<number>();
   for (let i = 0; i < count; i++) {
@@ -89,6 +94,7 @@ test("status dots stay distinct and opaque in the dark theme", async ({ page }) 
 
   expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe("dark");
   const card = page.locator('[data-demo-container="Default"]');
+  await expect(card).toBeAttached();
   const colors = await card
     .locator('[data-slot="status-dot"] > span[aria-hidden]')
     .evaluateAll((dots) =>

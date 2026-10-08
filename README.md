@@ -81,6 +81,14 @@ pnpm run test:package
 
 该命令重新构建库，用独立 Node 进程检查 ESM/CJS 导入、服务端渲染和代码高亮，再用 Chromium 检查发布样式下的 Device 尺寸与布局。
 
+## 持续集成
+
+[`CI`](./.github/workflows/ci.yml) 在 `master` 推送、所有 PR 和手动运行时触发，三个并行任务分别执行静态检查与完整单测、应用构建与包契约检查、文档构建与 LLM 语料一致性检查。任务使用 Ubuntu 24.04、Node.js 24 和 `package.json` 声明的 pnpm 版本，以 `pnpm install --frozen-lockfile` 安装依赖。
+
+完整单测中的图像审计需要 Python 3.12 和 Pillow；CI 会安装锁定依赖。本地运行前执行 `python -m pip install --requirement tests/audit/requirements.txt`。
+
+[`夜间浏览器检查`](./.github/workflows/e2e-nightly.yml) 每天北京时间 02:00（UTC 18:00）运行，也支持手动触发：Ubuntu 执行覆盖全部视口和明暗主题的文档布局检查，Windows 2025 执行 README 截图只读检查。失败时上传报告、trace 和截图，保留 7 天。CI 检测文档或截图漂移后直接失败；请在本地生成并审查更新。
+
 ## 致谢
 
 设计参考与第三方资产见 [`CREDITS.md`](./CREDITS.md)。OPPO Sans 与 HarmonyOS Sans 的再分发存在许可风险，详见 [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md)。
