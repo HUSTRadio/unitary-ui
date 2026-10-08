@@ -196,11 +196,17 @@ test.describe("HIG-AUD-021 bottom clamp", () => {
       const paragraph = page.locator(PARAGRAPH).first();
       await paragraph.scrollIntoViewIfNeeded();
       // 把选区挪到「上方放不下（翻转下方）」且「下方也放不下（必须 clamp）」都成立的位置
-      const setup = await paragraph.evaluate((node) => {
+      const setup = await paragraph.evaluate(async (node) => {
         const rect = node.getBoundingClientRect();
         const innerHeight = window.innerHeight;
         const desired = Math.max(0, (innerHeight - rect.height - 60 + 68) / 2);
-        window.scrollBy(0, rect.top - desired);
+        // 文档正文独立滚动；滚动 window 无法把选区移到上下方均不足的边界位置。
+        const scrollOwner = node.closest<HTMLElement>("#main-content");
+        if (!scrollOwner) throw new Error("EditMenu demo has no docs scroll owner");
+        scrollOwner.scrollTop += rect.top - desired;
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
         const moved = node.getBoundingClientRect();
         return { innerHeight, paragraphTop: moved.top, paragraphBottom: moved.bottom };
       });
