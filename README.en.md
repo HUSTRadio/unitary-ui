@@ -77,6 +77,14 @@ pnpm run test:package
 
 This rebuilds the library, checks ESM/CJS imports, server rendering, and code highlighting in separate Node processes, then verifies Device dimensions and layout with the published CSS in Chromium.
 
+## Continuous integration
+
+[`CI`](./.github/workflows/ci.yml) runs on pushes to `master`, all pull requests, and manual dispatches. Three parallel jobs cover static checks and the full unit suite, the application build and package contracts, and the documentation build and LLM corpus consistency. Jobs use Ubuntu 24.04, Node.js 24, and the pnpm version declared in `package.json`, installing dependencies with `pnpm install --frozen-lockfile`.
+
+Image audit tests in the full unit suite require Python 3.12 and Pillow; CI installs the pinned dependency. Before running locally, use `python -m pip install --requirement tests/audit/requirements.txt`.
+
+[`Nightly browser checks`](./.github/workflows/e2e-nightly.yml) run daily at 18:00 UTC (02:00 Beijing time) and support manual dispatches. Ubuntu runs documentation layout checks across all viewports and both themes; Windows 2025 runs the read-only README screenshot check. Failed runs upload reports, traces, and screenshots with a 7-day retention period. Documentation or screenshot drift fails CI; generate and review updates locally.
+
 ## Credits
 
 See [`CREDITS.en.md`](./CREDITS.en.md) for design references and third-party assets. Redistribution of OPPO Sans and HarmonyOS Sans carries licensing risk; see [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md).
