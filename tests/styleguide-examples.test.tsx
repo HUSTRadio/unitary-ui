@@ -70,6 +70,19 @@ const buttonByType = (type: string) =>
   container.querySelector<HTMLButtonElement>(`button[data-slot="button"][data-type="${type}"]`);
 
 describe("living styleguide examples track the current component contracts", () => {
+  test("discovers the motion page in top navigation and composes a paused illustration through EmptyState", () => {
+    const entry = pageButton("motion");
+    expect(entry.textContent).toBe("动效与插画");
+    expect(entry.getAttribute("data-styleguide-label-en")).toBe("Motion and illustrations");
+    clickPage("motion");
+    expect(container.querySelector("[data-motion-demo]")).not.toBeNull();
+    const player = container.querySelector('[data-slot="hitu-player"]')!;
+    expect(player.closest('[data-slot="empty-state"]')).not.toBeNull();
+    expect(player.getAttribute("data-playing")).toBe("false");
+    expect(container.querySelector("[data-motion-play]")?.textContent).toBe("播放");
+    expect(container.querySelectorAll("[data-hitu-layer]")).toHaveLength(2);
+  });
+
   test("overview uses semantic action labels and current form components", () => {
     expect(buttonByType("default")?.textContent).toBe("部署项目");
     expect(buttonByType("secondary")?.textContent).toBe("查看日志");

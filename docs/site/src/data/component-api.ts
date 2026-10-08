@@ -35,6 +35,40 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 });
 
 const O = {
+  motion: {
+    importPath: "@hustradio/unitary-ui",
+    ...component(["MotionProvider", "motion", "AnimatePresence", "useMotionTransition"], [
+      row("MotionProvider.children", "ReactNode", "Content using the slim motion components or HituPlayer.", "使用精简 motion 元素或 HituPlayer 的内容。", { required: true, origin: "extension" }),
+      row("MotionProvider.reducedMotion", '"user" | "always"', "Follows the system preference or enforces instant UI transitions and static illustrations.", "遵循系统偏好，或强制即时 UI 转场与静态插画。", { defaultValue: '"user"', origin: "extension" }),
+      row("motion", "typeof import(\"motion/react-m\")", "Slim Motion elements, such as motion.div; use inside MotionProvider to load DOM animation features on demand.", "精简 Motion 元素，如 motion.div；放在 MotionProvider 中，按需加载 DOM 动画能力。", { origin: "extension" }),
+      row("AnimatePresence", "typeof import(\"motion/react\").AnimatePresence", "Keeps removed keyed children present while their exit animation finishes.", "在退出动画完成前保留被移除且带 key 的子元素。", { origin: "extension" }),
+      row("useMotionTransition(tier, options)", '(tier?: MotionTier, options?: TokenOptions) => Transition', "Converts the cascaded CSS duration and easing to Motion parameters; missing, invalid, zero or reduced timing is instant.", "将 CSS 级联时长与缓动转换为 Motion 参数；缺失、非法、零时长或减少动画时即时完成。", { defaultValue: 'tier = "state"', origin: "extension" }),
+      row("tier", '"feedback" | "state" | "overlay" | "expansive"', "Chooses an existing motion-duration tier; overlay uses the pop easing and the other tiers use snap.", "选择现有动效时长档位；overlay 使用 pop 缓动，其他档位使用 snap。", { defaultValue: '"state"', origin: "extension" }),
+      row("options.target", "HTMLElement | SVGElement | null", "Optional token scope; omitted reads the document root and null has no target.", "可选 token 作用域；省略时读取文档根节点，null 表示尚无目标。", { origin: "extension" }),
+    ]),
+    notes: [{ zh: "一个节点只有一个动画实现负责变换。减少动画偏好动态变化时，Provider 会跳过 JS 动画；SSR 使用即时转场。现有浮层和反馈组件继续使用各自的生命周期逻辑。", en: "One animation implementation owns each node's transforms. The provider skips JavaScript animations when reduced-motion preferences change; SSR uses instant transitions. Existing overlay and feedback components retain their lifecycle behavior." }],
+  },
+  "hitu-player": {
+    importPath: "@hustradio/unitary-ui",
+    ...component(["HituPlayer", "HituBox", "HituFile"], [
+      row("width / height", "number", "SVG canvas dimensions and viewBox coordinates.", "SVG 画布尺寸及 viewBox 坐标。", { required: true, origin: "extension" }),
+      row("shapes", "readonly HituShape[]", "React SVG sources with intrinsic width/height, base transforms and optional ordered keyframes.", "具有固有 width/height 的 React SVG 资源、基础变换和可选的有序关键帧。", { required: true, origin: "extension" }),
+      row("frames", "number", "Total frame count, advancing at 60 frames per second; indices run from zero to frames - 1. Zero leaves a static frame; negative or nonfinite values become zero.", "总帧数，以每秒 60 帧推进；索引从零到 frames - 1。零帧保持静态；负数或非有限值转为零。", { defaultValue: "0", origin: "extension" }),
+      row("defaultFrame", "number", "Initial frame, clamped to the current range; reduced motion restores this frame.", "初始帧，限制在当前帧范围内；减少动画时恢复此帧。", { defaultValue: "0", origin: "extension" }),
+      row("defaultPlay", "boolean", "Initial playback request; actual playback also requires visibility and allowed motion.", "初始播放请求；实际播放还要求可见且动画偏好允许。", { defaultValue: "false", origin: "extension" }),
+      row("loop", "boolean", "Repeats the timeline while playback is requested and permitted.", "在请求播放且允许动画时重复时间线。", { defaultValue: "false", origin: "extension" }),
+      row("onPlay", "(playing: boolean) => void", "Reports actual playback changes, including visibility or preference pauses.", "报告实际播放状态变化，包括可见性或动画偏好导致的暂停。", { origin: "extension" }),
+      row("onFrame", "(frame: number) => void", "Reports frame changes from playback or seeking.", "报告播放或定位产生的帧变化。", { origin: "extension" }),
+      row("ref.triggerMotion", "(playing?: boolean) => void", "Requests play/pause; omitted toggles the request. Manual pause prevents automatic resumption.", "请求播放/暂停；省略时切换请求。手动暂停后不会自动恢复。", { origin: "extension" }),
+      row("ref.setFrame", "(frame: number) => void", "Seeks within the current frame range.", "定位到当前帧范围内的指定帧。", { origin: "extension" }),
+      row("ref.getFramerInfo", "() => { play: boolean; frame: number }", "Reads the current frame and effective playback state.", "读取当前帧及实际播放状态。", { origin: "extension" }),
+      row("shape.source", "HituShapeSource", "React SVG component carrying numeric width and height; HituBox and HituFile are included sources.", "带有数值 width 和 height 的 React SVG 组件；内置资源包含 HituBox 和 HituFile。", { required: true, origin: "extension" }),
+      row("shape transforms", "x, y, rotate, scaleX, scaleY, originX, originY, opacity", "Transforms the complete layer; origins are fractions of the source dimensions.", "变换完整图层；原点是资源尺寸的比例。", { origin: "extension" }),
+      row("shape.frames", "readonly HituFrame[]", "Keyframes carry a frame number and sparse transforms; optional cubic easing applies to the outgoing segment.", "关键帧包含帧号和稀疏变换；可选 cubic 缓动作用于从该帧出发的片段。", { origin: "extension" }),
+      row("aria-label / aria-labelledby", "string", "Names a meaningful illustration; unnamed players are decorative and hidden from assistive technology.", "为有意义的插画命名；未命名时作为装饰内容，从辅助技术中隐藏。", { origin: "extension" }),
+    ], 'Omit<SVGProps<SVGSVGElement>, "ref" | "width" | "height" | "onPlay">'),
+    notes: [{ zh: "React shape 是 v1 唯一图层来源，不解析 svgText，也不支持 chips 子路径动画。离屏或页面隐藏时暂停，恢复可见后只恢复仍请求播放的实例；卸载和场景切换会清理 RAF。", en: "React shapes are the only v1 layer source; svgText parsing and chip subpath animation are unavailable. Playback pauses offscreen or while the page is hidden, and resumes only while still requested; unmounting and scene changes clean up RAF." }],
+  },
   layer: {
     importPath: "@hustradio/unitary-ui",
     ...component(["Layer", "LayerScope", "LayerPortal", "useLayerStyle"], [

@@ -336,6 +336,14 @@ An expandable navigation menu with grouped links and built-in search.
 
 ](#/components/hamburger-menu)[
 
+hitu-player
+
+### Hitu 插画播放器
+
+通过显式播放控制展示按帧编排的 SVG 插画。
+
+](#/components/hitu-player)[
+
 input
 
 ### 输入框
@@ -423,6 +431,14 @@ modal
 打开对话框，让用户先完成决策或表单再继续操作。
 
 ](#/components/modal)[
+
+motion
+
+### 动效
+
+让 React 动画使用局部动效 token，并响应减弱动效偏好。
+
+](#/components/motion)[
 
 multi-select
 

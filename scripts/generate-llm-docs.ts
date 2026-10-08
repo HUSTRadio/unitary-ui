@@ -168,8 +168,10 @@ function extractMainHtml(): string {
   // Remove runtime editors but retain their source examples for portable output.
   // Video 的计时文本会在媒体元数据加载前后从 00:00 变为实际时长，必须整体移除，
   // 否则同一源码的连续生成会产生非确定性语料漂移；示例代码仍保留完整用法。
+  // 首页视口插画也保留标题与说明，移除随可见性变化的加载/播放区域。
+  // Keep introduction guidance, excluding its viewport-dependent loading/playback region.
   for (const el of Array.from(
-    clone.querySelectorAll('button, input, select, textarea, [data-slot="video"], [data-token-demo]'),
+    clone.querySelectorAll('button, input, select, textarea, [data-slot="video"], [data-token-demo], [data-motion-intro] [data-slot="lazy-load"]'),
   )) {
     el.remove();
   }

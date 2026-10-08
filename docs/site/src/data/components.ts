@@ -28,6 +28,22 @@ export interface ComponentMeta {
 
 const COMPONENTS_EN: ComponentMeta[] = [
 {
+  name: "hitu-player",
+  label: "Hitu Player",
+  labelZh: "Hitu 插画播放器",
+  description: "Plays frame-based SVG illustrations with explicit playback controls.",
+  descriptionZh: "通过显式播放控制展示按帧编排的 SVG 插画。",
+  bestPractices: ["Keep decorative illustrations hidden from assistive technology; use aria-label for meaningful content.", "Provide playback controls and reserve the illustration dimensions before mounting."],
+},
+{
+  name: "motion",
+  label: "Motion",
+  labelZh: "动效",
+  description: "Uses scoped motion tokens and reduced-motion preferences for React animations.",
+  descriptionZh: "让 React 动画使用局部动效 token，并响应减弱动效偏好。",
+  bestPractices: ["Wrap animated content in MotionProvider and use useMotionTransition for timing.", "Keep one animation owner per element; preserve existing overlay focus and lifecycle behavior."],
+},
+{
   name: "prefetch",
   label: "Prefetch",
   labelZh: "预载",

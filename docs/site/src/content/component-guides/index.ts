@@ -1,4 +1,5 @@
 import { LAYER_GUIDES_ZH, LAYER_GUIDES_EN } from "./guides-25-layer";
+import { MOTION_GUIDES_ZH, MOTION_GUIDES_EN } from "./guides-26-motion";
 import { PAGED_MEDIA_GUIDES_ZH, PAGED_MEDIA_GUIDES_EN } from "./guides-23-paged-media";
 import { PREFETCH_GUIDES_ZH, PREFETCH_GUIDES_EN } from "./guides-24-prefetch";
 import type {
@@ -59,6 +60,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   PAGED_MEDIA_GUIDES_ZH,
   PREFETCH_GUIDES_ZH,
   LAYER_GUIDES_ZH,
+  MOTION_GUIDES_ZH,
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
@@ -87,6 +89,7 @@ const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
   PAGED_MEDIA_GUIDES_EN,
   PREFETCH_GUIDES_EN,
   LAYER_GUIDES_EN,
+  MOTION_GUIDES_EN,
 ];
 
 export const COMPONENT_GUIDES_ZH: Record<string, ComponentGuide> = Object.assign(

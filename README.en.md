@@ -11,6 +11,7 @@ A React component library based on the Vercel Geist design language, with design
 - Light and dark themes with semantic design tokens
 - Common Geist components and local extensions
 - TypeScript APIs, live examples, and copyable code
+- Motion.dev interaction animations and controllable Hitu SVG illustrations
 - Composed form, data table, workflow, and settings examples
 - Simplified Chinese and English documentation
 
@@ -37,21 +38,24 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
 
-| Page                 | Light                                                                  | Dark                                                                 |
-| -------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Pagination and media | ![Pagination and media Light](images/styleguide/paged-media-light.png) | ![Pagination and media Dark](images/styleguide/paged-media-dark.png) |
-| Components overview  | ![Components overview Light](images/styleguide/components-light.png)   | ![Components overview Dark](images/styleguide/components-dark.png)   |
-| Form example         | ![Form example Light](images/styleguide/form-light.png)                | ![Form example Dark](images/styleguide/form-dark.png)                |
-| Data table           | ![Data table Light](images/styleguide/table-light.png)                 | ![Data table Dark](images/styleguide/table-dark.png)                 |
-| Workflow             | ![Workflow Light](images/styleguide/workflow-light.png)                | ![Workflow Dark](images/styleguide/workflow-dark.png)                |
-| Settings panel       | ![Settings panel Light](images/styleguide/settings-light.png)          | ![Settings panel Dark](images/styleguide/settings-dark.png)          |
-| Global tokens        | ![Global tokens Light](images/styleguide/tokens-light.png)             | ![Global tokens Dark](images/styleguide/tokens-dark.png)             |
+| Page                     | Light                                                                  | Dark                                                                 |
+| ------------------------ | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Pagination and media     | ![Pagination and media Light](images/styleguide/paged-media-light.png) | ![Pagination and media Dark](images/styleguide/paged-media-dark.png) |
+| Components overview      | ![Components overview Light](images/styleguide/components-light.png)   | ![Components overview Dark](images/styleguide/components-dark.png)   |
+| Form example             | ![Form example Light](images/styleguide/form-light.png)                | ![Form example Dark](images/styleguide/form-dark.png)                |
+| Data table               | ![Data table Light](images/styleguide/table-light.png)                 | ![Data table Dark](images/styleguide/table-dark.png)                 |
+| Workflow                 | ![Workflow Light](images/styleguide/workflow-light.png)                | ![Workflow Dark](images/styleguide/workflow-dark.png)                |
+| Settings panel           | ![Settings panel Light](images/styleguide/settings-light.png)          | ![Settings panel Dark](images/styleguide/settings-dark.png)          |
+| Global tokens            | ![Global tokens Light](images/styleguide/tokens-light.png)             | ![Global tokens Dark](images/styleguide/tokens-dark.png)             |
+| Motion and illustrations | ![Motion and illustrations Light](images/styleguide/motion-light.png)  | ![Motion and illustrations Dark](images/styleguide/motion-dark.png)  |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 
 ## Documentation
 
 - Documentation site: `vp dev docs`
+- Motion and illustrations: [`Hitu + Motion guide`](./docs/guides/hitu-motion.en.md)
+- Integration verification: [`Tests and bundle measurements`](./docs/audits/hitu-motion-2026-10-08.md)
 - Official specification snapshot: [`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - Changelog: [`CHANGELOG.en.md`](./CHANGELOG.en.md)
 

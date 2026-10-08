@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import { DocsCardGrid } from "./docs-cards";
 import { MaterialsCompatibilitySection, MaterialsMaskSection, MaterialsTextureSection } from "./docs-materials-texture";
@@ -31,6 +31,9 @@ import {
 } from "../data/foundation-colors";
 import { useLanguage, type DocsLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
+import { LazyLoad } from "@/components/ui/lazy-load";
+
+const IntroductionIllustration = lazy(() => import("../examples/hitu-player/default.example"));
 
 /**
  * 文档站页面组件（docs/site 专用）。
@@ -62,6 +65,17 @@ export function IntroductionPage() {
         </Link>
       </div>
       <DocsCardGrid className="mt-10" />
+      <DocsSection data-motion-intro>
+        <DocsSectionTitle>{demoText(language, "Motion and Illustrations")}</DocsSectionTitle>
+        <DocsParagraph>{demoText(language, "Compose local interaction motion and a controllable SVG illustration.")}</DocsParagraph>
+        <LazyLoad rootMargin="0px" className="docs-introduction-illustration mt-6" placeholder={
+          <p className="text-copy-14 text-muted-foreground">{demoText(language, "Loading illustration…")}</p>
+        }>
+          <Suspense fallback={<p className="text-copy-14 text-muted-foreground">{demoText(language, "Loading illustration…")}</p>}>
+            <IntroductionIllustration autoPlay />
+          </Suspense>
+        </LazyLoad>
+      </DocsSection>
     </div>
   );
 }

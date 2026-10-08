@@ -53,3 +53,7 @@ unitary-docs
 Building blocks for React applications.
 
 ](#/components)
+
+## Motion and Illustrations
+
+Compose local interaction motion and a controllable SVG illustration.

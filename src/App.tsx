@@ -32,6 +32,7 @@ import { WorkflowExample } from "@/examples/WorkflowExample";
 import { PagedMediaExample } from "@/examples/PagedMediaExample";
 import { TokensExample } from "@/examples/TokensExample";
 import { ScrollTrackingExample } from "@/examples/ScrollTrackingExample";
+import { MotionExample } from "@/examples/MotionExample";
 
 /** Living styleguide — 组件总览与可交互组合示例。 / Overview and interactive examples. */
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -44,7 +45,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function App() {
-  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings" | "paged-media" | "tokens">(
+  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings" | "paged-media" | "tokens" | "motion">(
     "components",
   );
   const [checked, setChecked] = useState(true);
@@ -64,6 +65,7 @@ export default function App() {
     { key: "workflow", label: "审批流程", labelEn: "Workflow" },
     { key: "settings", label: "设置面板", labelEn: "Settings panel" },
     { key: "tokens", label: "全局 Token", labelEn: "Global tokens" },
+    { key: "motion", label: "动效与插画", labelEn: "Motion and illustrations" },
   ];
 
   return (
@@ -118,6 +120,7 @@ export default function App() {
           {page === "workflow" && <WorkflowExample />}
           {page === "settings" && <SettingsExample />}
           {page === "tokens" && <TokensExample />}
+          {page === "motion" && <MotionExample />}
         </ErrorBoundary>
 
         {page === "components" && (

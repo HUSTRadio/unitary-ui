@@ -10,6 +10,8 @@
  */
 
 const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
+  "hitu-player": ["装饰插画从辅助技术中隐藏；有意义的内容通过 aria-label 命名。", "提供播放控制，并在挂载前预留插画尺寸。"],
+  motion: ["通过 MotionProvider 包裹动画内容，并使用 useMotionTransition 取得时序。", "一个元素由一个动画实现控制；保留现有浮层的焦点与生命周期行为。"],
   prefetch: ["每组加载器与参数使用一个稳定资源，通过 load() 消费同一结果。", "输入变化后显式失效；只为可能接着访问的内容预载，不预载所有页面。"],
   "carousel": ["为每张图片提供有意义的 alt，并保持一致的宽高比。","使用主动翻页；轮播不会自动切换。"],
   "full-page-scroller": ["保持各屏内容相关，并提供可见的进度提示。","整屏手势适合演示；较长内容应在各屏内部自然滚动。"],

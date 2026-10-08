@@ -52,6 +52,14 @@ describe("LLM docs export contract", () => {
     expect(videoPage).not.toMatch(/^\d{2}:\d{2}$/m);
   });
 
+  it("keeps bilingual introduction guidance without viewport loading or playback state", () => {
+    for (const locale of ["zh-CN", "en-US"]) {
+      const introduction = readFileSync(path.join(LLM_DIR, "pages", locale, "introduction.md"), "utf8");
+      expect(introduction).toContain(locale === "zh-CN" ? "动效与插画" : "Motion and Illustrations");
+      expect(introduction).not.toMatch(/Loading illustration|插画加载中|加载插画|^Playing$|^Paused$/m);
+    }
+  });
+
   it("index.json 存在且路由与 canonical registry 一一对应", () => {
     const index = readIndex();
     expect(index.schemaVersion).toBe(1);

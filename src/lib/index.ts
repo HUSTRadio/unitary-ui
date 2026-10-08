@@ -9,6 +9,13 @@ export { ThemeProvider, useTheme } from "./theme";
 export type { ThemeProviderProps, ThemePreference, ResolvedTheme, TexturePreference } from "./theme";
 export { I18nProvider, useI18n } from "./i18n";
 
+// Motion uses the existing timing tokens; HiTu owns illustration frames.
+export { MotionProvider, motion, AnimatePresence, useMotionTransition } from "./motion";
+export type { MotionProviderProps, MotionTier } from "./motion";
+export { HituPlayer } from "@/components/ui/hitu-player";
+export type { HituPlayerProps, HituPlayerRef, HituShape, HituFrame, HituShapeSource } from "@/components/ui/hitu-player";
+export { HituBox, HituFile } from "@/vendor/hitu/assets";
+
 // Global design tokens / 全局设计 token
 export { GLOBAL_TOKENS, TOKEN_NAMES, RUNTIME_TOKEN_NAMES } from "./token-catalog";
 export type { TokenName, RuntimeTokenName, TokenGroup } from "./token-catalog";

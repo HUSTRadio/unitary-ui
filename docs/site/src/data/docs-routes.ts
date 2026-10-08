@@ -210,6 +210,8 @@ const MOBILE_ONLY_SUBGROUP_ID: ComponentSubgroupId = "mobile";
  * 由 componentSubgroupId 依据 ComponentMeta.mobileOnly 统一归入「仅移动端」。
  */
 const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> = {
+  motion: "content",
+  "hitu-player": "content",
   /* Actions —— 触发动作、命令与菜单 */
   button: "actions",
   "command-menu": "actions",

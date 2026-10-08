@@ -8,6 +8,19 @@ import type { DocsLanguage } from "./language";
  */
 export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
   "zh-CN": {
+    "Motion and Illustrations": "动效与插画",
+    "Compose local interaction motion and a controllable SVG illustration.": "组合局部交互动效与可控制的 SVG 插画。",
+    "Loading illustration…": "正在加载插画…",
+    "Toggle Content": "切换内容",
+    "Content follows the state timing token and your motion preference.": "内容遵循状态切换时序 token 和你的动画偏好。",
+    "No Files Yet": "暂无文件",
+    "Add a file to start organizing your workspace.": "添加文件，开始整理你的工作区。",
+    Play: "播放",
+    Pause: "暂停",
+    Replay: "重播",
+    Loop: "循环",
+    Playing: "正在播放",
+    Paused: "已暂停",
     Numbered: "数字页码",
     // Shared demo chrome
     "Show code": "显示代码",

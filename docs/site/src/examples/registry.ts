@@ -19,6 +19,10 @@ import PrefetchExampleSource from "./prefetch/default.example.tsx?example-source
 import PrefetchStrategiesExample from "./prefetch/strategies.example";
 import PrefetchStrategiesExampleSource from "./prefetch/strategies.example.tsx?example-source";
 import type { ComponentType } from "react";
+import MotionExample from "./motion/default.example";
+import MotionExampleSource from "./motion/default.example.tsx?example-source";
+import HituPlayerExample from "./hitu-player/default.example";
+import HituPlayerExampleSource from "./hitu-player/default.example.tsx?example-source";
 import SidebarNavExample from "./sidebar-nav/default-public.example";
 import SidebarNavExampleSource from "./sidebar-nav/default-public.example.tsx?example-source";
 import SidebarNavScrollTrackingExample from "./sidebar-nav/scroll-tracking.example";
@@ -887,6 +891,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "lazy-load", id: "default", Component: LazyLoadExample, source: LazyLoadExampleSource },
   { slug: "prefetch", id: "default", Component: PrefetchExample, source: PrefetchExampleSource },
   { slug: "prefetch", id: "strategies", Component: PrefetchStrategiesExample, source: PrefetchStrategiesExampleSource },
+  { slug: "motion", id: "default", Component: MotionExample, source: MotionExampleSource },
+  { slug: "hitu-player", id: "default", Component: HituPlayerExample, source: HituPlayerExampleSource },
   { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },
   { slug: "sidebar-nav", id: "scroll-tracking", Component: SidebarNavScrollTrackingExample, source: SidebarNavScrollTrackingExampleSource },
   { slug: "navbar", id: "default", Component: NavbarExample, source: NavbarExampleSource },

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 import test from "node:test";
@@ -16,7 +16,7 @@ function consume(mode) {
   const result = spawnSync(process.execPath, [`--input-type=${mode}`, "-e", `
     ${mode === "module" ? 'import { createRequire } from "node:module"; const require = createRequire(process.cwd() + "/package.json");' : ""}
     const assert = require('node:assert/strict');
-    const { createElement: h } = require('react');
+    const { createElement: h, useEffect } = require('react');
     const { renderToStaticMarkup: render } = require('react-dom/server');
     ${load}
     assert.equal(typeof window, 'undefined');
@@ -33,6 +33,46 @@ function consume(mode) {
     assert.equal(Object.hasOwn(api, 'Stack'), false);
     assert.equal(typeof api.ThemeProvider, 'function');
     assert.equal(typeof api.useTheme, 'function');
+    for (const name of ['MotionProvider', 'AnimatePresence', 'useMotionTransition', 'HituBox', 'HituFile']) {
+      assert.equal(typeof api[name], 'function', name);
+    }
+    assert.ok(api.motion.div, 'slim motion components are available from the package root');
+    assert.ok(api.HituPlayer, 'HituPlayer is available from the package root');
+    assert.equal(api.HituBox.width, 1024);
+    assert.equal(api.HituBox.height, 1024);
+    assert.equal(api.HituFile.width, 1024);
+    assert.equal(api.HituFile.height, 1024);
+    const ServerTransition = () => {
+      const transition = api.useMotionTransition('state');
+      assert.equal(transition.duration, 0, 'SSR does not invent token values');
+      return h('output', null, transition.duration);
+    };
+    assert.equal(render(h(api.MotionProvider, null, h(ServerTransition))), '<output>0</output>');
+    assert.match(render(h(api.MotionProvider, null,
+      h(api.AnimatePresence, null, h(api.motion.div, {initial: false, animate: {opacity: 1}}, 'Motion SSR')))), /Motion SSR/);
+    const Shape = Object.assign(() => h('rect', {width: 10, height: 10, fill: 'currentColor'}), {width: 10, height: 10});
+    const scene = {width: 100, height: 100, frames: 120, defaultPlay: true, defaultFrame: 12,
+      shapes: [{source: Shape, frames: [{frame: 0, x: 0}, {frame: 119, x: 60}]}]};
+    const hituHtml = render(h(api.HituPlayer, scene));
+    assert.equal(render(h(api.HituPlayer, scene)), hituHtml, 'Hitu SSR markup is deterministic');
+    assert.match(hituHtml, /data-slot="hitu-player"/);
+    assert.match(hituHtml, /data-frame="12"/);
+    assert.match(hituHtml, /data-playing="false"/);
+    assert.match(hituHtml, /aria-hidden="true"/);
+    assert.match(hituHtml, /<rect/);
+    const namedHitu = render(h(api.HituPlayer, {...scene, 'aria-label': 'Illustrated file'}));
+    assert.match(namedHitu, /aria-label="Illustrated file"/);
+    assert.doesNotMatch(namedHitu, /aria-hidden="true"/);
+    assert.match(render(h(api.HituPlayer, {width: 128, height: 128,
+      shapes: [{source: api.HituBox}, {source: api.HituFile}]})), /<path/);
+    const HydrationTree = () => {
+      useEffect(() => {}, []);
+      return h(api.MotionProvider, null,
+        h(api.motion.div, {initial: false, animate: {opacity: 1}},
+          h(api.HituPlayer, {width: 128, height: 128, frames: 120, defaultFrame: 12,
+            shapes: [{source: api.HituBox, x: 64, y: 64, scaleX: 0.1, scaleY: 0.1}]})));
+    };
+    const hydrationHtml = render(h(HydrationTree));
     const TextureState = () => {
       const {texture, resolvedTexture, setTexture} = api.useTheme();
       assert.equal(typeof setTexture, 'function');
@@ -103,7 +143,7 @@ function consume(mode) {
         h(api.Grid, {columns: {xs:1,sm:2,smd:3,md:4,lg:5}, rows:1},
           h(api.GridCell, null, 'Grid probe')))))).join('');
     assert.match(html, /mockframe/);
-    process.stdout.write(JSON.stringify({exports: Object.keys(api).sort(), html, gridHtml}));
+    process.stdout.write(JSON.stringify({exports: Object.keys(api).sort(), html, gridHtml, hydrationHtml}));
   `], { encoding: "utf8", timeout: 30_000 });
   const error = (result.stderr ?? "").split("\n").filter(line => line.length < 1000).join("\n");
   assert.equal(result.status, 0, `${mode}: ${result.error ?? error}`);
@@ -118,6 +158,72 @@ test("native ESM package import supports SSR and all registered Prism grammars",
 test("published output excludes the prefetch demo response", () => {
   const dist = path.dirname(requireFromConsumer.resolve(packageName));
   assert.equal(existsSync(path.join(dist, "prefetch-preview.json")), false);
+});
+
+test("published package preserves Hitu attribution and its pinned upstream license", () => {
+  const packageRoot = path.dirname(requireFromConsumer.resolve(`${packageName}/package.json`));
+  for (const file of ['THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.en.md']) {
+    const notices = readFileSync(path.join(packageRoot, file), 'utf8');
+    assert.match(notices, /HiTu/i, file);
+    assert.match(notices, /92119663fb5e551ccab5d0b46532c0a3317e0cc8/, file);
+    assert.match(notices, /Permission is hereby granted, free of charge/, file);
+  }
+});
+
+test("package-root Motion and Hitu SSR hydrate without recoverable errors", async () => {
+  const { chromium } = await import("@playwright/test");
+  const { build } = await import("vite");
+  const { hydrationHtml } = esm ?? consume("module");
+  const scratch = path.resolve(".scratch/package-hydration");
+  mkdirSync(scratch, { recursive: true });
+  const entry = path.join(scratch, "consumer.js");
+  writeFileSync(entry, `
+import {createElement as h, useEffect} from 'react';
+import {hydrateRoot} from 'react-dom/client';
+import {MotionProvider, motion, HituPlayer, HituBox} from '${packageName}';
+window.packageHydrationErrors = [];
+function HydrationTree() {
+  useEffect(() => { window.packageHydrated = true; }, []);
+  return h(MotionProvider, null,
+    h(motion.div, {initial: false, animate: {opacity: 1}},
+      h(HituPlayer, {width: 128, height: 128, frames: 120, defaultFrame: 12,
+        shapes: [{source: HituBox, x: 64, y: 64, scaleX: 0.1, scaleY: 0.1}]})));
+}
+hydrateRoot(document.getElementById('root'), h(HydrationTree), {
+  onRecoverableError(error) { window.packageHydrationErrors.push(error.message); }
+});
+`);
+  // Build the public package entry rather than the source entry or an alias.
+  const bundle = await build({
+    configFile: false,
+    logLevel: "warn",
+    define: { "process.env.NODE_ENV": JSON.stringify("production") },
+    build: { write: false, minify: true, lib: { entry, name: "PackageHydration", formats: ["iife"] } },
+  });
+  const outputs = (Array.isArray(bundle) ? bundle : [bundle]).flatMap(result => result.output);
+  const code = outputs.find(output => output.type === "chunk")?.code;
+  assert.ok(code, "Hydration consumer emitted JavaScript");
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    const errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+    await page.setContent(`<!doctype html><div id="root">${hydrationHtml}</div>`);
+    await page.addScriptTag({ content: code });
+    try {
+      await page.waitForFunction(() => window.packageHydrated === true, null, { timeout: 10_000 });
+    } catch (error) {
+      const recoverable = await page.evaluate(() => window.packageHydrationErrors ?? []);
+      assert.fail(`Package hydration did not complete: ${error.message}; browser errors: ${JSON.stringify(errors)}; recoverable errors: ${JSON.stringify(recoverable)}`);
+    }
+    assert.deepEqual(await page.evaluate(() => window.packageHydrationErrors), []);
+    assert.deepEqual(errors, []);
+    assert.equal(await page.locator('[data-slot="hitu-player"]').getAttribute("data-frame"), "12");
+    assert.equal(await page.locator('[data-slot="hitu-player"]').getAttribute("data-playing"), "false");
+  } finally {
+    await browser.close();
+  }
 });
 
 test("published radius utilities have real geometry and preserve runtime/build boundaries", async () => {

@@ -11,6 +11,7 @@ To LLM Agents: see [AGENTS.md](./AGENTS.md) for llm-specified documentation.
 - 浅色、深色主题与按用途命名的设计变量
 - 覆盖 Geist 常用组件及本地扩展
 - TypeScript API、实时示例和可复制代码
+- Motion.dev 交互动效与可控制的 Hitu SVG 插画
 - 表单、数据表格、审批流程和设置面板等组合示例
 - 简体中文与英文文档
 
@@ -46,12 +47,15 @@ Node 可直接用 ESM `import` 或 CommonJS `require` 导入组件，无需 CSS 
 | 审批流程   | ![审批流程 Light](images/styleguide/workflow-light.png)      | ![审批流程 Dark](images/styleguide/workflow-dark.png)      |
 | 设置面板   | ![设置面板 Light](images/styleguide/settings-light.png)      | ![设置面板 Dark](images/styleguide/settings-dark.png)      |
 | 全局 Token | ![全局 Token Light](images/styleguide/tokens-light.png)      | ![全局 Token Dark](images/styleguide/tokens-dark.png)      |
+| 动效与插画 | ![动效与插画 Light](images/styleguide/motion-light.png)      | ![动效与插画 Dark](images/styleguide/motion-dark.png)      |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 
 ## 文档
 
 - 文档站：`vp dev docs`
+- 动效与插画接入：[`Hitu + Motion 指南`](./docs/guides/hitu-motion.md)
+- 动效接入验收：[`测试与包体积记录`](./docs/audits/hitu-motion-2026-10-08.md)
 - 官方规范快照：[`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - 变更记录：[`CHANGELOG.md`](./CHANGELOG.md)
 

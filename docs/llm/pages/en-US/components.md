@@ -336,6 +336,14 @@ An expandable navigation menu with grouped links and built-in search.
 
 ](#/components/hamburger-menu)[
 
+hitu-player
+
+### Hitu Player
+
+Plays frame-based SVG illustrations with explicit playback controls.
+
+](#/components/hitu-player)[
+
 input
 
 ### Input
@@ -423,6 +431,14 @@ modal
 Open a dialog for a decision or form that must be completed before continuing.
 
 ](#/components/modal)[
+
+motion
+
+### Motion
+
+Uses scoped motion tokens and reduced-motion preferences for React animations.
+
+](#/components/motion)[
 
 multi-select
 

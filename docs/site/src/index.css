@@ -26,6 +26,12 @@
    Media queries need a build-time constant rather than a runtime CSS variable. */
 @custom-variant docs-feedback-compact (@media (width < 480px));
 
+/* 视口加载前预留插画区高度；站点几何不进入组件库 token。
+   Reserve the illustration height before viewport loading; keep this geometry local. */
+.docs-introduction-illustration {
+  min-height: 28rem;
+}
+
 /* Locally bundled CC0 landscape; source and license are retained in assets.
    All samples share one decoded photo, including masks and the live layer demo. */
 .materials-texture-stage {

@@ -17,8 +17,8 @@
         "en-US": "pages/en-US/introduction.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d5c0100ae2027e68fd17d4fde3438b6fb59ae059b982b656e7493c6f97fef9c1",
-        "en-US": "sha256:8d8c6874d44500dfcc72532588eff77bc0f48957d32b9809ec4fd252e14fce5a"
+        "zh-CN": "sha256:e36f9444a31d69b5e175a66bf9905156346837c5a23b9355bd04f1abbc8700df",
+        "en-US": "sha256:0387740d0fa8bbdf6422a0ee1cbc45a175bcf873c4018f6e5eed9da5dacc324e"
       }
     },
     {
@@ -273,8 +273,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:bd32c854d759a8ff6dd16a6ed5793ae982f96205718096b73b105d3bb6b22ec0",
-        "en-US": "sha256:35f8e15ea7b55b67a703bfe1c6773eed6ed890f9dab3e458e6c39c47c45b287c"
+        "zh-CN": "sha256:b6a97b4f6379986962d52cdc52c7510ea4a69c5588593afa8852cf74ac553ec9",
+        "en-US": "sha256:66bb877983454db4ab8315c76f54aa7ee8095b0914236d708b6bb0597b839b93"
       }
     },
     {
@@ -1587,6 +1587,38 @@
       "sourceHash": {
         "zh-CN": "sha256:4193c3a6ced9891a1210f53da6dde745926f36a992d99259e1610974f77bbccf",
         "en-US": "sha256:9c14c38883d394e437dee617bc57506a876c34f6b469d486101d576a46edbf22"
+      }
+    },
+    {
+      "path": "/components/hitu-player",
+      "title": {
+        "zh-CN": "Hitu 插画播放器",
+        "en-US": "Hitu Player"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/hitu-player.md",
+        "en-US": "pages/en-US/components/hitu-player.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:1958ae2d0eb2c4f1531e49e82c1852538a52ac141a27c624c1161932129678a5",
+        "en-US": "sha256:8bca0d4107593ef33e988f557229c829563b4f206a435763fdf7c7a66cd8ab9f"
+      }
+    },
+    {
+      "path": "/components/motion",
+      "title": {
+        "zh-CN": "动效",
+        "en-US": "Motion"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/motion.md",
+        "en-US": "pages/en-US/components/motion.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2e069d877ff00de6a01853e0929384390f9d4d841a0453904b2ccaa4300c2503",
+        "en-US": "sha256:ebb52880c79dffcbdab5cbcb4045e4fa471da61347778513fc3962f0665d765f"
       }
     },
     {
