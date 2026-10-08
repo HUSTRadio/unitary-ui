@@ -12,7 +12,7 @@ import {
   layoutCoverage,
 } from "./helpers/layout-matrix";
 
-import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
+import { DOCS_ROUTE_SEQUENCE, getDocsRoute } from "../../docs/site/src/data/docs-routes";
 
 /**
  * docs 布局审计 harness（计划任务 11 步骤 4–6）。
@@ -145,6 +145,15 @@ async function loadDocsRoute(page: Page, route: string) {
       await page.goto(url, { timeout: 60_000 });
       // 90s: /components 是最重的路由（注册表索引导入全部组件），Vite dev 冷启动按需转换可超 30s（2026-09-10 实测 flake）
       await navbar.waitFor({ state: "visible", timeout: 90_000 });
+      // 外壳可先于页面和实时示例就绪；正向等真实内容，避免采集 Suspense 占位。
+      // The shell precedes route and example resources; require real content before collection.
+      await page.locator("#main-content h1").first().waitFor({ state: "visible", timeout: 90_000 });
+      const renderer = getDocsRoute(route)?.renderer;
+      if (renderer?.kind === "component-detail") {
+        await page.locator(
+          `[data-demo-component="${renderer.componentName}"][data-demo-mode="live"]`,
+        ).waitFor({ state: "attached", timeout: 90_000 });
+      }
       return;
     } catch (error) {
       lastError = error;
@@ -155,13 +164,57 @@ async function loadDocsRoute(page: Page, route: string) {
     }
   }
   const detail = lastError instanceof Error ? lastError.message : String(lastError);
-  throw new Error(`Docs shell did not become ready for route "${route}" (${url}): ${detail}`);
+  throw new Error(`Docs content did not become ready for route "${route}" (${url}): ${detail}`);
 }
 
 async function gotoRoute(page: Page, route: string, viewport: { width: number; height: number }) {
   await page.setViewportSize(viewport);
   await loadDocsRoute(page, route);
   await settle(page);
+}
+
+/* ---------------- 页面就绪回归 ---------------- */
+
+for (const scenario of [
+  {
+    route: "/layout/grid",
+    request: "**/site/src/components/docs-grid-page.tsx*",
+    loading: '[data-slot="docs-page-loading"]',
+    content: '[data-grid-demo="responsive-breakpoints"] [data-slot="grid"]',
+  },
+  {
+    route: "/components/split-button",
+    request: "**/registry.ts?example-component=split-button",
+    loading: '[data-slot="docs-examples-loading"]',
+    content: '[data-demo-component="split-button"][data-demo-mode="live"]',
+  },
+].filter((scenario) => ROUTES.includes(scenario.route))) {
+  test(`route readiness waits for delayed content: ${scenario.route}`, async ({ page }) => {
+    let release!: () => void;
+    const held = new Promise<void>((resolve) => { release = resolve; });
+    await page.route(scenario.request, async (request) => {
+      await held;
+      await request.continue();
+    });
+    let ready = false;
+    const navigation = loadDocsRoute(page, scenario.route).then(() => { ready = true; });
+    try {
+      await expect(page.locator(scenario.loading)).toBeVisible({ timeout: 90_000 });
+      await expect(page.locator('[data-slot="navbar"]').first()).toBeVisible();
+      // 旧等待在导航栏出现后即返回，两帧也不能让被暂扣的内容变成就绪。
+      // The old navbar barrier returns while held content remains pending across paints.
+      await page.evaluate(() => new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }));
+      expect(ready).toBe(false);
+      release();
+      await navigation;
+      await expect(page.locator(scenario.content).first()).toBeAttached();
+    } finally {
+      release();
+      await navigation;
+    }
+  });
 }
 
 async function setTheme(page: Page, theme: Theme) {
