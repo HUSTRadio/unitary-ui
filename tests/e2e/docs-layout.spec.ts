@@ -164,7 +164,7 @@ async function loadDocsRoute(page: Page, route: string) {
     }
   }
   const detail = lastError instanceof Error ? lastError.message : String(lastError);
-  throw new Error(`Docs content did not become ready for route "${route}" (${url}): ${detail}`);
+  throw new Error(`Docs shell did not become ready for route "${route}" (${url}): ${detail}`);
 }
 
 async function gotoRoute(page: Page, route: string, viewport: { width: number; height: number }) {
