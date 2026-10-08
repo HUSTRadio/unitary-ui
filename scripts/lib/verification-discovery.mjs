@@ -134,17 +134,33 @@ export function discoverBrowserRoutes(root, files, changed, registry) {
   return { routes, uncovered };
 }
 
+// Vite/Vitest 关联发现不得改变后续构建继承的环境，且须保留未设置与空值的区别。
+// Vite/Vitest discovery must not change later builds' environment or conflate unset and empty values.
+const DISCOVERY_ENV_KEYS = [
+  "NODE_ENV",
+  "TEST",
+  "VITEST",
+  "VITEST_MODE",
+  "MODE",
+  "BASE_URL",
+  "PROD",
+  "DEV",
+  "VITE_USER_NODE_ENV",
+];
+
 /** Vitest resolves the actual configured module graph, including the example-source plugins. */
 export async function discoverVerification(root, files, changed, related = true) {
-  const { createVitest } = await import("vitest/node");
-  const ctx = await createVitest("test", {
-    root,
-    config: path.join(root, "vitest.config.ts"),
-    watch: false,
-    related: related ? changed.map((file) => path.join(root, file)) : undefined,
-  });
+  const environment = DISCOVERY_ENV_KEYS.map((key) => [key, process.env[key]]);
+  let ctx;
   let available;
   try {
+    const { createVitest } = await import("vitest/node");
+    ctx = await createVitest("test", {
+      root,
+      config: path.join(root, "vitest.config.ts"),
+      watch: false,
+      related: related ? changed.map((file) => path.join(root, file)) : undefined,
+    });
     available = [
       ...new Set(
         (await ctx.globTestSpecifications()).map(({ moduleId }) =>
@@ -179,6 +195,13 @@ export async function discoverVerification(root, files, changed, related = true)
     if (available) error.available = available;
     throw error;
   } finally {
-    await ctx.close();
+    try {
+      await ctx?.close();
+    } finally {
+      for (const [key, value] of environment) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+    }
   }
 }
