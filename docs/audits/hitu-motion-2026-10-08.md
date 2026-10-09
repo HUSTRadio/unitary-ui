@@ -152,3 +152,21 @@ The 2026-10-09 external-power retest still fails at the unchanged threshold (Hyb
 The browser configuration adopts this mode. CI and nightly already run `pnpm exec playwright install --with-deps chromium`, installing the full browser; local environments that installed only the headless shell must install Chromium. This comparison supports correcting the audit backend, without guaranteeing frame rates on other hardware. Thresholds, the complete theme/viewport matrix, retries and failure artifacts are preserved. The final signed commit must still pass the complete unified gate above.
 
 正式配置的 `pnpm run typecheck:tests` 退出码为 0；`pnpm exec playwright test -c playwright.config.ts tests/e2e/texture.spec.ts --retries=0` 为 39/39 无重试通过，包含明暗、双语、移动/桌面、材质像素、浮层交互、回退与原有滚动性能预算。/ The final configuration passes test type checking (exit 0) and the complete texture file (39/39, no retries), covering both themes/languages, mobile/desktop, material pixels, overlay interactions, fallbacks and the original scroll-performance budget.
+
+## Completed verification / 完成验收
+
+2026-10-09，提交 `4d1144ce` 以原始起点 `39a4d5c4170fd7804d8eef14a92019371ae7a7fc` 执行完整统一验收：15 个执行步骤全部通过，退出码 0，验证期间输入未变。284 个单元文件、2039 项测试通过；原生浏览器报告覆盖全部 47 个规格文件、488 项用例，其中 487 项首轮通过，1 项既有 Feedback Inline 几何用例重试通过，零最终失败、零跳过、零缺失及未完成项。该用例在早期报告中也曾同断言重试通过；保留 flaky 记录，不宣称全量首过。
+
+On 2026-10-09, commit `4d1144ce` passes the complete unified gate against the original starting ref `39a4d5c4170fd7804d8eef14a92019371ae7a7fc`: all 15 execution steps pass, exit 0, with unchanged inputs. All 284 unit files and 2039 tests pass. Native browser evidence covers all 47 spec files and 488 cases: 487 first-run passes and one existing Feedback Inline geometry case passing on retry, with zero final failures, skips, missing files or incomplete cases. Earlier evidence records the same assertion passing on retry; the flaky record is retained rather than claiming every case passed on its first attempt.
+
+布局 JSON 与逐项记录独立复核为 120 路由 × 6 视口 × 2 主题 = 1440 个唯一组合，零缺项、重复或失败。Motion/Hitu 的 12 项行为用例全部首轮通过；最终完整运行中的 Solid、Hybrid、Glass 滚动 p95 均为 16.8ms，保留 20ms 预算，均滚动 360px，且无长任务。发布包 9 项检查、240 页双语语料及 16 张 README 截图检查全部通过；真实发布归档的 183 个构建文件与验收构建逐字节一致。
+
+Independent checks of the layout JSON and per-case records confirm 120 routes × six viewports × two themes = 1440 unique combinations, with zero missing, duplicate or failing combinations. All 12 Motion/Hitu behavior cases pass on the first attempt. Solid, Hybrid and Glass each record a final full-run scroll p95 of 16.8ms under the retained 20ms budget, with 360px scroll distance and no long tasks. All nine package checks, 240 bilingual corpus pages and 16 README screenshot checks pass; all 183 build files in the actual release archive match the verified build byte for byte.
+
+随后经用户授权将另一任务的 Context7 代理修复单独提交为 `13d6a663`，签名整合为 `0d7bd5e7`。相对完整验收树仅有 runner 代理白名单与其测试的两文件、14 行新增，未改变组件、样式、官网、依赖或发布输入。以 `4d1144ce` 为起点执行新增差异的统一验收，规划器选择 15 个相关单元文件、158 项测试及 lint、token、两类类型检查和应用构建；六个执行步骤均通过，退出码 0，输入未变。浏览器、官网、语料、截图及包的输入保持一致，沿用上述完整证据。
+
+The user subsequently authorizes a separate Context7 proxy fix as signed commit `13d6a663`, integrated by signed merge `0d7bd5e7`. Its only difference from the fully verified tree is 14 added lines in the runner proxy allowlist and its test; components, styles, website, dependencies and release inputs are unchanged. Unified delta verification against `4d1144ce` selects 15 related unit files and 158 tests, lint, tokens, both type checks and the application build. All six execution steps pass, exit 0, with unchanged inputs. Browser, website, corpus, screenshot and package inputs remain identical, preserving the complete evidence above.
+
+```sh
+pnpm run verify -- --base 4d1144ce607ecc1d59aa232bcaf3bfe51d19d848
+```
