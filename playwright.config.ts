@@ -19,6 +19,8 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:5211",
     browserName: "chromium",
+    // 使用完整 Chromium 的新无头模式，以实际浏览器合成管线审计材质性能。
+    channel: "chromium",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     contextOptions: {

@@ -142,3 +142,13 @@ The remaining-coverage diagnostic runs 149 cases including the correction: 148 p
 ```sh
 pnpm exec playwright test -c playwright.config.ts tests/e2e/texture.spec.ts --grep 'local material rendering records warmed scroll frame times' --retries=0
 ```
+
+2026-10-09 接电后的同阈值复测仍失败（Hybrid/Glass p95 为 33.4/50ms）；关闭 trace 的诊断也失败（33.3/33.4ms），因此没有更改录制设置。浏览器诊断确认默认 headless shell 的 GPU 合成为软件模式，而 [Playwright 官方的新无头模式](https://playwright.dev/docs/browsers#chromium-new-headless-mode)（`channel: "chromium"`）使用完整 Chromium，可启用硬件合成。仅切换该模式、保留 trace 与原有预算的对照无重试通过：Solid、Hybrid、Glass p95 均为 16.8ms，滚动距离均为 360px，未报告长任务。
+
+The 2026-10-09 external-power retest still fails at the unchanged threshold (Hybrid/Glass p95: 33.4/50ms); a trace-disabled diagnostic also fails (33.3/33.4ms), so recording settings are retained. Browser diagnostics identify software GPU compositing in the default headless shell. [Playwright's official new headless mode](https://playwright.dev/docs/browsers#chromium-new-headless-mode), selected with `channel: "chromium"`, uses full Chromium and can enable hardware compositing. Changing only that mode while retaining trace and the budget passes without retries: Solid, Hybrid and Glass each record p95 of 16.8ms, scroll distance of 360px and no long tasks.
+
+正式浏览器配置采用该模式；CI 与 nightly 已执行 `pnpm exec playwright install --with-deps chromium`，安装完整浏览器。仅安装 headless shell 的本地环境须补装 Chromium。该对照支持修正审计后端，并不保证其他硬件的帧率；阈值、完整主题/视口矩阵、重试次数及失败证据均保留。最终签名提交仍须通过上述完整统一验收。
+
+The browser configuration adopts this mode. CI and nightly already run `pnpm exec playwright install --with-deps chromium`, installing the full browser; local environments that installed only the headless shell must install Chromium. This comparison supports correcting the audit backend, without guaranteeing frame rates on other hardware. Thresholds, the complete theme/viewport matrix, retries and failure artifacts are preserved. The final signed commit must still pass the complete unified gate above.
+
+正式配置的 `pnpm run typecheck:tests` 退出码为 0；`pnpm exec playwright test -c playwright.config.ts tests/e2e/texture.spec.ts --retries=0` 为 39/39 无重试通过，包含明暗、双语、移动/桌面、材质像素、浮层交互、回退与原有滚动性能预算。/ The final configuration passes test type checking (exit 0) and the complete texture file (39/39, no retries), covering both themes/languages, mobile/desktop, material pixels, overlay interactions, fallbacks and the original scroll-performance budget.
