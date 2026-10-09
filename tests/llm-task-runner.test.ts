@@ -125,11 +125,15 @@ describe("generic LLM task runner", () => {
     const env = runner.buildAgentEnvironment({
       PATH: "test-path",
       SYSTEMROOT: "C:/Windows",
+      HTTPS_PROXY: "http://proxy.example:7897",
+      NO_PROXY: "localhost",
       UNSAFE_SECRET: "do-not-pass",
       UNITARY_PACKAGE_LOCKS: "parent-lock-identities",
     });
     expect(env.PATH).toBe("test-path");
     expect(env.SYSTEMROOT).toBe("C:/Windows");
+    expect(env.HTTPS_PROXY).toBe("http://proxy.example:7897");
+    expect(env.NO_PROXY).toBe("localhost");
     expect(env.UNSAFE_SECRET).toBeUndefined();
     expect(env.UNITARY_PACKAGE_LOCKS).toBeUndefined();
     expect(env.GIT_TERMINAL_PROMPT).toBe("0");
