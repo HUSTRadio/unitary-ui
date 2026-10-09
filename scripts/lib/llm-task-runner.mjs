@@ -283,6 +283,16 @@ export const AGENT_ENV_ALLOWLIST = Object.freeze([
   "TERM",
   "NO_COLOR",
   "FORCE_COLOR",
+  // MCP servers may need the user's configured outbound proxy. These are
+  // transport settings, not credentials, and must reach the isolated agent.
+  "ALL_PROXY",
+  "HTTP_PROXY",
+  "HTTPS_PROXY",
+  "NO_PROXY",
+  "all_proxy",
+  "http_proxy",
+  "https_proxy",
+  "no_proxy",
   "DEEPSEEK_API_KEY",
 ]);
 
