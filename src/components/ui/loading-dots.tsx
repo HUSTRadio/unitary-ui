@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  *   也接受任意 px 数值（官方 Best Practices：与相邻字号匹配）；
  * - 可包裹文字内容（官方 "With text" 用法：<LoadingDots size="md"><p>Loading</p></LoadingDots>）；
  *   文字渲染在圆点左侧，与圆点之间 8px 间距（官方 mr-2 wrapper）；
- * - 圆点 mx-px（相邻 2px）+ blink 动画（1.4s ease infinite，delay 0/0.2/0.4s）；
+ * - 圆点 mx-px（相邻 2px）+ blink 动画（周期与曲线使用 token，delay 0/0.2/0.4s）；
  * - 包裹 span 带 aria-live="polite"；圆点纯装饰（aria-hidden）；
  * - prefers-reduced-motion 时停止动画。
  */

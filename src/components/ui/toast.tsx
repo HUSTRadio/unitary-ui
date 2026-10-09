@@ -148,7 +148,7 @@ export interface ToastsProps extends React.ComponentProps<"ol"> {
  * 通过 translate3d + scale + translateZ 分层堆叠——最新的 toast 完整可见，
  * 旧的按距离 d 缩放 1-0.05d、上移 -(13+20d)px、Z 轴后退 -d px，只露出顶部一小条。
  * hover 视口时展开：scale 归 1、translateY 恢复为累计高度偏移（完整垂直排列）。
- * 过渡 350ms cubic-bezier(0.25,0.75,0.6,0.98)；第 5 个及更旧（nth-last）隐藏。
+ * 本地过渡采用时长 token + ease-toast 快速收尾；第 5 个及更旧（nth-last）隐藏。
  */
 const FLEX_GAP = 20; // 展开态 toast 间距（官方实测 20px）
 const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
@@ -281,7 +281,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
             inert={hidden || undefined}
             className={cn(
               "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
-              "transition-all duration-(--uni-duration-slow) ease-toast",
+              "transition-all duration-(--uni-duration-slow) ease-toast data-[exiting]:ease-in",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none!",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
               toast.exiting && "pointer-events-none opacity-0",

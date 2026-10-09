@@ -3,6 +3,7 @@ import { LazyMotion, MotionConfig, visualElementStore, type Transition } from "m
 import * as slimMotion from "motion/react-m";
 import { MotionPolicyProvider, useMotionReduced } from "./motion-policy";
 import { useTokens, type TokenOptions } from "./tokens";
+import { milliseconds, parseEasing } from "./motion-easing";
 
 export { AnimatePresence } from "motion/react";
 
@@ -110,29 +111,19 @@ export interface MotionProviderProps {
 const tiers = {
   feedback: ["--uni-motion-feedback", "--ease-snap"],
   state: ["--uni-motion-state", "--ease-snap"],
-  overlay: ["--uni-motion-overlay", "--ease-pop"],
+  overlay: ["--uni-motion-overlay", "--ease-snap"],
   expansive: ["--uni-motion-expansive", "--ease-snap"],
 } as const;
 const instant: Transition = { type: "tween", duration: 0, delay: 0, skipAnimations: true };
-const cssEases: Record<string, [number, number, number, number]> = {
-  linear: [0, 0, 1, 1], ease: [0.25, 0.1, 0.25, 1],
-  "ease-in": [0.42, 0, 1, 1], "ease-out": [0, 0, 0.58, 1], "ease-in-out": [0.42, 0, 0.58, 1],
-};
-
 /** Resolve the existing scoped CSS timing contract into Motion's seconds. */
 export function useMotionTransition(tier: MotionTier = "state", options: TokenOptions = {}): Transition {
   const [durationName, easeName] = tiers[tier];
   const tokens = useTokens([durationName, easeName], options);
   const reduced = useMotionReduced();
-  const durationMatch = tokens[durationName].trim().match(/^(\d*\.?\d+)(ms|s)$/);
-  const duration = durationMatch ? Number(durationMatch[1]) / (durationMatch[2] === "ms" ? 1000 : 1) : 0;
-  const easing = tokens[easeName].trim();
-  const easeMatch = easing.match(/^cubic-bezier\(\s*([^)]*)\)$/);
-  const parts = easeMatch?.[1].split(",").map((value) => value.trim());
-  const ease = cssEases[easing] ?? (parts?.every((value) => value !== "") ? parts.map(Number) : undefined);
-  if (reduced || !Number.isFinite(duration) || duration <= 0 || !ease || ease.length !== 4
-    || ease.some((value) => !Number.isFinite(value)) || ease[0] < 0 || ease[0] > 1 || ease[2] < 0 || ease[2] > 1) return instant;
-  return { type: "tween", duration, ease: ease as [number, number, number, number] };
+  const duration = milliseconds(tokens[durationName]) / 1000;
+  const ease = parseEasing(tokens[easeName]);
+  if (reduced || duration <= 0 || !ease) return instant;
+  return { type: "tween", duration, ease: [...ease] };
 }
 
 const loadFeatures = () => import("./motion-features").then((module) => module.default);

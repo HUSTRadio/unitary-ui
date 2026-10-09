@@ -156,6 +156,25 @@ describe("non-recharts micro visualizations", () => {
     expect(container.textContent).toContain("75%");
   });
 
+  test("ProgressCircle settles color and value changes without a linear curve", () => {
+    render(<ProgressCircle value={25} radius={40} strokeWidth={6} />);
+    const circles = container.querySelectorAll("circle");
+    expect(circles).toHaveLength(2);
+    for (const circle of circles) {
+      expect(circle.getAttribute("class")).toContain("ease-snap");
+      expect(circle.getAttribute("class")).not.toContain("ease-linear");
+    }
+    const initialOffset = Number(circles[1].getAttribute("stroke-dashoffset"));
+
+    act(() => reactRoot.render(<ProgressCircle value={75} radius={40} strokeWidth={6} />));
+    expect(Number(circles[1].getAttribute("stroke-dashoffset"))).toBeCloseTo(initialOffset / 3);
+    expect(circles[1].getAttribute("class")).toContain("transition-all");
+
+    act(() => reactRoot.render(<ProgressCircle value={75} radius={40} strokeWidth={6} showAnimation={false} />));
+    expect(circles[1].getAttribute("class")).not.toContain("transition-all");
+    expect(circles[1].getAttribute("class")).toContain("ease-snap");
+  });
+
   test("CategoryBar renders segments with cumulative value labels", () => {
     render(<CategoryBar values={[30, 30, 40]} />);
     expect(container.textContent).toContain("30");

@@ -34,6 +34,7 @@ import { SidebarNav, type SidebarNavGroup } from "@/components/ui/sidebar-nav";
 import { SubFrame } from "@/components/ui/sub-frame";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
+import { scrollIntoViewWithMotion, type ScrollAnimation } from "@/lib/scroll-animation";
 
 import type { DocsLanguage } from "../../i18n/language";
 import { DocsPageLead, DocsPageTitle } from "../docs-typography";
@@ -493,6 +494,8 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
   const [lastAction, setLastAction] = useState<string | null>(null);
   // mini navbar 根元素：HamburgerMenu side=top 面板从其底边延伸落下
   const frameRef = useRef<HTMLDivElement | null>(null);
+  const scrollAnimationRef = useRef<ScrollAnimation | null>(null);
+  useEffect(() => () => scrollAnimationRef.current?.cancel(), []);
   const [navbarEl, setNavbarEl] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -502,7 +505,11 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
   // SidebarNav 点击 → 平滑滚动到对应区块并更新高亮（hash 路由下不真改地址）
   const handleAnchorNavigate = (to: string) => {
     setActiveAnchor(to);
-    document.getElementById(to.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const target = frameRef.current?.querySelector<HTMLElement>(to);
+    if (target) {
+      scrollAnimationRef.current?.cancel();
+      scrollAnimationRef.current = scrollIntoViewWithMotion(target);
+    }
   };
 
   const sidebarGroups = buildSidebarGroups(copy);
@@ -518,6 +525,13 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
       <SubFrame
         ref={frameRef}
         data-slot="app-shell-demo"
+        onClickCapture={(event) => {
+          const anchor = (event.target as Element).closest("a");
+          const href = anchor?.getAttribute("href");
+          if (anchor?.closest('[data-slot="menu-nav"], [data-slot="menu-results"]')
+            && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+            && SECTION_IDS.some(id => href === `#${id}`)) event.preventDefault();
+        }}
         className="border-gray-alpha-400 mt-8 flex h-[min(720px,80dvh)] flex-col rounded-lg border"
       >
         {/* --- Topbar：Logo 文本 + ThemeSwitcher + trailing HamburgerMenu ---
@@ -819,7 +833,10 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
                 <button
                   type="button"
                   onClick={() => {
-                    frameRef.current?.scrollIntoView({ block: "center" });
+                    if (frameRef.current) {
+                      scrollAnimationRef.current?.cancel();
+                      scrollAnimationRef.current = scrollIntoViewWithMotion(frameRef.current, "center");
+                    }
                     setSheetOpen(true);
                   }}
                   className="bg-gray-1000 focus-ring mt-4 inline-flex h-8 cursor-pointer items-center rounded-md px-3 text-label-14 font-medium text-background-100"

@@ -38,7 +38,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     },
     controlledBehavior: {
       status: "not-applicable",
-      reason: "滚动容器以被动展示为主，其滚动位置由浏览器原生处理，通常不由父组件显式控制。",
+      reason: "不提供受控滚动位置。滚轮、触摸和拖拽保持原生跟手；withButtons 滚动到相邻直接子项，新请求从当前位置继续，用户输入会取消在途动画。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -48,7 +48,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "covered",
-      content: ["支持自定义滚动区域的边框、圆角及暗色主题适配，边缘渐隐遮罩也可通过样式微调。"],
+      content: ["支持自定义滚动区域的边框、圆角及暗色主题适配，边缘渐隐遮罩也可通过样式微调。", "按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out；减少动画时直接到达目标，运行期间开启该偏好也会完成定位。"],
     },
   },
   "search-input": {
@@ -291,7 +291,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "The scroller is primarily passive in nature; its scroll position is handled natively by the browser and is typically not exposed for parent-controlled manipulation.",
+        "There is no controlled scroll-position prop. Wheel, touch and drag remain native; withButtons scrolls to an adjacent direct child, new requests continue from the current position, and user input cancels active animations.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -303,6 +303,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Supports custom border radius, shadows, and dark-mode adaptation on the scroll area; edge-fade masks can also be tweaked via styles.",
+        "Button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out; reduced motion reaches the target immediately, including when enabled during a scroll.",
       ],
     },
   },

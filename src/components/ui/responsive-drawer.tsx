@@ -22,7 +22,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  * - detents / showIndicator / gestures：沿用 BottomSheet 语义，仅 bottom 形态生效
  *   （吸附纯函数复用 BottomSheet 的 snapToDetent，拖拽手势只从 Grabber 启动）
  * - Header 内置关闭按钮；Body 独立滚动；Footer 移动端纵向倒序、桌面端右对齐横排
- * - 动效：大面积位移走 --uni-motion-expansive（500ms）+ ease-snap；拖拽跟手阶段零过渡
+ * - 动效：大面积位移走 --uni-motion-expansive（500ms），进入快速收尾、退出加速离场；拖拽跟手阶段零过渡
  */
 
 type ResponsiveDrawerPlacement = "bottom" | "right" | "left" | "top";
@@ -266,7 +266,7 @@ function ResponsiveDrawerContent({
       <LayerDialogPrimitiveOverlay
         data-material="mask-scrim"
         data-slot="responsive-drawer-overlay"
-        className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none"
+        className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none"
       />
       <LayerDialogPrimitiveContent
         data-material="floating"
@@ -275,7 +275,7 @@ function ResponsiveDrawerContent({
         data-placement={placement}
         className={cn(
           "fixed z-[var(--uni-z-drawer)] flex flex-col touch-pan-y overflow-hidden border-border bg-background shadow-[var(--material-shadow-menu)] outline-none",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in",
           "duration-(--uni-motion-expansive) ease-snap",
           "motion-reduce:animate-none! motion-reduce:transition-none",
           PLACEMENT_STYLES[placement],

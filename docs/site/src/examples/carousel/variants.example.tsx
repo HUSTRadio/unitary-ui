@@ -15,8 +15,7 @@ export default function CarouselVariantsExample() {
         onValueChange={(value) => setVariant(value as CarouselVariant)}
       >
         <SelectItem value="slide">{zh ? "滑动" : "Slide"}</SelectItem>
-        <SelectItem value="fade-linear">{zh ? "线性淡入淡出" : "Linear fade"}</SelectItem>
-        <SelectItem value="fade">{zh ? "缓入缓出" : "Eased fade"}</SelectItem>
+        <SelectItem value="fade">{zh ? "淡入淡出" : "Fade"}</SelectItem>
         <SelectItem value="fade-scale">{zh ? "淡入淡出与缩放" : "Fade and scale"}</SelectItem>
       </Select>
       <Carousel

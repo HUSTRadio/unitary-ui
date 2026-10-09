@@ -233,7 +233,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   // contract explicitly for Escape, outside press, and close controls.
   React.useEffect(() => {
     if (wasOpenRef.current && !isOpen) {
-      triggerRef.current?.focus();
+      triggerRef.current?.focus({ preventScroll: true });
     }
     wasOpenRef.current = isOpen;
   }, [isOpen]);

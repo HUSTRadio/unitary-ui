@@ -21,6 +21,8 @@ import {
 import type { AxisDomain } from "recharts/types/util/types"
 
 import { cn } from "@/lib/utils"
+import { useMotionReduced } from "@/lib/motion-policy"
+import { animateScroll, inlineScrollLeft, inlineScrollPosition, type ScrollAnimation } from "@/lib/scroll-animation"
 
 import {
   AvailableChartColors,
@@ -227,6 +229,8 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
     ...other
   } = props
   const scrollableRef = React.useRef<HTMLInputElement>(null)
+  const scrollAnimationRef = React.useRef<ScrollAnimation | null>(null)
+  React.useEffect(() => () => scrollAnimationRef.current?.cancel(), [])
   const scrollButtonsRef = React.useRef<HTMLDivElement>(null)
   const [hasScroll, setHasScroll] = React.useState<HasScrollProps | null>(null)
   const [isKeyDowned, setIsKeyDowned] = React.useState<string | null>(null)
@@ -236,11 +240,13 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
     const scrollable = scrollableRef?.current
     if (!scrollable) return
 
-    const hasLeftScroll = scrollable.scrollLeft > 0
+    const position = inlineScrollPosition(scrollable)
+    const hasLeftScroll = position > 0.5
     const hasRightScroll =
-      scrollable.scrollWidth - scrollable.clientWidth > scrollable.scrollLeft
+      scrollable.scrollWidth - scrollable.clientWidth - position > 0.5
 
-    setHasScroll({ left: hasLeftScroll, right: hasRightScroll })
+    setHasScroll((previous) => previous?.left === hasLeftScroll && previous.right === hasRightScroll
+      ? previous : { left: hasLeftScroll, right: hasRightScroll })
   }, [setHasScroll])
 
   const scrollToTest = React.useCallback(
@@ -251,16 +257,13 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
       const width = element?.clientWidth ?? 0
 
       if (element && enableLegendSlider) {
-        element.scrollTo({
-          left:
-            direction === "left"
-              ? element.scrollLeft - width + scrollButtonsWith
-              : element.scrollLeft + width - scrollButtonsWith,
-          behavior: "smooth",
+        const position = inlineScrollPosition(element)
+        const step = Math.max(0, width - scrollButtonsWith)
+        scrollAnimationRef.current = animateScroll(element, {
+          destination: { left: inlineScrollLeft(element, position + (direction === "left" ? -step : step)) },
+          onUpdate: checkScroll,
+          onFinish: checkScroll,
         })
-        setTimeout(() => {
-          checkScroll()
-        }, 400)
       }
     },
     [enableLegendSlider, checkScroll],
@@ -303,11 +306,14 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
       checkScroll()
       scrollable?.addEventListener("keydown", keyDown)
       scrollable?.addEventListener("keyup", keyUp)
+      scrollable?.addEventListener("scroll", checkScroll, { passive: true })
     }
 
     return () => {
       scrollable?.removeEventListener("keydown", keyDown)
       scrollable?.removeEventListener("keyup", keyUp)
+      scrollable?.removeEventListener("scroll", checkScroll)
+      scrollAnimationRef.current?.cancel()
     }
   }, [checkScroll, enableLegendSlider])
 
@@ -597,6 +603,7 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
       ...other
     } = props
     const CustomTooltip = customTooltip
+    const reducedMotion = useMotionReduced()
     const paddingValue =
       (!showXAxis && !showYAxis) || (startEndOnly && !showYAxis) ? 0 : 20
     const [legendHeight, setLegendHeight] = React.useState(60)
@@ -785,9 +792,11 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
               )}
             </YAxis>
             <Tooltip
-              wrapperStyle={{ outline: "none" }}
-              isAnimationActive={true}
-              animationDuration={100}
+              wrapperStyle={{
+                outline: "none",
+                transition: reducedMotion ? "none" : "transform var(--uni-motion-feedback) var(--ease-snap)",
+              }}
+              isAnimationActive={false}
               cursor={{ fill: "var(--border)", opacity: "0.15" }}
               offset={20}
               position={{

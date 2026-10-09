@@ -39,8 +39,8 @@ const LayerMenubarPrimitiveSubContent = withLayerBridge(MenubarPrimitive.SubCont
 
 const MENU_BAR_SURFACE =
   "z-[var(--uni-z-popover)] min-w-48 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none " +
-  "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
-  "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
+  "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
+  "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
   "duration-(--uni-duration-fast) motion-reduce:animate-none!";
 
 const MENU_BAR_ITEM_BASE =

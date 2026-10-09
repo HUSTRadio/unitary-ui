@@ -31,7 +31,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["数值经由 tooltip 与 valueFormatter 提供，不单靠颜色承载语义。", "图表容器保留语义化容器类名，可被读屏跳过或标注 aria-label。"] },
       controlledBehavior: { status: "not-applicable", reason: "图表为展示型组件，内部状态仅用于交互高亮，不提供受控值。" },
       responsiveBehavior: { status: "covered", content: ["宽度随 ResponsiveContainer 自适应父容器；示例容器需显式高度（默认 h-80）。"] },
-      themeBehavior: { status: "covered", content: ["坐标轴、网格与提示卡片使用语义 token，明暗主题自动适配；系列色为固定 9 色调色板。"] },
+      themeBehavior: { status: "covered", content: ["坐标轴、网格与提示卡片使用语义 token，明暗主题自动适配；系列色为固定 9 色调色板。", "提示卡位移使用 --uni-motion-feedback（默认 150ms）与 --ease-snap，减少动画时直接定位；图例按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out，并允许用户输入中断。"] },
     },
     "en-US": {
       slug: "area-chart",
@@ -54,7 +54,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["Values flow through the tooltip and valueFormatter, so color never carries meaning alone.", "The chart container keeps semantic class names and can be labeled with aria-label."] },
       controlledBehavior: { status: "not-applicable", reason: "Display-only component; internal state exists solely for interaction highlighting." },
       responsiveBehavior: { status: "covered", content: ["Width adapts to the parent via ResponsiveContainer; example containers need an explicit height (default h-80)."] },
-      themeBehavior: { status: "covered", content: ["Axes, grid, and tooltip card use semantic tokens for automatic light/dark adaptation; series colors come from the fixed 9-color palette."] },
+      themeBehavior: { status: "covered", content: ["Axes, grid, and tooltip card use semantic tokens for automatic light/dark adaptation; series colors come from the fixed 9-color palette.", "Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it."] },
     },
   },
   "bar-chart": {
@@ -72,7 +72,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["图例与 tooltip 提供数值；颜色仅用于区分系列。", "柱体与图例均可键盘访问。" ] },
       controlledBehavior: { status: "not-applicable", reason: "展示型组件；onValueChange 仅回报交互选择，不提供受控值。" },
       responsiveBehavior: { status: "covered", content: ["宽度自适应；类目过多时建议减少类目或开启 startEndOnly。"] },
-      themeBehavior: { status: "covered", content: ["网格、坐标轴与提示卡片走语义 token，明暗主题自动适配。"] },
+      themeBehavior: { status: "covered", content: ["网格、坐标轴与提示卡片走语义 token，明暗主题自动适配。", "提示卡位移使用 --uni-motion-feedback（默认 150ms）与 --ease-snap，减少动画时直接定位；图例按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out，并允许用户输入中断。"] },
     },
     "en-US": {
       slug: "bar-chart",
@@ -88,7 +88,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["Legend and tooltip carry the values; color only distinguishes series.", "Bars and legend items are keyboard accessible."] },
       controlledBehavior: { status: "not-applicable", reason: "Display-only component; onValueChange reports interaction selection only." },
       responsiveBehavior: { status: "covered", content: ["Width adapts to the container; reduce categories or enable startEndOnly when crowded."] },
-      themeBehavior: { status: "covered", content: ["Grid, axes, and tooltip card use semantic tokens for both themes."] },
+      themeBehavior: { status: "covered", content: ["Grid, axes, and tooltip card use semantic tokens for both themes.", "Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it."] },
     },
   },
   "line-chart": {
@@ -105,7 +105,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["数值由 tooltip 与格式化器提供，颜色不单独承载语义。"] },
       controlledBehavior: { status: "not-applicable", reason: "展示型组件。" },
       responsiveBehavior: { status: "covered", content: ["宽度自适应父容器；容器需显式高度。"] },
-      themeBehavior: { status: "covered", content: ["坐标轴、网格与提示卡片使用语义 token。"] },
+      themeBehavior: { status: "covered", content: ["坐标轴、网格与提示卡片使用语义 token。", "提示卡位移使用 --uni-motion-feedback（默认 150ms）与 --ease-snap，减少动画时直接定位；图例按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out，并允许用户输入中断。"] },
     },
     "en-US": {
       slug: "line-chart",
@@ -120,7 +120,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["Values flow through the tooltip and formatter; color never carries meaning alone."] },
       controlledBehavior: { status: "not-applicable", reason: "Display-only component." },
       responsiveBehavior: { status: "covered", content: ["Width adapts to the parent; the container needs an explicit height."] },
-      themeBehavior: { status: "covered", content: ["Axes, grid, and tooltip card use semantic tokens."] },
+      themeBehavior: { status: "covered", content: ["Axes, grid, and tooltip card use semantic tokens.", "Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it."] },
     },
   },
   "combo-chart": {
@@ -137,7 +137,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["图例形状区分柱与线；数值经 tooltip 提供。"] },
       controlledBehavior: { status: "not-applicable", reason: "展示型组件。" },
       responsiveBehavior: { status: "covered", content: ["宽度自适应；双轴时右轴标签占位，注意窄屏留白。" ] },
-      themeBehavior: { status: "covered", content: ["网格、轴与提示卡片走语义 token。"] },
+      themeBehavior: { status: "covered", content: ["网格、轴与提示卡片走语义 token。", "提示卡位移使用 --uni-motion-feedback（默认 150ms）与 --ease-snap，减少动画时直接定位；图例按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out，并允许用户输入中断。"] },
     },
     "en-US": {
       slug: "combo-chart",
@@ -152,7 +152,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
       accessibility: { status: "covered", content: ["Legend shapes distinguish bars from lines; values flow through the tooltip."] },
       controlledBehavior: { status: "not-applicable", reason: "Display-only component." },
       responsiveBehavior: { status: "covered", content: ["Width adapts; with biaxial mode the right axis reserves space on narrow screens."] },
-      themeBehavior: { status: "covered", content: ["Grid, axes, and tooltip card use semantic tokens."] },
+      themeBehavior: { status: "covered", content: ["Grid, axes, and tooltip card use semantic tokens.", "Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it."] },
     },
   },
   "donut-chart": {

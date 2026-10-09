@@ -78,17 +78,38 @@ export function renderTokenCatalog(tokens) {
   return `// 由 scripts/generate-token-catalog.mjs 从 src/styles/index.css 生成，请勿手改。\n// Generated from the canonical stylesheet. Do not edit by hand.\nexport const GLOBAL_TOKENS = ${JSON.stringify(tokens, null, 2)} as const;\n\nexport type TokenName = keyof typeof GLOBAL_TOKENS;\nexport type TokenGroup = (typeof GLOBAL_TOKENS)[TokenName]["group"];\nexport type RuntimeTokenName = {\n  [Name in TokenName]: (typeof GLOBAL_TOKENS)[Name]["kind"] extends "runtime" ? Name : never\n}[TokenName];\n\nexport const TOKEN_NAMES = Object.keys(GLOBAL_TOKENS) as TokenName[];\nexport const RUNTIME_TOKEN_NAMES = TOKEN_NAMES.filter(\n  (name): name is RuntimeTokenName => GLOBAL_TOKENS[name].kind === "runtime",\n);\n`;
 }
 
+/** CSS remains the sole source; this small module keeps Hitu's SSR defaults independent of the full catalog. */
+export function renderMotionEasings(tokens) {
+  const curves = Object.fromEntries(Object.entries(tokens).filter(([name]) => name.startsWith("--ease-")).map(([name, token]) => {
+    const match = token.value.match(/^cubic-bezier\(\s*([^)]*)\)$/i);
+    const parts = match?.[1].split(",").map((part) => part.trim());
+    const points = parts?.every(part => /^[+-]?(?:\d*\.\d+|\d+)(?:e[+-]?\d+)?$/i.test(part)) ? parts.map(Number) : [];
+    if (points.length !== 4 || points.some((point) => !Number.isFinite(point))
+      || points[0] < 0 || points[0] > 1 || points[2] < 0 || points[2] > 1
+      || (points[0] === points[1] && points[2] === points[3])) {
+      throw new Error(`Motion token must be a nonlinear cubic Bezier: ${name}`);
+    }
+    return [name, points];
+  }));
+  return `// Generated from src/styles/index.css by scripts/generate-token-catalog.mjs. Do not edit.\nexport const MOTION_EASINGS = ${JSON.stringify(curves, null, 2)} as const;\n`;
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const css = await readFile(new URL("../src/styles/index.css", import.meta.url), "utf8");
-  const output = new URL("../src/lib/token-catalog.ts", import.meta.url);
-  const expected = renderTokenCatalog(collectGlobalTokens(css));
+  const tokens = collectGlobalTokens(css);
+  const outputs = [
+    [new URL("../src/lib/token-catalog.ts", import.meta.url), renderTokenCatalog(tokens)],
+    [new URL("../src/lib/motion-easing-defaults.ts", import.meta.url), renderMotionEasings(tokens)],
+  ];
   if (process.argv.includes("--check")) {
-    if ((await readFile(output, "utf8").catch(() => "")) !== expected) {
-      throw new Error("Token catalog drift: run pnpm run tokens:generate");
+    for (const [output, expected] of outputs) {
+      if ((await readFile(output, "utf8").catch(() => "")) !== expected) {
+        throw new Error(`Token catalog drift (${fileURLToPath(output)}): run pnpm run tokens:generate`);
+      }
     }
     console.log("Token catalog check passed");
   } else {
-    await writeFile(output, expected);
-    console.log(`Generated ${Object.keys(collectGlobalTokens(css)).length} global tokens/mappings`);
+    for (const [output, expected] of outputs) await writeFile(output, expected);
+    console.log(`Generated ${Object.keys(tokens).length} global tokens/mappings and motion defaults`);
   }
 }

@@ -13,7 +13,7 @@ export interface CarouselImage {
   sizes?: string;
 }
 
-export type CarouselVariant = "slide" | "fade-linear" | "fade" | "fade-scale";
+export type CarouselVariant = "slide" | "fade" | "fade-scale";
 
 export interface CarouselProps extends Omit<React.ComponentProps<"div">, "children" | "onChange"> {
   images: CarouselImage[];

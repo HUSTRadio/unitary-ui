@@ -47,6 +47,7 @@ enableBiaxial 让金额与百分比共存。
 ## 主题行为
 
 - 网格、轴与提示卡片走语义 token。
+- 提示卡位移使用 --uni-motion-feedback（默认 150ms）与 --ease-snap，减少动画时直接定位；图例按钮滚动使用 --uni-motion-state（默认 250ms）与 --ease-in-out，并允许用户输入中断。
 
 ## 实时示例
 

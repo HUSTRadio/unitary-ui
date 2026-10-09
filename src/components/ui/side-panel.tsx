@@ -75,7 +75,7 @@ const SidePanelOverlay = React.forwardRef<
     data-slot="side-panel-overlay"
     className={cn(
       "fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]",
-      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none! motion-reduce:transition-none",
+      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 motion-reduce:animate-none! motion-reduce:transition-none",
       className,
     )}
     {...props}
@@ -100,8 +100,8 @@ const SidePanelContent = React.forwardRef<
       className={cn(
         "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
         "shadow-[var(--_uni-material-shadow,var(--material-shadow-medium))]",
-        "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
+        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
         "motion-reduce:animate-none! motion-reduce:transition-none",
         SIDE_STYLES[side],
         className,

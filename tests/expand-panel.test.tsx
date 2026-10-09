@@ -2,7 +2,7 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ExpandPanel } from "../src/components/ui/expand-panel";
 
@@ -62,6 +62,33 @@ describe("ExpandPanel", () => {
     const panel = renderPanel(<ExpandPanel side="bottom" open />);
     expect(panel.className).toContain("data-[motion-state=open]:translate-y-0");
     expect(panel.getAttribute("data-state")).toBe("open");
+  });
+
+  it("returns focus after its exit without scrolling the trigger's ancestors", async () => {
+    const triggerRef = React.createRef<HTMLButtonElement>();
+    const fixture = (open: boolean) => (
+      <>
+        <button ref={triggerRef} type="button">Open panel</button>
+        <ExpandPanel side="top" open={open} triggerRef={triggerRef}>
+          <button type="button">Panel action</button>
+        </ExpandPanel>
+      </>
+    );
+    const content = renderPanel(fixture(true));
+    const trigger = triggerRef.current!;
+    const action = content.querySelector<HTMLButtonElement>("button")!;
+    act(() => action.focus());
+    expect(document.activeElement).toBe(action);
+    const focus = vi.spyOn(trigger, "focus");
+
+    renderPanel(fixture(false));
+    act(() => content.dispatchEvent(new Event("transitionend", { bubbles: true })));
+    await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
+
+    expect(document.querySelector('[data-slot="expand-panel"]')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+    focus.mockRestore();
   });
 
   it("anchorElement 注入 --expand-anchor-bottom（anchor 底边）并锁定宽度", () => {
@@ -146,6 +173,7 @@ describe("ExpandPanel", () => {
     expect(panel.className).not.toContain("animate-in");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");
     expect(panel.className).toContain("ease-snap");
+    expect(panel.className).toContain("data-[motion-state=closed]:ease-in");
     expect(panel.className).toContain("motion-reduce:!transition-none");
     expect(panel.getAttribute("aria-label")).toBe("menu");
   });

@@ -593,8 +593,8 @@ function EditMenu({
           "flex max-w-[calc(100vw-16px)] items-center gap-0.5 overflow-x-auto rounded-full touch-manipulation [-webkit-touch-callout:none] bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
           "z-[var(--uni-z-popover)] duration-(--uni-duration-fast) motion-reduce:animate-none!",
           exiting
-            ? "animate-out fade-out-0 zoom-out-95 pointer-events-none"
-            : "animate-in fade-in-0 zoom-in-95",
+            ? "animate-out fade-out-0 zoom-out-95 ease-in pointer-events-none"
+            : "animate-in fade-in-0 zoom-in-95 ease-out",
           // 首帧尚未测量时先隐藏，layout effect 在绘制前完成定位，避免位置跳变
           !position && "opacity-0",
         )}

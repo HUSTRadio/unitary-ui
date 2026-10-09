@@ -21,7 +21,7 @@ export interface HituTransform {
 
 export interface HituFrame extends HituTransform {
   frame: number;
-  /** Cubic Bezier easing for the segment beginning at this keyframe. */
+  /** Nonlinear cubic Bezier for the outgoing segment; missing/invalid values use the project's smooth curve. */
   cubic?: [number, number, number, number];
 }
 

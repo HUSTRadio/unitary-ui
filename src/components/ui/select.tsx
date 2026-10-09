@@ -234,7 +234,9 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               data-slot="select-content"
               className={cn(
                 "material-menu relative z-[var(--uni-z-popover)] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
-                "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!",
+                // Preserve the exit name so Radix Presence receives animationend when motion preferences change.
+                // The global reduced-motion duration completes the animation without visible movement.
+                "animate-in fade-in-0 zoom-in-95 ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:transition-none",
               )}
             >
               <SelectPrimitive.Viewport className="flex flex-col gap-0.5">

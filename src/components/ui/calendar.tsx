@@ -521,7 +521,7 @@ function Calendar({
             sideOffset={4}
             data-slot="calendar-popover"
             className={cn(
-              "group/popover z-[var(--uni-z-calendar)] overflow-x-hidden overflow-y-auto rounded-xl bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
+              "group/popover z-[var(--uni-z-calendar)] overflow-x-hidden overflow-y-auto rounded-xl bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
               horizontalLayout ? "w-[520px]" : "w-[280px]",
             )}
           >

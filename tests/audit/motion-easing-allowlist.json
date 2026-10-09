@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "policy": "Constant-speed temporal motion is limited to continuous loading rotation. Static gradients, chart geometry, instantaneous updates and direct user input are outside this policy.",
+  "rotationFiles": [
+    "src/components/ui/destructive-action-modal.tsx",
+    "src/components/ui/gauge.tsx",
+    "src/components/ui/loading-icon.tsx",
+    "src/components/ui/spinner.tsx"
+  ],
+  "definition": {
+    "file": "src/styles/index.css",
+    "property": "--animate-spin",
+    "value": "spin 1s linear infinite",
+    "reason": "Continuous loading rotation retains its existing constant-speed period."
+  }
+}

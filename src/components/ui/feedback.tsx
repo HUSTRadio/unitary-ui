@@ -474,7 +474,7 @@ function Feedback({
             sideOffset={8}
             className={cn(
               "z-[var(--uni-z-popover)] w-[340px] max-w-[calc(100vw-32px)] overflow-hidden rounded-xl bg-background-100 shadow-[var(--material-shadow-menu)] outline-none",
-              "origin-(--radix-popover-content-transform-origin) data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!",
+              "origin-(--radix-popover-content-transform-origin) data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!",
             )}
           >
             <FeedbackForm {...formProps} />

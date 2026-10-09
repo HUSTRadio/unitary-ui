@@ -236,4 +236,25 @@ describe("HamburgerMenu", () => {
         .getAttribute("aria-expanded"),
     ).toBe("false");
   });
+
+  it("returns focus after navigation without scrolling the surrounding shell", () => {
+    renderMenu(
+      <div onClick={(event) => event.preventDefault()}>
+        <HamburgerMenu anchor="topbar" items={ITEMS} />
+      </div>,
+    );
+    const trigger = document.querySelector<HTMLButtonElement>('[data-slot="hamburger-trigger"]')!;
+    act(() => trigger.click());
+    const link = document.querySelector<HTMLAnchorElement>('[data-slot="menu-nav"] a')!;
+    act(() => link.focus());
+    expect(document.activeElement).toBe(link);
+    const focus = vi.spyOn(trigger, "focus");
+
+    act(() => link.click());
+
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(document.activeElement).toBe(trigger);
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+    focus.mockRestore();
+  });
 });

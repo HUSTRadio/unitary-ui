@@ -115,6 +115,21 @@ describe("verification selection", () => {
     });
   });
 
+  it.each([
+    "src/components/ui/charts/area-chart.tsx",
+    "src/components/ui/charts/bar-chart.tsx",
+    "src/components/ui/charts/line-chart.tsx",
+    "src/components/ui/charts/combo-chart.tsx",
+    "src/lib/motion-policy.tsx",
+    "src/styles/index.css",
+  ])("selects the chart motion browser contract for %s", (file) => {
+    const spec = "tests/e2e/chart-motion.spec.ts";
+    expect(selectBrowserSpecs([file], [spec], [])).toEqual({
+      selected: [spec],
+      missing: [],
+    });
+  });
+
   it.each(["/components/motion", "/components/hitu-player", "/components/empty-state"])(
     "retains layout coverage with the Motion/Hitu contracts for %s",
     (route) => {

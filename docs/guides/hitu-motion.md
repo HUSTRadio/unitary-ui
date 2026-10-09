@@ -64,10 +64,12 @@ export function MotionDemo() {
 | --- | --- | --- |
 | `feedback` | `--uni-motion-feedback` | `--ease-snap` |
 | `state` | `--uni-motion-state` | `--ease-snap` |
-| `overlay` | `--uni-motion-overlay` | `--ease-pop` |
+| `overlay` | `--uni-motion-overlay` | `--ease-snap` |
 | `expansive` | `--uni-motion-expansive` | `--ease-snap` |
 
-时长支持 `ms` / `s`，转换为 Motion 的秒；缓动支持有效的 `cubic-bezier(...)` 及 `linear`、`ease`、`ease-in`、`ease-out`、`ease-in-out`。缺失、非法、零时长或减少动画时，返回零时长、零延迟且 `skipAnimations: true` 的过渡，不补入数字默认时长。
+四档默认时长分别为 150 / 250 / 350 / 500ms，均使用 `--ease-snap: cubic-bezier(0.22, 1, 0.36, 1)`，快速响应并柔和收尾。时长支持 `ms` / `s`，转换为 Motion 的秒；缓动支持有效的非线性 `cubic-bezier(...)` 及 `ease`、`ease-in`、`ease-out`、`ease-in-out`。缺失、非法、`linear` 或恒等贝塞尔、零时长或减少动画时，返回零时长、零延迟且 `skipAnimations: true` 的过渡，不补入数字默认时长。
+
+这些数值是本项目的设计选择，不是 Apple 官方参数，也不是弹簧动画。曲线来源、CSS / JS 一致性和迁移步骤见[非线性动效规范](../design/apple-motion-curves.md)。
 
 ## 插画、播放控制与 EmptyState
 
@@ -161,13 +163,13 @@ const Dot: HituShapeSource = Object.assign(
 export const dotShapes: readonly HituShape[] = [{
   source: Dot, x: 64, y: 64, originX: 0.5, originY: 0.5,
   frames: [
-    { frame: 0, rotate: 0, opacity: 1, cubic: [0.2, 0, 0.2, 1] },
+    { frame: 0, rotate: 0, opacity: 1, cubic: [0.22, 1, 0.36, 1] },
     { frame: 119, rotate: 180, scaleX: 1.2, scaleY: 1.2, opacity: 0.5 },
   ],
 }];
 ```
 
-支持 `x` / `y`、`rotate`、`scaleX` / `scaleY`、`originX` / `originY` 和 `opacity`。原点是资产宽高的比例；旋转单位是度。关键帧按递增索引排列，省略的变换继承图层和前一关键帧；`cubic` 属于从当前关键帧开始的片段。默认位移和旋转为 `0`，缩放和透明度为 `1`，原点为 `0.5`。使用渐变、遮罩或 clipPath 时，由自定义资产用 React `useId` 等方式隔离每个实例的引用 ID。
+支持 `x` / `y`、`rotate`、`scaleX` / `scaleY`、`originX` / `originY` 和 `opacity`。原点是资产宽高的比例；旋转单位是度。关键帧按递增索引排列，省略的变换继承图层和前一关键帧；`cubic` 属于从当前关键帧开始的片段。缺省、非法或恒等线性 `cubic` 使用 `[0.42, 0, 0.58, 1]` 平滑起止；有效的显式非线性曲线保留，上例选择快速收尾。贝塞尔按时间进度求解，首末帧准确到达关键帧值。默认位移和旋转为 `0`，缩放和透明度为 `1`，原点为 `0.5`。使用渐变、遮罩或 clipPath 时，由自定义资产用 React `useId` 等方式隔离每个实例的引用 ID。
 
 ## 减少动画、可见性与服务端
 
@@ -180,6 +182,6 @@ export const dotShapes: readonly HituShape[] = [{
 
 运行时内置并适配自 [ant-design/HiTu 固定提交](https://github.com/ant-design/HiTu/tree/92119663fb5e551ccab5d0b46532c0a3317e0cc8) `92119663fb5e551ccab5d0b46532c0a3317e0cc8`。上游是明确标记不可直接用于生产的原型；本项目负责 React 19、生命周期、SSR 与偏好的本地适配维护。来源与 MIT 许可见 [SOURCE.md](../../src/vendor/hitu/SOURCE.md)、[LICENSE](../../src/vendor/hitu/LICENSE) 和[第三方声明](../../THIRD_PARTY_NOTICES.md)。
 
-本期只支持完整 React SVG 图层与箱子、文件资产，不支持 `svgText`、chips 子路径动画、插画编辑器或全量资产库。现有 Modal、Drawer、Toast、Collapse、Tabs 动效保持原实现。生产兼容性、实际消费构建增量和检查命令见[接入验收报告](../audits/hitu-motion-2026-10-08.md)；统一根入口增加常规依赖，不能理解为所有消费者零成本。
+本期只支持完整 React SVG 图层与箱子、文件资产，不支持 `svgText`、chips 子路径动画、插画编辑器或全量资产库。Modal、Drawer、Toast、Collapse、Tabs 保留各自的动画实现与生命周期，并消费统一的非线性曲线 token。首次接入时的生产兼容性、实际消费构建增量和检查命令见[接入验收报告](../audits/hitu-motion-2026-10-08.md)；该报告是历史记录，后续曲线迁移见[非线性动效规范](../design/apple-motion-curves.md)。统一根入口增加常规依赖，不能理解为所有消费者零成本。
 
 [Motion 真实示例](../site/src/examples/motion/default.example.tsx) · [Hitu 真实示例](../site/src/examples/hitu-player/default.example.tsx)

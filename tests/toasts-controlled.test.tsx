@@ -123,10 +123,15 @@ describe("Toasts injectable store", () => {
       store.message({ text: "Fades", duration: 100 });
     });
     expect(document.querySelectorAll('[data-slot="toasts"] li')).toHaveLength(1);
+    const toast = document.querySelector<HTMLLIElement>('[data-slot="toasts"] li')!;
+    expect(toast.classList.contains("ease-toast")).toBe(true);
+    expect(toast.classList.contains("data-[exiting]:ease-in")).toBe(true);
+    expect(toast.hasAttribute("data-exiting")).toBe(false);
 
     act(() => {
       vi.advanceTimersByTime(120);
     });
+    expect(toast.hasAttribute("data-exiting")).toBe(true);
     act(() => {
       vi.advanceTimersByTime(400);
     });

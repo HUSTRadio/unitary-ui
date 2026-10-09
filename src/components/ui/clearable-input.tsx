@@ -187,7 +187,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
                 type="button"
                 tabIndex={disabled ? -1 : undefined}
                 onClick={handleClear}
-                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--uni-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-(--uni-duration-fast) ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--uni-focus-color)] disabled:cursor-not-allowed"
+                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--uni-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-(--uni-duration-fast) ease-snap hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--uni-focus-color)] disabled:cursor-not-allowed"
               >
                 <Kbd small className={cn(clearableKbdClass, clearButtonKbdClass)}>
                   Esc

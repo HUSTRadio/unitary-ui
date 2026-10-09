@@ -17,6 +17,8 @@ import { describe, expect, test } from "vitest";
  * - D JS 门控：以 `matchMedia("(prefers-reduced-motion: reduce)")` 直接短路；
  * - E 组件级免动画清单（长期例外）：无进出场动画，依赖全局兜底——兜底声明由本文件锁死，
  *   且这些文件不得偷偷长出 `animate-in` 进出场（要长就必须先加入 A 桶）。
+ * - Select 保留动画名称，由全局极短时长完成退场，避免动态偏好切换取消动画后卡住 Radix Presence；
+ *   浏览器同时验证卸载、焦点归还、滚动锁和辅助技术隐藏状态的释放。
  */
 const root = process.cwd();
 const read = (relative: string) =>
@@ -48,7 +50,6 @@ const TW_ANIMATE_OVERLAYS = [
   "toast",
   "menu-bar",
   "sheet",
-  "select",
   "responsive-drawer",
   "side-panel",
   "relative-time-card",
@@ -61,7 +62,7 @@ const CSS_FALLBACK_OVERLAYS = ["command-menu", "expand-panel"] as const;
 const NAMED_TRANSITION_FIXES: ReadonlyArray<readonly [string, string]> = [
   ["theme-switcher", "transition-colors motion-reduce:transition-none"],
   ["combobox", "transition-all duration-(--uni-duration-fast) ease-out motion-reduce:transition-none"],
-  ["combobox", "transition-colors duration-(--uni-duration-fast) ease-in motion-reduce:transition-none"],
+  ["combobox", "transition-colors duration-(--uni-duration-fast) ease-snap motion-reduce:transition-none"],
   ["drawer", "ease-snap motion-reduce:animate-none!"],
 ];
 
@@ -86,6 +87,14 @@ const GLOBAL_FALLBACK_EXEMPTIONS = [
 ] as const;
 
 describe("HIG-AUD-019 reduced-motion coverage contract", () => {
+  test("Select preserves its CSS exit name while the global reduced-motion duration releases Radix Presence", () => {
+    const select = readComponent("select");
+    expect(select).toContain("motion-reduce:transition-none");
+    expect(select).not.toContain("motion-reduce:animate-none");
+    expect(select).toContain('data-[state=closed]:animate-out');
+    expect(read("src/styles/index.css")).toContain("animation-duration: 0.01ms !important;");
+  });
+
   test("A. every tw-animate overlay carries a component-level animation kill switch", () => {
     // 口径与审计一致（审计按「多少文件包含 motion-reduce」计数）：文件级存在性。
     // 刻意不做逐行判定——同一元素的类名合法地分散在基类常量（如

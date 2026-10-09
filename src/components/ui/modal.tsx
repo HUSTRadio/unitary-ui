@@ -29,8 +29,8 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
  * - 阴影：shadow-[var(--uni-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
  *   dark #ffffff24，其余 3 层一致）
- * - 过渡：transition-[opacity,transform] 0.3s cubic-bezier(0.175,0.885,0.32,1.1)
- *   （官方 --uni-motion-overlay-duration/timing），无 animation
+ * - 动效：本地采用 tw-animate-css 保留 Radix Presence 生命周期，时长走 token；
+ *   进入快速收尾、退出加速离场，默认不产生过冲。
  * - 内容区：body（p-5 overflow-y-auto）承载 header/title/description/footer；
  *   sticky demo 通过 bodyClassName="pt-0" + className="sticky" 复刻
  *   [.sticky_&] 变体（dialog position:sticky、header/footer 粘性）
@@ -64,7 +64,7 @@ const ModalOverlay = React.forwardRef<
       // 用合成色而非元素 opacity-*：本 Overlay 带着 Content 子节点，元素透明度会把
       // 内容一起降透明（sheet/side-panel 的 Overlay 无子节点才可用 color + opacity 两值式）
       "fixed inset-0 z-[var(--uni-z-modal)] flex flex-col items-center justify-center overflow-auto bg-[var(--uni-overlay-backdrop)]",
-      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none!",
+      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none!",
       className,
     )}
     {...props}
@@ -99,11 +99,11 @@ export type ModalPlacement = "center" | "top";
 const PLACEMENT_CLASS: Record<ModalPlacement, string> = {
   center: cn(
     "top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl",
-    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
   ),
   top: cn(
     "top-0 left-1/2 -translate-x-1/2 rounded-t-none rounded-b-xl",
-    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-8 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-8",
+    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-8 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-8",
   ),
 };
 

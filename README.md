@@ -55,6 +55,7 @@ Node 可直接用 ESM `import` 或 CommonJS `require` 导入组件，无需 CSS 
 
 - 文档站：`vp dev docs`
 - 动效与插画接入：[`Hitu + Motion 指南`](./docs/guides/hitu-motion.md)
+- 非线性动效与迁移：[`曲线规范`](./docs/design/apple-motion-curves.md)
 - 动效接入验收：[`测试与包体积记录`](./docs/audits/hitu-motion-2026-10-08.md)
 - 官方规范快照：[`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - 变更记录：[`CHANGELOG.md`](./CHANGELOG.md)

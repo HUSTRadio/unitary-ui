@@ -15,6 +15,53 @@ test("scroll audit respects ancestor clips without accepting visible escapes", a
 });
 
 for (const theme of ["light", "dark"] as const) {
+  for (const width of [390, 1280]) {
+    test(`App Shell anchor navigation preserves its local owner at ${width}px (${theme})`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.addInitScript((value) => {
+        localStorage.setItem("unitary-theme-preference", value);
+        localStorage.setItem("unitary-docs-language", "en-US");
+      }, theme);
+      await page.goto("/#/patterns/app-shell");
+      const viewport = page.locator('[data-slot="app-shell-viewport"]');
+      await expect(viewport).toBeVisible();
+      await viewport.scrollIntoViewIfNeeded();
+      await page.evaluate(async () => { await document.fonts.ready; });
+      const frame = viewport.locator("..");
+      await viewport.evaluate((node) => {
+        node.scrollTop = 0;
+        (node as HTMLElement).style.setProperty("--uni-motion-state", "1s");
+      });
+      if (width < 1024) await frame.locator('[data-slot="hamburger-trigger"]').click();
+      const navigation = width < 1024
+        ? frame.locator('[data-slot="menu-nav"] a[href="#demo-api"]')
+        : frame.locator('[data-slot="sidebar-nav"] a[href="#demo-api"]');
+      // Let Playwright finish actionability scrolling before measuring the actual navigation.
+      await navigation.click({ trial: true });
+      const outerPositions = await viewport.evaluate((node) => {
+        const positions: number[] = [];
+        for (let ancestor = node.parentElement; ancestor; ancestor = ancestor.parentElement) positions.push(ancestor.scrollTop);
+        return positions;
+      });
+      await navigation.click();
+      await expect(page).toHaveURL(/#\/patterns\/app-shell$/);
+      await expect.poll(() => viewport.evaluate((node) => {
+        const target = node.querySelector<HTMLElement>("#demo-api")!;
+        const offset = target.getBoundingClientRect().top - node.getBoundingClientRect().top - node.clientTop;
+        const margin = Number.parseFloat(getComputedStyle(target).scrollMarginBlockStart) || 0;
+        const padding = Number.parseFloat(getComputedStyle(node).scrollPaddingBlockStart) || 0;
+        const destination = Math.min(node.scrollHeight - node.clientHeight, Math.max(0, node.scrollTop + offset - margin - padding));
+        return Math.abs(node.scrollTop - destination);
+      })).toBeLessThanOrEqual(1);
+      expect(await viewport.evaluate((node) => {
+        const positions: number[] = [];
+        for (let ancestor = node.parentElement; ancestor; ancestor = ancestor.parentElement) positions.push(ancestor.scrollTop);
+        return positions;
+      })).toEqual(outerPositions);
+      expect(await viewport.evaluate((node) => (node as HTMLElement).style.getPropertyValue("scroll-behavior"))).toBe("");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
+    });
+  }
   test(`App Shell local scroll bounds stay contained across the matrix (${theme})`, async ({ page }) => {
     await page.addInitScript((value) => localStorage.setItem("unitary-theme-preference", value), theme);
     await page.goto("/#/patterns/app-shell");

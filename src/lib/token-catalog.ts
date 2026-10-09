@@ -146,7 +146,7 @@ export const GLOBAL_TOKENS = {
     "group": "colors"
   },
   "--animate-blink": {
-    "value": "blink var(--uni-loop-standard) ease infinite backwards",
+    "value": "blink var(--uni-loop-standard) var(--ease-in-out) infinite backwards",
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
@@ -154,7 +154,15 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--animate-copy-check-draw": {
-    "value": "copy-check-draw 0.2s ease-out both",
+    "value": "copy-check-draw 0.2s var(--ease-out) both",
+    "darkValue": "",
+    "kind": "mapping",
+    "variants": {},
+    "status": "active",
+    "group": "motion"
+  },
+  "--animate-pulse": {
+    "value": "pulse 2s var(--ease-in-out) infinite",
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
@@ -162,7 +170,15 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--animate-skeleton-shimmer": {
-    "value": "skeleton-shimmer var(--uni-loop-standard) ease-in-out infinite",
+    "value": "skeleton-shimmer var(--uni-loop-standard) var(--ease-in-out) infinite",
+    "darkValue": "",
+    "kind": "mapping",
+    "variants": {},
+    "status": "active",
+    "group": "motion"
+  },
+  "--animate-spin": {
+    "value": "spin 1s linear infinite",
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
@@ -1969,6 +1985,14 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "motion"
   },
+  "--default-transition-timing-function": {
+    "value": "var(--ease-snap)",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "motion"
+  },
   "--destructive": {
     "value": "var(--danger)",
     "darkValue": "var(--danger)",
@@ -1993,8 +2017,24 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "colors"
   },
+  "--ease-in": {
+    "value": "cubic-bezier(0.4, 0, 1, 1)",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "motion"
+  },
   "--ease-in-out": {
-    "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "value": "cubic-bezier(0.42, 0, 0.58, 1)",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "motion"
+  },
+  "--ease-out": {
+    "value": "cubic-bezier(0.22, 1, 0.36, 1)",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
@@ -2002,7 +2042,7 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--ease-pop": {
-    "value": "cubic-bezier(0.175, 0.885, 0.32, 1.1)",
+    "value": "cubic-bezier(0.22, 1, 0.36, 1)",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
@@ -2010,7 +2050,7 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--ease-snap": {
-    "value": "cubic-bezier(0.32, 0.72, 0, 1)",
+    "value": "cubic-bezier(0.22, 1, 0.36, 1)",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
@@ -2018,7 +2058,7 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--ease-stagger": {
-    "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "value": "cubic-bezier(0.22, 1, 0.36, 1)",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
@@ -2026,7 +2066,7 @@ export const GLOBAL_TOKENS = {
     "group": "motion"
   },
   "--ease-toast": {
-    "value": "cubic-bezier(0.25, 0.75, 0.6, 0.98)",
+    "value": "cubic-bezier(0.22, 1, 0.36, 1)",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},

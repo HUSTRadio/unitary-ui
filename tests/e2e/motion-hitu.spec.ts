@@ -1,4 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
+import { cubicProgress } from "../../src/lib/motion-easing";
+import { MOTION_EASINGS } from "../../src/lib/motion-easing-defaults";
 
 test.setTimeout(90_000);
 
@@ -24,6 +26,37 @@ async function openDemo(page: Page, theme: "light" | "dark", width = 1440) {
 }
 
 for (const theme of ["light", "dark"] as const) {
+  for (const width of [390, 1440]) {
+    test(`Motion uses the response curve at intermediate browser progress (${theme}, ${width}px)`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.addInitScript(value => {
+        localStorage.setItem("unitary-docs-language", "en-US");
+        localStorage.setItem("unitary-theme-preference", value);
+      }, theme);
+      await page.goto("/#/components/motion");
+      const demo = page.locator("[data-motion-demo]");
+      const content = demo.locator("[data-motion-content]");
+      await expect(content).toBeVisible();
+      await page.locator("html").evaluate(element => element.style.setProperty("--uni-motion-state", "2s"));
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      await demo.locator("[data-motion-toggle]").click();
+      await expect.poll(() => content.evaluate(element => element.getAnimations().filter(animation =>
+        animation.effect instanceof KeyframeEffect && animation.effect.getKeyframes().some(keyframe => keyframe.opacity !== undefined)).length)).toBeGreaterThan(0);
+      const opacity = await content.evaluate(element => {
+        const animation = element.getAnimations().find(item => item.effect instanceof KeyframeEffect
+          && item.effect.getKeyframes().some(keyframe => keyframe.opacity !== undefined))!;
+        animation.pause();
+        animation.currentTime = Number(animation.effect!.getTiming().duration) * 0.2;
+        return Number(getComputedStyle(element).opacity);
+      });
+      expect(opacity).toBeCloseTo(1 - cubicProgress(0.2, MOTION_EASINGS["--ease-snap"]), 3);
+      expect(opacity).toBeLessThan(0.4);
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect(content).toHaveCount(0);
+    });
+  }
+
   test(`Motion content completes entry and exit instantly under reduced motion (${theme})`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
@@ -169,6 +202,10 @@ for (const theme of ["light", "dark"] as const) {
       await expectStopped(player);
       const pausedFrame = await frame(player);
       expect(pausedFrame).toBeGreaterThan(0);
+      const y = await layer.evaluate(element => (element as SVGGraphicsElement).transform.baseVal.consolidate()!.matrix.f);
+      const progress = pausedFrame <= 60 ? pausedFrame / 60 : (pausedFrame - 60) / 59;
+      const displacement = cubicProgress(progress, MOTION_EASINGS["--ease-in-out"]);
+      expect(y).toBeCloseTo(pausedFrame <= 60 ? 32 + 64 * displacement : 96 - 64 * displacement, 3);
       await demo.locator("[data-motion-play]").click();
       await expectAdvancing(player);
       await demo.locator("[data-motion-pause]").click();

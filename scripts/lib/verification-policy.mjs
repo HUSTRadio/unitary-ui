@@ -7,6 +7,10 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("motion-easing-governance.test.ts"),
+    inputs: ["src/**", "docs/site/**", "tests/audit/motion-easing-allowlist.json"],
+  },
+  {
     tests: unitFiles("ci-workflows.test.ts"),
     inputs: [".github/workflows/**", "package.json", "tests/audit/requirements.txt"],
   },
@@ -73,6 +77,7 @@ export const INDIRECT_INPUT_GROUPS = [
       "README*.md",
       "CREDITS*.md",
       "public/**",
+      "scripts/generate-token-catalog.mjs",
     ],
   },
   {
@@ -219,6 +224,11 @@ export const BROWSER_INPUT_GROUPS = [
     inputs: ["docs/site/src/pages/**"],
   },
   { specs: names("carousel-variants"), owners: names("carousel") },
+  {
+    specs: names("chart-motion"),
+    owners: names("area-chart bar-chart line-chart combo-chart"),
+    inputs: ["src/components/ui/charts/**", "src/lib/motion-policy.tsx", "src/styles/**"],
+  },
   { specs: names("choicebox-custom-content"), owners: names("choicebox") },
   { specs: names("color-schemes"), inputs: ["docs/site/src/color-schemes/**"] },
   {

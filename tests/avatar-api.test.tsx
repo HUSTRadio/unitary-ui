@@ -1,9 +1,17 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import { AvatarGroup } from "../src/components/ui/avatar";
+import { Avatar, AvatarGroup } from "../src/components/ui/avatar";
 
 describe("Avatar official API contract", () => {
+  it("uses the shared smooth curve for its placeholder animation", () => {
+    const markup = renderToStaticMarkup(<Avatar placeholder title="Loading avatar" />);
+
+    expect(markup).toContain("before:animate-[unitary-avatar-loading_1.4s_var(--ease-in-out)_infinite]");
+    expect(markup).toContain('aria-label="Loading avatar"');
+    expect(markup).not.toContain("_1.4s_ease-in-out_");
+  });
+
   it("AvatarGroup reverse preserves visual left-to-right DOM order", () => {
     const members = [{ username: "alice" }, { username: "bob" }, { username: "carol" }];
 

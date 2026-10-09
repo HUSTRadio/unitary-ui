@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, expectTypeOf, it } from "vitest";
-import { collectGlobalTokens, renderTokenCatalog } from "../scripts/generate-token-catalog.mjs";
+import { collectGlobalTokens, renderTokenCatalog, renderMotionEasings } from "../scripts/generate-token-catalog.mjs";
 import { GLOBAL_TOKENS, RUNTIME_TOKEN_NAMES, type RuntimeTokenName } from "../src/lib/token-catalog";
 
 describe("global token catalog generation", () => {
@@ -72,5 +72,12 @@ describe("global token catalog generation", () => {
     const tokens = collectGlobalTokens(css);
     expect(renderTokenCatalog(tokens)).toBe(await readFile("src/lib/token-catalog.ts", "utf8"));
     expect(renderTokenCatalog(collectGlobalTokens(css))).toBe(renderTokenCatalog(tokens));
+    expect(renderMotionEasings(tokens)).toBe(await readFile("src/lib/motion-easing-defaults.ts", "utf8"));
+    expect(renderMotionEasings(collectGlobalTokens(css))).toBe(renderMotionEasings(tokens));
+  });
+  it("rejects malformed, constant-speed or invalid canonical curve definitions", () => {
+    for (const value of ["linear", "cubic-bezier(0,0,1,1)", "cubic-bezier(.2,.2,.8,.8)", "cubic-bezier(0,,1,1)", "cubic-bezier(2,0,1,1)", "cubic-bezier(0x0,0,.58,1)"]) {
+      expect(() => renderMotionEasings(collectGlobalTokens(`@theme static { --ease-snap: ${value}; }`))).toThrow(/nonlinear/);
+    }
   });
 });

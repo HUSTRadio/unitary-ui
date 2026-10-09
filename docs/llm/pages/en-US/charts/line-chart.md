@@ -47,6 +47,7 @@ Not applicable: Display-only component.
 ## Theme behavior
 
 - Axes, grid, and tooltip card use semantic tokens.
+- Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it.
 
 ## Live Demo
 

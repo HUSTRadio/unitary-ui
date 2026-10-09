@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, type RefObject } from "react";
 
 import { getTokens } from "./tokens";
+import { parseEasing } from "./motion-easing";
 
 interface SlidingIndicatorOptions {
   rootRef: RefObject<HTMLElement | null>;
@@ -54,12 +55,13 @@ export function useSlidingIndicator({ rootRef, activeKey, enabled = true }: Slid
     if (x === 0 && y === 0 && width === 1 && height === 1) return;
     const tokens = getTokens(["--uni-motion-state", "--ease-snap"], { target });
     const duration = milliseconds(tokens["--uni-motion-state"]);
-    if (duration <= 0 || !tokens["--ease-snap"]) return;
+    const curve = parseEasing(tokens["--ease-snap"]);
+    if (duration <= 0 || !curve) return;
     try {
       animation.current = target.animate([
         { transform: `translate(${x}px, ${y}px) scale(${width}, ${height})`, transformOrigin: "top left" },
         { transform: "none", transformOrigin: "top left" },
-      ], { duration, easing: tokens["--ease-snap"] });
+      ], { duration, easing: `cubic-bezier(${curve.join(", ")})` });
     } catch {
       // 无效的自定义动效值不应阻断选中状态更新。
       // Invalid custom motion values must not interrupt selection updates.

@@ -487,8 +487,8 @@
   --radius-overlay: var(--radius);
   --radius-overlay-item: calc(var(--radius) - 2px);
 
-  /* LoadingDots 官方 blink 动画（1.4s ease infinite；周期走 --uni-loop-standard） */
-  --animate-blink: blink var(--uni-loop-standard) ease infinite backwards;
+  /* LoadingDots 保留周期，使用平滑起止。 / LoadingDots retains its period with smooth easing. */
+  --animate-blink: blink var(--uni-loop-standard) var(--ease-in-out) infinite backwards;
 
   /* Skeleton 骨架流光（1.4s ease-in-out infinite）。
      语义：骨架屏要在**一个能被感知的周期内**反复重申「这块正在加载」——
@@ -497,10 +497,16 @@
      1.4s 与同族的 LoadingDots blink 同周期，避免同屏两种加载节奏打架。
      用 ease-in-out（循环点速度为 0）而不是线性，避免首尾接缝突跳。
      周期由 --uni-loop-standard 统一（2026-09-20 起）。 */
-  --animate-skeleton-shimmer: skeleton-shimmer var(--uni-loop-standard) ease-in-out infinite;
+  --animate-skeleton-shimmer: skeleton-shimmer var(--uni-loop-standard) var(--ease-in-out) infinite;
 
   /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合缩放淡入使用） */
-  --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
+  --animate-copy-check-draw: copy-check-draw 0.2s var(--ease-out) both;
+  /* 持续加载旋转是匀速例外；保持 Tailwind 原有周期。
+     Continuous loading rotation is the constant-speed exception. */
+  --animate-spin: spin 1s linear infinite;
+  /* StatusDot 呼吸沿用 2s 周期，与其它往返动画共用平滑曲线。
+     StatusDot retains its 2s breathing period with the shared smooth curve. */
+  --animate-pulse: pulse 2s var(--ease-in-out) infinite;
 
 }
 /*
@@ -684,16 +690,17 @@ html[data-font-tier="system"],
      类）统一纳入 token 体系；与原隐式默认 150ms 同值，零观感变化。 */
   --default-transition-duration: var(--uni-duration-fast);
 
-  /* Easing 曲线族：收敛组件内硬编码 cubic-bezier（值与原字面量严格相等）。
-     放 @theme static 生成 ease-* 工具类，同时发射到 :root 供内联 style var() 消费。 */
-  --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
-  --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.1);
-  --ease-stagger: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-toast: cubic-bezier(0.25, 0.75, 0.6, 0.98);
-  /* HIG-AUD-012 显式声明：值与 Tailwind v4 内建 --ease-in-out
-     （cubic-bezier(0.4, 0, 0.2, 1)）严格相等，声明后 Sheet 等官方对齐面
-     （`transition ease-in-out`）纳入项目 token 真源，computed 零变化。 */
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  /* 曲线唯一真源：快速收尾、平滑起止、加速离场。数值为项目选择，非 Apple 官方常数。
+     Canonical project curves: responsive settling, smooth motion, accelerating exit.
+     The token generator derives the small JS default table from these declarations. */
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-pop: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-stagger: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-toast: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --default-transition-timing-function: var(--ease-snap);
 
   /* 项目语义排版体系。尺寸和行高成对定义，utility 不再复制行高字面量。
      34/41、28/34、22/28、20/25、17/22、16/21、15/20、13/18、12/16、11/13
@@ -1975,7 +1982,7 @@ html[data-font-tier="system"],
   line-height: 1.3125rem;
   font-weight: 400;
   letter-spacing: normal;
-  transition: 150ms ease-in-out;
+  transition: 150ms var(--ease-snap);
 
   &:focus {
     box-shadow: var(--focus-ring-outline);
@@ -2763,15 +2770,11 @@ html[data-font-tier="system"],
 [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"] {
   grid-area: 1 / 1;
   opacity: 0;
-  transition: opacity var(--uni-duration-slower) ease-in-out;
+  transition: opacity var(--uni-duration-slower) var(--ease-snap);
 }
 
 [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"]:not([inert]) {
   opacity: 1;
-}
-
-[data-slot="carousel"][data-variant="fade-linear"] [data-slot="full-page-section"] {
-  transition-timing-function: linear;
 }
 
 [data-slot="carousel"][data-variant="fade-scale"] [data-slot="full-page-section"] {
@@ -2965,7 +2968,7 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   }
 
   &[data-state="closed"] {
-    animation: command-menu-overlay-out var(--uni-motion-overlay) var(--ease-pop);
+    animation: command-menu-overlay-out var(--uni-motion-overlay) var(--ease-in);
   }
 }
 
@@ -2978,7 +2981,7 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   }
 
   &[data-state="closed"] {
-    animation: command-menu-scale-out var(--uni-motion-overlay) var(--ease-pop);
+    animation: command-menu-scale-out var(--uni-motion-overlay) var(--ease-in);
   }
 }
 
@@ -2987,7 +2990,7 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
     animation: command-menu-mobile-in var(--uni-motion-expansive) var(--ease-snap);
   }
   .command-menu-mobile[data-state="closed"] {
-    animation: command-menu-mobile-out var(--uni-motion-expansive) var(--ease-snap);
+    animation: command-menu-mobile-out var(--uni-motion-expansive) var(--ease-in);
   }
 }
 
@@ -3043,8 +3046,8 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
  */
 @utility input-focus-ring {
   transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+    border-color 0.15s var(--ease-snap),
+    box-shadow 0.15s var(--ease-snap);
   &:focus-visible,
   &:focus {
     border-color: var(--input-focus-border);
@@ -3064,7 +3067,7 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
 }
 
 .phone-frame-animated.mockframe {
-  transition: transform 0.2s ease-out !important;
+  transition: transform 0.2s var(--ease-out) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

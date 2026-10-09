@@ -35,8 +35,7 @@ beforeEach(() => {
   for (const [tier, value] of Object.entries({ feedback: "150ms", state: "250ms", overlay: "350ms", expansive: "500ms" })) {
     document.documentElement.style.setProperty(`--uni-motion-${tier}`, value);
   }
-  document.documentElement.style.setProperty("--ease-snap", "cubic-bezier(0.32, 0.72, 0, 1)");
-  document.documentElement.style.setProperty("--ease-pop", "cubic-bezier(0.175, 0.885, 0.32, 1.1)");
+  document.documentElement.style.setProperty("--ease-snap", "cubic-bezier(0.22, 1, 0.36, 1)");
   container = document.createElement("div");
   document.body.appendChild(container);
   root = createRoot(container);
@@ -50,19 +49,19 @@ afterEach(() => {
 });
 
 describe("Motion timing and policy", () => {
-  it("uses each semantic tier with its existing easing, including overshoot", () => {
+  it("keeps semantic durations and uses the same settling curve without overshoot", () => {
     for (const [tier, seconds] of Object.entries({ feedback: 0.15, state: 0.25, overlay: 0.35, expansive: 0.5 })) {
       act(() => root.render(<Probe tier={tier as MotionTier} />));
       expect(captured.duration).toBe(seconds);
-      expect(captured.ease).toEqual(tier === "overlay" ? [0.175, 0.885, 0.32, 1.1] : [0.32, 0.72, 0, 1]);
+      expect(captured.ease).toEqual([0.22, 1, 0.36, 1]);
     }
   });
 
   it("subscribes to scoped token writes and converts seconds", () => {
     container.style.setProperty("--uni-motion-state", "1.2s");
-    container.style.setProperty("--ease-snap", "linear");
+    container.style.setProperty("--ease-snap", "cubic-bezier(0.42, 0, 0.58, 1)");
     act(() => root.render(<Probe target={container} />));
-    expect(captured).toMatchObject({ duration: 1.2, ease: [0, 0, 1, 1] });
+    expect(captured).toMatchObject({ duration: 1.2, ease: [0.42, 0, 0.58, 1] });
     act(() => { setTokens({ "--uni-motion-state": "80ms" }, { target: container }); });
     expect(captured.duration).toBe(0.08);
   });
@@ -74,7 +73,7 @@ describe("Motion timing and policy", () => {
       expect(captured, duration).toMatchObject({ duration: 0, skipAnimations: true });
     }
     container.style.setProperty("--uni-motion-state", "1s");
-    for (const easing of ["bad", "cubic-bezier(0,,1,1)", "cubic-bezier(2,0,1,1)", "cubic-bezier(0,0,1)"]) {
+    for (const easing of ["bad", "cubic-bezier(0,,1,1)", "cubic-bezier(2,0,1,1)", "cubic-bezier(0,0,1)", "linear", "cubic-bezier(0,0,1,1)", "cubic-bezier(.3,.3,.7,.7)"]) {
       container.style.setProperty("--ease-snap", easing);
       act(() => root.render(<Probe target={container} />));
       expect(captured.duration).toBe(0);

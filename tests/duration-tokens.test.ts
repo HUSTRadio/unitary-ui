@@ -53,9 +53,9 @@ describe("animation duration tokens", () => {
   test("loop period token converges blink and shimmer cadence", async () => {
     const css = await readThemeCss();
     expect(css).toContain("--uni-loop-standard: 1400ms;");
-    expect(css).toContain("--animate-blink: blink var(--uni-loop-standard) ease infinite backwards;");
+    expect(css).toContain("--animate-blink: blink var(--uni-loop-standard) var(--ease-in-out) infinite backwards;");
     expect(css).toContain(
-      "--animate-skeleton-shimmer: skeleton-shimmer var(--uni-loop-standard) ease-in-out infinite;",
+      "--animate-skeleton-shimmer: skeleton-shimmer var(--uni-loop-standard) var(--ease-in-out) infinite;",
     );
   });
 

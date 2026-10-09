@@ -136,7 +136,7 @@ function ChoiceboxGroupItem({
   return (
     <label
       className={cn(
-        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--uni-gray-400)] transition-colors duration-(--uni-duration-fast) ease-in",
+        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--uni-gray-400)] transition-colors duration-(--uni-duration-fast) ease-snap",
         "has-checked:not-has-disabled:border-[var(--uni-blue-600)] hover:has-enabled:border-[var(--uni-gray-500)] hover:has-enabled:bg-[var(--uni-gray-100)] hover:has-checked:not-has-disabled:!border-[var(--uni-blue-600)]",
         "choicebox-focus",
         itemDisabled ? "cursor-not-allowed" : "cursor-pointer",
@@ -201,7 +201,7 @@ function ChoiceboxGroupItem({
               data-slot="choicebox-radio-indicator"
               className={cn(
                 "relative size-4 rounded-full border border-[var(--radio-color)] bg-[var(--uni-background-100)] [--radio-color:var(--uni-gray-500)]",
-                "transition-[border-color,background] duration-(--uni-duration-base) ease-in after:absolute after:left-1/2 after:top-1/2 after:block after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-0 after:rounded-full after:bg-[var(--radio-color)] after:transition-transform after:duration-(--uni-duration-fast) after:ease-in after:content-['']",
+                "transition-[border-color,background] duration-(--uni-duration-base) ease-snap after:absolute after:left-1/2 after:top-1/2 after:block after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-0 after:rounded-full after:bg-[var(--radio-color)] after:transition-transform after:duration-(--uni-duration-fast) after:ease-snap after:content-['']",
                 "peer-checked:[--radio-color:var(--uni-blue-900)] peer-checked:after:scale-100 peer-disabled:peer-checked:[--radio-color:var(--uni-gray-900)] peer-disabled:not-peer-checked:bg-[var(--uni-gray-100)] peer-disabled:text-[var(--uni-gray-500)]",
               )}
             />

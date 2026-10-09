@@ -156,6 +156,31 @@ describe("Hitu SVG layers", () => {
     act(() => ref.current!.setFrame(Number.NaN));
     expect(current().frame).toBe(0);
   });
+  it("uses smooth nonlinear defaults on sparse keyframes and in server-rendered frames", () => {
+    const shape = { source: Source, x: 0, opacity: 0.2, frames: [{ frame: 0, x: 0 }, { frame: 10, x: 100, opacity: 1 }] };
+    mount({ frames: 11, defaultFrame: 2, shapes: [shape] });
+    const layer = svg().querySelector('[data-hitu-layer="0"]')!;
+    const x = Number(layer.getAttribute("transform")!.match(/translate\(([^,]+)/)![1]) + 10;
+    expect(x).toBeGreaterThan(0);
+    expect(x).toBeLessThan(10);
+    expect(Number(layer.getAttribute("opacity"))).toBeGreaterThan(0.2);
+    expect(Number(layer.getAttribute("opacity"))).toBeLessThan(0.28);
+    const html = renderToString(<HituPlayer width={100} height={80} frames={11} defaultFrame={2} shapes={[shape]} />);
+    expect(html).toContain(`transform="${layer.getAttribute("transform")}"`);
+    act(() => ref.current!.setFrame(10));
+    expect(layer.getAttribute("transform")).toBe("translate(90, -20)");
+    expect(layer.getAttribute("opacity")).toBe("1");
+  });
+  it("uses the smooth default for linear or invalid authored segments", () => {
+    for (const cubic of [[0, 0, 1, 1], [0.3, 0.3, 0.7, 0.7], [2, 0, 1, 1], [0, Number.NaN, 1, 1], [0, , 1, ,]] as [number, number, number, number][]) {
+      mount({ frames: 11, defaultFrame: 2, shapes: [{ source: Source, frames: [{ frame: 0, x: 0, cubic }, { frame: 10, x: 100 }] }] });
+      const layer = svg().querySelector('[data-hitu-layer="0"]')!;
+      const x = Number(layer.getAttribute("transform")!.match(/translate\(([^,]+)/)![1]) + 10;
+      expect(Number.isFinite(x)).toBe(true);
+      expect(x).toBeGreaterThan(0);
+      expect(x).toBeLessThan(10);
+    }
+  });
 
   it("renders repeated themed upstream assets without shared SVG IDs", () => {
     mount({ shapes: [

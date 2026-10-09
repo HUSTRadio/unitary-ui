@@ -187,7 +187,7 @@ describe("Carousel", () => {
     { src: "/a.svg", alt: "First" },
     { src: "/b.svg", alt: "Second" },
   ];
-  it.each<CarouselVariant>(["slide", "fade-linear", "fade", "fade-scale"])(
+  it.each<CarouselVariant>(["slide", "fade", "fade-scale"])(
     "keeps keyboard, controls and active slide accessibility for %s",
     (variant) => {
       const change = vi.fn();

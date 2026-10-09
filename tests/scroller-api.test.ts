@@ -3,7 +3,7 @@ import * as React from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { renderToStaticMarkup } from "react-dom/server";
 import { act } from "react";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { Scroller } from "../src/components/ui/scroller";
 
@@ -66,6 +66,19 @@ describe("Scroller official API contract (G09)", () => {
 describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
   let container: HTMLDivElement;
   let reactRoot: Root;
+  let frames: Map<number, FrameRequestCallback>;
+  let nextFrame: number;
+
+  beforeEach(() => {
+    frames = new Map();
+    nextFrame = 0;
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      const id = ++nextFrame;
+      frames.set(id, callback);
+      return id;
+    });
+    vi.spyOn(window, "cancelAnimationFrame").mockImplementation((id) => { frames.delete(id); });
+  });
 
   function render(element: React.ReactElement) {
     container = document.createElement("div");
@@ -77,6 +90,8 @@ describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
   afterEach(() => {
     act(() => reactRoot.unmount());
     container.remove();
+    expect(frames.size).toBe(0);
+    vi.restoreAllMocks();
   });
 
   function scrollEl(): HTMLDivElement {
@@ -98,13 +113,16 @@ describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
     } as DOMRect;
   }
 
-  /** Mock layout: container at (0,0) 300x120, children at content offset stride 100.
+  /** Mock layout: one item per viewport, children at content offset stride 100.
    *  Rects are viewport-relative, so they shift by the container's scroll position. */
   function mockLayout(): { scroll: HTMLDivElement; scrollTo: ReturnType<typeof vi.fn> } {
     const scroll = scrollEl();
     const items = Array.from(scroll.children) as HTMLElement[];
     expect(items.length).toBeGreaterThanOrEqual(3);
-    vi.spyOn(scroll, "getBoundingClientRect").mockReturnValue(rect(0, 0, 300, 120));
+    vi.spyOn(scroll, "getBoundingClientRect").mockReturnValue(rect(0, 0, 100, 100));
+    for (const [key, value] of Object.entries({ clientWidth: 100, clientHeight: 100, scrollWidth: 400, scrollHeight: 400 })) {
+      Object.defineProperty(scroll, key, { configurable: true, value });
+    }
     items.forEach((item, i) =>
       vi
         .spyOn(item, "getBoundingClientRect")
@@ -127,6 +145,9 @@ describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
     act(() =>
       buttons[index].dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true })),
     );
+    const callbacks = [...frames.values()];
+    frames.clear();
+    act(() => callbacks.forEach((callback) => callback(0)));
   }
 
   test("horizontal: next/prev buttons scroll to the adjacent direct child", () => {
@@ -135,21 +156,22 @@ describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
 
     // at start, "right" advances to the 2nd child (offset 100)
     clickButton(1);
-    expect(scrollTo).toHaveBeenLastCalledWith({ left: 100, top: 0, behavior: "smooth" });
+    expect(scroll.scrollLeft).toBe(100);
 
     // simulate scrolled position -> "right" advances to the 3rd child
     scroll.scrollLeft = 120;
     clickButton(1);
-    expect(scrollTo).toHaveBeenLastCalledWith({ left: 200, top: 0, behavior: "smooth" });
+    expect(scroll.scrollLeft).toBe(200);
 
     // "left" steps back to the 2nd child
     clickButton(0);
-    expect(scrollTo).toHaveBeenLastCalledWith({ left: 100, top: 0, behavior: "smooth" });
+    expect(scroll.scrollLeft).toBe(100);
 
     // at the very start, "left" wraps to the first child
     scroll.scrollLeft = 0;
     clickButton(0);
-    expect(scrollTo).toHaveBeenLastCalledWith({ left: 0, top: 0, behavior: "smooth" });
+    expect(scroll.scrollLeft).toBe(0);
+    expect(scrollTo).not.toHaveBeenCalled();
   });
 
   test("vertical: down/up buttons scroll along scrollTop", () => {
@@ -157,13 +179,43 @@ describe("Scroller scrollToChild behavior (G09-SCROLLER-03)", () => {
     const { scroll, scrollTo } = mockLayout();
 
     clickButton(1); // down -> 2nd child
-    expect(scrollTo).toHaveBeenLastCalledWith({ top: 100, left: 0, behavior: "smooth" });
+    expect(scroll.scrollTop).toBe(100);
 
     scroll.scrollTop = 120;
     clickButton(1); // down -> 3rd child
-    expect(scrollTo).toHaveBeenLastCalledWith({ top: 200, left: 0, behavior: "smooth" });
+    expect(scroll.scrollTop).toBe(200);
 
     clickButton(0); // up -> 2nd child
-    expect(scrollTo).toHaveBeenLastCalledWith({ top: 100, left: 0, behavior: "smooth" });
+    expect(scroll.scrollTop).toBe(100);
+    expect(scroll.scrollLeft).toBe(0);
+    expect(scrollTo).not.toHaveBeenCalled();
+  });
+
+  test("RTL steps through direct children using signed browser coordinates", () => {
+    render(React.createElement(Scroller, { withButtons: true }, kids(4)));
+    const { scroll } = mockLayout();
+    scroll.style.direction = "rtl";
+    [...scroll.children].forEach((item, i) => {
+      vi.spyOn(item, "getBoundingClientRect").mockImplementation(() => rect(-i * 100 - scroll.scrollLeft, 0, 100, 100));
+    });
+    clickButton(1);
+    expect(scroll.scrollLeft).toBe(-100);
+    clickButton(1);
+    expect(scroll.scrollLeft).toBe(-200);
+    clickButton(0);
+    expect(scroll.scrollLeft).toBe(-100);
+  });
+
+  test("unmount cancels a requested animation without a later write", () => {
+    render(React.createElement(Scroller, { withButtons: true }, kids(4)));
+    const { scroll } = mockLayout();
+    scroll.style.setProperty("--uni-motion-state", "300ms");
+    scroll.style.setProperty("--ease-in-out", "cubic-bezier(0.42, 0, 0.58, 1)");
+    clickButton(1);
+    expect(frames.size).toBe(1);
+    const stoppedAt = scroll.scrollLeft;
+    act(() => reactRoot.unmount());
+    expect(frames.size).toBe(0);
+    expect(scroll.scrollLeft).toBe(stoppedAt);
   });
 });

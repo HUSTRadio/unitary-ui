@@ -3,12 +3,6 @@
   "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/site/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
   "entries": [
     {
-      "literal": "0s",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "drawer 拖拽跟手阶段 transform 即时跟随，刻意为 0（非档位缺失）",
-      "files": ["src/components/ui/drawer.tsx"]
-    },
-    {
       "literal": "0.01ms",
       "source": "motion-baseline-2026-09-20",
       "reason": "prefers-reduced-motion 全局兜底（近乎禁用动画），刻意极小",

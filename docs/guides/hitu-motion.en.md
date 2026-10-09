@@ -64,10 +64,12 @@ export function MotionDemo() {
 | --- | --- | --- |
 | `feedback` | `--uni-motion-feedback` | `--ease-snap` |
 | `state` | `--uni-motion-state` | `--ease-snap` |
-| `overlay` | `--uni-motion-overlay` | `--ease-pop` |
+| `overlay` | `--uni-motion-overlay` | `--ease-snap` |
 | `expansive` | `--uni-motion-expansive` | `--ease-snap` |
 
-Durations support `ms` / `s`, converted into Motion's seconds. Easing supports valid `cubic-bezier(...)` values and `linear`, `ease`, `ease-in`, `ease-out`, `ease-in-out`. Missing, invalid or zero durations, and reduced motion, return a zero-duration, zero-delay transition with `skipAnimations: true`; no numeric fallback duration is added.
+The four default durations are 150 / 250 / 350 / 500ms. All use `--ease-snap: cubic-bezier(0.22, 1, 0.36, 1)` for a quick response and soft finish. Durations support `ms` / `s`, converted into Motion's seconds. Easing supports valid nonlinear `cubic-bezier(...)` values and `ease`, `ease-in`, `ease-out`, `ease-in-out`. Missing or invalid tokens, `linear` or an identity Bezier, zero durations, and reduced motion return a zero-duration, zero-delay transition with `skipAnimations: true`; no numeric fallback duration is added.
+
+These values are this project's design choices, not official Apple parameters or spring animations. See the [nonlinear motion specification](../design/apple-motion-curves.en.md) for provenance, CSS / JS consistency and migration steps.
 
 ## Illustrations, playback controls and EmptyState
 
@@ -161,13 +163,13 @@ const Dot: HituShapeSource = Object.assign(
 export const dotShapes: readonly HituShape[] = [{
   source: Dot, x: 64, y: 64, originX: 0.5, originY: 0.5,
   frames: [
-    { frame: 0, rotate: 0, opacity: 1, cubic: [0.2, 0, 0.2, 1] },
+    { frame: 0, rotate: 0, opacity: 1, cubic: [0.22, 1, 0.36, 1] },
     { frame: 119, rotate: 180, scaleX: 1.2, scaleY: 1.2, opacity: 0.5 },
   ],
 }];
 ```
 
-Supported transforms are `x` / `y`, `rotate`, `scaleX` / `scaleY`, `originX` / `originY` and `opacity`. Origins are fractions of the asset dimensions; rotation is in degrees. List keyframes in increasing index order. Omitted transforms inherit the shape and preceding keyframes; `cubic` belongs to the segment starting at that keyframe. Translation and rotation default to `0`, scale and opacity to `1`, and origins to `0.5`. Custom assets using gradients, masks or clipPath must isolate reference IDs per instance, for example with React `useId`.
+Supported transforms are `x` / `y`, `rotate`, `scaleX` / `scaleY`, `originX` / `originY` and `opacity`. Origins are fractions of the asset dimensions; rotation is in degrees. List keyframes in increasing index order. Omitted transforms inherit the shape and preceding keyframes; `cubic` belongs to the segment starting at that keyframe. Missing, invalid or identity-linear `cubic` uses `[0.42, 0, 0.58, 1]` for a smooth start and finish. Valid explicit nonlinear curves remain supported; the example selects a quick finish. Bezier interpolation solves for time progress and reaches keyframe values exactly at the endpoints. Translation and rotation default to `0`, scale and opacity to `1`, and origins to `0.5`. Custom assets using gradients, masks or clipPath must isolate reference IDs per instance, for example with React `useId`.
 
 ## Reduced motion, visibility and server rendering
 
@@ -180,6 +182,6 @@ Supported transforms are `x` / `y`, `rotate`, `scaleX` / `scaleY`, `originX` / `
 
 The embedded runtime adapts [ant-design/HiTu at the pinned commit](https://github.com/ant-design/HiTu/tree/92119663fb5e551ccab5d0b46532c0a3317e0cc8) `92119663fb5e551ccab5d0b46532c0a3317e0cc8`. The upstream prototype explicitly warns against direct production use; this project maintains its local React 19, lifecycle, SSR and preference adaptation. See [SOURCE.md](../../src/vendor/hitu/SOURCE.md), [LICENSE](../../src/vendor/hitu/LICENSE) and the [third-party notices](../../THIRD_PARTY_NOTICES.en.md).
 
-This release supports complete React SVG layers and the Box/File assets. It does not support `svgText`, chip subpath animation, an illustration editor or the complete asset library. Existing Modal, Drawer, Toast, Collapse and Tabs animations retain their implementations. The [integration verification report](../audits/hitu-motion-2026-10-08.md) records production compatibility, measured consumer-build increments and validation commands. Unified root exports add a regular dependency and do not imply zero cost for every consumer.
+This release supports complete React SVG layers and the Box/File assets. It does not support `svgText`, chip subpath animation, an illustration editor or the complete asset library. Modal, Drawer, Toast, Collapse and Tabs retain their animation implementations and lifecycles while consuming the shared nonlinear easing tokens. The [integration verification report](../audits/hitu-motion-2026-10-08.md) records production compatibility, measured consumer-build increments and validation commands from the initial integration; it is a historical record. See the [nonlinear motion specification](../design/apple-motion-curves.en.md) for the later curve migration. Unified root exports add a regular dependency and do not imply zero cost for every consumer.
 
 [Live Motion example source](../site/src/examples/motion/default.example.tsx) · [Live Hitu example source](../site/src/examples/hitu-player/default.example.tsx)

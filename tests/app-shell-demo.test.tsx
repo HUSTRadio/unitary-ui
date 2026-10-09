@@ -3,11 +3,12 @@ import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { AppShellDemo } from "../docs/site/src/components/patterns/app-shell-demo";
 import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
+import * as scrollMotion from "../src/lib/scroll-animation";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -32,6 +33,7 @@ afterEach(() => {
   if (root) act(() => root.unmount());
   container?.remove();
   document.body.innerHTML = "";
+  vi.restoreAllMocks();
 });
 
 function renderAppShell(language: "zh-CN" | "en-US") {
@@ -71,6 +73,26 @@ function toolbarItemByLabel(label: string): HTMLButtonElement {
  * （浏览器窗口形态），工具栏命令需可观测地反馈到窗口状态行。
  */
 describe("AppShellDemo · MenuBar + Toolbar 组合演示", () => {
+  it("cancels the inner anchor scroll before replacing it with outer sheet centering, then cleans up on unmount", () => {
+    const inner = { cancel: vi.fn(), refresh: vi.fn() };
+    const outer = { cancel: vi.fn(), refresh: vi.fn() };
+    const scroll = vi.spyOn(scrollMotion, "scrollIntoViewWithMotion")
+      .mockReturnValueOnce(inner).mockReturnValueOnce(outer);
+    renderAppShell("en-US");
+    const anchor = container.querySelector<HTMLAnchorElement>('a[href="#demo-api"]')!;
+    act(() => anchor.click());
+    expect(scroll).toHaveBeenCalledTimes(1);
+    expect(scroll.mock.calls[0][0].id).toBe("demo-api");
+    const sheet = [...container.querySelectorAll<HTMLButtonElement>("button")]
+      .find(button => button.textContent === "Open BottomSheet")!;
+    act(() => sheet.click());
+    expect(inner.cancel).toHaveBeenCalledTimes(1);
+    expect(scroll).toHaveBeenCalledTimes(2);
+    expect(scroll.mock.calls[1][1]).toBe("center");
+    act(() => root.render(null));
+    expect(outer.cancel).toHaveBeenCalledTimes(1);
+  });
+
   it("在浏览器窗口形态段落内同时渲染菜单栏与工具栏", () => {
     renderAppShell("zh-CN");
     const section = windowSection();

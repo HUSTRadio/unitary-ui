@@ -546,11 +546,11 @@ describe("optional active-item scroll tracking", () => {
 
   it("honors computed duration tokens expressed in seconds and a changed easing token", () => {
     durationToken = "0.6s";
-    easingToken = "cubic-bezier(0, 0, 1, 1)";
+    easingToken = "cubic-bezier(0.42, 0, 0.58, 1)";
     const owner = render("sidebar", "always");
     primeAnimation();
     frame(150);
-    expect(owner.scrollTop).toBeCloseTo(46, 0);
+    expect(owner.scrollTop).toBeCloseTo(184 * 0.12916, 0);
     frame(150);
     expect(owner.scrollTop).toBeCloseTo(92, 0);
     frame(300);

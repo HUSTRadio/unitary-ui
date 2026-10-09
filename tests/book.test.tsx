@@ -72,7 +72,7 @@ describe("Book", () => {
     expect(css).toMatch(
       /rotateY\(var\(--hover-rotate\)\)\s+scale\(var\(--hover-scale\)\)\s+translateX\(var\(--hover-translate-x\)\)/,
     );
-    expect(css).toContain("transition: transform 250ms ease-out");
+    expect(css).toContain("transition: transform 250ms var(--ease-out)");
     expect(css).toContain("font-size: 10.5cqw");
     expect(css).toContain("font-size: 12cqw");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");

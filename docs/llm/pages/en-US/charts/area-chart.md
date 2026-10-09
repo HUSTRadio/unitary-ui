@@ -56,6 +56,7 @@ Not applicable: Display-only component; internal state exists solely for interac
 ## Theme behavior
 
 - Axes, grid, and tooltip card use semantic tokens for automatic light/dark adaptation; series colors come from the fixed 9-color palette.
+- Tooltip movement uses --uni-motion-feedback (150ms by default) and --ease-snap, positioning immediately under reduced motion. Legend-button scrolling uses --uni-motion-state (250ms by default) and --ease-in-out, and user input can interrupt it.
 
 ## Live Demo
 

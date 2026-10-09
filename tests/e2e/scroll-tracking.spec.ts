@@ -310,13 +310,18 @@ for (const theme of ["light", "dark"] as const) {
       await expectDemoPosition(surface, 9);
       const trace = await surface.fixture.evaluate((node) => JSON.parse((node as HTMLElement).dataset.motionTrace!) as { elapsed: number; position: number }[]);
       expect(trace.length).toBeGreaterThan(10);
+      const quarter = trace.find((sample) => sample.elapsed >= 450);
+      expect(quarter).toBeDefined();
       const midpoint = trace.find((sample) => sample.elapsed >= 950);
       expect(midpoint).toBeDefined();
       const final = await position(surface);
       const fraction = (midpoint!.position - trace[0].position) / (final - trace[0].position);
-      // cubic-bezier(0.4, 0, 0.2, 1) travels roughly 77% at half its duration.
-      expect(fraction).toBeGreaterThan(0.65);
-      expect(fraction).toBeLessThan(0.9);
+      // Symmetric smooth motion travels roughly 13% at quarter time and 50% at half.
+      const earlyFraction = (quarter!.position - trace[0].position) / (final - trace[0].position);
+      expect(earlyFraction).toBeGreaterThan(0.07);
+      expect(earlyFraction).toBeLessThan(0.23);
+      expect(fraction).toBeGreaterThan(0.44);
+      expect(fraction).toBeLessThan(0.59);
       expect(trace.at(-1)!.elapsed).toBeGreaterThanOrEqual(1800);
       expect(trace.at(-1)!.elapsed).toBeLessThan(2400);
     });
@@ -354,6 +359,26 @@ for (const theme of ["light", "dark"] as const) {
       await expectDemoPosition(surface, 3);
       await frames(page);
       await expectDemoPosition(surface, 3);
+    });
+
+    test(`${kind} dynamic reduced motion completes an active scroll (${theme})`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      const surface = await openDemo(page, kind, theme);
+      await setMode(surface, "Always");
+      await settled(surface.root);
+      await motionDuration(surface, "2s");
+      await setTarget(surface, 9);
+      await expect(surface.root).toHaveAttribute("data-scroll-tracking-state", "running");
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect(page.locator('[data-slot="select-content"]')).toHaveCount(0);
+      await expect(surface.fixture.locator('[data-slot="scroll-tracking-target"]').getByRole("combobox")).toBeFocused();
+      await expect(page.locator("body")).not.toHaveAttribute("data-scroll-locked", "1");
+      await expect(page.locator("#main-content")).not.toHaveAttribute("aria-hidden", "true");
+      await settled(surface.root);
+      await expectDemoPosition(surface, 9);
+      const final = await position(surface);
+      await frames(page, 8);
+      expect(await position(surface)).toBe(final);
     });
 
     test(`${kind} reduced motion places the active item without animation (${theme})`, async ({ page }) => {

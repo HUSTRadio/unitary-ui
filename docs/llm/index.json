@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/api/tokens.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:648f76522b9a4b897ba04cbb74bda6a48f8e34768e43e27de32ad18b7c6f4375",
-        "en-US": "sha256:6161a6e55ab57c23694d2f02d0525882d8777bd96e464ddb4fce5cab48252249"
+        "zh-CN": "sha256:be0c83cd8450f9b16f22c72bf120dac3a4355dc12687e2eb25f42754624e9677",
+        "en-US": "sha256:a5122863b822d43fa905e0f0d575247b68b6493ca5f04c3f5cd8be6592b6f13e"
       }
     },
     {
@@ -1409,8 +1409,8 @@
         "en-US": "pages/en-US/components/scroller.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:067a8b5d2e5238cf4a1896b53a2a3a50658dab34e0b0583340c20e1f02913065",
-        "en-US": "sha256:498ce155e29e1ae5139fa35efb2b3f577b838c4c536721c87704c66feb60b321"
+        "zh-CN": "sha256:54d05eebe39ac98f1cdcf04fb644342e6034bbefdbbed13f447dcceff3b8d0a8",
+        "en-US": "sha256:3f1a9daf2cbc134565f6377d88d7bc0e865808d861cf062d8382d1a37ddad3fe"
       }
     },
     {
@@ -1537,8 +1537,8 @@
         "en-US": "pages/en-US/components/carousel.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:65d49eac6145d2c6480cf6bbf2e612860cc8512ba1a68a2fe9cc13f6ec6dac23",
-        "en-US": "sha256:1c554831d6f234574cc7a4f43bf39767e28962fa6481cec60d7bf58bc5811536"
+        "zh-CN": "sha256:4aae519dc620f894cddd81ee613770f6918c6966839aec53ca3a297a7a83a1a1",
+        "en-US": "sha256:94bd98f20119a3e299ba88875e4b50c4da0646957780d2b1ad17d31500a2adf9"
       }
     },
     {
@@ -1601,8 +1601,8 @@
         "en-US": "pages/en-US/components/hitu-player.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:1958ae2d0eb2c4f1531e49e82c1852538a52ac141a27c624c1161932129678a5",
-        "en-US": "sha256:8bca0d4107593ef33e988f557229c829563b4f206a435763fdf7c7a66cd8ab9f"
+        "zh-CN": "sha256:459ed19b99a58d5f4f57750e43f1f981c9f7bd548fc33bd43cf5f99695668c02",
+        "en-US": "sha256:4545ccf9200e6f74fba79ff6dbe36ff059262e4da4c2ec12a299b6c8ae0ba5b7"
       }
     },
     {
@@ -1617,8 +1617,8 @@
         "en-US": "pages/en-US/components/motion.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2e069d877ff00de6a01853e0929384390f9d4d841a0453904b2ccaa4300c2503",
-        "en-US": "sha256:ebb52880c79dffcbdab5cbcb4045e4fa471da61347778513fc3962f0665d765f"
+        "zh-CN": "sha256:6b35f17910fd27c1920eba51cb55184e7904fdf71a90e9fbcb10d80d0ba2bfe0",
+        "en-US": "sha256:76272abcf1e293adae846fc95e9851fbfae2d2b597e8ef5b473c9c8b6728042e"
       }
     },
     {
@@ -1745,8 +1745,8 @@
         "en-US": "pages/en-US/charts/area-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:c2dcce2b7cc50c9faf95771a02a497c30d0bd32d5c9e2ea2463d64359b8e8356",
-        "en-US": "sha256:d2523a25e43c8a185d6877a830e20934a91e11c374eae444ce9eeed904f0f82c"
+        "zh-CN": "sha256:cecea6f35c58a67154563dc711601ab73ebf02edffe8f31634b8f84db20f087d",
+        "en-US": "sha256:b978ce4ffa49a3700a78a1a265d8029a5222dc55de9e5938aa3bf55daf7a67a1"
       }
     },
     {
@@ -1761,8 +1761,8 @@
         "en-US": "pages/en-US/charts/bar-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:dd5fbb9dfbc732e8798e43bd59bf6aa6b0e963c1d9141092e82bc919bf957db6",
-        "en-US": "sha256:78d8e379471cd34fe5a72b6fc2a79096743303412d050b040c7b594c5afd84aa"
+        "zh-CN": "sha256:29ba73d6dd5385f3334f746074d2c9baf26eaffa4c3e402c69008d0bf8371609",
+        "en-US": "sha256:0ff188d8a5118bd684d993b17f88405a8dc487a7d5f05d99be159a850984ee32"
       }
     },
     {
@@ -1809,8 +1809,8 @@
         "en-US": "pages/en-US/charts/combo-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:aef0a9aa0af35c0be14e6345659218574e9713c549a6a6efdf947d6dfcdd3f37",
-        "en-US": "sha256:c973336ffb2bb187c1322f48e8f94fd5447c2bfb7ad5cfe8f64493a4ce871089"
+        "zh-CN": "sha256:6e8ecec6f6413ed4441816b87bd38cde84b21c86a4bc1195993229e699ca0680",
+        "en-US": "sha256:3ad59a761d260b68047a0e4678890f298e6f61229bb47f93bb456549fdb300e7"
       }
     },
     {
@@ -1841,8 +1841,8 @@
         "en-US": "pages/en-US/charts/line-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:0050369af96ba572ad6fbfb5210fd3762024caa5d59849b236c81628c0f03643",
-        "en-US": "sha256:02d40879372114a2b63e2f4116f6951638309c644075cb8bbaccfc5b07552deb"
+        "zh-CN": "sha256:539b82e34d9eecbb3000680e57139fe83cd043006f54f9396220f72af706bf1c",
+        "en-US": "sha256:b6b88d6e9b70e7806ecf821885f7818afc191a8758d413190dbd1ac9c41eacf2"
       }
     },
     {

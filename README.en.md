@@ -55,6 +55,7 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 
 - Documentation site: `vp dev docs`
 - Motion and illustrations: [`Hitu + Motion guide`](./docs/guides/hitu-motion.en.md)
+- Nonlinear motion and migration: [`Curve specification`](./docs/design/apple-motion-curves.en.md)
 - Integration verification: [`Tests and bundle measurements`](./docs/audits/hitu-motion-2026-10-08.md)
 - Official specification snapshot: [`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - Changelog: [`CHANGELOG.en.md`](./CHANGELOG.en.md)

@@ -9,7 +9,7 @@
  *   14.06l.53-.53L8 9.06z
  *
  * 过渡（自制）：两枚同尺寸 SVG 绝对定位叠放，切换时旧图形旋转缩小淡出、
- * 新图形反向旋入，300ms cubic-bezier(0.32,0.72,0,1)；颜色继承 currentColor。
+ * 新图形反向旋入，使用时长 token + ease-snap；颜色继承 currentColor。
  */
 import type { CSSProperties } from "react";
 

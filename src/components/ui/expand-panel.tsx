@@ -23,7 +23,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *            故该分支降为 rounded-none（贴合边的圆角只会留下缺口）
  *   right  → 镜像（right-0 rounded-l-overlay translate-x-full）
  *   bottom → 等价 Drawer 形态（inset-x-0 bottom-0 rounded-t-overlay）
- * - 动画统一 500ms cubic-bezier(0.32,0.72,0,1)，motion-reduce:!transition-none。
+ * - 动画使用 expansive 档时长 + ease-snap，motion-reduce:!transition-none。
  * - focus trap / Esc / 外点关闭由 Radix Dialog 自带。
  */
 
@@ -203,7 +203,7 @@ function ExpandPanel({
             data-below-topbar={belowTopbar || undefined}
             style={anchorVars as React.CSSProperties}
             className={cn(
-              "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] opacity-0 data-[motion-state=open]:opacity-100 transition-opacity duration-(--uni-duration-slower) ease-snap motion-reduce:transition-none",
+              "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] opacity-0 data-[motion-state=open]:opacity-100 transition-opacity duration-(--uni-duration-slower) ease-snap data-[motion-state=closed]:ease-in motion-reduce:transition-none",
               container ? "absolute" : "fixed",
               boundedByTopbar
                 ? // 仅遮蔽正文区：遮罩顶边 = 锚点底边，topbar 保持可见可交互、不被压暗
@@ -228,7 +228,7 @@ function ExpandPanel({
             onCloseAutoFocus={(event) => {
               if (!triggerRef) return;
               event.preventDefault();
-              if (!openRef.current) triggerRef.current?.focus();
+              if (!openRef.current) triggerRef.current?.focus({ preventScroll: true });
             }}
             onTransitionEnd={(event) => {
               if (event.target === event.currentTarget && !openRef.current) setPresent(false);
@@ -254,7 +254,7 @@ function ExpandPanel({
               // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
               // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
               "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto border-[color:var(--_uni-material-border,var(--border))] bg-background shadow-lg outline-none",
-              "transition-[translate,clip-path] duration-(--uni-duration-slower) ease-snap motion-reduce:!transition-none",
+              "transition-[translate,clip-path] duration-(--uni-duration-slower) ease-snap data-[motion-state=closed]:ease-in motion-reduce:!transition-none",
               SIDE_CLASSES[side],
               container && "absolute",
               // 锚点落下：顶边固定在锚点底边、由 clip-path 向下展开（见 index.css

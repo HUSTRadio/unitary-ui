@@ -6,7 +6,17 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Changed
+
+- **Nonlinear motion curves**: aligns the component library, website, styleguide and Hitu illustrations around quick responses, soft finishes or smooth starts and finishes. The three Bezier curves are project-selected values, not official Apple parameters, and add no spring engine. Retains the 150 / 250 / 350 / 500ms duration tiers, with CSS as the only parameter source and JS defaults derived by the token generator; entering and existing independent exit phases consume semantic curves. Continuous loading rotations remain constant-rate, native gestures remain direct, and data geometry interpolation is unchanged.
+- **Motion and Hitu easing contract**: all four `useMotionTransition` tiers read `--ease-snap`, retaining valid scoped nonlinear overrides; linear or identity-Bezier configurations complete instantly. Omitting `HituFrame.cubic` changes Hitu's former linear interpolation to `[0.42, 0, 0.58, 1]`, while explicit nonlinear curves remain supported. Shared time-progress solving preserves endpoints and sparse-transform inheritance.
+- **Carousel and programmatic scrolling migration**: narrows `CarouselVariant` to `"slide" | "fade" | "fade-scale"`, removing `fade-linear` in favor of `fade`; every effect uses a quick-finish curve. Scroller direction buttons, the four chart legends and website anchors use the state duration and a smooth start and finish. New requests on a container continue from the current position, and user input cancels active animations. Tooltip movement in AreaChart, BarChart, LineChart and ComboChart uses feedback timing and a quick-finish curve; reduced motion positions immediately, and legend state follows actual scrolling.
+- **Bilingual motion specification and examples**: adds the [nonlinear motion specification](./docs/design/apple-motion-curves.en.md), covering curve provenance, governance exceptions and migration steps; synchronizes the Motion / Hitu, Carousel, Scroller and chart APIs, guides and live examples. The historical Hitu integration audit is preserved.
+
 ### Fixed
+
+- **Select exit under dynamic reduced motion**: retains the CSS animation name and completes with the existing global `0.01ms` duration when reduced motion is enabled during exit, allowing Radix Presence to unmount content, release the scroll lock and preserve focus handling without visible motion. Fixes content and scroll locks remaining after the animation name was removed.
+- **App Shell mobile anchors**: the example prevents default navigation for menu section anchors, preserving the documentation hash route while scrolling the local container with the shared curve. HamburgerMenu / ExpandPanel use `preventScroll` when returning focus to preserve the outer container position.
 
 - **Production builds in unified verification**: restores temporary toolchain environment changes after test-association discovery, preventing `NODE_ENV=development` from leaking into library builds and emitting `jsxDEV` calls unsupported by production React. The caller's environment, full verification scope and hydration assertions are preserved.
 
@@ -62,7 +72,7 @@ All notable changes to this project are documented in this file. The format foll
 
 - **Global token documentation and API**: Adds a searchable catalog generated from the stylesheet, a local/global live editor, and package-root read, batch-write, reset and React subscription APIs. Distinguishes runtime variables from build mappings, supports theme cascading and SSR, and checks generated catalog drift.
 
-- **Carousel transition effects**: Adds `variant`: default `slide`, constant-rate `fade-linear`, eased `fade`, and `fade-scale` with subtle scaling. Effects share existing paging controls, support interrupted reversals and reduced motion, and have selectable demos in bilingual docs and the living styleguide.
+- **Carousel transition effects**: Adds `variant`: default `slide`, `fade`, and `fade-scale` with subtle scaling, sharing a nonlinear quick-finish curve. Effects share existing paging controls, support interrupted reversals and reduced motion, and have selectable demos in bilingual docs and the living styleguide.
 
 - **Numbered pagination and media components**: Adds NumberedPagination (page numbers and ellipses), Carousel (images, keyboard, touch and arrows), FullPageScroller (wheel/touch thresholds, momentum suppression and a fullscreen demo), and LazyLoad (deferred mounting near a scroll viewport with dimension placeholders). Package types, bilingual guides, API tables, live examples, Show Code and the living styleguide cover the same APIs.
 

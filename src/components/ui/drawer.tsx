@@ -24,8 +24,8 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   已登记为该 token；HIG-AUD-010 把逐组件字面量收敛为族 token），overlay 与 panel
  *   同在 fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
- * - 出入场：slide-in-from-bottom / slide-out-to-bottom，500ms + ease-snap（官方
- *   0.5s cubic-bezier(0.32,0.72,0,1) 同值）。官方在 Base UI 上走 transition 机制；
+ * - 出入场：slide-in-from-bottom / slide-out-to-bottom，expansive 档时长，
+ *   进入快速收尾、退出加速离场，松手复位走 ease-snap。官方在 Base UI 上走 transition 机制；
  *   本项目基于 Radix，Presence 只监听 animationend（不等待 transition），transition
  *   方案退出会被瞬时卸载，故改用等价的 tw-animate-css keyframe（与 Sheet /
  *   ResponsiveDrawer 同族）。
@@ -142,7 +142,7 @@ function DrawerPanel({
       className={cn(
         "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t border-[color:var(--_uni-material-border,var(--border))] bg-background shadow-[var(--material-shadow-menu)] outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[80dvh] overscroll-none",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         "duration-(--uni-motion-expansive) ease-snap motion-reduce:animate-none!",
         verticalScroll && "overflow-y-auto",
@@ -158,7 +158,7 @@ function DrawerPanel({
           transition: dragging
             ? "none"
             : reducedMotion
-              ? "transform 0s linear"
+              ? "none"
               : "transform var(--uni-motion-expansive) var(--ease-snap)",
         } as React.CSSProperties
       }
@@ -223,7 +223,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" data-material="mask-scrim" />
+        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" data-material="mask-scrim" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}

@@ -6,7 +6,17 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **非线性动效曲线**：组件库、官网、styleguide 与 Hitu 插画统一使用快速响应、柔和收尾或平滑起止的曲线；三组贝塞尔参数由本项目选择，不是 Apple 官方数值，也不引入弹簧引擎。保留 150 / 250 / 350 / 500ms 四档时长，CSS 是参数唯一来源，JS 默认表由 token 生成器派生；进入和已有独立退出阶段分别消费语义曲线。持续旋转的加载器仍匀速，原生手势保持跟手，数据几何插值不变。
+- **Motion 与 Hitu 曲线契约**：`useMotionTransition` 四档统一读取 `--ease-snap`，有效的局部非线性覆盖继续生效；线性或恒等贝塞尔配置即时完成。Hitu 省略 `HituFrame.cubic` 时由原先的线性插值改为 `[0.42, 0, 0.58, 1]`，显式非线性配置仍可使用；共享时间轴求解保留端点和稀疏变换继承。
+- **轮播与程序滚动迁移**：`CarouselVariant` 收敛为 `"slide" | "fade" | "fade-scale"`，删除 `fade-linear`，迁移为 `fade`；全部效果使用快速收尾曲线。Scroller 方向按钮、四类图表图例和官网锚点使用 state 时长与平滑起止曲线，同一容器的新请求从当前位置重新开始，用户输入取消在途动画。AreaChart、BarChart、LineChart、ComboChart 的 Tooltip 位移使用反馈时长与快速收尾曲线；减少动画即时定位，图例状态按实际滚动更新。
+- **双语动效规范与示例**：新增[非线性动效规范](./docs/design/apple-motion-curves.md)，记录曲线来源、非线性治理例外与迁移步骤；同步 Motion / Hitu、Carousel、Scroller、图表的 API、指南和真实示例。历史 Hitu 接入审计保留原样。
+
 ### Fixed
+
+- **Select 动态减少动画退出**：退出期间开启减少动画时，保留 CSS 动画名称并用现有全局 `0.01ms` 时长完成，让 Radix Presence 正常卸载内容、释放滚动锁并保留焦点流程，没有可见动效；修复移除动画名称后内容和滚动锁残留的问题。
+- **App Shell 移动端锚点**：示例阻止菜单区块锚点的默认跳转，保持文档 hash 路由，并在局部容器中执行统一曲线的滚动；HamburgerMenu / ExpandPanel 归还焦点时使用 `preventScroll`，保留外层容器位置。
 
 - **统一验证的生产构建环境**：测试关联发现结束后恢复工具链临时修改的环境变量，避免 `NODE_ENV=development` 泄漏到后续库构建，导致发布入口包含生产 React 无法执行的 `jsxDEV`；保留原始环境、完整验证范围和 hydration 断言。
 
@@ -62,7 +72,7 @@
 
 - **全局 Token 文档与读写 API**：新增可搜索的样式源码目录、局部/全局实时编辑器，以及包根导出的读取、批量写入、恢复和 React 订阅 API；区分运行时变量与构建映射，支持主题级联和 SSR，并验证目录生成无漂移。
 
-- **Carousel 切换效果**：新增 `variant`：默认 `slide`、`fade-linear` 匀速淡入淡出、`fade` 缓入缓出、`fade-scale` 淡入淡出加轻微缩放。所有效果共用现有翻页操作，支持中途反转与减少动画；双语文档和展示页提供可切换演示。
+- **Carousel 切换效果**：新增 `variant`：默认 `slide`、`fade` 淡入淡出、`fade-scale` 淡入淡出加轻微缩放，统一使用非线性快速收尾曲线。所有效果共用现有翻页操作，支持中途反转与减少动画；双语文档和展示页提供可切换演示。
 
 - **数字分页与媒体组件**: 新增 NumberedPagination（页码与省略号）、Carousel（图片、键盘、触摸与方向按钮）、FullPageScroller（滚轮及触摸阈值整屏切换、惯性抑制、全屏演示）与 LazyLoad（接近滚动视口时延迟挂载、尺寸占位）。同步包入口类型、中英文指南、API 表、可运行演示、Show Code 与 living styleguide。
 

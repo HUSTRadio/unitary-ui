@@ -44,7 +44,7 @@ describe("CopyButton source contract", () => {
 
   test("draw keyframes exist in global styles", async () => {
     const css = await read("src/styles/index.css");
-    expect(css).toContain("--animate-copy-check-draw: copy-check-draw 0.2s ease-out both");
+    expect(css).toContain("--animate-copy-check-draw: copy-check-draw 0.2s var(--ease-out) both");
     expect(css).toContain("@keyframes copy-check-draw");
     expect(css).toContain("stroke-dasharray: 24"); // lucide Check getTotalLength 实测全长 22.63，24 留余量
     expect(css).toContain("stroke-dashoffset: 24");

@@ -21,7 +21,7 @@ for (const theme of ["light", "dark"] as const) {
         await region.focus();
         await page.keyboard.press("Home");
         await carousel.getByRole("button", { name: "Next image", exact: true }).click();
-        for (const name of ["Linear fade", "Eased fade", "Fade and scale", "Slide"]) {
+        for (const name of ["Fade", "Fade and scale", "Slide"]) {
           await demo.getByRole("combobox", { name: "Transition effect" }).click();
           await page.getByRole("option", { name, exact: true }).click();
           await expect(region).toHaveAttribute("data-index", "1");
@@ -31,7 +31,10 @@ for (const theme of ["light", "dark"] as const) {
             return {
               track: getComputedStyle(element.querySelector('[data-slot="full-page-track"]')!)
                 .transform,
-              overlap: rects.every((rect) => Math.abs(rect.left - rects[0].left) < 1),
+              // Scaling expands the edges, while stacked slides keep the same center.
+              overlap: rects.every((rect) => rect.width > 0 && rect.height > 0
+                && Math.abs(rect.left + rect.width / 2 - (rects[0].left + rects[0].width / 2)) < 1
+                && Math.abs(rect.top + rect.height / 2 - (rects[0].top + rects[0].height / 2)) < 1),
               ratio: element.clientWidth / element.clientHeight,
             };
           });
@@ -48,7 +51,7 @@ for (const theme of ["light", "dark"] as const) {
       }
     });
 
-    test("linear and eased fades differ in real animation progress and reverse smoothly", async ({
+    test("all fades have nonlinear progress and reverse smoothly", async ({
       page,
     }) => {
       await page.goto("/#/components/carousel");
@@ -56,7 +59,7 @@ for (const theme of ["light", "dark"] as const) {
       const carousel = demo.locator('[data-slot="carousel"]');
       const region = carousel.locator('[data-slot="full-page-scroller"]');
       const incoming = region.locator('[data-slot="full-page-section"]').nth(1);
-      for (const name of ["Linear fade", "Eased fade"]) {
+      for (const name of ["Fade", "Fade and scale"]) {
         await demo.getByRole("combobox", { name: "Transition effect" }).click();
         await page.getByRole("option", { name, exact: true }).click();
         await region.focus();
@@ -75,9 +78,8 @@ for (const theme of ["light", "dark"] as const) {
           animation.play();
           return opacity;
         });
-        if (name === "Linear fade") expect(progress).toBeCloseTo(0.2, 2);
-        else expect(progress).toBeGreaterThan(0.03);
-        if (name === "Eased fade") expect(progress).toBeLessThan(0.15);
+        expect(progress).toBeGreaterThan(0.6);
+        expect(progress).toBeLessThan(0.8);
 
         const reversal = await incoming.evaluate(async (element) => {
           const before = parseFloat(getComputedStyle(element).opacity);

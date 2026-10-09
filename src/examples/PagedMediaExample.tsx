@@ -28,8 +28,7 @@ export function PagedMediaExample() {
           layout={{ width: "min(18rem, 100%)" }}
         >
           <SelectItem value="slide">滑动 · Slide</SelectItem>
-          <SelectItem value="fade-linear">线性淡入淡出 · Linear fade</SelectItem>
-          <SelectItem value="fade">缓入缓出 · Eased fade</SelectItem>
+          <SelectItem value="fade">淡入淡出 · Fade</SelectItem>
           <SelectItem value="fade-scale">淡入淡出与缩放 · Fade and scale</SelectItem>
         </Select>
         <Carousel

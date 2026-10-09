@@ -18,7 +18,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   页面保持可交互、不锁滚动、outside-click 不关闭）
  * - overlay：bg-[var(--uni-overlay-backdrop-color)] @ opacity-0.8（light #f2f2f2 / dark #000）
  * - content 公共：gap-4 bg-background-100 p-6，fixed z-[var(--uni-z-drawer)]，
- *   shadow-[var(--uni-shadow-modal-elevated)]，transition ease-in-out
+ *   shadow-[var(--uni-shadow-modal-elevated)]，本地动画开关阶段使用统一进入/退出曲线
  * - side 默认几何（组件默认值，非 demo 覆盖）：
  *   top/bottom：inset-x-0 全宽，无圆角无 margin
  *   right/left：inset-y-0 w-3/4 sm:max-w-sm h-full，无圆角无 margin
@@ -95,8 +95,8 @@ const SheetContent = React.forwardRef<
       data-slot="sheet-content"
       className={cn(
         "fixed z-[var(--uni-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--uni-shadow-modal-elevated)] transition ease-in-out focus:outline-none motion-reduce:transition-none",
-        "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
+        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
         SIDE_STYLES[side],
         className,
       )}

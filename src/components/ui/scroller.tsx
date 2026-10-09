@@ -3,6 +3,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { animateScroll, inlineScrollLeft, inlineScrollPosition, type ScrollAnimation } from "@/lib/scroll-animation";
 
 /**
  * Scroller — Geist 官方 Scroller（docs/geist-markdown-refs/components/scroller.md）。
@@ -38,7 +39,9 @@ function Scroller({
 }: ScrollerProps) {
   const { t } = useI18n();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const animationRef = React.useRef<ScrollAnimation | null>(null);
   const vertical = overflow === "y";
+  React.useEffect(() => () => animationRef.current?.cancel(), []);
 
   const scrollToChild = React.useCallback(
     (direction: 1 | -1) => {
@@ -48,14 +51,18 @@ function Scroller({
       if (items.length === 0) return;
 
       const containerRect = container.getBoundingClientRect();
-      const position = vertical ? container.scrollTop : container.scrollLeft;
+      const position = vertical ? container.scrollTop : inlineScrollPosition(container);
+      const rtl = !vertical && container.ownerDocument.defaultView?.getComputedStyle(container).direction === "rtl";
+      const itemStart = (rect: DOMRect) => vertical
+        ? rect.top - containerRect.top - container.clientTop + position
+        : rtl
+          ? containerRect.left + container.clientLeft + container.clientWidth - rect.right + position
+          : rect.left - containerRect.left - container.clientLeft + position;
 
       let target: HTMLElement | null = null;
       for (const item of items) {
         const rect = item.getBoundingClientRect();
-        const start = vertical
-          ? rect.top - containerRect.top + container.scrollTop
-          : rect.left - containerRect.left + container.scrollLeft;
+        const start = itemStart(rect);
         if (direction === 1 && start > position + 1) {
           target = item;
           break;
@@ -70,13 +77,9 @@ function Scroller({
       if (!target) return;
 
       const rect = target.getBoundingClientRect();
-      const targetPosition = vertical
-        ? rect.top - containerRect.top + container.scrollTop
-        : rect.left - containerRect.left + container.scrollLeft;
-      container.scrollTo({
-        top: vertical ? targetPosition : container.scrollTop,
-        left: vertical ? container.scrollLeft : targetPosition,
-        behavior: "smooth",
+      const targetPosition = itemStart(rect);
+      animationRef.current = animateScroll(container, {
+        destination: vertical ? { top: targetPosition } : { left: inlineScrollLeft(container, targetPosition) },
       });
     },
     [vertical],
