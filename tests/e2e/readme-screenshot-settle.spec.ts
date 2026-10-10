@@ -1,7 +1,87 @@
 import { expect, test } from "@playwright/test";
-import { settle } from "../../scripts/capture-readme-screenshots.mjs";
+import { createCapturePage, settle } from "../../scripts/capture-readme-screenshots.mjs";
 
 for (const theme of ["light", "dark"]) {
+  test(`README illustration is visible before lazy animation features load (${theme})`, async ({
+    browser,
+    baseURL,
+  }) => {
+    const page = await createCapturePage(browser);
+    let release!: () => void;
+    const ready = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let featuresRequested = false;
+    await page.route("**/src/lib/motion-features.ts*", async (route) => {
+      featuresRequested = true;
+      await ready;
+      await route.continue();
+    });
+    await page.addInitScript((value) => {
+      localStorage.setItem("unitary-theme-preference", value);
+    }, theme);
+    try {
+      await page.goto(`${baseURL}/#/components/hitu-player`, { waitUntil: "domcontentloaded" });
+      const player = page.locator('[data-motion-hitu-demo] [data-slot="hitu-player"]').first();
+      await player.scrollIntoViewIfNeeded();
+      await expect.poll(() => featuresRequested).toBe(true);
+      expect(
+        await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches),
+      ).toBe(true);
+      await settle(page);
+      await expect(player.locator("..")).toHaveCSS("opacity", "1");
+      await expect(player).toHaveAttribute("data-playing", "false");
+      await expect(player).toHaveAttribute("data-frame", "0");
+      await expect(player.locator("[data-hitu-layer]")).toHaveCount(2);
+      expect(
+        await player.evaluate((element) =>
+          [...element.querySelectorAll("[data-hitu-layer]")].every(
+            (layer) => (layer as SVGGraphicsElement).getBBox().width > 0,
+          ),
+        ),
+      ).toBe(true);
+    } finally {
+      release();
+      await page.close();
+    }
+  });
+
+  test(`README capture stops JavaScript motion and shows the static illustration (${theme})`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.addInitScript((value) => {
+      localStorage.setItem("unitary-theme-preference", value);
+    }, theme);
+    await page.goto("/#/components/hitu-player");
+    const demo = page.locator("[data-motion-hitu-demo]").first();
+    const player = demo.locator('[data-slot="hitu-player"]');
+    await player.scrollIntoViewIfNeeded();
+    await demo.locator("[data-motion-play]").click();
+    await expect(player).toHaveAttribute("data-playing", "true");
+    await expect.poll(() => player.getAttribute("data-frame")).not.toBe("0");
+
+    await settle(page);
+
+    expect(await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(
+      true,
+    );
+    await expect(player).toHaveAttribute("data-playing", "false");
+    await expect(player).toHaveAttribute("data-frame", "0");
+    await expect(player.locator("..")).toHaveCSS("opacity", "1");
+    expect(
+      await demo.evaluate(
+        (element) =>
+          element
+            .getAnimations({ subtree: true })
+            .filter((animation) => animation.playState === "running" || animation.pending).length,
+      ),
+    ).toBe(0);
+    await settle(page);
+    await expect(player).toHaveAttribute("data-frame", "0");
+    await expect(player.locator("..")).toHaveCSS("opacity", "1");
+  });
+
   test(`README capture waits for newly mounted images (${theme})`, async ({ page }) => {
     let releaseImage!: () => void;
     const ready = new Promise<void>((resolve) => {

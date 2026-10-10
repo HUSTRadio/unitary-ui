@@ -280,7 +280,12 @@ export const BROWSER_INPUT_GROUPS = [
   { specs: names("radio-scroll"), owners: names("radio") },
   {
     specs: names("readme-screenshot-settle"),
-    inputs: ["src/**", "scripts/*readme-screenshots*", "scripts/lib/readme-screenshots.mjs"],
+    inputs: [
+      "src/**",
+      "docs/site/src/examples/hitu-player/**",
+      "scripts/*readme-screenshots*",
+      "scripts/lib/readme-screenshots.mjs",
+    ],
   },
   { specs: names("scroll-tracking"), owners: names("sidebar-nav navbar scroller") },
   {

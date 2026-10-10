@@ -112,6 +112,9 @@ function stopPreview(child) {
 }
 
 export async function settle(page) {
+  // 停止 JS 动画并还原静态插画；CSS 覆盖无法终止 Motion 和 Hitu 的播放。
+  // Stop JavaScript motion and restore static illustrations before capturing.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.evaluate(async () => {
     // 路由切换后新挂载的图片也必须完成解码；不等待视口外的 lazy 图片。
     // Decode newly mounted viewport images without waiting for offscreen lazy images.
@@ -208,12 +211,19 @@ async function selectPage(page, key) {
   await settle(page);
 }
 
+export function createCapturePage(browser) {
+  return browser.newPage({
+    viewport: { width: WIDTH, height: HEIGHT },
+    reducedMotion: "reduce",
+  });
+}
+
 async function capture(outputDir, onPages) {
   const preview = await startPreview();
   let browser;
   try {
     browser = await chromium.launch();
-    const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
+    const page = await createCapturePage(browser);
     await page.goto(preview.url, {
       waitUntil: "networkidle",
       timeout: NAVIGATION_TIMEOUT_MS,
