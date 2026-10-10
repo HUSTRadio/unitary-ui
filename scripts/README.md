@@ -29,6 +29,35 @@ after their registered child processes also exit. Failure and normal exit releas
 ownership. Unknown or corrupt metadata fails closed; inspect the reported lock
 directory and stop its related processes before removing damaged metadata.
 
+## README 截图 / README screenshots
+
+每次 README 捕获都从当前真实 living styleguide 源码创建新的独立临时生产构建，
+再启动 preview。生成、只读检查与 pre-push 截图门禁共用这条路径，不复用旧构建。
+构建或预览启动失败会停止后续捕获，推送门禁不放行；成功和失败时均清理临时产物，
+不覆盖组件库发布输出。
+
+页面仍从真实导航的 `data-styleguide-page` 元数据动态发现，每页捕获浅色与深色主题，
+视口为 1440×900。页面创建及捕获前均应用减少动画偏好，让 JS 动画停止并呈现静态插画。
+既有像素规则保留：最多 16 个不同像素，每个 RGB 通道差值最多 10/255，尺寸与 alpha
+必须完全一致；漂移、缺失或损坏文件仍会阻止检查通过。
+
+Every README capture creates a fresh, isolated temporary production build from the current real
+living styleguide source, then starts a preview. Generation, read-only checks and the pre-push
+screenshot gate share this path without reusing old builds. Build or preview-startup failures stop
+capture and block the push gate. Temporary artifacts are cleaned up on success and failure without
+overwriting library release output.
+
+Pages remain dynamically discovered from the real navigation's `data-styleguide-page` metadata.
+Every page has light and dark captures at 1440×900. Reduced motion is applied at page creation and
+before capture, stopping JavaScript animation and showing static illustrations. Existing pixel
+rules remain: at most 16 differing pixels, at most 10/255 difference per RGB channel, and exactly
+matching dimensions and alpha. Drift, missing files and corrupt files still fail the check.
+
+```sh
+pnpm run docs:readme:screenshots
+pnpm run docs:readme:screenshots:check
+```
+
 ## Task completion / 任务收尾
 
 ```sh

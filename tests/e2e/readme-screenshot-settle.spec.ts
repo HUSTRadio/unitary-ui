@@ -1,5 +1,42 @@
-import { expect, test } from "@playwright/test";
-import { createCapturePage, settle } from "../../scripts/capture-readme-screenshots.mjs";
+import { chromium, expect, test } from "@playwright/test";
+import {
+  createCapturePage,
+  settle,
+  startPreview,
+  stopPreview,
+} from "../../scripts/capture-readme-screenshots.mjs";
+import { cleanupReadmePreview } from "../../scripts/lib/readme-preview.mjs";
+
+test("README production preview renders the real styleguide with the capture browser", async () => {
+  const preview = await startPreview();
+  let browser;
+  try {
+    browser = await chromium.launch();
+    const page = await createCapturePage(browser);
+    const requests: string[] = [];
+    page.on("request", (request) => requests.push(request.url()));
+    await page.goto(preview.url, { waitUntil: "networkidle", timeout: 120_000 });
+    await expect(page.locator("header nav")).toBeVisible();
+    expect(await page.locator("header nav [data-styleguide-page]").count()).toBeGreaterThan(0);
+    expect(requests.some((url) => new URL(url).pathname === "/@vite/client")).toBe(false);
+    expect(requests.some((url) => new URL(url).pathname.startsWith("/src/"))).toBe(false);
+    await settle(page);
+    expect(await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(
+      true,
+    );
+    await page.close();
+  } finally {
+    try {
+      if (browser) await browser.close();
+    } finally {
+      try {
+        stopPreview(preview.child);
+      } finally {
+        await cleanupReadmePreview(preview.buildDir);
+      }
+    }
+  }
+});
 
 for (const theme of ["light", "dark"]) {
   test(`README illustration is visible before lazy animation features load (${theme})`, async ({

@@ -15,6 +15,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Production README screenshot stability**: every capture creates an isolated temporary production build from current real styleguide source, then captures its preview, avoiding readiness that depends on on-demand development transforms. Generation, read-only checks and the pre-push gate share this path; build or startup failures block capture and pushing, and temporary artifacts are cleaned up without overwriting library release output. Retains dynamic navigation discovery, both themes per page, 1440×900, reduced-motion preferences and the existing strict pixel-comparison rules.
+
 - **Select exit under dynamic reduced motion**: retains the CSS animation name and completes with the existing global `0.01ms` duration when reduced motion is enabled during exit, allowing Radix Presence to unmount content, release the scroll lock and preserve focus handling without visible motion. Fixes content and scroll locks remaining after the animation name was removed.
 - **App Shell mobile anchors**: the example prevents default navigation for menu section anchors, preserving the documentation hash route while scrolling the local container with the shared curve. HamburgerMenu / ExpandPanel use `preventScroll` when returning focus to preserve the outer container position.
 

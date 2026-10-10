@@ -19,6 +19,15 @@ export const INDIRECT_INPUT_GROUPS = [
     inputs: ["scripts/capture-readme-screenshots.mjs", "scripts/lib/readme-screenshots.mjs"],
   },
   {
+    tests: unitFiles("readme-preview.test.ts"),
+    inputs: [
+      "scripts/capture-readme-screenshots.mjs",
+      "scripts/lib/readme-preview.mjs",
+      "scripts/lib/package-command.mjs",
+      "scripts/lib/package-script-lock.mjs",
+    ],
+  },
+  {
     tests:
       unitFiles(`ai-docs-pre-push.test.ts ai-docs-prompt-contract.test.ts llm-task-contract.test.ts
       llm-task-runner.test.ts llm-task-docs-contract.test.ts pre-push-context.test.ts
@@ -285,6 +294,10 @@ export const BROWSER_INPUT_GROUPS = [
       "docs/site/src/examples/hitu-player/**",
       "scripts/*readme-screenshots*",
       "scripts/lib/readme-screenshots.mjs",
+      "scripts/lib/readme-preview.mjs",
+      "vite.config.ts",
+      "index.html",
+      "public/**",
     ],
   },
   { specs: names("scroll-tracking"), owners: names("sidebar-nav navbar scroller") },

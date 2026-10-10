@@ -10,6 +10,7 @@ import { chromium } from "@playwright/test";
 import { createScreenshotArtifacts, screenshotsMatch } from "./lib/readme-screenshots.mjs";
 import { packageCommand } from "./lib/package-command.mjs";
 import { withPackageLock } from "./lib/package-script-lock.mjs";
+import { buildReadmePreview, cleanupReadmePreview } from "./lib/readme-preview.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "images", "styleguide");
@@ -18,10 +19,8 @@ const README_EN = path.join(ROOT, "README.en.md");
 const WIDTH = 1440;
 const HEIGHT = 900;
 /**
- * 首屏导航预算。根 styleguide 的 dev 冷启动要按需转换全部示例模块，
- * 实测（2026-09-21，1440x900）：26s 才渲染出导航、30.3s 才 networkidle——
- * Playwright 默认 30s 恰好卡线，表现为「page.goto Timeout 30000ms exceeded」。
- * 与 playwright.config.ts 的重路由 90s / dev server 120s 口径一致放宽。
+ * 每次捕获先构建真实 styleguide，再从独立临时目录预览；导航仍使用有限预算。
+ * Build the real styleguide before each capture and keep preview navigation bounded.
  */
 const NAVIGATION_TIMEOUT_MS = 120_000;
 const CHECK = process.argv.includes("--check");
@@ -57,39 +56,59 @@ async function findAvailablePort(startPort) {
   throw new Error(`No local preview port available in ${startPort}-${startPort + 99}`);
 }
 
-async function startPreview() {
-  const port = await findAvailablePort(5202);
-  const url = `http://127.0.0.1:${port}`;
-  const child = spawn(
-    process.execPath,
-    packageCommand(ROOT, [
-      "bin",
-      "vite-plus",
-      "vp",
-      "dev",
-      "--host",
-      "127.0.0.1",
-      "--port",
-      String(port),
-      "--strictPort",
-    ]),
-    { cwd: ROOT, stdio: "ignore", shell: false, detached: process.platform !== "win32" },
-  );
+export async function startPreview({ root = ROOT, spawnProcess = spawn } = {}) {
+  const buildDir = await buildReadmePreview(root);
+  let child;
+  try {
+    const port = await findAvailablePort(5202);
+    const url = `http://127.0.0.1:${port}`;
+    child = spawnProcess(
+      process.execPath,
+      packageCommand(root, [
+        "bin",
+        "vite-plus",
+        "vp",
+        "preview",
+        "--outDir",
+        buildDir,
+        "--host",
+        "127.0.0.1",
+        "--port",
+        String(port),
+        "--strictPort",
+      ]),
+      { cwd: root, stdio: "ignore", shell: false, detached: process.platform !== "win32" },
+    );
+    let startupError;
+    child.once("error", (error) => {
+      startupError = error;
+    });
 
-  const deadline = Date.now() + 120_000;
-  while (Date.now() < deadline) {
-    if (child.exitCode !== null) {
-      throw new Error(`Preview exited early with code ${child.exitCode}`);
+    const deadline = Date.now() + 120_000;
+    while (Date.now() < deadline) {
+      if (startupError) throw startupError;
+      if (child.exitCode !== null) {
+        throw new Error(`Preview exited early with code ${child.exitCode}`);
+      }
+      const ready = await isServerUp(url);
+      if (startupError) throw startupError;
+      if (ready) return { child, url, buildDir };
+      await sleep(500);
     }
-    if (await isServerUp(url)) return { child, url };
-    await sleep(500);
+    throw new Error(`Preview did not become ready within 120 seconds: ${url}`);
+  } catch (error) {
+    try {
+      stopPreview(child);
+    } finally {
+      await cleanupReadmePreview(buildDir);
+    }
+    throw error;
   }
-  stopPreview(child);
-  throw new Error(`Preview did not become ready within 120 seconds: ${url}`);
 }
 
-function stopPreview(child) {
-  if (!child || child.exitCode !== null) return;
+export function stopPreview(child) {
+  if (!child || !Number.isSafeInteger(child.pid) || child.pid <= 0 || child.exitCode !== null)
+    return;
   if (process.platform === "win32") {
     const taskkill = spawnSync("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
       stdio: "ignore",
@@ -246,8 +265,15 @@ async function capture(outputDir, onPages) {
     await page.close();
     return pages;
   } finally {
-    if (browser) await browser.close();
-    stopPreview(preview.child);
+    try {
+      if (browser) await browser.close();
+    } finally {
+      try {
+        stopPreview(preview.child);
+      } finally {
+        await cleanupReadmePreview(preview.buildDir);
+      }
+    }
   }
 }
 
