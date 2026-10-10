@@ -51,7 +51,7 @@ middle-truncate
 
 ## 实时示例
 
-https://example…loyments/latesthttps://example.com/teams/hustradio/projects/unitary-ui/deployments/latest
+https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest
 
 ```tsx
 import { MiddleTruncate } from "@/components/ui/middle-truncate";

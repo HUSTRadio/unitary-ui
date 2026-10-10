@@ -14,16 +14,6 @@ Visitor analytics
 
 - pageviews
 
-Mar
-
-visitors
-
-3245
-
-pageviews
-
-4932
-
 [
 
 area-chart

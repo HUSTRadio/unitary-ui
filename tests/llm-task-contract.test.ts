@@ -5,7 +5,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import Ajv from "ajv";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registryPath = path.join(repoRoot, ".agents", "registry.json");
@@ -81,11 +81,7 @@ describe("versioned LLM task package contract", () => {
     expect(task.version).toBe(1);
     expect(task.promptFragments).toEqual(expectedFragments);
     expect(task.impactGlobs).toContain(".agents/**");
-    expect(task.validators).toEqual([
-      "docs-corpus",
-      "docs-contracts",
-      "styleguide-screenshots",
-    ]);
+    expect(task.validators).toEqual(["docs-corpus", "docs-contracts", "styleguide-screenshots"]);
     expect(validate(registrySchemaPath, registry)).toBe(true);
     expect(validate(taskSchemaPath, task)).toBe(true);
     expect(validate(runnerSchemaPath, readJson(runnerConfigPath))).toBe(true);
@@ -174,6 +170,55 @@ describe("versioned LLM task package contract", () => {
     expect(() =>
       contract.resolveRepoPath(repoRoot, "C:/outside/task.json", "task manifest"),
     ).toThrow(/repository-relative|repository root/);
+  });
+
+  it.each([
+    "C:/outside/task.json",
+    String.raw`C:\outside\task.json`,
+    String.raw`\\server\share\task.json`,
+    "//server/share/task.json",
+    String.raw`\\?\C:\outside\task.json`,
+    "/outside/task.json",
+  ])("rejects absolute task inputs from either platform: %s", async (input) => {
+    const contract = await import("../scripts/lib/llm-task-contract.mjs");
+    expect(() => contract.resolveRepoPath(repoRoot, input, "task manifest")).toThrow(
+      /repository-relative/,
+    );
+  });
+
+  it("rejects Windows absolute paths under explicit POSIX host semantics", async () => {
+    vi.resetModules();
+    vi.doMock("node:path", () => ({
+      default: { ...path.posix, posix: path.posix, win32: path.win32 },
+    }));
+    try {
+      const contract = await import("../scripts/lib/llm-task-contract.mjs");
+      expect(path.posix.isAbsolute("C:/outside/task.json")).toBe(false);
+      expect(path.posix.resolve("/repository", "C:/outside/task.json")).toBe(
+        "/repository/C:/outside/task.json",
+      );
+      for (const input of ["C:/outside/task.json", String.raw`\\server\share\task.json`]) {
+        expect(() => contract.resolveRepoPath("/repository", input, "task manifest")).toThrow(
+          /repository-relative/,
+        );
+      }
+      expect(contract.resolveRepoPath("/repository", ".agents/tasks/docs-update/task.json")).toBe(
+        "/repository/.agents/tasks/docs-update/task.json",
+      );
+    } finally {
+      vi.doUnmock("node:path");
+      vi.resetModules();
+    }
+  });
+
+  it.each([
+    ".agents/tasks/docs-update/task.json",
+    "docs/../.agents/registry.json",
+    "future/new-task.json",
+    ".",
+  ])("preserves valid repository-relative paths: %s", async (input) => {
+    const contract = await import("../scripts/lib/llm-task-contract.mjs");
+    expect(contract.resolveRepoPath(repoRoot, input)).toBe(path.resolve(repoRoot, input));
   });
 
   it("lists and validates registered tasks without invoking an agent", () => {

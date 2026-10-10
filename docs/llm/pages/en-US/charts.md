@@ -14,16 +14,6 @@ Visitors and pageviews over the last 6 months (AreaChart live demo)
 
 - pageviews
 
-Mar
-
-visitors
-
-3245
-
-pageviews
-
-4932
-
 [
 
 area-chart

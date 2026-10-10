@@ -53,6 +53,33 @@ const discovery = (available: string[], selected: string[] = []) => ({
 });
 
 describe("verification selection", () => {
+  it.each(["scripts/generate-llm-docs.ts", "scripts/lib/llm-html.ts"])(
+    "keeps complete corpus verification for the extraction owner %s",
+    async (file) => {
+      const scope = classifyVerification(context(file)).scope;
+      expect(scope.corpus).toBe(true);
+      expect(scope.screenshots).toBe(true);
+      expect(scope.browser).toBe(true);
+      expect(
+        selectBrowserSpecs([file], ["tests/e2e/llm-corpus-determinism.spec.ts"], []),
+      ).toEqual({ selected: ["tests/e2e/llm-corpus-determinism.spec.ts"], missing: [] });
+      const files = [file, "tests/known.test.ts", "tests/e2e/llm-corpus-determinism.spec.ts"];
+      const root = fixture(Object.fromEntries(files.map((name) => [name, "export {}; "])));
+      const plan = await createVerificationPlan(
+        root,
+        { full: false },
+        {
+          context: context(file),
+          files,
+          discover: async () => ({ ...discovery([files[1]], [files[1]]), routes: [] }),
+        },
+      );
+      expect(plan.checks.map(({ name }) => name)).toContain("test:docs-layout");
+      expect(plan.checks.map(({ name }) => name)).toContain("docs:llm:check");
+      expect(plan.browserSpecs).toContain(files[2]);
+    },
+  );
+
   it("includes native JavaScript and alternative test suffixes and falls back for unmapped specs", async () => {
     const names = ["new.test.js", "new.spec.jsx", "new.test.tsx", "new.spec.mjs", "new.test.cts"];
     const files = ["tests/known.test.ts", ...names.map((name) => `tests/e2e/${name}`)];

@@ -144,7 +144,7 @@ export const INDIRECT_INPUT_GROUPS = [
   },
   {
     tests: unitFiles("llm-docs-export.test.ts"),
-    inputs: ["docs/**", "scripts/generate-llm-docs.ts", "package.json"],
+    inputs: ["docs/**", "scripts/generate-llm-docs.ts", "scripts/lib/llm-html.ts", "package.json"],
   },
   {
     tests: unitFiles("playwright-discovery.test.ts"),
@@ -285,6 +285,18 @@ export const BROWSER_INPUT_GROUPS = [
     owners: names("navbar toolbar hamburger-menu sidebar-nav"),
   },
   { specs: names("paged-media"), owners: names("paged-media") },
+  {
+    specs: names("llm-corpus-determinism"),
+    inputs: [
+      "scripts/generate-llm-docs.ts",
+      "scripts/lib/llm-html.ts",
+      "docs/site/**",
+      "docs/vite.config.ts",
+      "docs/index.html",
+      "src/components/ui/middle-truncate.tsx",
+      "src/components/ui/charts/**",
+    ],
+  },
   { specs: names("prefetch"), owners: names("prefetch lazy-load") },
   { specs: names("radio-scroll"), owners: names("radio") },
   {
@@ -437,11 +449,14 @@ export function classifyVerification(context, full = false) {
       if (
         matches(file, [
           "scripts/*llm-docs*",
+          "scripts/lib/llm-html.ts",
           "scripts/*readme-screenshots*",
           "scripts/lib/readme-screenshots.mjs",
         ])
       )
         Object.assign(scope, { corpus: true, screenshots: true });
+      if (matches(file, ["scripts/generate-llm-docs.ts", "scripts/lib/llm-html.ts"]))
+        scope.browser = true;
     } else if (file.startsWith("tests/") || isUnitTest(file) || file.startsWith("docs/")) {
       scope.unit = true;
       if (isBrowserSpec(file)) scope.browser = true;

@@ -28,6 +28,7 @@ describe("LLM docs export contract", () => {
     const zh = readFileSync(path.join(LLM_DIR, "README.md"), "utf8");
     const en = readFileSync(path.join(LLM_DIR, "README.en.md"), "utf8");
     const generator = readFileSync(path.join(ROOT, "scripts", "generate-llm-docs.ts"), "utf8");
+    const htmlExtractor = readFileSync(path.join(ROOT, "scripts", "lib", "llm-html.ts"), "utf8");
 
     expect(zh).toContain("README.en.md");
     expect(en).toContain("README.md");
@@ -39,7 +40,7 @@ describe("LLM docs export contract", () => {
     }
     expect(generator).not.toContain("复用已在运行的预览服务");
     expect(generator).toContain("findAvailablePort");
-    expect(generator).toContain('[data-slot="video"]');
+    expect(htmlExtractor).toContain('[data-slot="video"]');
     expect(generator).toContain('[data-demo-component="${route.renderer.componentName}"]');
   });
 

@@ -29,6 +29,23 @@ after their registered child processes also exit. Failure and normal exit releas
 ownership. Unknown or corrupt metadata fails closed; inspect the reported lock
 directory and stop its related processes before removing damaged metadata.
 
+## LLM 语料 / LLM corpus
+
+语料从真实文档页面的语义 HTML 生成。提取时使用 MiddleTruncate 已有的完整 `data-value`，
+避免输出随字体和容器宽度变化的可见省略片段；排除 Recharts 随悬停变化的 Tooltip。
+标题、图例、API 与完整演示代码仍保留。生成和只读检查使用同一提取规则，漂移仍会阻止检查通过。
+
+The corpus is generated from the real documentation pages' semantic HTML. Extraction uses
+MiddleTruncate's existing complete `data-value` instead of its font- and width-dependent visual
+fragments, and excludes Recharts tooltips that change with hover. Headings, legends, APIs and full
+example code remain intact. Generation and read-only checks share these rules; drift still fails
+the check.
+
+```sh
+pnpm run docs:llm:generate
+pnpm run docs:llm:check
+```
+
 ## README 截图 / README screenshots
 
 每次 README 捕获都从当前真实 living styleguide 源码创建新的独立临时生产构建，

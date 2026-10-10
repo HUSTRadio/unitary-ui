@@ -36,7 +36,7 @@ export function resolveRepoPath(repoRoot, relativePath, label = "path") {
   if (typeof relativePath !== "string" || relativePath.length === 0) {
     throw new Error(`${label} must be a non-empty repository-relative path`);
   }
-  if (path.isAbsolute(relativePath)) {
+  if (path.posix.isAbsolute(relativePath) || path.win32.isAbsolute(relativePath)) {
     throw new Error(`${label} must be repository-relative`);
   }
 
