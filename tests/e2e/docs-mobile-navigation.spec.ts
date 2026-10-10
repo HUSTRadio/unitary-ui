@@ -74,9 +74,20 @@ for (const theme of ["light", "dark"] as const) {
           "retained",
         );
       }
-      await page.waitForTimeout(100);
+      // Rapid reversals may already settle at the open endpoint. Establish a
+      // fresh opening and sample its timeline explicitly for the continuity check.
+      await click();
+      await expect(trigger).toHaveAttribute("aria-expanded", "false");
+      await expect(page.locator('[data-slot="expand-panel"]')).toHaveCount(0);
+      await click();
       const panel = page.locator('[data-slot="expand-panel"]');
+      await expect(panel).toHaveAttribute("data-motion-state", "open");
       const continuity = await panel.evaluate(async (element) => {
+        const opening = element.getAnimations().find((animation) =>
+          animation instanceof CSSTransition && animation.transitionProperty === "translate");
+        if (!opening?.effect) throw new Error("Expected an opening translate transition");
+        opening.pause();
+        opening.currentTime = Number(opening.effect.getComputedTiming().duration) / 2;
         const before = getComputedStyle(element).translate;
         document
           .querySelector<HTMLButtonElement>('[data-slot="navbar"] [data-slot="hamburger-trigger"]')!
@@ -84,7 +95,7 @@ for (const theme of ["light", "dark"] as const) {
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         const transition = element
           .getAnimations()
-          .find((animation) => animation instanceof CSSTransition);
+          .find((animation) => animation instanceof CSSTransition && animation.transitionProperty === "translate");
         return { before, from: transition?.effect?.getKeyframes()[0].translate };
       });
       // The compositor can advance one frame before React commits the click.

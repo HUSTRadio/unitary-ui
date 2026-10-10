@@ -24,6 +24,14 @@ avatar
 
 ](#/components/avatar)[
 
+back-to-top
+
+### 返回顶部
+
+Return to the top of a document or explicit scroll container.
+
+](#/components/back-to-top)[
+
 badge
 
 ### 徽章
@@ -520,6 +528,14 @@ responsive-drawer
 
 ](#/components/responsive-drawer)[
 
+scroll-reveal
+
+### 滚动显现
+
+Progressive section reveal with native scrolling and reduced-motion fallback.
+
+](#/components/scroll-reveal)[
+
 scroller
 
 ### 滚动容器
@@ -583,6 +599,14 @@ sidebar-nav
 Grouped sidebar navigation with active state and optional collapsible sections.
 
 ](#/components/sidebar-nav)[
+
+site-navigation
+
+### 官网导航
+
+Grouped website links with desktop panels and a modal mobile disclosure navigation.
+
+](#/components/site-navigation)[
 
 skeleton
 

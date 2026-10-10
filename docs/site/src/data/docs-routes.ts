@@ -11,7 +11,7 @@ export type StaticPageKey =
   | "typography"
   | "materials"
   | "grid";
-export type LocalizedPageKey = "state-and-events" | "app-shell" | "charts" | "tokens" | "api-overview" | "layer" | "color-schemes" | "color-scheme-api";
+export type LocalizedPageKey = "state-and-events" | "app-shell" | "site-shell" | "charts" | "tokens" | "api-overview" | "layer" | "color-schemes" | "color-scheme-api";
 
 /** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
 export type DocsRouteStatus = "new" | "updated";
@@ -252,6 +252,8 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   footer: "navigation",
   "hamburger-menu": "navigation",
   navbar: "navigation",
+  "site-navigation": "navigation",
+  "back-to-top": "navigation",
   pagination: "navigation",
   "sidebar-nav": "navigation",
   tabs: "navigation",
@@ -302,6 +304,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
 
   /* Content & Media —— 内容排版、代码与拟真外框 */
   banner: "content",
+  "scroll-reveal": "content",
   book: "content",
   browser: "content",
   code: "content",
@@ -416,6 +419,7 @@ const ALL_DOCS_ROUTES: readonly DocsRoute[] = [
   ...STATIC_DOCS_ROUTES,
   ...COMPONENT_DETAIL_ROUTES,
   APP_SHELL_ROUTE,
+  { to: "/patterns/site-shell", group: "patterns", label: "Website Shell", labelZh: "官网壳层", sidebar: true, renderer: { kind: "localized", page: "site-shell" } },
   CHART_GALLERY_ROUTE,
 ];
 

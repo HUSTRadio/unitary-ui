@@ -33,6 +33,7 @@ import {
 } from "./guides-20-responsive-drawer";
 import { PUBLIC_NAVIGATION_GUIDES_ZH, PUBLIC_NAVIGATION_GUIDES_EN } from "./guides-21-public-navigation";
 import { SUB_FRAME_GUIDES_ZH, SUB_FRAME_GUIDES_EN } from "./guides-22-sub-frame";
+import { WEBSITE_GUIDES_ZH, WEBSITE_GUIDES_EN } from "./guides-23-website";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_01_ZH,
@@ -61,6 +62,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   PREFETCH_GUIDES_ZH,
   LAYER_GUIDES_ZH,
   MOTION_GUIDES_ZH,
+  WEBSITE_GUIDES_ZH,
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
@@ -90,6 +92,7 @@ const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
   PREFETCH_GUIDES_EN,
   LAYER_GUIDES_EN,
   MOTION_GUIDES_EN,
+  WEBSITE_GUIDES_EN,
 ];
 
 export const COMPONENT_GUIDES_ZH: Record<string, ComponentGuide> = Object.assign(

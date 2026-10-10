@@ -1,6 +1,154 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { getTokens } from "@/lib/tokens";
+import { parseEasing } from "@/lib/motion-easing";
+
+/** Animate the visual thumb without taking ownership of the native checkbox state. */
+function useToggleThumbMotion(
+  inputRef: React.RefObject<HTMLInputElement | null>,
+  thumbRef: React.RefObject<HTMLSpanElement | null>,
+  checked: boolean | undefined,
+  geometry: readonly [ToggleProps["size"], boolean | undefined, string | undefined, string | undefined],
+) {
+  const previous = React.useRef<{ checked: boolean; x: number } | null>(null);
+  const animation = React.useRef<Animation | null>(null);
+  const previousGeometry = React.useRef(geometry);
+  const controlled = React.useRef(checked !== undefined);
+  controlled.current = checked !== undefined;
+  const binding = React.useRef<{
+    input: HTMLInputElement;
+    thumb: HTMLSpanElement;
+    form: HTMLFormElement | null;
+    dispose: () => void;
+  } | null>(null);
+
+  const stop = React.useCallback(() => {
+    animation.current?.cancel();
+    animation.current = null;
+  }, []);
+
+  const update = React.useCallback(() => {
+    const input = inputRef.current;
+    const thumb = thumbRef.current;
+    const view = thumb?.ownerDocument.defaultView;
+    if (!input || !thumb || !view) return;
+    if (previous.current?.checked === input.checked) return;
+
+    // An active longhand-translate animation masks the new checked endpoint,
+    // allowing a reversal to sample its current position and width unchanged.
+    const inFlight = animation.current && !["finished", "idle"].includes(animation.current.playState);
+    const source = inFlight ? thumb.getBoundingClientRect() : null;
+    const old = previous.current;
+    stop();
+    const target = thumb.getBoundingClientRect();
+    const style = view.getComputedStyle(thumb);
+    const translation = style.translate.match(/^(-?\d*\.?\d+)px(?:\s+(.+))?$/);
+    previous.current = translation ? { checked: input.checked, x: Number(translation[1]) } : null;
+    if (!old || !translation || input.disabled || thumb.closest("[inert]")
+      || view.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      || typeof thumb.animate !== "function") return;
+
+    const width = Number.parseFloat(style.width);
+    if (!(width > 0) || !(target.width > 0) || !(target.height > 0)) return;
+    const scaleX = target.width / width;
+    const x = Number(translation[1]);
+    const y = translation[2] ?? "0px";
+    const startWidth = source ? source.width / scaleX : width;
+    const startX = source ? x + (source.left - target.left) / scaleX : old.x;
+    const distance = x - startX;
+    if (!Number.isFinite(startWidth) || startWidth <= 0
+      || (distance === 0 && Math.abs(startWidth - width) < 0.001)) return;
+    const tokens = getTokens(["--uni-motion-state", "--ease-snap"], { target: thumb });
+    const durationValue = tokens["--uni-motion-state"].trim().match(/^(\d*\.?\d+)(ms|s)$/);
+    const duration = durationValue ? Number(durationValue[1]) * (durationValue[2] === "s" ? 1000 : 1) : 0;
+    const curve = parseEasing(tokens["--ease-snap"]);
+    if (duration <= 0 || !curve) return;
+
+    const peak = 0.6;
+    const spanStart = Math.min(startX, x);
+    const spanEnd = Math.max(startX + startWidth, x + width);
+    // Keep the 10px small thumb legible: stretch only the travel axis, and
+    // bound the peak within the endpoints so it never protrudes past the track.
+    const peakWidth = Math.min(
+      Math.max(startWidth, width + Math.min(Math.abs(distance) * 0.35, width * 0.25)),
+      spanEnd - spanStart,
+    );
+    const peakCenter = (startX + startWidth / 2) * (1 - peak) + (x + width / 2) * peak;
+    const peakX = Math.max(spanStart, Math.min(peakCenter - peakWidth / 2, spanEnd - peakWidth));
+    const frame = (position: number, length: number, offset: number): Keyframe => ({
+      translate: `${position}px ${y}`, width: `${length}px`, offset,
+    });
+    try {
+      animation.current = thumb.animate([
+        frame(startX, startWidth, 0), frame(peakX, peakWidth, peak), frame(x, width, 1),
+      ], { duration, easing: `cubic-bezier(${curve.join(", ")})` });
+    } catch {
+      // Invalid custom motion values must not interrupt native state changes.
+    }
+  }, [inputRef, thumbRef, stop]);
+
+  React.useLayoutEffect(() => {
+    const input = inputRef.current;
+    const thumb = thumbRef.current;
+    const view = input?.ownerDocument.defaultView;
+    if (!input || !thumb || !view) return;
+    const form = input.form;
+    if (binding.current?.input !== input || binding.current.thumb !== thumb || binding.current.form !== form) {
+      binding.current?.dispose();
+      previous.current = null;
+      const reducedMotion = view.matchMedia?.("(prefers-reduced-motion: reduce)");
+      const preferenceChanged = () => { if (reducedMotion?.matches) stop(); };
+      // Controlled updates animate only after React commits the accepted state.
+      // Native change events also cover defaultChecked without introducing state.
+      const changed = () => { if (!controlled.current) update(); };
+      const align = () => { stop(); previous.current = null; update(); };
+      // Reset's default action can run after the listener's microtasks. Read the
+      // baseline in the next task so the next click starts at defaultChecked.
+      let mounted = true;
+      let resetTimer: number | undefined;
+      const reset = () => {
+        stop();
+        previous.current = null;
+        view.clearTimeout(resetTimer);
+        resetTimer = view.setTimeout(() => {
+          resetTimer = undefined;
+          if (mounted) update();
+        }, 0);
+      };
+      input.addEventListener("change", changed);
+      form?.addEventListener("reset", reset);
+      reducedMotion?.addEventListener("change", preferenceChanged);
+      view.addEventListener("resize", align);
+      input.ownerDocument.fonts?.addEventListener("loadingdone", align);
+      binding.current = {
+        input, thumb, form,
+        dispose: () => {
+          mounted = false;
+          view.clearTimeout(resetTimer);
+          stop();
+          input.removeEventListener("change", changed);
+          form?.removeEventListener("reset", reset);
+          reducedMotion?.removeEventListener("change", preferenceChanged);
+          view.removeEventListener("resize", align);
+          input.ownerDocument.fonts?.removeEventListener("loadingdone", align);
+        },
+      };
+    }
+    if (geometry.some((value, index) => value !== previousGeometry.current[index])) {
+      stop();
+      previous.current = null;
+    }
+    previousGeometry.current = geometry;
+    update();
+  });
+
+  React.useLayoutEffect(() => () => {
+    binding.current?.dispose();
+    binding.current = null;
+    previous.current = null;
+  }, []);
+}
 
 /**
  * Toggle — Geist 布尔开关（对应官方 Toggle，docs/geist-markdown-refs/components/toggle.md）。
@@ -44,11 +192,25 @@ function Toggle({
   checked,
   onChange,
   disabled,
+  ref,
   ...props
 }: ToggleProps) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const thumbRef = React.useRef<HTMLSpanElement>(null);
+  const mergedRef = React.useCallback((input: HTMLInputElement | null) => {
+    inputRef.current = input;
+    if (typeof ref === "function") {
+      const cleanup = ref(input);
+      if (cleanup) return () => { inputRef.current = null; cleanup(); };
+      return;
+    }
+    if (ref) ref.current = input;
+  }, [ref]);
+  useToggleThumbMotion(inputRef, thumbRef, checked, [size, disabled, className, thumbClassName]);
   const control = (
     <span className="relative inline-flex shrink-0">
       <input
+        ref={mergedRef}
         type="checkbox"
         className="peer absolute inset-0 z-10 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
         checked={checked}
@@ -58,6 +220,7 @@ function Toggle({
       />
       {/* 轨道 */}
       <span
+        data-slot="toggle-track"
         aria-hidden
         className={cn(
           "block cursor-pointer rounded-[14px] transition-[background,border-color] duration-(--uni-duration-base) ease-in-out",
@@ -74,9 +237,11 @@ function Toggle({
       />
       {/* 圆钮 */}
       <span
+        ref={thumbRef}
+        data-slot="toggle-thumb"
         aria-hidden
         className={cn(
-          "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 rounded-full border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)] transition-transform duration-(--uni-duration-base) ease-in-out",
+          "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 rounded-full border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)]",
           "peer-disabled:border-transparent peer-disabled:shadow-none peer-disabled:bg-[var(--toggle-disabled-thumb-unchecked)] peer-disabled:peer-checked:bg-[var(--toggle-disabled-thumb-checked)]",
           size === "small" && "size-2.5 peer-checked:translate-x-[15px]",
           size === "medium" && "size-4 peer-checked:translate-x-[17px]",

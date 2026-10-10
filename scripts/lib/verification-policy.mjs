@@ -192,6 +192,7 @@ export const BROWSER_RENDERER_INPUTS = {
   localized: {
     "state-and-events": "docs/site/src/pages/state-and-events.tsx",
     "app-shell": "docs/site/src/components/patterns/app-shell-demo.tsx",
+    "site-shell": "docs/site/src/components/patterns/site-shell-demo.tsx",
     charts: "docs/site/src/pages/charts-gallery.tsx",
     tokens: "docs/site/src/pages/tokens.tsx",
     "api-overview": "docs/site/src/pages/api-overview.tsx",
@@ -232,6 +233,8 @@ export const BROWSER_INPUT_GROUPS = [
     owners: names("app-shell navbar sidebar-nav toolbar layer layer-context layer-primitives"),
     inputs: ["docs/site/src/pages/**"],
   },
+  { specs: names("website-shell"), owners: names("site-navigation navbar footer back-to-top scroll-reveal"), inputs: ["src/lib/use-page-scroll.ts", "src/lib/scroll-animation.ts", "docs/site/src/templates/**", "docs/site/src/components/patterns/site-shell-demo.tsx"] },
+  { specs: names("toggle-motion"), owners: names("toggle"), inputs: ["tests/e2e/fixtures/toggle-motion.tsx", "src/lib/motion-easing.ts"] },
   { specs: names("carousel-variants"), owners: names("carousel") },
   {
     specs: names("chart-motion"),

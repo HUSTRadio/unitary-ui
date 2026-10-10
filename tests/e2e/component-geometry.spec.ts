@@ -433,7 +433,7 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
 /**
  * 侧栏观感实测（2026-09-21 修订）：条目行 36px（HIG 指针行高，token
  * --uni-nav-item-height）、圆角 6px、左右内缩 14px；小标题对齐药丸左缘（不内缩，
- * 条目标签再内缩 14px 读层级）；选中态 = 药丸底色 + 左侧 2×14px 指示条。
+ * 条目标签再内缩 14px 读层级）；选中态 = 药丸底色 + 左侧 3×14px 指示条。
  */
 test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and icon", async ({
   page,
@@ -491,13 +491,13 @@ test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and 
   expect(Math.abs(metrics.headingLabelBox!.x - metrics.firstItemBox!.x)).toBeLessThanOrEqual(0.5);
   expect(Math.abs(metrics.itemLabelBox!.x - (metrics.iconItemBox!.x + 38))).toBeLessThanOrEqual(0.5);
 
-  // 指示条 2×14，垂直居中，接近 15px 中文标签墨迹高度；距药丸左缘 8px
-  expect(metrics.indicatorBox?.w).toBe(2);
+  // 指示条 3×14，垂直居中，接近 15px 中文标签墨迹高度；距药丸左缘 6px
+  expect(metrics.indicatorBox?.w).toBe(3);
   expect(metrics.indicatorBox?.h).toBe(14);
   const activeCenter = metrics.activeBox!.y + metrics.activeBox!.h / 2;
   const indicatorCenter = metrics.indicatorBox!.y + metrics.indicatorBox!.h / 2;
   expect(Math.abs(activeCenter - indicatorCenter)).toBeLessThanOrEqual(0.5);
-  expect(Math.abs(metrics.indicatorBox!.x - (metrics.activeBox!.x + 8))).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics.indicatorBox!.x - (metrics.activeBox!.x + 6))).toBeLessThanOrEqual(0.5);
 
   // 图标 16px，垂直居中，与 14px 左内缩同轴
   expect(metrics.iconBox?.w).toBe(16);

@@ -16,6 +16,7 @@ export const DOCS_PAGE_RESOURCES = {
   "color-scheme-api": createPrefetch(() => import("../pages/color-scheme-api")),
   charts: createPrefetch(() => import("../pages/charts-gallery")),
   "app-shell": createPrefetch(() => import("../components/patterns/app-shell-demo")),
+  "site-shell": createPrefetch(() => import("../components/patterns/site-shell-demo")),
 };
 
 const routes = new Map<string, PrefetchResource<void>>();

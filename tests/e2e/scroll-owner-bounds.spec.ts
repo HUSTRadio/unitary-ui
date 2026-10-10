@@ -53,12 +53,14 @@ for (const theme of ["light", "dark"] as const) {
         const destination = Math.min(node.scrollHeight - node.clientHeight, Math.max(0, node.scrollTop + offset - margin - padding));
         return Math.abs(node.scrollTop - destination);
       })).toBeLessThanOrEqual(1);
+      await expect.poll(() => viewport.evaluate((node) =>
+        (node as HTMLElement).style.getPropertyValue("scroll-behavior"),
+      )).toBe("");
       expect(await viewport.evaluate((node) => {
         const positions: number[] = [];
         for (let ancestor = node.parentElement; ancestor; ancestor = ancestor.parentElement) positions.push(ancestor.scrollTop);
         return positions;
       })).toEqual(outerPositions);
-      expect(await viewport.evaluate((node) => (node as HTMLElement).style.getPropertyValue("scroll-behavior"))).toBe("");
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
     });
   }

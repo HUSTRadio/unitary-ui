@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 
-import { useScrollDirection } from "@/lib/use-scroll-direction";
+import { usePageScroll } from "@/lib/use-page-scroll";
 
 export interface NavbarProps {
   /**
@@ -12,8 +12,10 @@ export interface NavbarProps {
   scrollBehavior?: "static" | "pinned" | "auto-hide";
   /** solid（默认）常驻底色；transparent 无底色，可配合 solidOnScroll 滚动后补色。 */
   variant?: "solid" | "transparent";
-  /** 仅 transparent 下有意义：向下滚动超阈值后自动补底色与下边框。 */
+  /** 仅 transparent 下有意义：距顶部超过阈值时补底色与下边框。 */
   solidOnScroll?: boolean;
+  forceVisible?: boolean;
+  scrollTarget?: HTMLElement | null;
   /** 数字→内联 style.height；字符串→透传为高度类名。默认 h-16。 */
   height?: string | number;
   className?: string;
@@ -37,11 +39,13 @@ export function Navbar({
   scrollBehavior = "pinned",
   variant = "solid",
   solidOnScroll = false,
+  forceVisible = false,
+  scrollTarget,
   height,
   className,
   children,
 }: NavbarProps) {
-  const direction = useScrollDirection(SCROLL_THRESHOLD);
+  const { direction, scrolled } = usePageScroll(SCROLL_THRESHOLD, scrollTarget);
   const scrolledDown = direction === "down";
 
   const positionClass =
@@ -51,10 +55,10 @@ export function Navbar({
         ? "fixed inset-x-0 top-0 z-[var(--uni-z-header,40)] transition-transform duration-(--uni-duration-slow) ease-snap motion-reduce:transition-none"
         : "sticky top-0 z-[var(--uni-z-header,40)]";
 
-  const hidden = scrollBehavior === "auto-hide" && scrolledDown;
+  const hidden = scrollBehavior === "auto-hide" && scrolledDown && !forceVisible;
 
   // solid 常驻底色；transparent + solidOnScroll 在滚动后才补底色。
-  const filled = variant === "solid" || (solidOnScroll && scrolledDown);
+  const filled = variant === "solid" || (solidOnScroll && scrolled);
   const surfaceClass = filled
     ? "bg-background-100 border-b border-gray-alpha-400"
     : "";
@@ -72,7 +76,7 @@ export function Navbar({
       data-material={filled ? "navigation" : undefined}
       data-behavior={scrollBehavior}
       data-solid-on-scroll={solidOnScroll ? "true" : undefined}
-      className={`${positionClass} ${heightClass} ${hidden ? "-translate-y-full " : ""}${surfaceClass}${className ? ` ${className}` : ""}`}
+      className={`${positionClass} ${heightClass} ${hidden ? "-translate-y-full focus-within:translate-y-0 " : ""}${surfaceClass}${className ? ` ${className}` : ""}`}
       style={style}
     >
       {children}

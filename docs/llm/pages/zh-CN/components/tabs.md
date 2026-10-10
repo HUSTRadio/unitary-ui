@@ -52,8 +52,8 @@ tabs
 
 ## 受控行为
 
-- 通过必填的 selected 与 setSelected 控制当前标签；selected 使用标签项的 id，而不是数组索引。
-- primary 下划线在同一标签行内平滑滑动并适配目标标签宽度；首次显示直接定位，快速切换从当前可见位置继续。标签选中状态立即更新，滑动无需额外 props。
+- 通过必填的 selected 与 setSelected 控制当前标签；selected 使用标签项的 value，而不是数组索引。
+- primary 下划线在同一标签行内平滑滑动，沿移动方向非线性拉长后再收回目标标签宽度，保持厚度；首次显示直接定位，快速切换从当前可见位置与长度继续。标签选中状态立即更新，动效无需额外 props。
 - 需要 URL 持久化时，由调用方在 setSelected 更新路径中同步路由状态。
 - 禁用态的标签通过 disabled 属性隐藏交互能力，配合 Tooltip 说明禁用原因（权限不足或数据为空）。
 - scrollTracking 是可选的 Unitary 扩展，类型为 ScrollTrackingMode，默认 disabled；on-reload 在首次挂载、DOM 布局就绪后尝试一次，之后的 selected 变化不会触发跟踪；always 在进入该模式及 selected 值变化时更新位置。
@@ -69,7 +69,7 @@ tabs
 
 - 标签页的颜色、下划线和激活高亮跟随主题变量变化，在暗色/亮色模式下各有对应的配色方案。
 - Secondary 模式在不同主题下会自动调整为对比度更低的变体颜色。
-- primary 下划线沿用前景色，滑动复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
+- primary 下划线沿用前景色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
 - 滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。
 
 ## 实时示例

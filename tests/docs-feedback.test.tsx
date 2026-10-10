@@ -41,7 +41,8 @@ const componentDetailIndex = DOCS_ROUTE_SEQUENCE.findIndex(
 const componentDetailRoute = DOCS_ROUTE_SEQUENCE[componentDetailIndex]!;
 const componentDetailPrevious = DOCS_ROUTE_SEQUENCE[componentDetailIndex - 1]!;
 const componentDetailNext = DOCS_ROUTE_SEQUENCE[componentDetailIndex + 1]!;
-const appShellPrevious = DOCS_ROUTE_SEQUENCE[DOCS_ROUTE_SEQUENCE.length - 2]!;
+const appShellIndex = DOCS_ROUTE_SEQUENCE.findIndex((route) => route.to === "/patterns/app-shell");
+const appShellPrevious = DOCS_ROUTE_SEQUENCE[appShellIndex - 1]!;
 
 const paginationCases = [
   { pathname: "/", previous: null, next: "/icons" },
@@ -52,7 +53,8 @@ const paginationCases = [
     previous: componentDetailPrevious.to,
     next: componentDetailNext.to,
   },
-  { pathname: "/patterns/app-shell", previous: appShellPrevious.to, next: null },
+  { pathname: "/patterns/app-shell", previous: appShellPrevious.to, next: "/patterns/site-shell" },
+  { pathname: "/patterns/site-shell", previous: "/patterns/app-shell", next: null },
   { pathname: "/not-a-doc-route", previous: null, next: null },
 ] as const;
 

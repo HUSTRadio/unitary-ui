@@ -15,6 +15,8 @@ import {
 import { Toasts } from "@/components/ui/toast";
 import { useFontMetrics } from "@/lib/font-metrics";
 import { useDismissOnNavigate } from "@/lib/navigation";
+import { SiteShellDemo } from "./components/patterns/site-shell-demo";
+import { WebsiteShell, type WebsiteShellProps } from "./templates/website-shell";
 import {
   ColorsPage,
   IntroductionPage,
@@ -78,6 +80,7 @@ const STATIC_PAGE_COMPONENTS = {
 const LOCALIZED_PAGE_COMPONENTS = {
   "state-and-events": StateAndEventsPage,
   "app-shell": AppShellDemo,
+  "site-shell": SiteShellDemo,
   charts: ChartsGalleryPage,
   tokens: TokensPage,
   layer: LayerPage,
@@ -87,7 +90,7 @@ const LOCALIZED_PAGE_COMPONENTS = {
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const navigate = useNavigate();
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
@@ -143,6 +146,11 @@ export default function App() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  const preview = new URLSearchParams(search).get("preview");
+  if (canonicalPath === "/patterns/site-shell" && preview && ["portal", "editorial", "university", "corporate"].includes(preview)) {
+    return <ErrorBoundary name="website-preview"><WebsiteShell variant={preview as WebsiteShellProps["variant"]} language={language} /></ErrorBoundary>;
+  }
 
   return (
     // Sticky Navbar 已占据一行，main 撑满剩余视口并负责滚动，不再重复顶栏偏移。

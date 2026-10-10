@@ -38,6 +38,7 @@ describe("Geist documentation coverage", () => {
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
       "activity-view",
       "area-chart",
+      "back-to-top",
       "bar-chart",
       "bar-list",
       "bottom-sheet",
@@ -64,8 +65,10 @@ describe("Geist documentation coverage", () => {
       "progress-circle",
       "responsive-drawer",
       "safe-area",
+      "scroll-reveal",
       "side-panel",
       "sidebar-nav",
+      "site-navigation",
       "spark-chart",
       "step-point",
       "sub-frame",

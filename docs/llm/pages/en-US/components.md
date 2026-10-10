@@ -24,6 +24,14 @@ Represent a user or team with an image, initials, or a placeholder.
 
 ](#/components/avatar)[
 
+back-to-top
+
+### Back to Top
+
+Return to the top of a document or explicit scroll container.
+
+](#/components/back-to-top)[
+
 badge
 
 ### Badge
@@ -520,6 +528,14 @@ Use one drawer that opens from the bottom on phones and from the right on deskto
 
 ](#/components/responsive-drawer)[
 
+scroll-reveal
+
+### Scroll Reveal
+
+Progressive section reveal with native scrolling and reduced-motion fallback.
+
+](#/components/scroll-reveal)[
+
 scroller
 
 ### Scroller
@@ -583,6 +599,14 @@ sidebar-nav
 Grouped sidebar navigation with active state and optional collapsible sections.
 
 ](#/components/sidebar-nav)[
+
+site-navigation
+
+### Site Navigation
+
+Grouped website links with desktop panels and a modal mobile disclosure navigation.
+
+](#/components/site-navigation)[
 
 skeleton
 

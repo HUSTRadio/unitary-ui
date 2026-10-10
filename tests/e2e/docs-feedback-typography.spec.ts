@@ -162,6 +162,10 @@ test.describe("Feedback official interaction and geometry", () => {
     const capsule = page.locator('[data-demo-card="Inline"] [data-slot="rating-pill"]');
     const ratings = capsule.getByRole("radio");
     await expect(capsule).toHaveAttribute("data-state", "closed");
+    await page.evaluate(() => document.fonts.ready);
+    await capsule.evaluate(async (node) => {
+      await Promise.all(node.getAnimations().map((animation) => animation.finished));
+    });
     const closedBox = await capsule.boundingBox();
     expect(closedBox?.height).toBe(48);
     // 收起态宽度由内容决定（label 永不截断），不再固定 274px。
@@ -175,6 +179,9 @@ test.describe("Feedback official interaction and geometry", () => {
     const region = capsule.locator('[data-slot="feedback-form-region"]');
     await expect(region).toBeVisible();
     await expect.poll(async () => (await region.boundingBox())?.width).toBe(336);
+    await capsule.evaluate(async (node) => {
+      await Promise.all(node.getAnimations().map((animation) => animation.finished));
+    });
     const [capsuleBox, regionBox, headerBox] = await Promise.all([
       capsule.boundingBox(),
       region.boundingBox(),

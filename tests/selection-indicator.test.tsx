@@ -76,6 +76,7 @@ function activeMarker() {
 
 function transformComponents(frame: Keyframe) {
   const transform = String(frame.transform);
+  if (transform === "none") return { x: 0, y: 0, scaleX: 1, scaleY: 1 };
   const translation = transform.match(/translate(?:3d)?\(([-\d.]+)px,\s*([-\d.]+)px(?:,\s*0(?:px)?)?\)/);
   const scale = transform.match(/scale(?:3d)?\(([-\d.]+),\s*([-\d.]+)(?:,\s*1)?\)/);
   expect(translation, "the starting frame must preserve the previous visual position").not.toBeNull();
@@ -84,6 +85,22 @@ function transformComponents(frame: Keyframe) {
     x: Number(translation![1]), y: Number(translation![2]),
     scaleX: Number(scale![1]), scaleY: Number(scale![2]),
   };
+}
+
+function frameRectangle(frame: Keyframe, target: DOMRect, ancestorScale = { x: 1, y: 1 }) {
+  const transform = transformComponents(frame);
+  return rect(
+    target.x + transform.x * ancestorScale.x,
+    target.y + transform.y * ancestorScale.y,
+    target.width * transform.scaleX,
+    target.height * transform.scaleY,
+  );
+}
+
+function expectRectangle(actual: DOMRect, expected: DOMRect) {
+  for (const dimension of ["x", "y", "width", "height"] as const) {
+    expect(actual[dimension], dimension).toBeCloseTo(expected[dimension], 8);
+  }
 }
 
 function changeReducedMotion(matches: boolean) {
@@ -146,7 +163,12 @@ beforeEach(() => {
     value: vi.fn(function (this: HTMLElement, frames: Keyframe[], options: KeyframeAnimationOptions) {
       events.push(`animate:${this.dataset.marker}`);
       const animationEvents = new EventTarget();
-      const cancel = vi.fn(() => events.push(`cancel:${this.dataset.marker}`));
+      const restingRectangle = rectangles.get(this.dataset.marker ?? "");
+      const cancel = vi.fn(() => {
+        events.push(`cancel:${this.dataset.marker}`);
+        // A real canceled transform exposes the marker's original layout box.
+        if (restingRectangle) rectangles.set(this.dataset.marker!, restingRectangle);
+      });
       const animation = Object.assign(animationEvents, {
         cancel, onfinish: null, oncancel: null, playState: "running",
         finished: new Promise<Animation>(() => {}),
@@ -196,6 +218,59 @@ describe("sliding selection indicator", () => {
     expect(activeMarker()?.style.position).toBe("");
   });
 
+  it.each([
+    { axis: "vertical", direction: "forward", source: rect(10, 20, 4, 14), target: rect(10, 100, 4, 20) },
+    { axis: "vertical", direction: "reverse", source: rect(10, 100, 4, 20), target: rect(10, 20, 4, 14) },
+    { axis: "horizontal", direction: "forward", source: rect(20, 40, 40, 2), target: rect(140, 40, 80, 2) },
+    { axis: "horizontal", direction: "reverse", source: rect(140, 40, 80, 2), target: rect(20, 40, 40, 2) },
+  ])("stretches then contracts along $axis travel in the $direction direction", ({ axis, source, target }) => {
+    rectangles.set("a", source);
+    rectangles.set("b", target);
+    render({ activeKey: "a" });
+    render({ activeKey: "b" });
+    const { frames, options } = animations[0];
+    expect(options.easing).toBe(easingToken);
+    const geometry = frames.map((frame) => frameRectangle(frame, target));
+    expectRectangle(geometry[0], source);
+    expectRectangle(geometry.at(-1)!, target);
+    const length = axis === "vertical" ? "height" : "width";
+    const thickness = axis === "vertical" ? "width" : "height";
+    const position = axis === "vertical" ? "y" : "x";
+    const peak = geometry.reduce((longest, current) => current[length] > longest[length] ? current : longest);
+    expect(peak[length]).toBeGreaterThan(Math.max(source[length], target[length]));
+    for (const frame of geometry) expect(frame[thickness]).toBeCloseTo(target[thickness], 8);
+    const sourceCenter = source[position] + source[length] / 2;
+    const targetCenter = target[position] + target[length] / 2;
+    const peakCenter = peak[position] + peak[length] / 2;
+    const travel = (peakCenter - sourceCenter) / (targetCenter - sourceCenter);
+    expect(travel).toBeGreaterThan(0);
+    expect(travel).toBeLessThan(1);
+    const peakFrame = frames[geometry.indexOf(peak)];
+    expect(peakFrame.offset).toBeGreaterThan(0);
+    expect(peakFrame.offset).toBeLessThan(1);
+  });
+
+  it.each([
+    { direction: "forward", source: rect(0, 40, 6, 2), target: rect(30, 40, 300, 2) },
+    { direction: "reverse", source: rect(30, 40, 300, 2), target: rect(0, 40, 6, 2) },
+  ])("keeps the stretched underline within unequal-width endpoint bounds in the $direction direction", ({ source, target }) => {
+    rectangles.set("a", source);
+    rectangles.set("b", target);
+    render({ activeKey: "a" });
+    render({ activeKey: "b" });
+    const geometry = animations[0].frames.map((frame) => frameRectangle(frame, target));
+    const start = Math.min(source.left, target.left);
+    const end = Math.max(source.right, target.right);
+    expectRectangle(geometry[0], source);
+    expectRectangle(geometry.at(-1)!, target);
+    for (const frame of geometry) {
+      expect(frame.left).toBeGreaterThanOrEqual(start);
+      expect(frame.right).toBeLessThanOrEqual(end);
+      expect(frame.height).toBeCloseTo(2, 8);
+    }
+    expect(Math.max(...geometry.map((frame) => frame.width))).toBeGreaterThan(Math.max(source.width, target.width));
+  });
+
   it("retargets a running animation from its current visual rectangle before canceling it", () => {
     render({ activeKey: "a" });
     render({ activeKey: "b" });
@@ -211,6 +286,21 @@ describe("sliding selection indicator", () => {
     expect(transformComponents(animations[1].frames[0])).toEqual({ x: -75, y: -30, scaleX: 2, scaleY: 0.5 });
   });
 
+  it("reverses a stretched in-flight marker without compounding its temporary length", () => {
+    const naturalTarget = rectangles.get("a")!;
+    render({ activeKey: "a" });
+    render({ activeKey: "b" });
+    const inFlight = rect(10, 47, 4, 21.7);
+    rectangles.set("b", inFlight);
+    render({ activeKey: "a" });
+    const frames = animations[1].frames.map((frame) => frameRectangle(frame, naturalTarget));
+    expectRectangle(frames[0], inFlight);
+    expectRectangle(frames.at(-1)!, naturalTarget);
+    const longest = Math.max(...frames.map((frame) => frame.height));
+    expect(longest).toBeLessThanOrEqual(Math.max(inFlight.height, naturalTarget.height * 1.6));
+    expect(animations[0].cancel).toHaveBeenCalledOnce();
+  });
+
   it("converts viewport coordinates to local CSS pixels under ancestor scaling", () => {
     rectangles.set("a", rect(20, 40, 8, 28));
     rectangles.set("b", rect(20, 120, 8, 28));
@@ -221,6 +311,10 @@ describe("sliding selection indicator", () => {
     }
     render({ activeKey: "b" });
     expect(transformComponents(animations[0].frames[0])).toEqual({ x: 0, y: -40, scaleX: 1, scaleY: 1 });
+    const geometry = animations[0].frames.map((frame) => frameRectangle(frame, rectangles.get("b")!, { x: 2, y: 2 }));
+    expect(Math.max(...geometry.map((frame) => frame.height))).toBeGreaterThan(28);
+    for (const frame of geometry) expect(frame.width).toBeCloseTo(8, 8);
+    expectRectangle(geometry.at(-1)!, rectangles.get("b")!);
   });
 
   it("keeps selection working if an inherited easing value is rejected by the browser", () => {
@@ -285,6 +379,14 @@ describe("sliding selection indicator", () => {
     changeReducedMotion(false);
     render({ activeKey: "a" });
     expect(animations).toHaveLength(2);
+  });
+
+  it.each(["linear", "cubic-bezier(0, 0, 1, 1)", "invalid"])("positions immediately for unsupported easing=%s", (value) => {
+    easingToken = value;
+    render({ activeKey: "a" });
+    render({ activeKey: "b" });
+    expect(activeMarker()?.dataset.marker).toBe("b");
+    expect(animations).toHaveLength(0);
   });
 
   it("keeps selection working when the browser has no Web Animations API", () => {

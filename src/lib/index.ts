@@ -32,6 +32,12 @@ export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics 
 // Navigation dismissal primitive (HIG-AUD-017)
 export { useDismissOnNavigate } from "./navigation";
 export type { ScrollTrackingMode } from "./scroll-tracking";
+export { usePageScroll } from "./use-page-scroll";
+export type { PageScrollState } from "./use-page-scroll";
+export { ScrollReveal } from "@/components/ui/scroll-reveal";
+export type { ScrollRevealProps } from "@/components/ui/scroll-reveal";
+export { BackToTop } from "@/components/ui/back-to-top";
+export type { BackToTopProps } from "@/components/ui/back-to-top";
 
 // Utility
 export { cn } from "./utils";
@@ -124,6 +130,8 @@ export type {
 } from "@/components/ui/sidebar-nav";
 export { Navbar } from "@/components/ui/navbar";
 export type { NavbarProps } from "@/components/ui/navbar";
+export { SiteNavigation } from "@/components/ui/site-navigation";
+export type { SiteNavigationProps, SiteNavigationItem, SiteNavigationGroup, SiteNavigationLink } from "@/components/ui/site-navigation";
 export { Footer } from "@/components/ui/footer";
 export type { FooterProps, FooterColumn, FooterLink } from "@/components/ui/footer";
 export { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu";

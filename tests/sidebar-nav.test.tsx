@@ -83,7 +83,7 @@ describe("SidebarNav", () => {
     expect(markup).toContain("bg-gray-100");
     expect(markup).toContain("text-gray-1000");
     expect(markup).toContain("font-medium");
-    // 选中态相对悬停的唯一几何差异：左侧 2×14px 指示条
+    // 选中态相对悬停的唯一几何差异：左侧 3×14px 指示条
     expect(markup.split('data-slot="sidebar-nav-indicator"').length - 1).toBe(1);
     expect(markup).toMatch(/data-slot="sidebar-nav-indicator"[^>]*class="[^"]*bg-theme-accent/);
   });
@@ -172,13 +172,13 @@ describe("SidebarNav", () => {
     expect(markup).toMatch(/<ul [^>]*class="space-y-1">/);
   });
 
-  it("does not constrain width (outer layer controls width; only the 2px indicator has a width)", () => {
+  it("does not constrain width (outer layer controls width; only the 3px indicator has a width)", () => {
     const markup = navMarkup({ activeTo: "/button" });
     const navTag = markup.slice(0, markup.indexOf(">"));
     expect(navTag).not.toMatch(/\bw-/);
     expect(markup).not.toContain("w-full");
     // 指示条常驻但只有活动项可见；宽度仍由外部布局拥有。
-    expect([...new Set(markup.match(/\bw-[^\s"]+/g))]).toEqual(["w-0.5"]);
+    expect([...new Set(markup.match(/\bw-[^\s"]+/g))]).toEqual(["w-0.75"]);
   });
 
   it("renders an optional lucide icon per item", () => {
@@ -338,11 +338,11 @@ describe("SidebarNav", () => {
     expect(markup.indexOf("Actions")).toBeLessThan(markup.indexOf("Mobile only"));
 
     // 二级小标题与一级 heading 同字号（统一字号）、同左缘对齐，靠字重 + 次级色分层；
-    // 宽度约束只有选中指示条 2px 与二级小组短分割线 40px
+    // 宽度约束只有选中指示条 3px 与二级小组短分割线 40px
     expect(markup).toMatch(
       /data-slot="sidebar-nav-subheading"[^>]*class="[^"]*-mx-1[^"]*text-style-nav-subheading[^"]*font-medium/,
     );
-    expect([...new Set(markup.match(/\bw-[^\s"]+/g))].sort()).toEqual(["w-0.5", "w-10"]);
+    expect([...new Set(markup.match(/\bw-[^\s"]+/g))].sort()).toEqual(["w-0.75", "w-10"]);
 
     // 条目顺序按二级分类拼接，active 态照旧生效
     const links = Array.from(markup.matchAll(/href="([^"]+)"/g)).map((match) => match[1]);

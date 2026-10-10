@@ -273,8 +273,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b6a97b4f6379986962d52cdc52c7510ea4a69c5588593afa8852cf74ac553ec9",
-        "en-US": "sha256:66bb877983454db4ab8315c76f54aa7ee8095b0914236d708b6bb0597b839b93"
+        "zh-CN": "sha256:93859407f2bb1a4c28ec64b684bf79921472cb80d0e422602865d849a1d0f644",
+        "en-US": "sha256:2ec307116662b885d92cb4ce4143c52d5ad2eb99d72d1de2f8cba751fd34d241"
       }
     },
     {
@@ -769,8 +769,24 @@
         "en-US": "pages/en-US/components/toggle.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2eda65dc877db6aa0754711e240095262c2bc7006cd5ff655ef7d615c2804723",
-        "en-US": "sha256:de6ddd01003d6fcbea902c0781c1e83b9509cd021d4c2dfa43aead6747830173"
+        "zh-CN": "sha256:38ac55d61915b15c2c6e663cc2ab0dbcf117172ef39c0100f47536102ad56c57",
+        "en-US": "sha256:fe3ad184e359630ff95a5055d3c8a8a6504372429e78c2d4c803783a8c7bc23d"
+      }
+    },
+    {
+      "path": "/components/back-to-top",
+      "title": {
+        "zh-CN": "返回顶部",
+        "en-US": "Back to Top"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/back-to-top.md",
+        "en-US": "pages/en-US/components/back-to-top.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ae66e38d7640cd703b79ea86d8243c388cfa707b3a407732bc5af0b6c0888845",
+        "en-US": "sha256:c55e7898fed09e5feb1b1f577cb1094e411592c3059e4c31634d62dc0e943b90"
       }
     },
     {
@@ -801,8 +817,8 @@
         "en-US": "pages/en-US/components/footer.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:391bc4cc5eb4b866855b72a6798bbe533b6643258d2fbb00e41b2a7e27b98699",
-        "en-US": "sha256:01beea016017c17e7504a1c17bc7558786eeefbeef746c096adfd985a9b4aae5"
+        "zh-CN": "sha256:0d3fc8d02197ec9ec8050a9f07c15021463745dd1879130cde9c7a9d5bea810a",
+        "en-US": "sha256:e7a06d64a3f18a20bb4eb3f4ec72c7e5b5187077938b98eb4fd8b8264562436c"
       }
     },
     {
@@ -817,8 +833,8 @@
         "en-US": "pages/en-US/components/hamburger-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:cc3faee6f20c80b6acd37c95ecd45a284d687f1b29d552df560251401a943cab",
-        "en-US": "sha256:0ba3c9ea81f99ab758e0824a8558f12d5e55684ce5b48068b4e67cf9d1963931"
+        "zh-CN": "sha256:d99abc13648f8000f92dd0950852e1955068692f958d6da7aa357e155dc7c7e4",
+        "en-US": "sha256:ac96301f55651f79f483184d181824d84a7a70c6d9d115cd726e3558cfdffbf8"
       }
     },
     {
@@ -833,8 +849,8 @@
         "en-US": "pages/en-US/components/navbar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:566ee96e384f509fdc7350de3b414ff50ba9f573c076c116bb33d01655b3ced7",
-        "en-US": "sha256:18b3ec81b57862928314546f15dbcb44776de17429842a7d028722ea00f73074"
+        "zh-CN": "sha256:4cbfed3823de72515b4f226147ab95d05d2455013aa2df9ff12c67944a0bc0c7",
+        "en-US": "sha256:3fab9c7a5fde5fe63c02fece0f9af7fff8c3edbb0f008365a371210fc8ca64fe"
       }
     },
     {
@@ -865,8 +881,24 @@
         "en-US": "pages/en-US/components/sidebar-nav.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:29deb6bcde4fb836395e18cc722149f5848b689d96e6d5925ed069640683b45b",
-        "en-US": "sha256:7e71a73ed41c396bfcade63f37fdbddae7090416c2b0fdafbed9ed1e8e35f097"
+        "zh-CN": "sha256:06b0c001c0f58dd56463e7cfd8e1f0a44c927c23ea57c8513c335c59e8db0eaf",
+        "en-US": "sha256:155b0690a31e770185a97dbb4336f8c7cab5f72e5a0da0d58c01e658e512e3bc"
+      }
+    },
+    {
+      "path": "/components/site-navigation",
+      "title": {
+        "zh-CN": "官网导航",
+        "en-US": "Site Navigation"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/site-navigation.md",
+        "en-US": "pages/en-US/components/site-navigation.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:51643aa4ea873f88cbe0aa20f7a74d9dfb63dd26b250998f3e447dddee2c81a7",
+        "en-US": "sha256:32e16833441f86f7e906b5b37632b08b07af6e9725d57e071f4d1ef304550fb2"
       }
     },
     {
@@ -881,8 +913,8 @@
         "en-US": "pages/en-US/components/tabs.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9ef3e34f53a428535868855e64934b7cb29ba8def1724e1279335e4912f0e6e1",
-        "en-US": "sha256:ff1ee89f1f8323acf22af0f5826e1ce9384fe625c3dab3a823bab85801f9eda0"
+        "zh-CN": "sha256:4b81d1f84ae1cc7940938743b889a585d2abb444b5e0a6031e243356ebb100dc",
+        "en-US": "sha256:0e5aa1ceddac58a1f952396b3cc68721ad841c96dc0ef4bb6a768dc5c9153f20"
       }
     },
     {
@@ -1654,6 +1686,22 @@
       }
     },
     {
+      "path": "/components/scroll-reveal",
+      "title": {
+        "zh-CN": "滚动显现",
+        "en-US": "Scroll Reveal"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/scroll-reveal.md",
+        "en-US": "pages/en-US/components/scroll-reveal.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:dc121813d1731e499de88c898e0d0dd7ceea4c257dba5dc9f2b09bee3c5fc61a",
+        "en-US": "sha256:bedba12f2dbcc00e20c71bec7c5003f2298aa7e2e0d68a4ce794c38e37b7459c"
+      }
+    },
+    {
       "path": "/components/snippet",
       "title": {
         "zh-CN": "代码片段",
@@ -1923,6 +1971,22 @@
       "sourceHash": {
         "zh-CN": "sha256:8e8924456b89197a6c624830bb46fb38db2f34ab0408b9308f3cde9823544fd4",
         "en-US": "sha256:b766aef7097d2348c4392318a620a311b04a5a5b287c1bd47f1e5ddb1a4b6b04"
+      }
+    },
+    {
+      "path": "/patterns/site-shell",
+      "title": {
+        "zh-CN": "官网壳层",
+        "en-US": "Website Shell"
+      },
+      "category": "pattern",
+      "locales": {
+        "zh-CN": "pages/zh-CN/patterns/site-shell.md",
+        "en-US": "pages/en-US/patterns/site-shell.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2d6dfdf413fabc862e364d148c9fd716ffcc76e45a93f2465f6ab6166cd9d7ee",
+        "en-US": "sha256:7311b8ee7a56eec7b4097d1b8d170ccbcf2450db821df57be5cf7613ec7f328b"
       }
     }
   ]

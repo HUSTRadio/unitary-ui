@@ -28,6 +28,12 @@ import SidebarNavExampleSource from "./sidebar-nav/default-public.example.tsx?ex
 import SidebarNavScrollTrackingExample from "./sidebar-nav/scroll-tracking.example";
 import SidebarNavScrollTrackingExampleSource from "./sidebar-nav/scroll-tracking.example.tsx?example-source";
 import NavbarExample from "./navbar/default-public.example";
+import SiteNavigationExample from "./site-navigation/default.example";
+import SiteNavigationSource from "./site-navigation/default.example.tsx?example-source";
+import ScrollRevealExample from "./scroll-reveal/default.example";
+import ScrollRevealSource from "./scroll-reveal/default.example.tsx?example-source";
+import BackToTopExample from "./back-to-top/default.example";
+import BackToTopSource from "./back-to-top/default.example.tsx?example-source";
 import NavbarExampleSource from "./navbar/default-public.example.tsx?example-source";
 import FooterExample from "./footer/default-public.example";
 import FooterExampleSource from "./footer/default-public.example.tsx?example-source";
@@ -893,6 +899,9 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "prefetch", id: "strategies", Component: PrefetchStrategiesExample, source: PrefetchStrategiesExampleSource },
   { slug: "motion", id: "default", Component: MotionExample, source: MotionExampleSource },
   { slug: "hitu-player", id: "default", Component: HituPlayerExample, source: HituPlayerExampleSource },
+  { slug: "site-navigation", id: "default", Component: SiteNavigationExample, source: SiteNavigationSource },
+  { slug: "scroll-reveal", id: "default", Component: ScrollRevealExample, source: ScrollRevealSource },
+  { slug: "back-to-top", id: "default", Component: BackToTopExample, source: BackToTopSource },
   { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },
   { slug: "sidebar-nav", id: "scroll-tracking", Component: SidebarNavScrollTrackingExample, source: SidebarNavScrollTrackingExampleSource },
   { slug: "navbar", id: "default", Component: NavbarExample, source: NavbarExampleSource },

@@ -65,10 +65,13 @@
 - **Motion.dev 动效接入**：固定依赖 `motion@14.0.0`，从包根导出 `MotionProvider`、精简 `motion`、`AnimatePresence` 与 `useMotionTransition`；复用现有四档时序与局部 token，按需加载 DOM 动画能力。减少动画偏好动态变化时完成进行中的动效，保留内容实例。
 - **Hitu SVG 插画播放器**：内置固定上游版本的 React 19 适配运行时，导出 `HituPlayer`、相关类型及 `HituBox` / `HituFile` 资源；支持关键帧、播放、暂停、定位与循环，默认不播放、不循环。减少动画时展示初始帧，离屏和页面隐藏时暂停，场景切换及卸载清理 RAF，并保留上游 MIT 许可与第三方说明。
 - **动效与插画文档试点**：新增双语 API、指南和真实示例，通过 `EmptyState.icon` 组合插画；介绍页在进入视口时按需加载并播放一次，提供播放、暂停与重播控制。Living styleguide 新增“动效与插画”导航页，纳入双主题 README 截图发现流程。
+- **Toggle 圆钮拉伸动效**：白色圆钮在状态切换时沿水平方向先拉宽再收回，保持高度，拉伸幅度不超过原宽的 25%，结束时恢复原有圆形与端点位置；位移与拉伸复用 `--uni-motion-state`（默认 250ms）与 `--ease-snap` 非线性曲线。受控与非受控模式均生效，快速反向切换接续当前可见位置与宽度；首次显示和减少动画时直接定位，轨道颜色保留原有过渡。公开 props、尺寸与原生输入行为保持兼容，双语指南同步说明。
+
+- **导航选中条几何调整**：侧栏与折叠菜单共用的蓝色指示条由 2px 加宽至 3px，静止高度保持 14px；距选中项左缘 6px，在 14px 前导留白内均衡排列，并在指针与触控行中垂直居中。原有非线性滑动与拉伸继续生效。
 
 - **全局材质外观与 Mask 规范**：`ThemeProvider` 新增 `texture`、`defaultTexture` 与 `onTextureChange`，`useTheme` 新增 `texture`、`resolvedTexture` 与 `setTexture`，并导出 `TexturePreference`、`ThemeProviderProps`。默认保留 Solid，可全局切换 Hybrid 或 Glass；导航、功能浮层及 Portal／SubFrame 同步生效，正文与内部控件保持清晰。材质独立于明暗主题、UI 配色和代码主题，非受控偏好独立保存；不支持背景模糊／颜色混合、强制颜色或减少透明度时回退 Solid。新增 `--material-texture-*` 变量、`material-mask` 与 `material-mask-scrim` 工具类；状态色 Tooltip／Toast 保持不透明，避免嵌套重复采样。材质规范页、框架 API 与中英示例同步说明接口、兼容性及渲染边界。
 
-- **选中指示条滑动**：`SidebarNav` 与 `HamburgerMenu` 的主题强调色指示条在同一最基层列表内切换时非线性滑动；有二级分类时以子分类为边界，否则以一级分组为边界。`Tabs` 的 primary 下划线同样在标签行内滑动并适配标签宽度，保留原有前景色。复用 `--uni-motion-state`（默认 250ms）与 `--ease-snap`；首次显示、跨组切换直接定位，快速切换从当前可见位置继续。减少动画时直接定位，运行期间启用该偏好会取消滑动；键盘、导航与公开 props 保持兼容，双语指南同步说明。
+- **选中指示条滑动与拉伸**：`SidebarNav` 与 `HamburgerMenu` 的主题强调色指示条在同一最基层列表内切换时非线性滑动，沿移动方向先伸长再收回目标高度，保持厚度；有二级分类时以子分类为边界，否则以一级分组为边界。`Tabs` 的 primary 下划线同样在标签行内滑动，先拉长再收回目标标签宽度，保持厚度与原有前景色。滑动与拉伸复用 `--uni-motion-state`（默认 250ms）与 `--ease-snap`；首次显示、跨组切换直接定位，快速切换从当前可见位置与长度继续。减少动画时直接定位，运行期间启用该偏好会取消当前动效；键盘、导航与公开 props 保持兼容，双语指南同步说明。
 
 - **活动项滚动跟踪**：`SidebarNav` 与 `Tabs` 新增可选的 `scrollTracking`（`disabled` / `on-reload` / `always`，默认禁用），并从包入口导出 `ScrollTrackingMode`。载入时或活动项变化时，对齐到滚动容器顶部或水平起始边，首选 16px 留白；若会露出前一条目或标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等，目标受滚动边界限制。复用 250ms 非线性动效，支持 RTL、减少动画与手动中断。SidebarNav 另提供 `scrollTrackingTarget`（默认 `item`）；`category` 定位当前条目所属的二级分类小标题，无二级分类时定位一级标题，包入口导出 `SidebarNavScrollTrackingTarget`。文档侧栏启用 `on-reload` + `category`，双语 API、指南、可交互演示、Show Code 与 living styleguide 同步覆盖。
 

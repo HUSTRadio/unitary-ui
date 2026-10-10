@@ -15,9 +15,9 @@ const toggle = (props: React.ComponentProps<typeof Toggle>) =>
   renderToStaticMarkup(React.createElement(Toggle, props));
 
 describe("Toggle official API contract (G12)", () => {
-  test("track and thumb use the official 200ms standard easing", async () => {
+  test("track color retains the base token and standard easing", async () => {
     const src = await read("src/components/ui/toggle.tsx");
-    expect(src.match(/duration-\(--uni-duration-base\) ease-in-out/g)).toHaveLength(2);
+    expect(src.match(/duration-\(--uni-duration-base\) ease-in-out/g)).toHaveLength(1);
   });
 
   test("thumb is visually compact while preserving 1.5px end margins in every size", async () => {
