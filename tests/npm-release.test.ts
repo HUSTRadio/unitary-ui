@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { parseDocument } from "yaml";
 import { cleanLibraryOutput } from "../scripts/clean-library-output.mjs";
 import { packageIntegrity, validateInstalledPackage, validatePackageFiles } from "../scripts/lib/package-artifact.mjs";
-import { readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease } from "../scripts/lib/npm-release.mjs";
+import { PUBLICATION_WAIT_MS, readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease, waitForPublishedVersion } from "../scripts/lib/npm-release.mjs";
 
 const manifest = { ...JSON.parse(readFileSync("package.json", "utf8")), version: "0.1.0" };
 const event = { action: "published", release: { draft: false, prerelease: false, tag_name: "v0.1.0" } };
@@ -48,6 +48,36 @@ describe("npm release validation", () => {
     expect(() => validateArtifact(summary, bytes, manifest)).not.toThrow();
     expect(() => validateArtifact(summary, Buffer.from("changed bytes"), manifest)).toThrow();
     expect(() => validateArtifact({ ...summary, filename: "../../secret" }, bytes, manifest)).toThrow();
+  });
+  it("waits through first-package scanning without repeating publication", async () => {
+    let elapsed = 0;
+    let reads = 0;
+    const published = { versions: { "0.1.0-beta.0": {} } };
+    const result = await waitForPublishedVersion("0.1.0-beta.0", {
+      now: () => elapsed,
+      sleep: async (ms: number) => { elapsed += ms; },
+      read: async () => { reads++; return elapsed >= 5 * 60_000 ? published : null; },
+    });
+    expect(result).toBe(published);
+    expect(elapsed).toBe(5 * 60_000);
+    expect(reads).toBe(31);
+  });
+  it("bounds scanning waits and directs recovery without republishing", async () => {
+    let elapsed = 0;
+    await expect(waitForPublishedVersion("0.1.0-beta.0", {
+      now: () => elapsed,
+      sleep: async (ms: number) => { elapsed += ms; },
+      read: async () => ({ versions: { "0.0.9": {} } }),
+    })).rejects.toThrow("do not republish");
+    expect(elapsed).toBe(PUBLICATION_WAIT_MS);
+  });
+  it("fails immediately on registry errors while waiting for scanning", async () => {
+    let sleeps = 0;
+    await expect(waitForPublishedVersion("0.1.0-beta.0", {
+      read: async () => { throw new Error("npm registry query failed: HTTP 401"); },
+      sleep: async () => { sleeps++; },
+    })).rejects.toThrow("HTTP 401");
+    expect(sleeps).toBe(0);
   });
   it("requires the published version, latest, public access, exact integrity and provenance", () => {
     const summary = { version: "0.1.0", integrity: "sha512-expected" };
@@ -139,6 +169,8 @@ describe("manual beta publication", () => {
       "dist-tags": { beta: summary.version, latest: "0.0.9" },
     };
     expect(() => validatePublished(packument, summary, "beta")).not.toThrow();
+    // npm assigns latest on first publication even with --tag beta and rejects its removal.
+    expect(() => validatePublished({ ...packument, "dist-tags": { beta: summary.version, latest: summary.version } }, summary, "beta")).not.toThrow();
     expect(() => validatePublished(packument, summary)).toThrow("latest");
     expect(() =>
       validatePublished({ ...packument, "dist-tags": { beta: "0.1.0-beta.1" } }, summary, "beta"),
@@ -189,6 +221,11 @@ describe("release artifacts", () => {
 });
 
 describe("publishing workflow gates", () => {
+  it.each(["docs/guides/npm-release.md", "docs/guides/npm-release.en.md"])("documents bootstrap, OIDC and recovery for %s", file => {
+    const guide = readFileSync(file, "utf8");
+    for (const value of ["HUSTRadio", "unitary-ui", "publish.yml", "npmjs", "NPM_TOKEN", "20", "30", "latest", "beta", "https://docs.npmjs.com/trusted-publishers/"]) expect(guide).toContain(value);
+    expect(guide).toMatch(/48/);
+  });
   it("publishes only after every required validation and scopes the bootstrap credential to one step", () => {
     const parsed = parseDocument(readFileSync(".github/workflows/publish.yml", "utf8"));
     expect(parsed.errors).toEqual([]);
@@ -196,7 +233,7 @@ describe("publishing workflow gates", () => {
     const workflow = parsed.toJS() as {
       on: unknown;
       concurrency: Record<string, unknown>;
-      jobs: Record<string, { needs?: string[]; environment?: string; permissions?: Record<string, string>; steps: Step[] }>;
+      jobs: Record<string, { needs?: string[]; environment?: string; permissions?: Record<string, string>; "timeout-minutes": number; steps: Step[] }>;
     };
     expect(workflow.on).toEqual({ release: { types: ["published"] }, workflow_dispatch: { inputs: { version: {
       description: "Beta version matching package.json (run on master)", required: true, type: "string",
@@ -204,6 +241,7 @@ describe("publishing workflow gates", () => {
     expect(workflow.concurrency["cancel-in-progress"]).toBe(false);
     expect(workflow.jobs.package.needs).toEqual(["guard", "ci", "browsers"]);
     const job = workflow.jobs.publish;
+    expect(job["timeout-minutes"] * 60_000).toBeGreaterThan(PUBLICATION_WAIT_MS + 5 * 60_000);
     expect(job.needs).toEqual(["guard", "ci", "browsers", "package"]);
     expect(job.environment).toBe("npmjs");
     expect(job.permissions).toEqual({ contents: "read", "id-token": "write" });

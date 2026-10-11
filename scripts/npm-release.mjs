@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease } from "./lib/npm-release.mjs";
+import { readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease, waitForPublishedVersion } from "./lib/npm-release.mjs";
 import { PACKAGE_NAME, validatePackageFiles } from "./lib/package-artifact.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -54,6 +54,7 @@ try {
   else if (command === "check-artifact") { receipt(); await preflight(); }
   else if (command === "verify") {
     const summary = receipt();
+    await waitForPublishedVersion(summary.version);
     let lastError;
     for (let attempt = 0; attempt < 6; attempt++) {
       try {

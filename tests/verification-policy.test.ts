@@ -53,6 +53,14 @@ const discovery = (available: string[], selected: string[] = []) => ({
 });
 
 describe("verification selection", () => {
+  it.each(["docs/guides/npm-release.md", "docs/guides/npm-release.en.md"])("maps standalone publishing instructions to their contract tests: %s", file => {
+    const result = classifyVerification(context(file));
+    expect(result.scope.unit).toBe(true);
+    expect(result.scope.fullBrowser).toBe(false);
+    expect(result.scope.corpus).toBe(false);
+    expect(indirectTests([file], ["tests/npm-release.test.ts"])).toContain("tests/npm-release.test.ts");
+    expect(classifyVerification(context("docs/guides/unknown-release.md")).scope.fullBrowser).toBe(true);
+  });
   it.each(["scripts/generate-llm-docs.ts", "scripts/lib/llm-html.ts"])(
     "keeps complete corpus verification for the extraction owner %s",
     async (file) => {

@@ -82,7 +82,7 @@ pnpm run test:package
 
 该命令重新构建并打包库，在独立消费项目中安装压缩包，检查 TypeScript、ESM/CJS、服务端渲染和 hydration，再用 Chromium 检查双主题发布样式。验证后的压缩包、文件清单和摘要保存于 `.scratch/npm-release/`。
 
-当前准备发布 `0.1.0-beta.0` 到 npm 的 `beta` 标签，通过 `publish.yml` 从 `master` 手动触发，无需发布 GitHub Release。全部 CI 和浏览器检查通过后发布同一份已验证压缩包；首个包使用临时环境 Token，后续版本使用 npm trusted publishing。外部配置与失败恢复见[发布指南](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.md)。正式 `0.1.0` 的 [Release 草稿](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) 留待后续发布。
+`0.1.0-beta.0` 已发布到 npm 的 `beta` 标签，通过 `publish.yml` 从 `master` 手动触发，无需发布 GitHub Release。全部 CI 和浏览器检查通过后发布同一份已验证压缩包；首个包使用临时环境 Token，后续版本使用 npm trusted publishing。外部配置与失败恢复见[发布指南](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.md)。npm 首次发包还会添加 `latest`，请明确使用 `@beta` 安装。正式 `0.1.0` 的 [Release 草稿](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) 留待后续发布。
 
 ## 持续集成
 

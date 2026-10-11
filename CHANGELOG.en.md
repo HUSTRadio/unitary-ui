@@ -6,9 +6,15 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Fixed
+
+- **Publication scanning recovery**: waits read-only for up to 20 minutes after an accepted npm upload, within a 30-minute publishing job; documents first-package tags and the trusted publisher 48-hour validation deadline. These follow-up changes are not included in the published beta tarball.
+
+## [0.1.0-beta.0] - 2026-10-11
+
 ### Changed
 
-- **npm release preparation**: validates the actual pnpm tarball in an independent TypeScript and browser consumer, cleans stale library output, and prepares manual `0.1.0-beta.0` publishing to `beta` without a GitHub Release, retaining future stable Release publishing with first-package token bootstrap followed by OIDC. Includes bilingual publishing instructions and the Material Symbols keycap font license notice. No npm version has been published by this preparation.
+- **npm release preparation**: validates the actual pnpm tarball in an independent TypeScript and browser consumer, cleans stale library output, and prepares manual `0.1.0-beta.0` publishing to `beta` without a GitHub Release, retaining future stable Release publishing with first-package token bootstrap followed by OIDC. Includes bilingual publishing instructions and the Material Symbols keycap font license notice. Published `0.1.0-beta.0` under `beta` with provenance after all required checks; the stable GitHub Release remains a draft.
 
 - **Nonlinear motion curves**: aligns the component library, website, styleguide and Hitu illustrations around quick responses, soft finishes or smooth starts and finishes. The three Bezier curves are project-selected values, not official Apple parameters, and add no spring engine. Retains the 150 / 250 / 350 / 500ms duration tiers, with CSS as the only parameter source and JS defaults derived by the token generator; entering and existing independent exit phases consume semantic curves. Continuous loading rotations remain constant-rate, native gestures remain direct, and data geometry interpolation is unchanged.
 - **Motion and Hitu easing contract**: all four `useMotionTransition` tiers read `--ease-snap`, retaining valid scoped nonlinear overrides; linear or identity-Bezier configurations complete instantly. Omitting `HituFrame.cubic` changes Hitu's former linear interpolation to `[0.42, 0, 0.58, 1]`, while explicit nonlinear curves remain supported. Shared time-progress solving preserves endpoints and sparse-transform inheritance.

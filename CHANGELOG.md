@@ -6,9 +6,15 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- **发布扫描恢复**：npm 接受上传后只读等待最多 20 分钟，发布 job 限时 30 分钟；补充首个包的标签行为和 trusted publisher 的 48 小时验证期限。这些后续修改不在已发布 beta 压缩包内。
+
+## [0.1.0-beta.0] - 2026-10-11
+
 ### Changed
 
-- **npm 发布准备**：在独立 TypeScript 和浏览器消费项目中验证真实 pnpm 压缩包，构建前清除旧库产物，并准备无需 GitHub Release、手动发布 `0.1.0-beta.0` 到 `beta` 的工作流。保留后续正式 Release 发布及首个包临时 Token 后续切换 OIDC；补齐双语发布指南和 Material Symbols 键帽字体许可登记。准备阶段尚未发布 npm 版本。
+- **npm 发布准备**：在独立 TypeScript 和浏览器消费项目中验证真实 pnpm 压缩包，构建前清除旧库产物，并准备无需 GitHub Release、手动发布 `0.1.0-beta.0` 到 `beta` 的工作流。保留后续正式 Release 发布及首个包临时 Token 后续切换 OIDC；补齐双语发布指南和 Material Symbols 键帽字体许可登记。全部必需检查通过后以 provenance 发布 `0.1.0-beta.0` 到 `beta`，正式 GitHub Release 仍为草稿。
 
 - **非线性动效曲线**：组件库、官网、styleguide 与 Hitu 插画统一使用快速响应、柔和收尾或平滑起止的曲线；三组贝塞尔参数由本项目选择，不是 Apple 官方数值，也不引入弹簧引擎。保留 150 / 250 / 350 / 500ms 四档时长，CSS 是参数唯一来源，JS 默认表由 token 生成器派生；进入和已有独立退出阶段分别消费语义曲线。持续旋转的加载器仍匀速，原生手势保持跟手，数据几何插值不变。
 - **Motion 与 Hitu 曲线契约**：`useMotionTransition` 四档统一读取 `--ease-snap`，有效的局部非线性覆盖继续生效；线性或恒等贝塞尔配置即时完成。Hitu 省略 `HituFrame.cubic` 时由原先的线性插值改为 `[0.42, 0, 0.58, 1]`，显式非线性配置仍可使用；共享时间轴求解保留端点和稀疏变换继承。

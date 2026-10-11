@@ -96,3 +96,23 @@ export async function readPackument(fetcher = fetch) {
   assert.ok(body.versions && typeof body.versions === "object", "Registry response omits versions");
   return body;
 }
+
+export const PUBLICATION_WAIT_MS = 20 * 60_000;
+
+/** npm scans uploads before exposing versions; polling never repeats a publish. */
+export async function waitForPublishedVersion(version, {
+  read = readPackument,
+  now = Date.now,
+  sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),
+  timeoutMs = PUBLICATION_WAIT_MS,
+  intervalMs = 10_000,
+} = {}) {
+  const deadline = now() + timeoutMs;
+  for (;;) {
+    const packument = await read();
+    if (packument?.versions?.[version]) return packument;
+    const remaining = deadline - now();
+    if (remaining <= 0) throw new Error("Published version is still unavailable after waiting for npm scanning; do not republish it");
+    await sleep(Math.min(intervalMs, remaining));
+  }
+}

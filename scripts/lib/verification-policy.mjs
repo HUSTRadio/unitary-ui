@@ -8,7 +8,7 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 export const INDIRECT_INPUT_GROUPS = [
   {
     tests: unitFiles("npm-release.test.ts"),
-    inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", ".github/workflows/**"],
+    inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", ".github/workflows/**", "docs/guides/npm-release.md", "docs/guides/npm-release.en.md"],
   },
   {
     tests: unitFiles("motion-easing-governance.test.ts"),
@@ -477,7 +477,7 @@ export function classifyVerification(context, full = false) {
         reasons.push(`Unknown fixture dependency: ${file}`);
       if (
         file.startsWith("docs/") &&
-        !matches(file, ["docs/llm/**", "docs/audits/**", "docs/site-replica-acceptance.md"])
+        !matches(file, ["docs/llm/**", "docs/audits/**", "docs/site-replica-acceptance.md", "docs/guides/npm-release.md", "docs/guides/npm-release.en.md"])
       )
         reasons.push(`Unknown documentation input: ${file}`);
       if (file.startsWith("docs/llm/")) scope.corpus = true;

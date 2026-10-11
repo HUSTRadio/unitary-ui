@@ -46,13 +46,15 @@ The requested version must match the package and be a `-beta.N` version. All CI,
 2. Prepare a GitHub Release draft using the [0.1.0 draft notes](./npm-release-0.1.0.md), verify its tag and clear the prerelease flag. During preparation, keep changes under `Unreleased` in both changelogs.
 3. Publish the formal Release. The workflow checks the event, tag, commit, version and registry, then calls all existing CI and nightly checks, including Windows README screenshots.
 4. After every check passes, create and validate the final tarball. The publishing job downloads that exact artifact, checks its digest and the registry again, then publishes publicly with provenance. It does not install project dependencies, rebuild or execute tarball lifecycle scripts. npm runs from the runner temporary directory so the repository's pnpm-only `devEngines` does not block archive publication.
-5. Inspect `npm-package`, `npm-publication-evidence` and final verification in Actions. The workflow checks the version, `latest`, public access, integrity and provenance bundle, allowing brief registry synchronization.
+5. Inspect `npm-package`, `npm-publication-evidence` and final verification in Actions. The workflow checks the version, `latest`, public access, integrity and provenance bundle, polling read-only for up to 20 minutes while npm scans accepted uploads, within a 30-minute publishing job. A timeout never repeats publication. [npm scanning](https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/)
 
 ## Switch to OIDC after the first release
 
 Configure the package's npm Settings trusted publisher with Organization/user `HUSTRadio`, Repository `unitary-ui`, Workflow filename `publish.yml`, Environment `npmjs`, and permission for direct `npm publish`. Names must match exactly. Use GitHub-hosted runners, Node 24 and npm ≥11.5.1; the workflow grants `id-token: write`. [Official configuration](https://docs.npmjs.com/trusted-publishers/)
 
 Delete the GitHub `NPM_TOKEN` Environment Secret and revoke the temporary token on npm. Increment subsequent beta versions and manually dispatch the same workflow; stable versions use a new version tag and formal Release. Published versions cannot be reused.
+
+New trusted publisher configurations must complete their first successful OIDC publication within 48 hours. Otherwise they expire and must be deleted and recreated before the next publication. The initial token publication does not validate a publisher configured afterward. Do not publish an extra version merely to validate it. [Current npm requirements](https://docs.npmjs.com/trusted-publishers/)
 
 ## Recovery
 
@@ -61,5 +63,8 @@ Delete the GitHub `NPM_TOKEN` Environment Secret and revoke the temporary token 
 - Later OIDC authentication fails: check the npm trusted publisher's repository, filename, environment and permissions. Do not add token fallback.
 - Publishing or post-publication verification fails: first run `npm view @hustradio/unitary-ui@0.1.0-beta.0 --registry=https://registry.npmjs.org/ --json`. If the version exists, retain the original artifact digest and check integrity, `beta` (`latest` for stable versions) and provenance. Do not republish it; a complete rerun deliberately rejects existing versions.
 - The version exists but verification is incomplete: download the original run's `npm-package` and evidence and complete the comparison against registry metadata. Content defects require a new version. If only the target dist-tag differs, a maintainer can repair the dist-tag after confirming the published package. Do not delete a version to attempt republishing.
+
+- If npm accepted the upload but the version is still unavailable, wait for scanning before interpreting a 404 as publication failure. Once available, restore the original `npm-package` files to `.scratch/npm-release/` and run `node scripts/npm-release.mjs verify` with the original run's `GITHUB_SHA`, `GITHUB_REF` and `GITHUB_EVENT_NAME`. Retain `published.json`; do not rerun the publishing job.
+- For a package's first beta, npm also assigns `latest` despite `--tag beta`; removing `latest` can return HTTP 400 after successful 2FA. Retain the beta version and disclose the actual tags. Install explicitly with `@beta` or the version. Do not create a fictitious stable version or republish to change this behavior. [npm CLI issue](https://github.com/npm/cli/issues/8490)
 
 After confirming the online publication, archive the relevant changelog entries under the published version (`0.1.0-beta.0` initially) in both languages with the actual publication date. Keep subsequent changes under `Unreleased`.
