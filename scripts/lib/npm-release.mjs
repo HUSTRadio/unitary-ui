@@ -25,10 +25,40 @@ export function validateArtifact(summary, bytes, manifest) {
   assert.equal(summary.integrity, packageIntegrity(bytes), "Artifact integrity differs from validated package");
 }
 
-export function validatePublished(packument, summary) {
+export function validateBeta({ event, manifest, ref, onMaster, packument }) {
+  assert.equal(manifest.name, PACKAGE_NAME, "Unexpected package name");
+  assert.match(
+    manifest.version,
+    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-beta\.(0|[1-9]\d*)$/,
+    "Manual publication requires a beta version",
+  );
+  assert.equal(
+    event.inputs?.version,
+    manifest.version,
+    "Requested beta version must match package.version",
+  );
+  assert.equal(ref, "refs/heads/master", "Beta publication must run on master");
+  assert.equal(onMaster, true, "Beta commit must belong to master");
+  assert.ok(
+    !packument?.versions?.[manifest.version],
+    "Target version already exists; do not republish it",
+  );
+  if (packument === null) {
+    assert.equal(
+      manifest.version,
+      "0.1.0-beta.0",
+      "Only initial 0.1.0-beta.0 may bootstrap a missing package",
+    );
+    return "bootstrap";
+  }
+  assert.equal(packument.name, PACKAGE_NAME, "Unexpected registry package");
+  return "oidc";
+}
+
+export function validatePublished(packument, summary, tag = "latest") {
   const version = packument.versions?.[summary.version];
   assert.ok(version, "Published version is missing");
-  assert.equal(packument["dist-tags"]?.latest, summary.version, "latest points to another version");
+  assert.equal(packument["dist-tags"]?.[tag], summary.version, `${tag} points to another version`);
   assert.equal(version.dist?.integrity, summary.integrity, "Registry tarball differs from validated artifact");
   assert.equal(version.name, PACKAGE_NAME);
   assert.equal(version.publishConfig?.access, "public");
@@ -38,7 +68,7 @@ export function validatePublished(packument, summary) {
   return attestation.href;
 }
 
-export function validateProvenance(data, summary, sha) {
+export function validateProvenance(data, summary, sha, ref = `refs/tags/v${summary.version}`) {
   const type = "https://slsa.dev/provenance/v1";
   const bundle = data.attestations?.find(item => item.predicateType === type)?.bundle;
   const envelope = bundle?.dsseEnvelope;
@@ -49,7 +79,7 @@ export function validateProvenance(data, summary, sha) {
   assert.ok(statement.subject?.some(subject => subject.digest?.sha512 === digest), "Provenance subject differs from the published tarball");
   const definition = statement.predicate?.buildDefinition;
   assert.deepEqual(definition?.externalParameters?.workflow, {
-    ref: `refs/tags/v${summary.version}`,
+    ref,
     repository: "https://github.com/HUSTRadio/unitary-ui",
     path: ".github/workflows/publish.yml",
   }, "Provenance workflow differs from the configured publisher");

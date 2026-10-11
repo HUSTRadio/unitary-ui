@@ -3,12 +3,18 @@ name: Publish npm package
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Beta version matching package.json (run on master)
+        required: true
+        type: string
 
 permissions:
   contents: read
 
 concurrency:
-  group: npm-release-${{ github.event.release.tag_name }}
+  group: npm-publish-${{ github.event.release.tag_name || format('v{0}', inputs.version) }}
   cancel-in-progress: false
 
 jobs:
@@ -27,7 +33,7 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - name: Check Release and registry
+      - name: Check publication request and registry
         id: guard
         run: node scripts/npm-release.mjs preflight
 
@@ -96,18 +102,22 @@ jobs:
         run: node scripts/npm-release.mjs check-artifact
       - name: Bootstrap first publication
         if: steps.artifact.outputs.mode == 'bootstrap'
+        working-directory: ${{ runner.temp }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           PACKAGE_FILE: ${{ steps.artifact.outputs.filename }}
+          PACKAGE_TAG: ${{ steps.artifact.outputs.tag }}
         run: |
-          test -n "$NODE_AUTH_TOKEN" || { echo "Configure the temporary NPM_TOKEN in the npmjs environment for the first 0.1.0 publication."; exit 1; }
-          npm publish ".scratch/npm-release/$PACKAGE_FILE" --access public --tag latest --provenance --ignore-scripts
+          test -n "$NODE_AUTH_TOKEN" || { echo "Configure the temporary NPM_TOKEN in the npmjs environment for the initial publication."; exit 1; }
+          npm publish "$GITHUB_WORKSPACE/.scratch/npm-release/$PACKAGE_FILE" --access public --tag "$PACKAGE_TAG" --provenance --ignore-scripts
       - name: Publish using trusted publishing
         if: steps.artifact.outputs.mode == 'oidc'
+        working-directory: ${{ runner.temp }}
         env:
           NODE_AUTH_TOKEN: ''
           PACKAGE_FILE: ${{ steps.artifact.outputs.filename }}
-        run: npm publish ".scratch/npm-release/$PACKAGE_FILE" --access public --tag latest --provenance --ignore-scripts
+          PACKAGE_TAG: ${{ steps.artifact.outputs.tag }}
+        run: npm publish "$GITHUB_WORKSPACE/.scratch/npm-release/$PACKAGE_FILE" --access public --tag "$PACKAGE_TAG" --provenance --ignore-scripts
       - name: Verify published package
         run: node scripts/npm-release.mjs verify
       - name: Save publication evidence

@@ -6,9 +6,9 @@ import { afterEach, describe, expect, it } from "vitest";
 import { parseDocument } from "yaml";
 import { cleanLibraryOutput } from "../scripts/clean-library-output.mjs";
 import { packageIntegrity, validateInstalledPackage, validatePackageFiles } from "../scripts/lib/package-artifact.mjs";
-import { readPackument, validateArtifact, validateProvenance, validatePublished, validateRelease } from "../scripts/lib/npm-release.mjs";
+import { readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease } from "../scripts/lib/npm-release.mjs";
 
-const manifest = JSON.parse(readFileSync("package.json", "utf8"));
+const manifest = { ...JSON.parse(readFileSync("package.json", "utf8")), version: "0.1.0" };
 const event = { action: "published", release: { draft: false, prerelease: false, tag_name: "v0.1.0" } };
 const directories: string[] = [];
 const fixture = () => {
@@ -79,6 +79,70 @@ describe("npm release validation", () => {
     expect(() => validateProvenance(data, summary, "b".repeat(40))).toThrow("commit");
     expect(() => validateProvenance(data, { ...summary, integrity: packageIntegrity(Buffer.from("different")) }, sha)).toThrow("subject");
     expect(() => validateProvenance({ attestations: [] }, summary, sha)).toThrow("bundle");
+    statement.predicate.buildDefinition.externalParameters.workflow.ref = "refs/heads/master";
+    data.attestations[0].bundle.dsseEnvelope.payload = Buffer.from(JSON.stringify(statement)).toString("base64");
+    expect(() => validateProvenance(data, summary, sha, "refs/heads/master")).not.toThrow();
+    expect(() => validateProvenance(data, summary, sha)).toThrow("workflow");
+  });
+});
+
+describe("manual beta publication", () => {
+  const input = () => ({
+    event: { inputs: { version: "0.1.0-beta.0" } },
+    manifest: { ...manifest, version: "0.1.0-beta.0" },
+    ref: "refs/heads/master",
+    onMaster: true,
+    packument: null,
+  });
+  it("bootstraps only the initial beta and uses OIDC once the package exists", () => {
+    expect(validateBeta(input())).toBe("bootstrap");
+    expect(
+      validateBeta({
+        ...input(),
+        manifest: { ...manifest, version: "0.1.0-beta.1" },
+        event: { inputs: { version: "0.1.0-beta.1" } },
+        packument: { name: manifest.name, versions: {} },
+      }),
+    ).toBe("oidc");
+  });
+  it.each([
+    { ref: "refs/heads/feature" },
+    { ref: "refs/tags/v0.1.0-beta.0" },
+    { onMaster: false },
+    { event: { inputs: { version: "0.1.0-beta.1" } } },
+    { event: {} },
+    { manifest: { ...manifest, version: "0.1.0" } },
+    { manifest: { ...manifest, version: "0.1.0-rc.0" } },
+    {
+      manifest: { ...manifest, version: "0.1.0-beta.1" },
+      event: { inputs: { version: "0.1.0-beta.1" } },
+    },
+    { packument: { name: manifest.name, versions: { "0.1.0-beta.0": {} } } },
+  ])("rejects an invalid beta request %#", (override) => {
+    expect(() => validateBeta({ ...input(), ...override })).toThrow();
+  });
+  it("verifies the beta tag independently of latest", () => {
+    const summary = { version: "0.1.0-beta.0", integrity: "sha512-expected" };
+    const published = {
+      name: manifest.name,
+      publishConfig: { access: "public" },
+      dist: {
+        integrity: summary.integrity,
+        attestations: {
+          provenance: {},
+          url: "https://registry.npmjs.org/-/npm/v1/attestations/package",
+        },
+      },
+    };
+    const packument = {
+      versions: { [summary.version]: published },
+      "dist-tags": { beta: summary.version, latest: "0.0.9" },
+    };
+    expect(() => validatePublished(packument, summary, "beta")).not.toThrow();
+    expect(() => validatePublished(packument, summary)).toThrow("latest");
+    expect(() =>
+      validatePublished({ ...packument, "dist-tags": { beta: "0.1.0-beta.1" } }, summary, "beta"),
+    ).toThrow("beta");
   });
 });
 
@@ -128,13 +192,15 @@ describe("publishing workflow gates", () => {
   it("publishes only after every required validation and scopes the bootstrap credential to one step", () => {
     const parsed = parseDocument(readFileSync(".github/workflows/publish.yml", "utf8"));
     expect(parsed.errors).toEqual([]);
-    type Step = { uses?: string; run?: string; if?: string; env?: Record<string, string> };
+    type Step = { uses?: string; run?: string; if?: string; env?: Record<string, string>; "working-directory"?: string };
     const workflow = parsed.toJS() as {
       on: unknown;
       concurrency: Record<string, unknown>;
       jobs: Record<string, { needs?: string[]; environment?: string; permissions?: Record<string, string>; steps: Step[] }>;
     };
-    expect(workflow.on).toEqual({ release: { types: ["published"] } });
+    expect(workflow.on).toEqual({ release: { types: ["published"] }, workflow_dispatch: { inputs: { version: {
+      description: "Beta version matching package.json (run on master)", required: true, type: "string",
+    } } } });
     expect(workflow.concurrency["cancel-in-progress"]).toBe(false);
     expect(workflow.jobs.package.needs).toEqual(["guard", "ci", "browsers"]);
     const job = workflow.jobs.publish;
@@ -145,8 +211,14 @@ describe("publishing workflow gates", () => {
     expect(credentialSteps).toHaveLength(1);
     expect(credentialSteps[0].if).toBe("steps.artifact.outputs.mode == 'bootstrap'");
     expect(credentialSteps[0].run).toContain('test -n "$NODE_AUTH_TOKEN"');
+    expect(credentialSteps[0].env?.PACKAGE_TAG).toBe("${{ steps.artifact.outputs.tag }}");
+    expect(credentialSteps[0].run).toContain('--tag "$PACKAGE_TAG"');
     const oidc = job.steps.find(step => step.if === "steps.artifact.outputs.mode == 'oidc'");
     expect(oidc?.env?.NODE_AUTH_TOKEN).toBe("");
+    for (const step of [credentialSteps[0], oidc!]) {
+      expect(step["working-directory"]).toBe("${{ runner.temp }}");
+      expect(step.run).toContain('npm publish "$GITHUB_WORKSPACE/.scratch/npm-release/$PACKAGE_FILE"');
+    }
     expect(job.steps.some(step => /pnpm install|build:lib|test:package/.test(step.run ?? ""))).toBe(false);
     const receiptIndex = job.steps.findIndex(step => step.run === "node scripts/npm-release.mjs check-artifact");
     expect(receiptIndex).toBeGreaterThan(0);

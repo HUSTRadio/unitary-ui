@@ -61,7 +61,8 @@ for (const docsTheme of ["light", "dark"] as const) {
         await page.keyboard.press("Tab");
         await page.keyboard.press("Shift+Tab");
         await expect(save).toBeFocused();
-        expect(await save.evaluate(el => getComputedStyle(el).boxShadow)).toContain(await color(page, t["--focus-ring-color"]!));
+        const focusRing = await color(page, t["--focus-ring-color"]!);
+        await expect.poll(() => save.evaluate(el => getComputedStyle(el).boxShadow)).toContain(focusRing);
         await expect(ui.getByRole("button", { name: "已归档", exact: true })).toBeDisabled();
         const input = ui.getByRole("textbox", { name: "项目名称", exact: true });
         await input.fill("Palette preview");

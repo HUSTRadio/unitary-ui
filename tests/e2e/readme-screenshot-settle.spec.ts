@@ -21,6 +21,21 @@ test("README production preview renders the real styleguide with the capture bro
     expect(requests.some((url) => new URL(url).pathname === "/@vite/client")).toBe(false);
     expect(requests.some((url) => new URL(url).pathname.startsWith("/src/"))).toBe(false);
     await settle(page);
+    const session = await page.context().newCDPSession(page);
+    await session.send("DOM.enable");
+    await session.send("CSS.enable");
+    const { root } = await session.send("DOM.getDocument");
+    const { nodeId } = await session.send("DOM.querySelector", {
+      nodeId: root.nodeId,
+      selector: 'header nav [data-styleguide-page="tokens"]',
+    });
+    const { fonts } = await session.send("CSS.getPlatformFontsForNode", { nodeId });
+    expect(fonts.length).toBeGreaterThan(0);
+    expect(
+      fonts.every((font) => font.isCustomFont),
+      "README captures use shipped fonts even when full fonts are installed",
+    ).toBe(true);
+    await session.detach();
     expect(await page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(
       true,
     );

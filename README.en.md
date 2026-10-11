@@ -18,7 +18,7 @@ A React component library based on the Vercel Geist design language, with design
 ## Installation
 
 ```bash
-pnpm add @hustradio/unitary-ui
+pnpm add @hustradio/unitary-ui@beta
 ```
 
 ## Quick start
@@ -82,7 +82,7 @@ pnpm run test:package
 
 This rebuilds and packs the library, installs the tarball in an independent consumer, checks TypeScript, ESM/CJS, server rendering and hydration, then verifies the published CSS in Chromium in both themes. Validated tarballs, file lists and digests are saved under `.scratch/npm-release/`.
 
-Publishing is prepared for formal GitHub Releases: all CI and browser checks must pass before the exact validated tarball is published. The initial `0.1.0` uses a temporary environment token; later versions use npm trusted publishing. See the [publishing guide](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.en.md) and [Release draft](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) for external configuration and recovery.
+The current target is `0.1.0-beta.0` under npm's `beta` tag, manually dispatched from `master` through `publish.yml` without publishing a GitHub Release. All CI and browser checks must pass before the exact validated tarball is published. The first package uses a temporary environment token; later versions use npm trusted publishing. See the [publishing guide](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.en.md) for configuration and recovery. The stable [0.1.0 Release draft](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) is reserved for later.
 
 ## Continuous integration
 

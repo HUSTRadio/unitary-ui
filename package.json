@@ -1,6 +1,6 @@
 {
   "name": "@hustradio/unitary-ui",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.0",
   "description": "Unitary — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
   "keywords": [
     "components",

@@ -8,7 +8,7 @@
 
 ### Changed
 
-- **npm 发布准备**：在独立 TypeScript 与浏览器消费项目中验证真实 pnpm 压缩包，清理陈旧库产物，并准备由正式 GitHub Release 触发、首版临时 Token 启动后切换 OIDC 的发布工作流。补充双语操作指南及 Material Symbols 键帽字体许可登记。本次准备尚未发布 npm 版本。
+- **npm 发布准备**：在独立 TypeScript 和浏览器消费项目中验证真实 pnpm 压缩包，构建前清除旧库产物，并准备无需 GitHub Release、手动发布 `0.1.0-beta.0` 到 `beta` 的工作流。保留后续正式 Release 发布及首个包临时 Token 后续切换 OIDC；补齐双语发布指南和 Material Symbols 键帽字体许可登记。准备阶段尚未发布 npm 版本。
 
 - **非线性动效曲线**：组件库、官网、styleguide 与 Hitu 插画统一使用快速响应、柔和收尾或平滑起止的曲线；三组贝塞尔参数由本项目选择，不是 Apple 官方数值，也不引入弹簧引擎。保留 150 / 250 / 350 / 500ms 四档时长，CSS 是参数唯一来源，JS 默认表由 token 生成器派生；进入和已有独立退出阶段分别消费语义曲线。持续旋转的加载器仍匀速，原生手势保持跟手，数据几何插值不变。
 - **Motion 与 Hitu 曲线契约**：`useMotionTransition` 四档统一读取 `--ease-snap`，有效的局部非线性覆盖继续生效；线性或恒等贝塞尔配置即时完成。Hitu 省略 `HituFrame.cubic` 时由原先的线性插值改为 `[0.42, 0, 0.58, 1]`，显式非线性配置仍可使用；共享时间轴求解保留端点和稀疏变换继承。
@@ -16,6 +16,10 @@
 - **双语动效规范与示例**：新增[非线性动效规范](./docs/design/apple-motion-curves.md)，记录曲线来源、非线性治理例外与迁移步骤；同步 Motion / Hitu、Carousel、Scroller、图表的 API、指南和真实示例。历史 Hitu 接入审计保留原样。
 
 ### Fixed
+
+- **npm 11 压缩包发布**：从 runner 临时目录发布已验证压缩包，避免仓库限定 pnpm 的 `devEngines` 检查阻止 npm 发布；项目包管理器约束保持不变，发布时不重新构建。
+
+- **README 截图字体一致性**：截图使用随包提供的字体子集，避免本机已安装的完整字体改变排版，使 Windows CI 与维护者截图可直接比较；组件库的字体优先级和像素容差保持不变。
 
 - **跨平台 CI 一致性**：仓库任务路径在所有平台拒绝 Windows、UNC 与 POSIX 绝对路径，并保留相对路径和真实路径边界检查。LLM 语料从真实 HTML 中保留 MiddleTruncate 的完整原值，排除图表随悬停变化的 Tooltip；演示代码、图例、标题和 API 保持完整，避免运行时测量或交互状态影响生成结果。
 

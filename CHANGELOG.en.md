@@ -8,7 +8,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Changed
 
-- **npm release preparation**: validates the actual pnpm tarball in an independent TypeScript and browser consumer, cleans stale library output, and prepares formal GitHub Release publishing with first-release token bootstrap followed by OIDC. Includes bilingual publishing instructions and the Material Symbols keycap font license notice. No npm version has been published by this preparation.
+- **npm release preparation**: validates the actual pnpm tarball in an independent TypeScript and browser consumer, cleans stale library output, and prepares manual `0.1.0-beta.0` publishing to `beta` without a GitHub Release, retaining future stable Release publishing with first-package token bootstrap followed by OIDC. Includes bilingual publishing instructions and the Material Symbols keycap font license notice. No npm version has been published by this preparation.
 
 - **Nonlinear motion curves**: aligns the component library, website, styleguide and Hitu illustrations around quick responses, soft finishes or smooth starts and finishes. The three Bezier curves are project-selected values, not official Apple parameters, and add no spring engine. Retains the 150 / 250 / 350 / 500ms duration tiers, with CSS as the only parameter source and JS defaults derived by the token generator; entering and existing independent exit phases consume semantic curves. Continuous loading rotations remain constant-rate, native gestures remain direct, and data geometry interpolation is unchanged.
 - **Motion and Hitu easing contract**: all four `useMotionTransition` tiers read `--ease-snap`, retaining valid scoped nonlinear overrides; linear or identity-Bezier configurations complete instantly. Omitting `HituFrame.cubic` changes Hitu's former linear interpolation to `[0.42, 0, 0.58, 1]`, while explicit nonlinear curves remain supported. Shared time-progress solving preserves endpoints and sparse-transform inheritance.
@@ -16,6 +16,10 @@ All notable changes to this project are documented in this file. The format foll
 - **Bilingual motion specification and examples**: adds the [nonlinear motion specification](./docs/design/apple-motion-curves.en.md), covering curve provenance, governance exceptions and migration steps; synchronizes the Motion / Hitu, Carousel, Scroller and chart APIs, guides and live examples. The historical Hitu integration audit is preserved.
 
 ### Fixed
+
+- **npm 11 tarball publishing**: publishes the verified archive from the runner temporary directory, avoiding the repository's pnpm-only `devEngines` check without changing project package-manager constraints or rebuilding the artifact.
+
+- **Portable README capture fonts**: screenshot capture uses the shipped font subsets instead of locally installed full fonts, keeping Windows CI and maintainer captures comparable without changing the library's font preference or pixel tolerance.
 
 - **Cross-platform CI consistency**: repository task paths reject Windows, UNC and POSIX absolute inputs on every platform, preserving relative paths and real-path containment checks. The LLM corpus retains MiddleTruncate's complete original value from real HTML and excludes chart tooltips that change with hover. Example code, legends, headings and APIs remain intact, keeping runtime measurements and interaction state out of generated output.
 

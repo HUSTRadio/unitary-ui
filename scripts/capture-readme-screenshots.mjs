@@ -134,6 +134,7 @@ export async function settle(page) {
   // 停止 JS 动画并还原静态插画；CSS 覆盖无法终止 Motion 和 Hitu 的播放。
   // Stop JavaScript motion and restore static illustrations before capturing.
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await useBundledCaptureFonts(page);
   await page.evaluate(async () => {
     // 路由切换后新挂载的图片也必须完成解码；不等待视口外的 lazy 图片。
     // Decode newly mounted viewport images without waiting for offscreen lazy images.
@@ -180,6 +181,37 @@ export async function settle(page) {
       "*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}",
   });
   await page.waitForTimeout(300);
+}
+
+export async function useBundledCaptureFonts(page) {
+  // The library intentionally prefers installed full fonts. Captures must use
+  // the shipped subsets so a maintainer's installed fonts cannot change PNGs.
+  // Derive paired families from the real stylesheet, including compiled utilities.
+  await page.evaluate(() => {
+    const visit = (rules) => {
+      for (const rule of rules) {
+        if (rule.style) {
+          for (const property of ["font-family", "--font-sans", "--font-mono"]) {
+            const original = rule.style.getPropertyValue(property);
+            const families = original.split(",").map((family) => family.trim());
+            const names = families.map((family) => family.replace(/^["']|["']$/g, ""));
+            const bundled = families.filter(
+              (_, index) => !names.includes(`${names[index]} Subset`),
+            );
+            if (bundled.length !== families.length) {
+              rule.style.setProperty(
+                property,
+                bundled.join(", "),
+                rule.style.getPropertyPriority(property),
+              );
+            }
+          }
+        }
+        if (rule.cssRules) visit(rule.cssRules);
+      }
+    };
+    for (const sheet of document.styleSheets) visit(sheet.cssRules);
+  });
 }
 
 async function setTheme(page, theme) {

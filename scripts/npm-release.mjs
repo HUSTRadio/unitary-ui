@@ -3,13 +3,15 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { readPackument, validateArtifact, validateProvenance, validatePublished, validateRelease } from "./lib/npm-release.mjs";
+import { readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease } from "./lib/npm-release.mjs";
 import { PACKAGE_NAME, validatePackageFiles } from "./lib/package-artifact.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const output = path.join(root, ".scratch/npm-release");
 const manifest = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8"));
 const command = process.argv[2];
+const beta = process.env.GITHUB_EVENT_NAME === "workflow_dispatch";
+const tag = beta ? "beta" : "latest";
 function git(...args) {
   const result = spawnSync("git", args, { cwd: root, encoding: "utf8" });
   if (result.status !== 0) throw new Error(`Release git check failed: ${args[0]}`);
@@ -30,16 +32,20 @@ function receipt() {
 async function preflight() {
   assert.equal(process.env.GITHUB_REPOSITORY, "HUSTRadio/unitary-ui", "Unexpected publishing repository");
   const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
-  // Validate syntax before passing a tag to git, even though spawn has no shell.
-  assert.equal(event.release?.tag_name, `v${manifest.version}`);
-  assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
+  assert.ok(beta || process.env.GITHUB_EVENT_NAME === "release", "Unexpected publishing event");
+  if (!beta) {
+    // Validate syntax before passing a tag to git, even though spawn has no shell.
+    assert.equal(event.release?.tag_name, `v${manifest.version}`);
+    assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
+  }
   const sha = git("rev-parse", "HEAD");
   assert.equal(sha, process.env.GITHUB_SHA, "Checkout differs from Release event commit");
-  assert.equal(git("rev-parse", `refs/tags/v${manifest.version}^{commit}`), sha, "Release tag moved");
+  if (!beta) assert.equal(git("rev-parse", `refs/tags/v${manifest.version}^{commit}`), sha, "Release tag moved");
   const ancestor = spawnSync("git", ["merge-base", "--is-ancestor", sha, "refs/remotes/origin/master"], { cwd: root });
   const packument = await readPackument();
-  const mode = validateRelease({ event, manifest, onMaster: ancestor.status === 0, packument });
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `mode=${mode}\nsha=${sha}\nfilename=hustradio-unitary-ui-${manifest.version}.tgz\n`);
+  const input = { event, manifest, onMaster: ancestor.status === 0, packument };
+  const mode = beta ? validateBeta({ ...input, ref: process.env.GITHUB_REF }) : validateRelease(input);
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `mode=${mode}\nsha=${sha}\ntag=${tag}\nfilename=hustradio-unitary-ui-${manifest.version}.tgz\n`);
   console.log(`Release preflight passed: ${manifest.name}@${manifest.version} (${mode})`);
 }
 
@@ -53,13 +59,13 @@ try {
       try {
         const packument = await readPackument();
         assert.ok(packument, "Published package is missing");
-        const url = validatePublished(packument, summary);
+        const url = validatePublished(packument, summary, tag);
         const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
         assert.ok(response.ok, `Provenance query failed: HTTP ${response.status}`);
         const data = await response.json();
-        validateProvenance(data, summary, process.env.GITHUB_SHA);
+        validateProvenance(data, summary, process.env.GITHUB_SHA, process.env.GITHUB_REF);
         writeFileSync(path.join(output, "published.json"), JSON.stringify({
-          name: PACKAGE_NAME, version: summary.version, access: "public", latest: summary.version,
+          name: PACKAGE_NAME, version: summary.version, access: "public", tag, "dist-tags": packument["dist-tags"],
           integrity: summary.integrity, provenance: url, commit: process.env.GITHUB_SHA,
         }, null, 2) + "\n");
         console.log(`Verified npm publication: ${PACKAGE_NAME}@${summary.version}`);
