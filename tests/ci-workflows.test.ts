@@ -15,6 +15,7 @@ type Step = {
 type Job = {
   "runs-on": string;
   "timeout-minutes": number;
+  strategy?: { "fail-fast": boolean; matrix: { shard: number[] } };
   needs?: unknown;
   permissions?: Record<string, string>;
   "continue-on-error"?: boolean;
@@ -128,11 +129,17 @@ describe("GitHub Actions CI contracts", () => {
       );
     }
     const e2e = nightly.jobs.e2e;
-    const run = runIndex(e2e, "pnpm run test:docs-layout -- --reporter=list,json");
+    expect(e2e.strategy).toEqual({ "fail-fast": false, matrix: { shard: [1, 2, 3, 4] } });
+    const run = runIndex(e2e, "pnpm run test:docs-layout -- --shard=${{ matrix.shard }}/4 --reporter=list,json");
     expect(runIndex(e2e, browserInstall)).toBeLessThan(run);
     expect(e2e.steps[run].env?.PLAYWRIGHT_JSON_OUTPUT_FILE).toBe(
       ".scratch/playwright-report/results.json",
     );
+    const uploads = e2e.steps.filter(step => step.uses?.startsWith("actions/upload-artifact@"));
+    expect(uploads.map(step => step.with?.name)).toEqual([
+      "playwright-report-${{ matrix.shard }}",
+      "playwright-results-${{ matrix.shard }}",
+    ]);
     const screenshots = nightly.jobs["readme-screenshots"];
     const check = screenshots.steps.findIndex((step) =>
       /^pnpm run docs:readme:screenshots:check(?:\s|$)/.test(step.run ?? ""),

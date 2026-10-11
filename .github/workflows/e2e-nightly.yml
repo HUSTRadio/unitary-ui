@@ -16,9 +16,13 @@ concurrency:
 
 jobs:
   e2e:
-    name: Playwright docs-layout
+    name: Playwright docs-layout (shard ${{ matrix.shard }}/4)
     runs-on: ubuntu-24.04
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -44,7 +48,7 @@ jobs:
       # Keep the full viewport/theme matrix; the PR checks live in ci.yml.
       - name: Run e2e
         id: audit
-        run: pnpm run test:docs-layout -- --reporter=list,json
+        run: pnpm run test:docs-layout -- --shard=${{ matrix.shard }}/4 --reporter=list,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_FILE: .scratch/playwright-report/results.json
 
@@ -52,7 +56,7 @@ jobs:
         if: ${{ !cancelled() && steps.audit.outcome != 'skipped' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.shard }}
           path: .scratch/playwright-report/results.json
           retention-days: 7
           include-hidden-files: true
@@ -62,7 +66,7 @@ jobs:
         if: ${{ failure() && steps.audit.outcome == 'failure' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: playwright-results
+          name: playwright-results-${{ matrix.shard }}
           path: .scratch/playwright-results
           retention-days: 7
           include-hidden-files: true
