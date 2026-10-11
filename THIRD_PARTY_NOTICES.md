@@ -341,7 +341,14 @@ SOFTWARE.
 
 ## 字体（自托管分级子集）
 
-本仓库 `public/fonts/` 下的 15 个 woff2 分级子集会全部复制到 `dist/fonts/` 并随 npm 包分发。它们均不适用本仓库的 MIT 许可证；发布者明确选择保留全部处理后字体，并在 README 披露下述差异化风险。
+本仓库 `public/fonts/` 下的 16 个 woff2 子集（15 个文字字体子集和 1 个键帽图标子集）会全部复制到 `dist/fonts/` 并随 npm 包分发。它们均不适用本仓库的 MIT 许可证；发布者明确选择保留全部处理后字体，并在 README 披露下述差异化风险。
+
+### Material Symbols Rounded
+
+- 来源：[Google Material Design Icons 可变字体](https://github.com/google/material-design-icons/tree/master/variablefont)
+- 许可：Apache-2.0；上方 Tremor Raw 章节已完整收录 Apache License 2.0 原文，该许可同样适用于本字体。[上游许可](https://github.com/google/material-design-icons/blob/master/LICENSE)。
+- 修改后的资产：`material-symbols-rounded-keycaps.woff2`，使用 fonttools 保留 U+EAE7、U+E5F2、U+EAE8、U+EAE6 四个字形的子集；CSS 字体族名为 Material Symbols Rounded Keycaps。
+- 使用范围：KeyboardInput / Kbd 的自托管修饰键字形；修改后的子集随 `dist/fonts/` 分发。
 
 ### JetBrains Maple Mono
 

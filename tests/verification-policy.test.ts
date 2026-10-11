@@ -466,7 +466,7 @@ describe("verification command planning", () => {
       steps.filter(({ command }) => command.join(" ") === "bin typescript tsc -b"),
     ).toHaveLength(1);
     expect(steps.filter(({ command }) => command[1] === "vite")).toHaveLength(3);
-    expect(steps.at(-1)?.command).toEqual(["node", "--test", "scripts/test-package-imports.mjs"]);
+    expect(steps.at(-1)?.command).toEqual(["node", "scripts/test-packed-package.mjs"]);
   });
 
   it("preserves literal arguments, rejects cycles and validates CLI options", () => {

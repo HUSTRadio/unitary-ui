@@ -7,7 +7,8 @@ import test from "node:test";
 
 // Run from the repository after build:lib, or from an unpacked-package consumer.
 // No bundler, DOM shim, custom loader, or require.extensions hook in the child.
-const requireFromConsumer = createRequire(path.resolve("package.json"));
+const consumerRoot = process.env.UNITARY_PACKAGE_CONSUMER_ROOT ?? process.cwd();
+const requireFromConsumer = createRequire(path.join(consumerRoot, "package.json"));
 const packageName = "@hustradio/unitary-ui";
 function consume(mode) {
   const load = mode === "module"
@@ -144,7 +145,7 @@ function consume(mode) {
           h(api.GridCell, null, 'Grid probe')))))).join('');
     assert.match(html, /mockframe/);
     process.stdout.write(JSON.stringify({exports: Object.keys(api).sort(), html, gridHtml, hydrationHtml}));
-  `], { encoding: "utf8", timeout: 30_000 });
+  `], { cwd: consumerRoot, encoding: "utf8", timeout: 30_000 });
   const error = (result.stderr ?? "").split("\n").filter(line => line.length < 1000).join("\n");
   assert.equal(result.status, 0, `${mode}: ${result.error ?? error}`);
   return JSON.parse(result.stdout);
@@ -174,7 +175,7 @@ test("package-root Motion and Hitu SSR hydrate without recoverable errors", asyn
   const { chromium } = await import("@playwright/test");
   const { build } = await import("vite");
   const { hydrationHtml } = esm ?? consume("module");
-  const scratch = path.resolve(".scratch/package-hydration");
+  const scratch = path.join(consumerRoot, ".scratch/package-hydration");
   mkdirSync(scratch, { recursive: true });
   const entry = path.join(scratch, "consumer.js");
   writeFileSync(entry, `

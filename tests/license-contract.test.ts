@@ -71,6 +71,7 @@ describe("License contract", () => {
       "Maple Mono",
       "OPPO Sans",
       "HarmonyOS Sans",
+      "Material Symbols Rounded",
     ]) {
       expect(zh, `CREDITS.md 必须含 ${asset}`).toContain(asset);
       expect(en, `CREDITS.en.md 必须含 ${asset}`).toContain(asset);
@@ -112,5 +113,19 @@ describe("License contract", () => {
     expect(vite).toContain("const dependencies = Object.keys(pkg.dependencies ?? {})");
     expect(vite).toContain("dependencies.some");
     expect(vite).toMatch(/sourcemap:\s*false/);
+  });
+
+  it("registers every shipped font family including the modified Material Symbols subset", () => {
+    const fonts = readdirSync(path.join(ROOT, "public/fonts"));
+    expect(fonts).toHaveLength(16);
+    expect(fonts).toContain("material-symbols-rounded-keycaps.woff2");
+    for (const file of ["THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"]) {
+      const notices = read(file);
+      expect(notices).toContain("16");
+      expect(notices).toContain("material-symbols-rounded-keycaps.woff2");
+      expect(notices).toContain("fonttools");
+      expect(notices).toContain("Apache License");
+      for (const codepoint of ["U+EAE7", "U+E5F2", "U+EAE8", "U+EAE6"]) expect(notices).toContain(codepoint);
+    }
   });
 });

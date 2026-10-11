@@ -80,7 +80,9 @@ pnpm exec playwright install chromium
 pnpm run test:package
 ```
 
-该命令重新构建库，用独立 Node 进程检查 ESM/CJS 导入、服务端渲染和代码高亮，再用 Chromium 检查发布样式下的 Device 尺寸与布局。
+该命令重新构建并打包库，在独立消费项目中安装压缩包，检查 TypeScript、ESM/CJS、服务端渲染和 hydration，再用 Chromium 检查双主题发布样式。验证后的压缩包、文件清单和摘要保存于 `.scratch/npm-release/`。
+
+已准备由正式 GitHub Release 触发的发布流程：全部 CI 和浏览器检查通过后，发布同一份已验证压缩包。首版 `0.1.0` 使用临时环境 Token，后续版本使用 npm trusted publishing。外部配置与失败恢复见[发布指南](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.md)及 [Release 草稿](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md)。
 
 ## 持续集成
 

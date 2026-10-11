@@ -23,6 +23,10 @@
   },
   "files": [
     "dist",
+    "CREDITS.md",
+    "CREDITS.en.md",
+    "CHANGELOG.md",
+    "CHANGELOG.en.md",
     "LICENSE",
     "LICENSE.zh-CN.md",
     "OFL-1.1.txt",
@@ -38,12 +42,16 @@
   "types": "./dist/types/lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/lib/index.d.ts",
       "import": "./dist/unitary-ui.es.js",
-      "require": "./dist/unitary-ui.cjs",
-      "types": "./dist/types/lib/index.d.ts"
+      "require": "./dist/unitary-ui.cjs"
     },
     "./styles.css": "./dist/unitary-ui.css",
     "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "dev": "vite",
@@ -59,6 +67,7 @@
     "tokens:check": "node scripts/run-locked-script.mjs tokens:check",
     "typecheck:tests": "node scripts/run-locked-script.mjs typecheck:tests",
     "test:package": "node scripts/run-locked-script.mjs test:package",
+    "prepack": "node scripts/run-locked-script.mjs prepack",
     "prepublishOnly": "node scripts/run-locked-script.mjs prepublishOnly",
     "test:docs-layout": "node scripts/run-locked-script.mjs test:docs-layout",
     "hooks:install": "node scripts/install-git-hooks.mjs",

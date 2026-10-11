@@ -8,6 +8,8 @@
 
 ### Changed
 
+- **npm 发布准备**：在独立 TypeScript 与浏览器消费项目中验证真实 pnpm 压缩包，清理陈旧库产物，并准备由正式 GitHub Release 触发、首版临时 Token 启动后切换 OIDC 的发布工作流。补充双语操作指南及 Material Symbols 键帽字体许可登记。本次准备尚未发布 npm 版本。
+
 - **非线性动效曲线**：组件库、官网、styleguide 与 Hitu 插画统一使用快速响应、柔和收尾或平滑起止的曲线；三组贝塞尔参数由本项目选择，不是 Apple 官方数值，也不引入弹簧引擎。保留 150 / 250 / 350 / 500ms 四档时长，CSS 是参数唯一来源，JS 默认表由 token 生成器派生；进入和已有独立退出阶段分别消费语义曲线。持续旋转的加载器仍匀速，原生手势保持跟手，数据几何插值不变。
 - **Motion 与 Hitu 曲线契约**：`useMotionTransition` 四档统一读取 `--ease-snap`，有效的局部非线性覆盖继续生效；线性或恒等贝塞尔配置即时完成。Hitu 省略 `HituFrame.cubic` 时由原先的线性插值改为 `[0.42, 0, 0.58, 1]`，显式非线性配置仍可使用；共享时间轴求解保留端点和稀疏变换继承。
 - **轮播与程序滚动迁移**：`CarouselVariant` 收敛为 `"slide" | "fade" | "fade-scale"`，删除 `fade-linear`，迁移为 `fade`；全部效果使用快速收尾曲线。Scroller 方向按钮、四类图表图例和官网锚点使用 state 时长与平滑起止曲线，同一容器的新请求从当前位置重新开始，用户输入取消在途动画。AreaChart、BarChart、LineChart、ComboChart 的 Tooltip 位移使用反馈时长与快速收尾曲线；减少动画即时定位，图例状态按实际滚动更新。

@@ -12,6 +12,7 @@ export const LOCKED_PACKAGE_SCRIPTS = {
   ),
   "build:lib": checks(
     script("tokens:check"),
+    node("scripts/clean-library-output.mjs"),
     bin("typescript", "tsc", "-p", "tsconfig.lib.json"),
     bin("tsc-alias", "tsc-alias", "-p", "tsconfig.lib.json"),
     bin("vite", "vite", "build", "--mode", "lib"),
@@ -28,7 +29,8 @@ export const LOCKED_PACKAGE_SCRIPTS = {
   "tokens:generate": checks(node("scripts/generate-token-catalog.mjs")),
   "tokens:check": checks(node("scripts/generate-token-catalog.mjs", "--check")),
   "typecheck:tests": checks(bin("typescript", "tsc", "-p", "tsconfig.tests.json")),
-  "test:package": checks(script("build:lib"), node("--test", "scripts/test-package-imports.mjs")),
+  "test:package": checks(script("build:lib"), node("scripts/test-packed-package.mjs")),
+  prepack: checks(script("build:lib")),
   prepublishOnly: checks(script("test:package"), script("typecheck")),
   "test:docs-layout": checks(
     bin("@playwright/test", "playwright", "test", "-c", "playwright.config.ts"),

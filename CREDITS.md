@@ -77,6 +77,12 @@
 - 版权：© 2016-2024 Recharts Group（MIT，完整声明见 `THIRD_PARTY_NOTICES.md`）
 - 参考范围：npm 运行时依赖，作为内置图表组件的渲染底层；本仓库未修改其源码。
 
+## 12. Material Symbols Rounded
+
+- 来源：[Google Material Design Icons](https://github.com/google/material-design-icons/tree/master/variablefont)
+- 许可：Apache-2.0；完整许可原文及修改说明见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
+- 使用范围：使用 fonttools 从上游可变字体提取四个修饰键字形，以 `material-symbols-rounded-keycaps.woff2` 自托管，用于 KeyboardInput / Kbd；修改后的子集随 npm 包分发。
+
 ## 代码主题颜色参考 / Code theme color references
 
 - 来源：[VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes)、[Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json)、[Solarized](https://ethanschoonover.com/solarized/)。

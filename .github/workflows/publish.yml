@@ -1,0 +1,121 @@
+name: Publish npm package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      sha: ${{ steps.guard.outputs.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Check Release and registry
+        id: guard
+        run: node scripts/npm-release.mjs preflight
+
+  ci:
+    needs: guard
+    uses: ./.github/workflows/ci.yml
+
+  browsers:
+    needs: guard
+    uses: ./.github/workflows/e2e-nightly.yml
+
+  package:
+    needs: [guard, ci, browsers]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          ref: ${{ needs.guard.outputs.sha }}
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Validate final tarball in independent consumer
+        run: pnpm run test:package
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: npm-package
+          path: .scratch/npm-release/
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: error
+
+  publish:
+    needs: [guard, ci, browsers, package]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: npmjs
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ needs.guard.outputs.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+      - name: Require OIDC-capable npm
+        run: |
+          node --input-type=module -e 'import {execFileSync} from "node:child_process"; import assert from "node:assert/strict"; const [major,minor,patch] = execFileSync("npm", ["--version"], {encoding:"utf8"}).trim().split(".").map(Number); assert.ok(major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1))), "npm >= 11.5.1 is required");'
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: npm-package
+          path: .scratch/npm-release/
+      - name: Recheck artifact and registry
+        id: artifact
+        run: node scripts/npm-release.mjs check-artifact
+      - name: Bootstrap first publication
+        if: steps.artifact.outputs.mode == 'bootstrap'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_FILE: ${{ steps.artifact.outputs.filename }}
+        run: |
+          test -n "$NODE_AUTH_TOKEN" || { echo "Configure the temporary NPM_TOKEN in the npmjs environment for the first 0.1.0 publication."; exit 1; }
+          npm publish ".scratch/npm-release/$PACKAGE_FILE" --access public --tag latest --provenance --ignore-scripts
+      - name: Publish using trusted publishing
+        if: steps.artifact.outputs.mode == 'oidc'
+        env:
+          NODE_AUTH_TOKEN: ''
+          PACKAGE_FILE: ${{ steps.artifact.outputs.filename }}
+        run: npm publish ".scratch/npm-release/$PACKAGE_FILE" --access public --tag latest --provenance --ignore-scripts
+      - name: Verify published package
+        run: node scripts/npm-release.mjs verify
+      - name: Save publication evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: npm-publication-evidence
+          path: .scratch/npm-release/
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: warn

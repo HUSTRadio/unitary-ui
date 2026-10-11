@@ -341,7 +341,14 @@ SOFTWARE.
 
 ## Fonts (self-hosted tiered subsets)
 
-All 15 tiered woff2 subsets under `public/fonts/` are copied to `dist/fonts/` and distributed with the npm package. None are covered by this repository's MIT license. The publisher has explicitly chosen to retain every processed font and disclose the differing risks below in the README.
+All 16 woff2 subsets under `public/fonts/` (15 text-font subsets and one keycap icon subset) are copied to `dist/fonts/` and distributed with the npm package. None are covered by this repository's MIT license. The publisher has explicitly chosen to retain every processed font and disclose the differing risks below in the README.
+
+### Material Symbols Rounded
+
+- Source: [Google Material Design Icons variable fonts](https://github.com/google/material-design-icons/tree/master/variablefont)
+- License: Apache-2.0; the complete Apache License 2.0 text is reproduced in the Tremor Raw section above and also applies to this font. [Upstream license](https://github.com/google/material-design-icons/blob/master/LICENSE).
+- Modified asset: `material-symbols-rounded-keycaps.woff2`, a fonttools-generated subset containing U+EAE7, U+E5F2, U+EAE8 and U+EAE6; the CSS family name is Material Symbols Rounded Keycaps.
+- Usage: self-hosted modifier-key glyphs in KeyboardInput / Kbd; this modified subset ships in `dist/fonts/`.
 
 ### JetBrains Maple Mono
 

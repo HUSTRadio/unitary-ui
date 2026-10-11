@@ -80,7 +80,9 @@ pnpm exec playwright install chromium
 pnpm run test:package
 ```
 
-This rebuilds the library, checks ESM/CJS imports, server rendering, and code highlighting in separate Node processes, then verifies Device dimensions and layout with the published CSS in Chromium.
+This rebuilds and packs the library, installs the tarball in an independent consumer, checks TypeScript, ESM/CJS, server rendering and hydration, then verifies the published CSS in Chromium in both themes. Validated tarballs, file lists and digests are saved under `.scratch/npm-release/`.
+
+Publishing is prepared for formal GitHub Releases: all CI and browser checks must pass before the exact validated tarball is published. The initial `0.1.0` uses a temporary environment token; later versions use npm trusted publishing. See the [publishing guide](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.en.md) and [Release draft](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) for external configuration and recovery.
 
 ## Continuous integration
 

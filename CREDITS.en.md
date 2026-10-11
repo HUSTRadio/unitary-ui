@@ -75,6 +75,12 @@ This repository's implementation references and benefits from the following proj
 - Copyright: © 2016-2024 Recharts Group (MIT; full notice in [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md))
 - Usage: npm runtime dependency serving as the rendering engine beneath the vendored chart components; its source is not modified in this repository.
 
+## 12. Material Symbols Rounded
+
+- Source: [Google Material Design Icons](https://github.com/google/material-design-icons/tree/master/variablefont)
+- License: Apache-2.0; full license text and modification notice in [THIRD_PARTY_NOTICES.en.md](./THIRD_PARTY_NOTICES.en.md).
+- Usage: a fonttools subset of four modifier-key glyphs, self-hosted as `material-symbols-rounded-keycaps.woff2` for KeyboardInput / Kbd. The subset is modified from the upstream variable font and ships with the npm package.
+
 ## Code theme color references
 
 - Sources: [VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes), [Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json), [Solarized](https://ethanschoonover.com/solarized/).

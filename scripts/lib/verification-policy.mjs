@@ -7,6 +7,10 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("npm-release.test.ts"),
+    inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", ".github/workflows/**"],
+  },
+  {
     tests: unitFiles("motion-easing-governance.test.ts"),
     inputs: ["src/**", "docs/site/**", "tests/audit/motion-easing-allowlist.json"],
   },
@@ -437,7 +441,7 @@ export function classifyVerification(context, full = false) {
       file.startsWith(".github/")
     ) {
       Object.assign(scope, { unit: true, typecheck: true, appBuild: true, lint: true });
-      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs"]))
+      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs", "scripts/test-packed-package.mjs", "scripts/clean-library-output.mjs", "scripts/lib/package-artifact.mjs"]))
         scope.package = true;
       if (
         matches(file, [

@@ -5,6 +5,7 @@ on:
     # UTC 18:00 = 北京时间 02:00（每晚）
     - cron: "0 18 * * *"
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read

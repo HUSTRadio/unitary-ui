@@ -200,6 +200,7 @@ for (const theme of ["light", "dark"] as const) {
     await open(page, theme);
     const fixture = await mount(page);
     const toggle = parts(fixture.getByRole("checkbox", { name: "Motion medium", exact: true }));
+    const resting = await box(toggle.thumb);
     await toggle.input.focus();
     await toggle.input.press("Space");
     await expect(toggle.input).toBeChecked();
@@ -207,12 +208,16 @@ for (const theme of ["light", "dark"] as const) {
     await scrub(toggle.thumb, 0.15);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect.poll(() => motionCount(toggle.thumb)).toBe(0);
+    // Media emulation and cancellation can settle after the protocol response.
+    // Observe the visible endpoint before using it as the next change's baseline.
+    await expect.poll(async () => (await box(toggle.thumb)).x).toBe(resting.x + 17);
     const on = await box(toggle.thumb);
     expect(on.width).toBe(16);
     expect(on.height).toBe(16);
     await toggle.input.press("Space");
     await expect(toggle.input).not.toBeChecked();
     expect(await motionCount(toggle.thumb)).toBe(0);
+    await expect.poll(async () => (await box(toggle.thumb)).x).toBe(resting.x);
     const off = await box(toggle.thumb);
     expect(on.x - off.x).toBe(17);
     expect(off.width).toBe(off.height);
