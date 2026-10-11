@@ -782,7 +782,10 @@ for (const theme of ["light", "dark"]) {
   });
 }
 
-test("local material rendering records warmed scroll frame times", async ({ page }, testInfo) => {
+// Keep trace diagnostics without screen recording competing with compositor timing.
+const performanceTest = test.extend({ trace: { mode: "retain-on-failure", screenshots: false } });
+
+performanceTest("local material rendering records warmed scroll frame times", async ({ page }, testInfo) => {
   test.setTimeout(120_000);
   const materials = await open(page);
   const samples: Record<string, { p95: number; max: number; longTasks: number[]; scrollDistance: number }> = {};
