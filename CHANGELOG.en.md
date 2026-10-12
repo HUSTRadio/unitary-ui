@@ -6,6 +6,12 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Fixed
+
+- **Published documentation artifact recovery**: exempts only the receipt- and integrity-verified exact library version from the registry consumer's release-age wait; external dependencies retain the existing policy. Adds `--release-root` so current clean tooling can recover docs from a clean checkout of the original release commit, retaining source, frozen-lock, complete browser and bilingual corpus checks. These post-publication tooling fixes are not included in the beta.1 tarball.
+
+## [0.1.0-beta.1] - 2026-10-12
+
 ### Added
 
 - **Public documentation consumption**: Exports `scrollIntoViewWithMotion`, `ScrollAnimation`, and `NAV_CONTENT_INSET`; adds `@hustradio/unitary-ui/tailwind-reference.css`, generated from canonical CSS so consumers can compile their own Tailwind utilities.

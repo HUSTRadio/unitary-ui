@@ -1,11 +1,14 @@
 // @vitest-environment node
 import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { stringify } from "yaml";
 import {
-  CONSUMER_TARBALL, DOCS_PUBLIC_ASSETS, createDocsConsumerLock, docsApplicationLock,
+  CONSUMER_TARBALL, DOCS_PUBLIC_ASSETS, assertDocsRegistryReleaseUnchanged, createDocsConsumerLock, docsApplicationLock,
+  docsConsumerInstallOptions, parseDocsRegistryArgs, readDocsRegistryRelease,
   docsDependencyTreeDigest, docsSourceDigest, fetchDocsRegistryArtifact,
   runConsumerCommand, stageDocsApplication, validateDocsRegistryReceipt,
 } from "../scripts/lib/docs-package-consumer.mjs";
@@ -92,6 +95,24 @@ describe("standalone documentation consumer", () => {
     expect(docsDependencyTreeDigest(registry.lock)).not.toBe(docsDependencyTreeDigest(candidate.lock));
   });
 
+  it("exempts only the integrity-verified published version in the registry consumer's own workspace", () => {
+    const bytes = Buffer.from("verified publication");
+    const receipt = { name: PACKAGE_NAME, version: libraryManifest.version, integrity: packageIntegrity(bytes) };
+    const options = docsConsumerInstallOptions({ mode: "registry", libraryManifest, bytes, receipt });
+    expect(options.workspace).toEqual({ packages: ["."], minimumReleaseAgeExclude: [`${PACKAGE_NAME}@${libraryManifest.version}`] });
+    expect(options.workspace).not.toHaveProperty("minimumReleaseAge");
+    expect(options.args).not.toContain("--ignore-workspace");
+    expect(options.args).toEqual(expect.arrayContaining(["--frozen-lockfile", "--ignore-scripts"]));
+    expect(options.args.some((argument: string) => /minimum[-]?release[-]?age/i.test(argument))).toBe(false);
+    const tarball = docsConsumerInstallOptions({ mode: "tarball", libraryManifest, bytes });
+    expect(tarball.workspace).toBeUndefined();
+    expect(tarball.args).toContain("--ignore-workspace");
+    for (const changed of [
+      undefined, { ...receipt, name: "other-package" }, { ...receipt, version: "0.1.0-beta.2" },
+      { ...receipt, version: "*" }, { ...receipt, integrity: packageIntegrity(Buffer.from("other bytes")) },
+    ]) expect(() => docsConsumerInstallOptions({ mode: "registry", libraryManifest, bytes, receipt: changed })).toThrow();
+  });
+
   it("rejects missing locks, stale manifest specifiers and other linked dependencies", () => {
     expect(() => createDocsConsumerLock(stringify(lock()), { ...docsManifest, private: false }, libraryManifest, "sha512-x")).toThrow("private");
     expect(() => createDocsConsumerLock(stringify(lock()), { ...docsManifest, dependencies: { ...docsManifest.dependencies, react: "^20.0.0" } }, libraryManifest, "sha512-x")).toThrow("not locked");
@@ -170,6 +191,8 @@ describe("published-package documentation receipts", () => {
     });
     expect(requests).toEqual([`https://registry.npmjs.org/${encodeURIComponent(PACKAGE_NAME)}/${receipt.version}`, "https://registry.npmjs.org/unitary-ui.tgz"]);
     expect(result.bytes).toEqual(bytes);
+    expect(docsConsumerInstallOptions({ mode: "registry", libraryManifest, bytes: result.bytes, receipt }).workspace?.minimumReleaseAgeExclude)
+      .toEqual([`${PACKAGE_NAME}@${receipt.version}`]);
   });
 
   it("fails closed for network errors, wrong package metadata, foreign tarball hosts and altered bytes", async () => {
@@ -197,5 +220,104 @@ describe("published-package documentation receipts", () => {
     }));
     expect(() => readValidatedPackageArtifact(root)).toThrow();
     expect(readFileSync(path.join(root, ".scratch/npm-release/summary.json"), "utf8")).toContain("../../private");
+  });
+});
+
+describe("registry docs recovery from an original release checkout", () => {
+  const write = (root: string, name: string, text: string) => {
+    mkdirSync(path.dirname(path.join(root, name)), { recursive: true });
+    writeFileSync(path.join(root, name), text);
+  };
+  const git = (root: string, ...args: string[]) => execFileSync("git", [
+    "-c", "commit.gpgsign=false", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+    "-c", `core.hooksPath=${path.join(root, "no-hooks")}`, ...args,
+  ], { cwd: root, encoding: "utf8" }).trim();
+  const releaseFixture = () => {
+    const toolingRoot = temp();
+    const releaseRoot = temp();
+    const manifest = JSON.parse(readFileSync("package.json", "utf8"));
+    for (const root of [toolingRoot, releaseRoot]) {
+      write(root, ".gitignore", ".scratch/\n");
+      write(root, "marker", root === toolingRoot ? "tooling" : "release");
+      git(root, "init", "-q");
+    }
+    write(releaseRoot, "package.json", JSON.stringify(manifest));
+    write(releaseRoot, "pnpm-lock.yaml", "original release lock");
+    for (const name of ["index.html", "vite.config.ts", "site/src/main.tsx", "site/build/plugin.ts", "site/tsconfig.json"])
+      write(releaseRoot, `docs/${name}`, `release ${name}`);
+    for (const name of DOCS_PUBLIC_ASSETS) write(releaseRoot, `public/${name}`, name);
+    for (const root of [toolingRoot, releaseRoot]) {
+      git(root, "add", ".");
+      git(root, "commit", "-qm", "fixture");
+    }
+    const commit = git(releaseRoot, "rev-parse", "HEAD");
+    const bytes = Buffer.from("original validated artifact");
+    const integrity = packageIntegrity(bytes);
+    const documents = ["LICENSE", "LICENSE.zh-CN.md", "OFL-1.1.txt", "CREDITS.md", "CREDITS.en.md", "CHANGELOG.md", "CHANGELOG.en.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md", "README.md", "README.en.md"];
+    const files = [...documents, "package.json", ...[manifest.main, manifest.module, manifest.types,
+      manifest.exports["./styles.css"], manifest.exports["./tailwind-reference.css"]].map(target => target.replace(/^\.\//, ""))].sort();
+    const receipt = { name: PACKAGE_NAME, version: manifest.version, integrity, commit };
+    const summary = {
+      ...receipt, filename: `hustradio-unitary-ui-${manifest.version}.tgz`,
+      sha256: createHash("sha256").update(bytes).digest("hex"), files,
+      docs: { ...receipt, cleanCheckout: true, sourceSha256: docsSourceDigest(path.join(releaseRoot, "docs")),
+        workspaceLockSha256: createHash("sha256").update("original release lock").digest("hex"),
+        checks: [{ name: "corpus", exitCode: 0 }, { name: "browser", exitCode: 0 }] },
+    };
+    const output = path.join(releaseRoot, ".scratch/npm-release");
+    mkdirSync(output, { recursive: true });
+    writeFileSync(path.join(output, summary.filename), bytes);
+    writeFileSync(path.join(output, "summary.json"), JSON.stringify(summary));
+    writeFileSync(path.join(output, "files.json"), JSON.stringify(files));
+    writeFileSync(path.join(output, "published.json"), JSON.stringify(receipt));
+    return { toolingRoot, releaseRoot, output, receipt, summary };
+  };
+
+  it("accepts either option order with literal paths and rejects missing, duplicate or unknown arguments", () => {
+    const cwd = temp();
+    const expected = { releaseRoot: path.join(cwd, "release checkout"), receiptPath: path.join(cwd, "publication.json") };
+    expect(parseDocsRegistryArgs(["--release-root", "release checkout", "--receipt", "publication.json"], cwd)).toEqual(expected);
+    expect(parseDocsRegistryArgs(["--receipt", "publication.json", "--release-root", "release checkout"], cwd)).toEqual(expected);
+    expect(parseDocsRegistryArgs([], cwd)).toEqual({ releaseRoot: undefined, receiptPath: undefined });
+    for (const args of [["--release-root"], ["--receipt"], ["--unknown", "value"], ["--receipt", "--release-root"], ["--release-root", "one", "--release-root", "two"]])
+      expect(() => parseDocsRegistryArgs(args, cwd)).toThrow();
+  });
+
+  it("reads the original release's artifact, source, lock and default receipt while recording the distinct tooling commit", () => {
+    const fixture = releaseFixture();
+    const release = readDocsRegistryRelease(fixture.toolingRoot, { releaseRoot: fixture.releaseRoot });
+    expect(release.root).toBe(fixture.releaseRoot);
+    expect(release.output).toBe(fixture.output);
+    expect(release.receipt).toEqual(fixture.receipt);
+    expect(release.summary).toEqual(fixture.summary);
+    expect(release.toolingCleanCheckout).toBe(true);
+    expect(release.toolingCommit).toBe(git(fixture.toolingRoot, "rev-parse", "HEAD"));
+    expect(release.toolingCommit).not.toBe(release.receipt.commit);
+    expect(() => assertDocsRegistryReleaseUnchanged(fixture.toolingRoot, { releaseRoot: fixture.releaseRoot }, release)).not.toThrow();
+    expect(() => readDocsRegistryRelease(fixture.toolingRoot)).toThrow();
+  });
+
+  it("requires both checkouts clean and rechecks source, lock, receipts and tooling identity after verification", () => {
+    const fixture = releaseFixture();
+    const options = { releaseRoot: fixture.releaseRoot };
+    const initial = readDocsRegistryRelease(fixture.toolingRoot, options);
+    write(fixture.toolingRoot, "marker", "dirty tooling");
+    expect(() => readDocsRegistryRelease(fixture.toolingRoot, options)).toThrow("clean tooling checkout");
+    write(fixture.toolingRoot, "marker", "tooling");
+    write(fixture.releaseRoot, "docs/site/src/main.tsx", "changed source");
+    expect(() => assertDocsRegistryReleaseUnchanged(fixture.toolingRoot, options, initial)).toThrow("clean release checkout");
+    write(fixture.releaseRoot, "docs/site/src/main.tsx", "release site/src/main.tsx");
+    writeFileSync(path.join(fixture.output, "summary.json"), JSON.stringify({ ...fixture.summary, docs: { ...fixture.summary.docs, sourceSha256: "other source" } }));
+    expect(() => readDocsRegistryRelease(fixture.toolingRoot, options)).toThrow("application differs");
+    writeFileSync(path.join(fixture.output, "summary.json"), JSON.stringify({ ...fixture.summary, docs: { ...fixture.summary.docs, workspaceLockSha256: "other lock" } }));
+    expect(() => readDocsRegistryRelease(fixture.toolingRoot, options)).toThrow("Workspace lock differs");
+    writeFileSync(path.join(fixture.output, "summary.json"), JSON.stringify(fixture.summary));
+    writeFileSync(path.join(fixture.output, "published.json"), JSON.stringify({ ...fixture.receipt, provenance: "changed receipt" }));
+    expect(() => assertDocsRegistryReleaseUnchanged(fixture.toolingRoot, options, initial)).toThrow("receipt changed");
+    writeFileSync(path.join(fixture.output, "published.json"), JSON.stringify(fixture.receipt));
+    write(fixture.toolingRoot, "marker", "new clean tooling commit");
+    git(fixture.toolingRoot, "add", "marker");
+    git(fixture.toolingRoot, "commit", "-qm", "later tooling");
+    expect(() => assertDocsRegistryReleaseUnchanged(fixture.toolingRoot, options, initial)).toThrow("toolingCommit changed");
   });
 });

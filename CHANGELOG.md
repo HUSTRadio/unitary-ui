@@ -6,6 +6,12 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- **已发布文档产物恢复**：独立 registry consumer 仅为经回执和 integrity 核验的本库精确版本豁免发布时间等待，外部依赖继续遵循原有政策；新增 `--release-root`，允许当前干净工具链从原发布提交的干净 checkout 恢复文档产物，继续核对源码、冻结锁、完整浏览器和双语语料。这些发布后的工具链修复不在 beta.1 压缩包内。
+
+## [0.1.0-beta.1] - 2026-10-12
+
 ### Added
 
 - **公开文档消费入口**：公开 `scrollIntoViewWithMotion`、`ScrollAnimation` 和 `NAV_CONTENT_INSET`；新增由 canonical CSS 生成的 `@hustradio/unitary-ui/tailwind-reference.css`，供消费者生成自己的 Tailwind 工具类。

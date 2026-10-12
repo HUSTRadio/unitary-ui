@@ -6,7 +6,7 @@ import path from "node:path";
 import { parseAllDocuments, stringify } from "yaml";
 import { runPackageStep } from "./package-command.mjs";
 import { leasePackageLockProcess, packageLockEnvironment } from "./package-script-lock.mjs";
-import { PACKAGE_NAME, REGISTRY, packageIntegrity, validateInstalledPackage } from "./package-artifact.mjs";
+import { PACKAGE_NAME, REGISTRY, packageIntegrity, readValidatedPackageArtifact, validateInstalledPackage } from "./package-artifact.mjs";
 
 export const DOCS_WORKSPACE_NAME = "@hustradio/unitary-ui-docs";
 export const CONSUMER_TARBALL = "unitary-ui.tgz";
@@ -201,7 +201,60 @@ export function checkoutIsClean(root) {
   return result.stdout.trim() === "";
 }
 
-export async function buildDocsConsumer({ root, consumerRoot, libraryManifest, bytes, evidenceDirectory, mode = "tarball", lockText }) {
+/**
+ * @param {{ mode?: "tarball" | "registry", libraryManifest: { name: string, version: string }, bytes: Uint8Array, receipt?: { name: string, version: string, integrity: string } }} options
+ */
+export function docsConsumerInstallOptions({ mode = "tarball", libraryManifest, bytes, receipt = undefined }) {
+  assert.ok(["tarball", "registry"].includes(mode), "Unknown docs package mode");
+  const args = ["install", "--ignore-scripts", "--frozen-lockfile", "--prefer-offline", `--config.registry=${REGISTRY}`, "--config.manage-package-manager-versions=false"];
+  if (mode === "tarball") return { args: [args[0], "--ignore-workspace", ...args.slice(1)] };
+  assert.ok(receipt, "Registry docs installation requires the validated publication receipt");
+  assert.equal(libraryManifest.name, PACKAGE_NAME);
+  assert.equal(receipt.name, PACKAGE_NAME);
+  assert.match(receipt.version, /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
+  assert.equal(receipt.version, libraryManifest.version, "Registry age exception differs from the published version");
+  assert.equal(receipt.integrity, packageIntegrity(bytes), "Registry age exception differs from the verified bytes");
+  // pnpm 11 ignores even a local workspace policy under --ignore-workspace.
+  // This private workspace anchors the consumer and exempts only verified bytes.
+  return { args, workspace: { packages: ["."], minimumReleaseAgeExclude: [`${PACKAGE_NAME}@${receipt.version}`] } };
+}
+
+export function parseDocsRegistryArgs(args, cwd = process.cwd()) {
+  const options = {};
+  for (let index = 0; index < args.length; index += 2) {
+    const flag = args[index];
+    assert.ok(["--release-root", "--receipt"].includes(flag), `Unknown docs registry argument: ${flag}`);
+    assert.ok(!Object.hasOwn(options, flag), `Duplicate docs registry argument: ${flag}`);
+    assert.ok(args[index + 1] && !args[index + 1].startsWith("--"), `Missing value for ${flag}`);
+    options[flag] = path.resolve(cwd, args[index + 1]);
+  }
+  return { releaseRoot: options["--release-root"], receiptPath: options["--receipt"] };
+}
+
+export function readDocsRegistryRelease(toolingRoot, { releaseRoot = toolingRoot, receiptPath } = {}) {
+  toolingRoot = realpathSync(toolingRoot);
+  const root = realpathSync(releaseRoot);
+  const toolingCommit = checkoutCommit(toolingRoot);
+  const toolingCleanCheckout = checkoutIsClean(toolingRoot);
+  assert.equal(toolingCleanCheckout, true, "Registry docs require a clean tooling checkout");
+  const { output, manifest, summary } = readValidatedPackageArtifact(root);
+  const receipt = JSON.parse(readFileSync(receiptPath ?? path.join(output, "published.json"), "utf8"));
+  assert.ok(summary.docs, "Candidate artifact has no complete docs verification");
+  validateDocsRegistryReceipt({
+    receipt, summary, manifest, commit: checkoutCommit(root), cleanCheckout: checkoutIsClean(root), candidate: summary.docs,
+    workspaceLockSha256: hash(readFileSync(path.join(root, "pnpm-lock.yaml"))), sourceSha256: docsSourceDigest(path.join(root, "docs")),
+  });
+  return { root, output, manifest, summary, receipt, toolingCommit, toolingCleanCheckout };
+}
+
+export function assertDocsRegistryReleaseUnchanged(toolingRoot, options, initial) {
+  const current = readDocsRegistryRelease(toolingRoot, options);
+  for (const key of ["root", "toolingCommit", "toolingCleanCheckout", "summary", "receipt"])
+    assert.deepEqual(current[key], initial[key], `Docs registry ${key} changed during verification`);
+}
+
+export async function buildDocsConsumer({ root, consumerRoot, libraryManifest, bytes, evidenceDirectory, mode = "tarball", lockText, receipt }) {
+  const installationOptions = docsConsumerInstallOptions({ mode, libraryManifest, bytes, receipt });
   const docs = stageDocsApplication(root, consumerRoot);
   const docsManifest = JSON.parse(readFileSync(path.join(root, "docs/package.json"), "utf8"));
   const integrity = packageIntegrity(bytes);
@@ -212,9 +265,14 @@ export async function buildDocsConsumer({ root, consumerRoot, libraryManifest, b
   mkdirSync(evidenceDirectory, { recursive: true });
   writeFileSync(path.join(evidenceDirectory, "package.json"), JSON.stringify(consumer.manifest, null, 2) + "\n");
   writeFileSync(path.join(evidenceDirectory, "pnpm-lock.yaml"), consumer.text);
+  if (installationOptions.workspace) {
+    const policy = stringify(installationOptions.workspace, { lineWidth: 0 });
+    writeFileSync(path.join(docs, "pnpm-workspace.yaml"), policy);
+    writeFileSync(path.join(evidenceDirectory, "pnpm-workspace.yaml"), policy);
+  }
   const pnpm = pnpmCommand();
   try {
-    const installation = await runConsumerCommand(pnpm[0], [...pnpm.slice(1), "install", "--ignore-workspace", "--ignore-scripts", "--frozen-lockfile", "--prefer-offline", `--config.registry=${REGISTRY}`, "--config.manage-package-manager-versions=false"], docs);
+    const installation = await runConsumerCommand(pnpm[0], [...pnpm.slice(1), ...installationOptions.args], docs);
     writeFileSync(path.join(evidenceDirectory, "install.log"), installation);
   } catch (error) {
     writeFileSync(path.join(evidenceDirectory, "install.log"), error.message + "\n");
