@@ -238,14 +238,19 @@ describe("publishing workflow gates", () => {
     const workflow = parsed.toJS() as {
       on: unknown;
       concurrency: Record<string, unknown>;
-      jobs: Record<string, { needs?: string[]; environment?: string; permissions?: Record<string, string>; "timeout-minutes": number; steps: Step[] }>;
+      jobs: Record<string, { "runs-on": string; needs?: string[]; environment?: string; permissions?: Record<string, string>; "timeout-minutes": number; steps: Step[] }>;
     };
     expect(workflow.on).toEqual({ release: { types: ["published"] }, workflow_dispatch: { inputs: { version: {
       description: "Beta version matching package.json (run on master)", required: true, type: "string",
     } } } });
     expect(workflow.concurrency["cancel-in-progress"]).toBe(false);
+    expect(workflow.jobs.guard["runs-on"]).toBe("ubuntu-24.04");
+    expect(workflow.jobs.package["runs-on"]).toBe("windows-2025");
     expect(workflow.jobs.package.needs).toEqual(["guard", "ci", "browsers"]);
+    expect(workflow.jobs.package["timeout-minutes"]).toBe(90);
+    expect(workflow.jobs.package.steps.filter(step => step.run === "pnpm run test:package")).toHaveLength(1);
     const job = workflow.jobs.publish;
+    expect(job["runs-on"]).toBe("ubuntu-24.04");
     expect(job["timeout-minutes"] * 60_000).toBeGreaterThan(PUBLICATION_WAIT_MS + 5 * 60_000);
     expect(job.needs).toEqual(["guard", "ci", "browsers", "package"]);
     expect(job.environment).toBe("npmjs");
@@ -267,6 +272,8 @@ describe("publishing workflow gates", () => {
     expect(receiptIndex).toBeGreaterThan(0);
     expect(job.steps.indexOf(credentialSteps[0])).toBeGreaterThan(receiptIndex);
     const docs = workflow.jobs["docs-static"];
+    expect(docs["runs-on"]).toBe("windows-2025");
+    expect(docs["timeout-minutes"]).toBe(90);
     expect(docs.needs).toEqual(["guard", "package", "publish"]);
     expect(docs.permissions).toEqual({ contents: "read" });
     expect(docs.steps.some(step => step.run === "pnpm run build:docs:registry -- --receipt .scratch/npm-release/published.json")).toBe(true);

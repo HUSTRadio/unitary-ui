@@ -48,9 +48,9 @@ function runIndex(job: Job, command: string): number {
 
 const browserInstall = "pnpm exec playwright install --with-deps chromium";
 const ciJobs = [
-  { id: "checks", timeout: 20, commands: ["lint", "typecheck", "typecheck:tests", "test"] },
-  { id: "build-package", timeout: 90, commands: ["build", "test:package"] },
-  { id: "docs", timeout: 30, commands: ["build:docs", "docs:llm:check"] },
+  { id: "checks", runner: "ubuntu-24.04", timeout: 20, commands: ["lint", "typecheck", "typecheck:tests", "test"] },
+  { id: "build-package", runner: "windows-2025", timeout: 90, commands: ["build", "test:package"] },
+  { id: "docs", runner: "ubuntu-24.04", timeout: 30, commands: ["build:docs", "docs:llm:check"] },
 ];
 
 describe("GitHub Actions CI contracts", () => {
@@ -69,9 +69,9 @@ describe("GitHub Actions CI contracts", () => {
   it("keeps the complete primary checks in three independent jobs", () => {
     const ci = workflow("ci");
     expect(Object.keys(ci.jobs).sort()).toEqual(ciJobs.map(({ id }) => id).sort());
-    for (const { id, timeout, commands } of ciJobs) {
+    for (const { id, runner, timeout, commands } of ciJobs) {
       const job = ci.jobs[id];
-      expect(job["runs-on"]).toBe("ubuntu-24.04");
+      expect(job["runs-on"]).toBe(runner);
       expect(job["timeout-minutes"]).toBe(timeout);
       expect(job.needs).toBeUndefined();
       const indices = commands.map((command) => runIndex(job, `pnpm run ${command}`));
@@ -117,7 +117,7 @@ describe("GitHub Actions CI contracts", () => {
     expect(nightly.permissions).toEqual({ contents: "read" });
     expect(Object.keys(nightly.jobs).sort()).toEqual(["e2e", "readme-screenshots"]);
     for (const [id, runner] of [
-      ["e2e", "ubuntu-24.04"],
+      ["e2e", "windows-2025"],
       ["readme-screenshots", "windows-2025"],
     ]) {
       const job = nightly.jobs[id];

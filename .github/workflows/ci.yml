@@ -65,7 +65,8 @@ jobs:
 
   build-package:
     name: Application build / Package contracts
-    runs-on: ubuntu-24.04
+    # Match the full browser audit, including the unchanged material frame budget.
+    runs-on: windows-2025
     timeout-minutes: 90
     steps:
       - name: Checkout

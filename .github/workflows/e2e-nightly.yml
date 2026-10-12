@@ -17,7 +17,9 @@ concurrency:
 jobs:
   e2e:
     name: Playwright docs-layout (shard ${{ matrix.shard }}/4)
-    runs-on: ubuntu-24.04
+    # This runner passed repeated baseline and candidate frame measurements.
+    # See docs/audits/browser-runner-2026-10-12.md.
+    runs-on: windows-2025
     timeout-minutes: 60
     strategy:
       fail-fast: false

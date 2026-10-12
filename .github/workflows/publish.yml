@@ -48,7 +48,8 @@ jobs:
 
   package:
     needs: [guard, ci, browsers]
-    runs-on: ubuntu-24.04
+    # Validate the final tarball with the same complete browser runner as CI.
+    runs-on: windows-2025
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -134,7 +135,8 @@ jobs:
   docs-static:
     name: Published-package documentation artifact
     needs: [guard, package, publish]
-    runs-on: ubuntu-24.04
+    # Registry docs retain the complete browser matrix and material frame budget.
+    runs-on: windows-2025
     timeout-minutes: 90
     permissions:
       contents: read
