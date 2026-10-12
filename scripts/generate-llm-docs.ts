@@ -36,6 +36,7 @@ import TurndownService from "turndown";
 import { extractMainHtml } from "./lib/llm-html";
 import { withPackageLock } from "./lib/package-script-lock.mjs";
 import { startDocsPreview } from "./lib/docs-preview.mjs";
+import { packageCommand } from "./lib/package-command.mjs";
 
 import { COMPONENTS } from "../docs/site/src/data/components";
 import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
@@ -63,7 +64,6 @@ if (BUILT_DIR && !CHECK_MODE && !OUTPUT_DIR) {
 if (OUTPUT_DIR && !OUTPUT_DIR.startsWith(`${path.join(ROOT, ".scratch")}${path.sep}`)) {
   throw new Error("Custom corpus output must be inside the repository .scratch directory");
 }
-const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 const COMPONENT_BY_NAME = new Map(COMPONENTS.map((component) => [component.name, component]));
 
@@ -122,8 +122,8 @@ async function startPreview(): Promise<{ child: ChildProcess | null; port: numbe
   const port = await findAvailablePort(START_PORT);
   const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn(
-    VP_COMMAND,
-    ["dev", "docs", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    process.execPath,
+    packageCommand(ROOT, ["bin", "vite-plus", "vp", "dev", "docs", "--host", "127.0.0.1", "--port", String(port), "--strictPort"]),
     {
       cwd: ROOT,
       stdio: "ignore",
@@ -153,7 +153,7 @@ function stopPreview(child: ChildProcess | null): void {
   if (!child || child.killed) return;
   try {
     if (process.platform === "win32") {
-      // Windows 下 vp 是 .cmd 包装，需要杀整个进程树；必须同步等待结束，否则本进程退出后
+      // Windows 下 Node CLI 会派生预览子进程，需要杀整个进程树；必须同步等待结束，否则本进程退出后
       // 预览服务仍占着端口，会让后续 generate/check 复用到它。
       spawnSync("taskkill", ["/pid", String(child.pid), "/t", "/f"], { stdio: "ignore" });
     } else {
@@ -439,14 +439,14 @@ interface GeneratedIndex {
 }
 
 function runFormatter(targetPath: string): void {
-  const result = spawnSync(VP_COMMAND, ["fmt", targetPath, "--write"], {
+  const result = spawnSync(process.execPath, packageCommand(ROOT, ["bin", "vite-plus", "vp", "fmt", targetPath, "--write"]), {
     cwd: ROOT,
     encoding: "utf8",
     shell: false,
   });
-  if (result.status !== 0) {
+  if (result.error || result.status !== 0) {
     fail(
-      `formatter 失败 (${targetPath}): ${[result.stdout, result.stderr].filter(Boolean).join("\n")}`,
+      `formatter 失败 (${targetPath}, exit ${result.status ?? "not started"}): ${[result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n")}`,
     );
   }
 }

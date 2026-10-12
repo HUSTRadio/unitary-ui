@@ -16,9 +16,11 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Portable documentation CLI**: launches corpus previews and formatting through Node and the project's pinned Vite+ CLI, removing the dependency on a globally installed `vp.exe`. The formatter check retains only Node on PATH, still requires the complete corpus to have no formatting drift, and reports launch errors explicitly.
+
 - **Browser CI runner consistency**: moves the four job definitions running complete browser matrices to Windows 2025 based on paired tests of pre- and post-migration source. Retains every source, independent candidate-package and published-package docs case, both themes, all viewports, existing job limits, and the 20ms frame-time P95 gate. Old source also failed the Ubuntu comparison; both commits passed twice on Windows. The [diagnostic record](./docs/audits/browser-runner-2026-10-12.md) preserves the environment and limits of the conclusion.
 
-- **Publication scanning recovery**: waits read-only for up to 20 minutes after an accepted npm upload, within a 30-minute publishing job; documents first-package tags and the trusted publisher 48-hour validation deadline. These follow-up changes are not included in the published beta tarball.
+- **Publication scanning recovery**: waits read-only for up to 20 minutes after an accepted npm upload, within a 30-minute publishing job; documents first-package tags and the trusted publisher 48-hour validation deadline. These follow-up changes are not included in the published beta.0 tarball.
 
 ## [0.1.0-beta.0] - 2026-10-11
 

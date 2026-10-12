@@ -6,10 +6,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import { DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
+import { packageCommand } from "../scripts/lib/package-command.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
-const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 function readIndex(): any {
   const indexPath = path.join(LLM_DIR, "index.json");
@@ -172,12 +172,16 @@ describe("LLM docs export contract", () => {
   // 但 vp 引导开销约 27s，整条命令墙钟 31.9s——30s 超时天生卡线，冷启动时会误判失败。
   // 对齐仓库重用例口径（showcode-coverage 60s），断言本身不变：仍要求 fmt --check 退出码为 0。
   it("生成语料符合仓库 formatter 合同", () => {
-    const result = spawnSync(VP_COMMAND, ["fmt", LLM_DIR, "--check"], {
+    const result = spawnSync(process.execPath, packageCommand(ROOT, ["bin", "vite-plus", "vp", "fmt", LLM_DIR, "--check"]), {
       cwd: ROOT,
       encoding: "utf8",
       shell: false,
+      // The installed formatter must work without any globally installed CLI on PATH.
+      env: { ...process.env, PATH: path.dirname(process.execPath) },
     });
-    expect(result.status, [result.stdout, result.stderr].filter(Boolean).join("\n")).toBe(0);
+    const output = [result.error?.message, result.stdout, result.stderr].filter(Boolean).join("\n");
+    expect(result.error, output).toBeUndefined();
+    expect(result.status, output).toBe(0);
   }, 60_000);
 
   it("sourceHash 与实际页面内容一致（无漂移）", async () => {
