@@ -14,6 +14,24 @@ export function packageIntegrity(buffer) {
   return `sha512-${createHash("sha512").update(buffer).digest("base64")}`;
 }
 
+/** Bind reusable release artifacts to their manifest before following an artifact path. */
+export function readValidatedPackageArtifact(root) {
+  const output = path.join(root, ".scratch/npm-release");
+  const manifest = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8"));
+  assert.match(manifest.version, /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/, "Invalid candidate version");
+  const summary = JSON.parse(readFileSync(path.join(output, "summary.json"), "utf8"));
+  assert.equal(summary.name, PACKAGE_NAME);
+  assert.equal(summary.version, manifest.version);
+  assert.equal(summary.filename, `hustradio-unitary-ui-${manifest.version}.tgz`);
+  const bytes = readFileSync(path.join(output, summary.filename));
+  assert.equal(summary.integrity, packageIntegrity(bytes), "Candidate artifact integrity changed");
+  assert.equal(summary.sha256, createHash("sha256").update(bytes).digest("hex"), "Candidate artifact SHA256 changed");
+  const files = JSON.parse(readFileSync(path.join(output, "files.json"), "utf8"));
+  assert.deepEqual(files, summary.files);
+  validatePackageFiles(files, manifest);
+  return { output, manifest, summary, bytes };
+}
+
 export function validatePackageFiles(files, manifest) {
   assert.equal(manifest.name, PACKAGE_NAME);
   assert.deepEqual(manifest.publishConfig, { access: "public", registry: REGISTRY });
@@ -64,6 +82,12 @@ export function validateInstalledPackage(directory, expectedFonts) {
   };
   scan(path.join(directory, "dist"));
   const css = readFileSync(path.join(directory, manifest.exports["./styles.css"]), "utf8");
+  const referenceEntry = manifest.exports["./tailwind-reference.css"];
+  if (referenceEntry) {
+    const owner = path.join(directory, referenceEntry);
+    const reference = readFileSync(owner, "utf8");
+    for (const match of reference.matchAll(/@import\s*["']([^"']+)["']/g)) checkRelative(owner, match[1]);
+  }
   assert.ok(!/url\(["']?\/fonts\//.test(css), "CSS contains absolute font URLs");
   for (const match of css.matchAll(/url\(["']?(\.\/fonts\/[^)'"\s]+)["']?\)/g)) {
     assert.ok(existsSync(path.join(directory, "dist", match[1])), `Missing CSS font: ${match[1]}`);

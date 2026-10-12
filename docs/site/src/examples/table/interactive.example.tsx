@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 export function TableInteractiveExample() {
   return (

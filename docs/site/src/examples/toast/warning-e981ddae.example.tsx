@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWarningE981DDAEExample() {
   const toasts = useToasts();

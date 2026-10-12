@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonDefaultWithBoxHeight3D00A453Example() {
   return (

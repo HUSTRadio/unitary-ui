@@ -1,4 +1,4 @@
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 
 export function StatusDotDefault21B111CBExample() {
   return (

@@ -61,7 +61,7 @@ Green:加载中
 Blue:加载中
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@hustradio/unitary-ui";
 
 export function SpinnerColors88C45D9EExample() {
   return (
@@ -94,7 +94,7 @@ export function SpinnerColors88C45D9EExample() {
 导入
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

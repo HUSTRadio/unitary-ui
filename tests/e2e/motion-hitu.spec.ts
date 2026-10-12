@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { cubicProgress } from "../../src/lib/motion-easing";
 import { MOTION_EASINGS } from "../../src/lib/motion-easing-defaults";
+import { moduleRequest } from "./docs-artifact";
 
 test.setTimeout(90_000);
 
@@ -89,7 +90,7 @@ test("the introduction stays usable while its viewport illustration loads, then 
   await page.addInitScript(() => localStorage.setItem("unitary-docs-language", "en-US"));
   let release!: () => void;
   const pending = new Promise<void>(resolve => { release = resolve; });
-  await page.route("**/site/src/examples/hitu-player/default.example.tsx*", async route => {
+  await page.route(moduleRequest("examples/hitu-player/default.example.tsx", "**/site/src/examples/hitu-player/default.example.tsx*"), async route => {
     await pending;
     await route.continue();
   });

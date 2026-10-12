@@ -1259,7 +1259,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     bestPractices: [
       "Use Theme Switcher for the canonical Light / System / Dark control. Place it once per app, in the footer or settings, not duplicated across pages.",
       "Pass compact for dense chrome (footers, dropdowns); use the default size on a settings page where there’s room for the labels to breathe.",
-      "Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx), so wrap the app in ThemeProvider once at the root and don’t mirror its state into local React state.",
+      "Theme Switcher reads from and writes to the framework's own ThemeProvider exported by @hustradio/unitary-ui, so wrap the app in ThemeProvider once at the root and don’t mirror its state into local React state.",
       "The library does not depend on next-themes; the public API is just className / compact / disabled, with no onChange callback or forcedTheme concept. To intercept changes, consume useTheme() directly.",
       "Don’t rebuild a theme picker with Switch or three icon buttons. Theme Switcher already handles the icons, the aria-label per option, and System detection.",
       "Option labels are localized through the framework i18n (t()); keep them that way so the accessible names match the UI language.",

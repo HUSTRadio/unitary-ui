@@ -3,7 +3,7 @@ import {
   FieldsetContent,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithoutFooterED163245Example() {
   return (

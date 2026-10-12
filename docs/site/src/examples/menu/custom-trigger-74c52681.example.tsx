@@ -1,5 +1,5 @@
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
-import { Avatar } from "@/components/ui/avatar";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function MenuCustomTrigger74C52681Example() {
   return (

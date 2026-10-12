@@ -1,4 +1,4 @@
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 import { ChartColumn, Waves } from "lucide-react";
 
 export function BookCustomIllustration79A95CD3Example() {

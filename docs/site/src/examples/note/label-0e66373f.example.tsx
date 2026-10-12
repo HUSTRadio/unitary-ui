@@ -1,4 +1,4 @@
-import { Note, NoteContent, NoteLabel } from "@/components/ui/note";
+import { Note, NoteContent, NoteLabel } from "@hustradio/unitary-ui";
 
 export function NoteLabel0E66373FExample() {
   return (

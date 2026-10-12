@@ -53,7 +53,7 @@ Bandwidth used
 375 GB of 500 GB
 
 ```tsx
-import { ProgressCircle } from "@/components/ui/charts/progress-circle";
+import { ProgressCircle } from "@hustradio/unitary-ui";
 
 export function ProgressCircleDefault37A8EEC1Example() {
   return (
@@ -77,7 +77,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ProgressCircle } from "@/components/ui/progress-circle";
+import { ProgressCircle } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

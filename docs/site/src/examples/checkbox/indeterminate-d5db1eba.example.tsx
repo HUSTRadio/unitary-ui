@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 
 export function CheckboxIndeterminateD5DB1EBAExample() {
   return (

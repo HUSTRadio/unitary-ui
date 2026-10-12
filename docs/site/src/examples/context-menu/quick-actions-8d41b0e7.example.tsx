@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Copy } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextMenu,
   ContextMenuQuickActionsContent,
   ContextMenuQuickActionsItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
-import { Modal, ModalContent } from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
+import { Modal, ModalContent } from "@hustradio/unitary-ui";
 
 /**
  * Quick Actions —— context-menu 的触屏长按变体：定宽竖排、大图标 + 副标题、背景模糊遮罩。

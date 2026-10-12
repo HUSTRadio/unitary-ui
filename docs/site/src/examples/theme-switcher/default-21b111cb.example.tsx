@@ -1,4 +1,4 @@
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
 
 export function ThemeSwitcherDefault21B111CBExample() {
   return (

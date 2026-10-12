@@ -62,7 +62,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 export function TableDefault21B111CBExample() {
   return (
@@ -105,7 +105,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 export function TableStripedExample() {
   return (
@@ -143,7 +143,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 /**
  * 行间分隔线：`colorScheme="bordered"` 只在**行与行之间**画 1px 发丝线。
@@ -187,7 +187,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 /**
  * 真正的「带外框」变体：外框由 `TableRoot` 的 `frame="outline"` 提供
@@ -233,7 +233,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 export function TableInteractiveExample() {
   return (
@@ -275,7 +275,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 const items = [
   ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],
@@ -336,7 +336,7 @@ export function TableFullFeaturedExample() {
 
 ```tsx
 import * as React from "react";
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 import {
   Table,
   TableBody,
@@ -346,7 +346,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 const items = [
   ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],
@@ -421,7 +421,7 @@ import {
   TableHead,
   TableCell,
   TableCaption,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

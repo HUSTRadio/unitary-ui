@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalWithError3E9E4249Example() {

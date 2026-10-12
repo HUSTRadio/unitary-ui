@@ -1,4 +1,4 @@
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 /** 屏幕占位层：亮/暗两套内容（示意壁纸，非官方素材） */
 function Wallpaper({ dark }: { dark?: boolean }) {

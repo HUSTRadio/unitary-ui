@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 import type { JSX } from "react";
 
 const COPY_TEXT = `# About

@@ -54,7 +54,7 @@ https://example.com
 Screenshot or demo content
 
 ```tsx
-import { Browser } from "@/components/ui/browser";
+import { Browser } from "@hustradio/unitary-ui";
 
 export function BrowserComposition47FCA483Example() {
   return (
@@ -76,7 +76,7 @@ export function BrowserComposition47FCA483Example() {
 导入
 
 ```tsx
-import { Browser } from "@/components/ui/browser";
+import { Browser } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SidePanel, SidePanelClose, SidePanelDescription, SidePanelTitle } from "@/components/ui/side-panel";
+import { SidePanel, SidePanelClose, SidePanelDescription, SidePanelTitle } from "@hustradio/unitary-ui";
 
 export default function SidePanelExample() {
   const [show, setShow] = useState(false);

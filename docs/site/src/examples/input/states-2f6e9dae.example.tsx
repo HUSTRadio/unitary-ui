@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputStates2F6E9DAEExample() {
   return (

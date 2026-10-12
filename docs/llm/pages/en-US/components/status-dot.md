@@ -52,7 +52,7 @@ Not applicable: The Status Dot is a purely decorative micro-interaction componen
 ## Live Demo
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 
 export function StatusDotDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ export function StatusDotDefault21B111CBExample() {
 QueuedBuildingErrorReadyCanceled
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 
 export function StatusDotLabel0E66373FExample() {
   return (
@@ -94,7 +94,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

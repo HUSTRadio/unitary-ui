@@ -57,7 +57,7 @@ Not applicable: ProjectBanner does not manage dismiss state. Compose ProjectBann
 ## Live Demo
 
 ```tsx
-import { ProjectBanner } from "@/components/ui/project-banner";
+import { ProjectBanner } from "@hustradio/unitary-ui";
 import { ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
@@ -77,7 +77,7 @@ export function ProjectBannerDefault21B111CBExample() {
 ## Success
 
 ```tsx
-import { ProjectBanner } from "@/components/ui/project-banner";
+import { ProjectBanner } from "@hustradio/unitary-ui";
 import { ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
@@ -98,8 +98,8 @@ export function ProjectBannerSuccessC88A0B90Example() {
 ## Warning
 
 ```tsx
-import { ProjectBanner } from "@/components/ui/project-banner";
-import { Tooltip } from "@/components/ui/tooltip";
+import { ProjectBanner } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
@@ -136,7 +136,7 @@ export function ProjectBannerWarningE981DDAEExample() {
 ## Error
 
 ```tsx
-import { ProjectBanner } from "@/components/ui/project-banner";
+import { ProjectBanner } from "@hustradio/unitary-ui";
 import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 
@@ -171,11 +171,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import {
-  ProjectBanner,
-  ProjectBannerContent,
-  ProjectBannerClose,
-} from "@/components/ui/project-banner";
+import { ProjectBanner, ProjectBannerContent, ProjectBannerClose } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

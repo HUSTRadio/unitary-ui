@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { Tabs } from "@/components/ui/tabs";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { Tabs } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode } from "@hustradio/unitary-ui";
 
 export default function TabsScrollTrackingExample() {
   const { locale } = useI18n();

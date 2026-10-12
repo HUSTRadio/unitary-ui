@@ -73,7 +73,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 
 export function ContextMenuDefault37A8EEC1Example() {
   return (
@@ -108,7 +108,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 
 export function ContextMenuDisabledItems62FB7C5EExample() {
   return (
@@ -143,7 +143,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 
 export function ContextMenuLinkItems2FF9F194Example() {
   return (
@@ -180,7 +180,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 import { Triangle } from "lucide-react";
 
 export function ContextMenuPrefixAndSuffix99076368Example() {
@@ -251,15 +251,15 @@ Long-press the card to reveal quick actions.
 import * as React from "react";
 import { Copy } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextMenu,
   ContextMenuQuickActionsContent,
   ContextMenuQuickActionsItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
-import { Modal, ModalContent } from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
+import { Modal, ModalContent } from "@hustradio/unitary-ui";
 
 /**
  * Quick Actions —— context-menu 的触屏长按变体：定宽竖排、大图标 + 副标题、背景模糊遮罩。
@@ -359,7 +359,7 @@ import {
   ContextMenuSeparator,
   ContextMenuQuickActionsContent,
   ContextMenuQuickActionsItem,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

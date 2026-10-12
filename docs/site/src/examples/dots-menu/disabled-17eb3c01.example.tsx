@@ -1,4 +1,4 @@
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem } from "@hustradio/unitary-ui";
 
 export function DotsMenuDisabled17EB3C01Example() {
   return (

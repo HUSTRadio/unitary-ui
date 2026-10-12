@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 
 export function RadioRadioDisabled2226FEE4Example() {
   return (

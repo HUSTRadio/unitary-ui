@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 const items = [
   ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],

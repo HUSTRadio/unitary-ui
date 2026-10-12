@@ -1,4 +1,4 @@
-import { StepPoint } from "@/components/ui/step-point";
+import { StepPoint } from "@hustradio/unitary-ui";
 
 export function StepPointDefault21B111CBExample() {
   return (

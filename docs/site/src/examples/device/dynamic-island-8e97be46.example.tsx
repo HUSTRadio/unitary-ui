@@ -1,4 +1,4 @@
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceDynamicIsland8E97BE46Example() {
   return (

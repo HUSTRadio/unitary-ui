@@ -83,7 +83,7 @@ TealTeal Subtle
 InvertedTrialTurborepoOutline
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 
 export function BadgeVariants63D2643BExample() {
   return (
@@ -152,7 +152,7 @@ export function BadgeVariants63D2643BExample() {
 CompactSmallMediumLarge
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 
 export function BadgeSizes74A3978DExample() {
   return (
@@ -175,7 +175,7 @@ BlueBlueBlueBlueBlueBlue
 GreenGreenGreenGreenGreenGreen
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 import { Shield } from "lucide-react";
 
 export function BadgeWithIcons1F71F4BCExample() {
@@ -253,7 +253,7 @@ LabelLabelLabel
 LabelLabelLabel
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 import { Shield } from "lucide-react";
 
 export function BadgePill9945C78BExample() {
@@ -293,7 +293,7 @@ UpdatedNewHealthyWarningFailed
 Pill compactRounded compactRounded mdWith icon
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 import { Bell } from "lucide-react";
 
 /**
@@ -352,7 +352,7 @@ export function BadgeCompactRounded7C41E2A8Example() {
 导入
 
 ```tsx
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge, badgeVariants } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`HTMLAttributes<HTMLSpanElement>`

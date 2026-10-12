@@ -1,4 +1,4 @@
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseExpanded691661B3Example() {
   return (

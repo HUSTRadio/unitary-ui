@@ -63,7 +63,7 @@ Pro TrialFree for two weeks
 ProGet started now
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxSingleSelectF99FF34BExample() {
@@ -91,7 +91,7 @@ Pro TrialFree for two weeks
 ProGet started now
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxMultiSelect294DCC0FExample() {
@@ -127,7 +127,7 @@ Pro TrialFree for two weeks
 ProGet started now
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxDisabled17EB3C01Example() {
@@ -182,8 +182,8 @@ Trial
 ProGet started now
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { Badge } from "@hustradio/unitary-ui";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxCustomContent2D9A6A02Example() {
@@ -219,7 +219,7 @@ export function ChoiceboxCustomContent2D9A6A02Example() {
 导入
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

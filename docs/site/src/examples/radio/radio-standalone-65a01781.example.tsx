@@ -1,4 +1,4 @@
-import { Radio } from "@/components/ui/radio";
+import { Radio } from "@hustradio/unitary-ui";
 
 export function RadioRadioStandalone65A01781Example() {
   return (

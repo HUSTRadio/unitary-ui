@@ -1,6 +1,6 @@
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Toggle } from "@/components/ui/toggle";
+import { Progress } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Toggle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ProgressDynamicB6EE7B3EExample() {

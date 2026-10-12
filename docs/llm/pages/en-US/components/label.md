@@ -60,7 +60,7 @@ Not applicable: The Label component itself involves no responsive layout logic. 
 This is a label
 
 ```tsx
-import { Label } from "@/components/ui/label";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelDefault37A8EEC1Example() {
   return <Label id="label-default" value="This is a label" />;
@@ -72,8 +72,8 @@ export function LabelDefault37A8EEC1Example() {
 Email Address
 
 ```tsx
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelWithInput35FA6F50Example() {
   return (
@@ -90,8 +90,8 @@ export function LabelWithInput35FA6F50Example() {
 Email address
 
 ```tsx
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelBypassCasingB8D7E5E0Example() {
   return (
@@ -114,7 +114,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Label } from "@/components/ui/label";
+import { Label } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `LabelHTMLAttributes<HTMLLabelElement>`

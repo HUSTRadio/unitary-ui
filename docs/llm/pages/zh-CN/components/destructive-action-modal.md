@@ -67,8 +67,8 @@ API 失败时保持模态框打开让用户可以重试，而不是静默关闭�
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalDefault21B111CBExample() {
@@ -113,8 +113,8 @@ export function DestructiveActionModalDefault21B111CBExample() {
 ## 可撤销操作
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalReversible6E7D6697Example() {
@@ -142,8 +142,8 @@ export function DestructiveActionModalReversible6E7D6697Example() {
 ## 加载中
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalLoadingDC380888Example() {
@@ -176,8 +176,8 @@ export function DestructiveActionModalLoadingDC380888Example() {
 ## 带错误
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalWithError3E9E4249Example() {
@@ -212,7 +212,7 @@ export function DestructiveActionModalWithError3E9E4249Example() {
 导入
 
 ```tsx
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

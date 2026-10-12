@@ -16,7 +16,7 @@ After copying, replace links, search integration, locale routes, social informat
 
 ```tsx
 import { useEffect, useRef, useState } from "react";
-import { scrollIntoViewWithMotion } from "@/lib/scroll-animation";
+import { scrollIntoViewWithMotion } from "@hustradio/unitary-ui";
 import {
   BackToTop,
   Footer,
@@ -26,7 +26,7 @@ import {
   Scroller,
   SiteNavigation,
   type SiteNavigationItem,
-} from "@/lib";
+} from "@hustradio/unitary-ui";
 
 export interface WebsiteShellProps {
   variant?: "portal" | "editorial" | "university" | "corporate";

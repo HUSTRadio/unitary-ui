@@ -7,7 +7,8 @@ import { codeThemes, resolveCodeTheme, inlineColors } from "../../src/lib/color-
 async function color(page: Page, value: string) {
   return page.evaluate(value => {
     const el = document.createElement("span");
-    el.style.color = value;
+    el.style.setProperty("color", value, "important");
+    el.style.setProperty("transition", "none", "important");
     document.body.append(el);
     const result = getComputedStyle(el).color;
     el.remove();
@@ -40,8 +41,36 @@ for (const docsTheme of ["light", "dark"] as const) {
     page.on("pageerror", e => errors.push(e.message));
     const lab = await open(page, docsTheme);
     const ui = lab.locator("[data-ui-preview]");
-    const root = await page.evaluate(names => Object.fromEntries(names.map(name => [name, getComputedStyle(document.documentElement).getPropertyValue(name).trim()])), Object.keys(defaultTokens[docsTheme]));
-    expect(root).toEqual(defaultTokens[docsTheme]);
+    const root = await page.evaluate(expected => {
+      const style = getComputedStyle(document.documentElement);
+      const probe = document.createElement("span");
+      probe.style.setProperty("transition", "none", "important");
+      document.body.append(probe);
+      // The browser resolves equivalent color spellings; other token values
+      // retain their exact strings, including missing or invalid colors.
+      const normalize = (name: string, value: string) => {
+        if (name === "--focus-ring-outline" && CSS.supports("box-shadow", value)) {
+          probe.style.setProperty("box-shadow", value, "important");
+          return getComputedStyle(probe).boxShadow;
+        }
+        if (!CSS.supports("color", value)) return value;
+        probe.style.setProperty("color", value, "important");
+        return getComputedStyle(probe).color;
+      };
+      try {
+        return {
+          control: { white: normalize("", "#fff"), black: normalize("", "#000") },
+          actual: Object.fromEntries(Object.keys(expected).map(name =>
+            [name, normalize(name, style.getPropertyValue(name).trim())])),
+          expected: Object.fromEntries(Object.entries(expected).map(([name, value]) =>
+            [name, normalize(name, value)])),
+        };
+      } finally {
+        probe.remove();
+      }
+    }, defaultTokens[docsTheme]);
+    expect(root.control.white, "CSS color probe must distinguish white from black").not.toBe(root.control.black);
+    expect(root.actual).toEqual(root.expected);
     await expect(ui).toHaveAttribute("data-slot", "sub-frame");
     for (const slot of ["navbar", "sidebar-nav", "breadcrumb", "fieldset", "badge", "status-dot", "input"]) await expect(ui.locator(`[data-slot="${slot}"]`).first()).toBeVisible();
     const save = ui.getByRole("button", { name: "保存更改", exact: true });

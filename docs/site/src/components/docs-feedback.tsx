@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 import { getAdjacentDocsPages, getDocsRouteLabel } from "../data/docs-routes";
 import { SHELL_COPY } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";

@@ -1,4 +1,4 @@
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 
 export function ShowMoreExpandedE72D5D8DExample() {
   return (

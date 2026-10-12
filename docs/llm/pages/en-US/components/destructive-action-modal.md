@@ -67,8 +67,8 @@ Keep the modal open on API failure so the user can retry, rather than silently d
 ## Live Demo
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalDefault21B111CBExample() {
@@ -113,8 +113,8 @@ export function DestructiveActionModalDefault21B111CBExample() {
 ## Reversible
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalReversible6E7D6697Example() {
@@ -142,8 +142,8 @@ export function DestructiveActionModalReversible6E7D6697Example() {
 ## Loading
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalLoadingDC380888Example() {
@@ -176,8 +176,8 @@ export function DestructiveActionModalLoadingDC380888Example() {
 ## With error
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@hustradio/unitary-ui";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DestructiveActionModalWithError3E9E4249Example() {
@@ -212,7 +212,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { DestructiveActionModal } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

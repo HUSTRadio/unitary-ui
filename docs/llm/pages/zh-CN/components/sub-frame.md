@@ -50,8 +50,8 @@ This frame owns the overlay: the sheet opens inside it instead of covering the w
 
 ```tsx
 import { useState } from "react";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { SubFrame } from "@/components/ui/sub-frame";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { SubFrame } from "@hustradio/unitary-ui";
 
 export default function SubFrameExample() {
   const [open, setOpen] = useState(false);
@@ -89,7 +89,7 @@ export default function SubFrameExample() {
 导入
 
 ```tsx
-import { SubFrame } from "@/components/ui/sub-frame";
+import { SubFrame } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

@@ -79,7 +79,7 @@ Label 与输入关联，保证辅助技术正确读出字段名称。
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxUncontrolledAB4CD2AEExample() {
   return (
@@ -102,7 +102,7 @@ export function ComboboxUncontrolledAB4CD2AEExample() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ComboboxControlled71AD7238Example() {
@@ -128,7 +128,7 @@ export function ComboboxControlled71AD7238Example() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxDisabled17EB3C01Example() {
   return (
@@ -159,7 +159,7 @@ export function ComboboxDisabled17EB3C01Example() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxSizes7C69F3FAExample() {
   const options = [
@@ -221,7 +221,7 @@ Select your country
 - Brazil
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxWithLabelBB9F6883Example() {
   return (
@@ -253,7 +253,7 @@ export function ComboboxWithLabelBB9F6883Example() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ComboboxClearable258DDE0FExample() {
@@ -285,7 +285,7 @@ export function ComboboxClearable258DDE0FExample() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxErrored138BB025Example() {
   return (
@@ -308,7 +308,7 @@ export function ComboboxErrored138BB025Example() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxCustomWidthInputC898F7ADExample() {
   return (
@@ -331,7 +331,7 @@ export function ComboboxCustomWidthInputC898F7ADExample() {
 - Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxCustomWidthList0695C952Example() {
   return (
@@ -360,7 +360,7 @@ export function ComboboxCustomWidthList0695C952Example() {
 ## 自定义空列表提示
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList } from "@hustradio/unitary-ui";
 
 export function ComboboxCustomEmptyMessage1DAF4719Example() {
   return (
@@ -379,7 +379,7 @@ export function ComboboxCustomEmptyMessage1DAF4719Example() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { Triangle } from "lucide-react";
 
 export function ComboboxWithPrefixIcons033AD1CBExample() {
@@ -409,7 +409,7 @@ export function ComboboxWithPrefixIcons033AD1CBExample() {
 - Three
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { Triangle } from "lucide-react";
 
 export function ComboboxWithSuffixIcons025A8424Example() {
@@ -435,8 +435,8 @@ export function ComboboxWithSuffixIcons025A8424Example() {
 ## 在 Modal 内使用
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Button } from "@hustradio/unitary-ui";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -444,7 +444,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ComboboxUsedInsideModal1332CE87Example() {
@@ -507,9 +507,9 @@ export function ComboboxUsedInsideModal1332CE87Example() {
 ## 在抽屉内使用
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@hustradio/unitary-ui";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@hustradio/unitary-ui";
 import { X } from "lucide-react";
 import { useState } from "react";
 
@@ -584,7 +584,7 @@ export function ComboboxInsideSheet95E13F11Example() {
 导入
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

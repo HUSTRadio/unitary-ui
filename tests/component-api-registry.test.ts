@@ -396,7 +396,7 @@ describe("component API registry", () => {
     for (const [name, source] of Object.entries(EXAMPLE_SOURCE.modal ?? {})) {
       if (!source.includes("<ModalTrigger")) continue;
       expect(source, `modal.${name} uses ModalTrigger without importing it`).toMatch(
-        /import\s*\{[^}]*\bModalTrigger\b[^}]*\}\s*from\s*["']@\/components\/ui\/modal["']/s,
+        /import\s*\{[^}]*\bModalTrigger\b[^}]*\}\s*from\s*["']@hustradio\/unitary-ui["']/s,
       );
     }
   });

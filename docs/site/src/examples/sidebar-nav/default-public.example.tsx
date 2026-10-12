@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
+import { SidebarNav } from "@hustradio/unitary-ui";
 
 const groups = [{
   label: "Workspace",

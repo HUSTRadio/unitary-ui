@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Button } from "@hustradio/unitary-ui";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ComboboxUsedInsideModal1332CE87Example() {

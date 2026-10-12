@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import type { WebsiteShellProps } from "../../templates/website-shell";
 import source from "../../templates/website-shell.tsx?example-source";
 import type { DocsLanguage } from "../../i18n/language";

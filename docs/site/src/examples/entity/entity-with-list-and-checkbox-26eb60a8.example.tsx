@@ -1,5 +1,5 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Entity, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import { Checkbox } from "@hustradio/unitary-ui";
+import { Entity, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function EntityEntityWithListAndCheckbox26EB60A8Example() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { AnimatePresence, motion, MotionProvider, useMotionTransition } from "@/lib/motion";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { AnimatePresence, motion, MotionProvider, useMotionTransition } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 function StatePanel() {
   const [shown, setShown] = useState(true);

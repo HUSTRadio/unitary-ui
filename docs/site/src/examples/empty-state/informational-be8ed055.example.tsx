@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { Button } from "@hustradio/unitary-ui";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 import { ArrowRight, ChartColumn } from "lucide-react";
 
 export function EmptyStateInformationalBE8ED055Example() {

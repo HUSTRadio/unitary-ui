@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export function ButtonPrefixAndSuffix99076368Example() {

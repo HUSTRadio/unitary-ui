@@ -1,4 +1,4 @@
-import { RatingPill } from "@/components/ui/rating-pill";
+import { RatingPill } from "@hustradio/unitary-ui";
 
 /** Local Unitary extension; not one of the six official Geist Feedback demos. */
 export function FeedbackRatingBar253F979EExample() {

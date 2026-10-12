@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { I18nProvider } from "@/lib/i18n";
+import { I18nProvider } from "@hustradio/unitary-ui";
 
 export type DocsLanguage = "zh-CN" | "en-US";
 

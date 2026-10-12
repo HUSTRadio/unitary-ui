@@ -1,4 +1,4 @@
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 
 export function LoadingDotsWithTextF00F2530Example() {
   return (

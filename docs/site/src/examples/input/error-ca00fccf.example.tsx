@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputErrorCA00FCCFExample() {
   return (

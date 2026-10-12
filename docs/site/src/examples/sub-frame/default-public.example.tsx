@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { SubFrame } from "@/components/ui/sub-frame";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { SubFrame } from "@hustradio/unitary-ui";
 
 export default function SubFrameExample() {
   const [open, setOpen] = useState(false);

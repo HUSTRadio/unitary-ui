@@ -74,7 +74,7 @@ gauge
 100
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeLabel0E66373FExample() {
   return (
@@ -94,7 +94,7 @@ export function GaugeLabel0E66373FExample() {
 ## 默认颜色刻度
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeDefaultColorScale4B7E0E9CExample() {
   return (
@@ -110,7 +110,7 @@ export function GaugeDefaultColorScale4B7E0E9CExample() {
 ## 自定义颜色范围
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeCustomColorRange88183E94Example() {
   const PINK_SCALE = {
@@ -139,7 +139,7 @@ export function GaugeCustomColorRange88183E94Example() {
 ## 自定义辅助颜色
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeCustomSecondaryColor34BA2682Example() {
   return (
@@ -159,7 +159,7 @@ export function GaugeCustomSecondaryColor34BA2682Example() {
 50
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeArcPriorityAB3EBA95Example() {
   return (
@@ -179,7 +179,7 @@ export function GaugeArcPriorityAB3EBA95Example() {
 ## 半选
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeIndeterminateD5DB1EBAExample() {
   return (
@@ -200,7 +200,7 @@ export function GaugeIndeterminateD5DB1EBAExample() {
 导入
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

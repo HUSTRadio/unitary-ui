@@ -1,4 +1,4 @@
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipCustomContent61146064Example() {
   return (

@@ -4,8 +4,8 @@ import {
   MenuContainer,
   MenuItem,
   MenuItemLocked,
-} from "@/components/ui/menu";
-import { Tooltip } from "@/components/ui/tooltip";
+} from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function MenuLockedItemsE410D1DAExample() {
   return (

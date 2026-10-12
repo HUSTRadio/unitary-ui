@@ -56,8 +56,8 @@ No command yet.
 ```tsx
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTitle } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTitle } from "@hustradio/unitary-ui";
 
 import {
   MenuBar,
@@ -70,7 +70,7 @@ import {
   MenuBarSubContent,
   MenuBarSubTrigger,
   MenuBarTrigger,
-} from "@/components/ui/menu-bar";
+} from "@hustradio/unitary-ui";
 
 /**
  * MenuBar —— 水平应用菜单栏：顶级菜单横向排列，菜单项支持分隔线、勾选态与子菜单。
@@ -173,7 +173,7 @@ import {
   MenuBarSub,
   MenuBarSubTrigger,
   MenuBarSubContent,
-} from "@/components/ui/menu-bar";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

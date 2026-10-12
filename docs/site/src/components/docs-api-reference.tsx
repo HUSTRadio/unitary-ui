@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import { getComponentApi, type ApiRow } from "../data/component-api";
 import { useLanguage } from "../i18n/language";
 import { DocsBlock, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
@@ -86,7 +86,7 @@ export function ComponentApiReference({ componentName }: { componentName: string
           {language === "zh-CN" ? "导入" : "Import"}
         </p>
         <CodeBlock language="tsx" hideLineNumbers>
-          {`import { ${api.exports.join(", ")} } from "${api.importPath ?? `@/components/ui/${componentName}`}"`}
+          {`import { ${api.exports.join(", ")} } from "${api.importPath ?? "@hustradio/unitary-ui"}"`}
         </CodeBlock>
       </DocsBlock>
 

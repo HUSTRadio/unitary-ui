@@ -2,9 +2,11 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { HashRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { ComponentApiReference } from "../docs/site/src/components/docs-api-reference";
+import { ApiOverviewPage } from "../docs/site/src/pages/api-overview";
 import { LanguageProvider, type DocsLanguage } from "../docs/site/src/i18n/language";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -38,6 +40,27 @@ async function render(componentName: string, language: DocsLanguage) {
 
 describe("API reference explanations", () => {
   for (const language of ["zh-CN", "en-US"] as const) {
+    for (const component of ["button", "sidebar-nav", "hamburger-menu"]) {
+      it(`uses public imports for ${component} in ${language}`, async () => {
+        await render(component, language);
+        const code = container.querySelector("pre code")?.textContent;
+        expect(code).toContain('from "@hustradio/unitary-ui"');
+        if (component !== "button") {
+          expect(code).toContain("NAV_CONTENT_INSET");
+          expect(container.textContent).toContain("24px");
+          expect(container.textContent).toContain("16px");
+        }
+      });
+    }
+    it(`documents scroll lifecycle and navigation spacing in ${language}`, async () => {
+      await act(async () => root.render(<HashRouter><ApiOverviewPage language={language} /></HashRouter>));
+      const section = container.querySelector("#scrolling")!;
+      for (const name of ["scrollIntoViewWithMotion", "ScrollAnimation", "cancel()", "refresh()", "NAV_CONTENT_INSET", "--uni-motion-state", "--ease-in-out", "24px", "16px"]) {
+        expect(section.textContent).toContain(name);
+      }
+      expect(section.textContent).toContain(language === "zh-CN" ? "组件卸载时取消" : "Cancel on component unmount");
+      expect(section.querySelector("pre code")?.textContent).toContain('from "@hustradio/unitary-ui"');
+    });
     for (const component of ["prefetch", "carousel"]) {
       it(`explains uniform extension provenance once for ${component} in ${language}`, async () => {
         await render(component, language);

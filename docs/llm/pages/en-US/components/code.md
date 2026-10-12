@@ -57,7 +57,7 @@ console.log("Hello");
 ```
 
 ```tsx
-import { Code, InlineCode } from "@/components/ui/code";
+import { Code, InlineCode } from "@hustradio/unitary-ui";
 
 export function CodeDefault21B111CBExample() {
   return (
@@ -78,7 +78,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Code, InlineCode } from "@/components/ui/code";
+import { Code, InlineCode } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

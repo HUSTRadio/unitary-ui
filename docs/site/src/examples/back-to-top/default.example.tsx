@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@hustradio/unitary-ui";
 
 export default function BackToTopExample() {
   const [target, setTarget] = useState<HTMLDivElement | null>(null);

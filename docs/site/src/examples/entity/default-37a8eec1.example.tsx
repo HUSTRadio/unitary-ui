@@ -1,5 +1,5 @@
-import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import { Avatar } from "@hustradio/unitary-ui";
+import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@hustradio/unitary-ui";
 
 export function EntityDefault37A8EEC1Example() {
   return (

@@ -1,4 +1,4 @@
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const verticalData = [
   { browser: "Chrome", visits: 4245 },

@@ -1,4 +1,4 @@
-import { CategoryBar } from "@/components/ui/charts/category-bar";
+import { CategoryBar } from "@hustradio/unitary-ui";
 
 export function CategoryBarDefault37A8EEC1Example() {
   return (

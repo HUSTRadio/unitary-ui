@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@hustradio/unitary-ui";
+import { Drawer, DrawerDescription, DrawerTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DrawerCustomHeight986065F9Example() {

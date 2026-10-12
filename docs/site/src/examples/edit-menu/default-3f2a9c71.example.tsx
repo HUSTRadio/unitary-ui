@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { EditMenu } from "@/components/ui/edit-menu";
+import { EditMenu } from "@hustradio/unitary-ui";
 
 const INITIAL_TEXT =
   "Select any words in this sentence to reveal the floating edit capsule above the selection.";

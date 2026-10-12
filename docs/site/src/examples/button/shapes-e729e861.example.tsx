@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import { ArrowUp } from "lucide-react";
 
 export function ButtonShapesE729E861Example() {

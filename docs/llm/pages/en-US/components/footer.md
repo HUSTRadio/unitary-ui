@@ -52,7 +52,7 @@ Resources
 - [Guides](#/guides)
 
 ```tsx
-import { Footer } from "@/components/ui/footer";
+import { Footer } from "@hustradio/unitary-ui";
 
 export default function FooterExample() {
   return (
@@ -81,7 +81,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Footer } from "@/components/ui/footer";
+import { Footer } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

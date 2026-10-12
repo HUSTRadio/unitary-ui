@@ -52,7 +52,7 @@ search-input
 ## 实时示例
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputDefault37A8EEC1Example() {
@@ -76,7 +76,7 @@ export function SearchInputDefault37A8EEC1Example() {
 ⌘K
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputWithCmdkC25FADFBExample() {
@@ -101,7 +101,7 @@ export function SearchInputWithCmdkC25FADFBExample() {
 ⌘K
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputDisabled17EB3C01Example() {
@@ -127,7 +127,7 @@ export function SearchInputDisabled17EB3C01Example() {
 加载中
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputLoadingB4A070A2Example() {
@@ -151,7 +151,7 @@ export function SearchInputLoadingB4A070A2Example() {
 
 ```tsx
 import { Sparkles } from "lucide-react";
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputCustomPrefix3441EADCExample() {
@@ -178,7 +178,7 @@ export function SearchInputCustomPrefix3441EADCExample() {
 导入
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

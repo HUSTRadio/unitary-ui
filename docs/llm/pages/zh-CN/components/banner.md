@@ -57,7 +57,7 @@ banner
 [Read more](#/components)
 
 ```tsx
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@hustradio/unitary-ui";
 
 export function BannerDefault21B111CBExample() {
   return (
@@ -75,7 +75,7 @@ export function BannerDefault21B111CBExample() {
 导入
 
 ```tsx
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

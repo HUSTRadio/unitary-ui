@@ -3,18 +3,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination } from "./components/docs-feedback";
-import { Button } from "@/components/ui/button";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { Button } from "@hustradio/unitary-ui";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
 import {
   CommandMenu,
   CommandMenuGroup,
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
-} from "@/components/ui/command-menu";
-import { Toasts } from "@/components/ui/toast";
-import { useFontMetrics } from "@/lib/font-metrics";
-import { useDismissOnNavigate } from "@/lib/navigation";
+} from "@hustradio/unitary-ui";
+import { Toasts } from "@hustradio/unitary-ui";
+import { useFontMetrics } from "@hustradio/unitary-ui";
+import { useDismissOnNavigate } from "@hustradio/unitary-ui";
 import { SiteShellDemo } from "./components/patterns/site-shell-demo";
 import { WebsiteShell, type WebsiteShellProps } from "./templates/website-shell";
 import {

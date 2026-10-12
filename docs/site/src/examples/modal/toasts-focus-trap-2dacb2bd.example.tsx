@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -7,8 +7,8 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
-import { useToasts } from "@/components/ui/toast";
+} from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalToastsFocusTrap2DACB2BDExample() {

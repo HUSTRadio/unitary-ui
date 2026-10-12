@@ -58,13 +58,13 @@ Add credits to continue deploying projects.
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ErrorCard,
   ErrorCardAction,
   ErrorCardDescription,
   ErrorCardTitle,
-} from "@/components/ui/error-card";
+} from "@hustradio/unitary-ui";
 import { Trash2 } from "lucide-react";
 
 export function ErrorCardDefault21B111CBExample() {
@@ -101,7 +101,7 @@ import {
   ErrorCardTitle,
   ErrorCardDescription,
   ErrorCardAction,
-} from "@/components/ui/error-card";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

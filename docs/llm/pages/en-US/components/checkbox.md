@@ -64,7 +64,7 @@ Disabled checkboxes still need a Tooltip naming the reason; a greyed box with no
 Option 1
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function CheckboxDefault37A8EEC1Example() {
@@ -83,7 +83,7 @@ export function CheckboxDefault37A8EEC1Example() {
 DisabledDisabled CheckedDisabled Indeterminate
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 
 export function CheckboxDisabled17EB3C01Example() {
   return (
@@ -105,7 +105,7 @@ export function CheckboxDisabled17EB3C01Example() {
 Indeterminate (partial selection)CheckedUnchecked
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 
 export function CheckboxIndeterminateD5DB1EBAExample() {
   return (
@@ -134,7 +134,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

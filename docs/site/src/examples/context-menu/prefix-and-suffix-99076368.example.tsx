@@ -3,7 +3,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 import { Triangle } from "lucide-react";
 
 export function ContextMenuPrefixAndSuffix99076368Example() {

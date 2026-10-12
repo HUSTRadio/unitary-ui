@@ -1,4 +1,4 @@
-import { BarList } from "@/components/ui/charts/bar-list";
+import { BarList } from "@hustradio/unitary-ui";
 
 const pagesData = [
   { name: "/home", value: 123456 },

@@ -1,4 +1,4 @@
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 import { CircleArrowUp, Save } from "lucide-react";
 
 export function SplitButtonTitleWithIcon9D4D6961Example() {

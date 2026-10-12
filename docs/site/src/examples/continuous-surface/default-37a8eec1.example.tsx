@@ -1,7 +1,7 @@
 import { useId } from "react";
 
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
-import { superellipsePath } from "@/lib/continuous-corner";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
+import { superellipsePath } from "@hustradio/unitary-ui";
 
 const curves = [
   { label: "Circular · p=2", exponent: 2 },

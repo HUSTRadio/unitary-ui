@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
   const [count, setCount] = useState(3);

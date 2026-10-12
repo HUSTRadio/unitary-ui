@@ -16,10 +16,10 @@ import {
   Smartphone,
 } from "lucide-react";
 
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { Browser } from "@/components/ui/browser";
-import { Footer } from "@/components/ui/footer";
-import { HamburgerMenu } from "@/components/ui/hamburger-menu";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { Browser } from "@hustradio/unitary-ui";
+import { Footer } from "@hustradio/unitary-ui";
+import { HamburgerMenu } from "@hustradio/unitary-ui";
 import {
   MenuBar,
   MenuBarCheckboxItem,
@@ -28,13 +28,13 @@ import {
   MenuBarMenu,
   MenuBarSeparator,
   MenuBarTrigger,
-} from "@/components/ui/menu-bar";
-import { Navbar } from "@/components/ui/navbar";
-import { SidebarNav, type SidebarNavGroup } from "@/components/ui/sidebar-nav";
-import { SubFrame } from "@/components/ui/sub-frame";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
-import { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
-import { scrollIntoViewWithMotion, type ScrollAnimation } from "@/lib/scroll-animation";
+} from "@hustradio/unitary-ui";
+import { Navbar } from "@hustradio/unitary-ui";
+import { SidebarNav, type SidebarNavGroup } from "@hustradio/unitary-ui";
+import { SubFrame } from "@hustradio/unitary-ui";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
+import { Toolbar, ToolbarGroup, ToolbarItem } from "@hustradio/unitary-ui";
+import { scrollIntoViewWithMotion, type ScrollAnimation } from "@hustradio/unitary-ui";
 
 import type { DocsLanguage } from "../../i18n/language";
 import { DocsPageLead, DocsPageTitle } from "../docs-typography";

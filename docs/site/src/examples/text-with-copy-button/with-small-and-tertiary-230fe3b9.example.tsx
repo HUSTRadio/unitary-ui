@@ -1,4 +1,4 @@
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 
 export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
   return (

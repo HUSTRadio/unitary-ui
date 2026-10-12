@@ -1,4 +1,4 @@
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxSingleSelectF99FF34BExample() {

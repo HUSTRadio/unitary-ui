@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { NumberedPagination } from "@/components/ui/pagination";
-import { useI18n } from "@/lib/i18n";
+import { NumberedPagination } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function NumberedExample() {
   const [page, setPage] = useState(6);

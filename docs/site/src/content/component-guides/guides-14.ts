@@ -245,7 +245,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
+        "Theme Switcher 通过 @hustradio/unitary-ui 导出的 ThemeProvider 读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
         "本库不依赖 next-themes：公开 API 仅有 className / compact / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
         "需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。",
       ],
@@ -593,7 +593,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx); wrap the app in ThemeProvider once at the root without mirroring into local React state.",
+        "Theme Switcher reads from and writes to the framework's own ThemeProvider exported by @hustradio/unitary-ui; wrap the app in ThemeProvider once at the root without mirroring into local React state.",
         "The library does not depend on next-themes: the public API is just className / compact / disabled—there is no onChange callback or forcedTheme concept.",
         "To intercept theme changes (e.g. syncing with system settings), consume preference/setPreference from useTheme() directly instead of wrapping a callback.",
       ],

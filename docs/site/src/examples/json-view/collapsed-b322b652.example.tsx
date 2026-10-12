@@ -1,4 +1,4 @@
-import { JsonView } from "@/components/ui/json-view";
+import { JsonView } from "@hustradio/unitary-ui";
 
 export function JsonViewCollapsedB322B652Example() {
   const data = {

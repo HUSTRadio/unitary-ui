@@ -1,5 +1,5 @@
 import type * as React from "react";
-import { allowAutomaticPrefetch, createPrefetch, type PrefetchResource } from "@/lib/prefetch";
+import { createPrefetch, type PrefetchResource } from "@hustradio/unitary-ui";
 import { canonicalDocsPath, getDocsRoute } from "./docs-routes";
 
 // 导航预载与实际渲染共用同一资源，创建加载器列表不会下载页面。
@@ -45,7 +45,9 @@ export function getDocsPrefetchResource(path: string): PrefetchResource<void> | 
 /** 导航容器事件委托，兼容 SidebarNav、移动抽屉与概览链接。
  * Delegate intent from existing navigation links without changing their semantics. */
 export function prefetchDocsLink(event: React.SyntheticEvent<HTMLElement>) {
-  if (event.defaultPrevented || !allowAutomaticPrefetch() || !(event.target instanceof Element)) return;
+  const saveData = typeof navigator !== "undefined"
+    && (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  if (event.defaultPrevented || saveData || !(event.target instanceof Element)) return;
   const link = event.target.closest("a[href]");
   const href = link?.getAttribute("href");
   if (!href) return;

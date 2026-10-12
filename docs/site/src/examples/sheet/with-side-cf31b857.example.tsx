@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@hustradio/unitary-ui";
 
 export function SheetWithSideCF31B857Example() {
   const sides = ["top", "right", "bottom", "left"] as const;

@@ -1,4 +1,4 @@
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaRows101F2FF3Example() {
   return (

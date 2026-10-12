@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@hustradio/unitary-ui";
 
 export default function NavbarExample() {
   return (

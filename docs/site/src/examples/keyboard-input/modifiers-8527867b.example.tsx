@@ -1,4 +1,4 @@
-import { Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@hustradio/unitary-ui";
 
 export function KeyboardInputModifiers8527867BExample() {
   return (

@@ -1,4 +1,4 @@
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 
 export function DescriptionEllipsisB014A021Example() {
   return (

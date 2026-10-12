@@ -1,4 +1,4 @@
-import { ProgressCircle } from "@/components/ui/charts/progress-circle";
+import { ProgressCircle } from "@hustradio/unitary-ui";
 
 export function ProgressCircleDefault37A8EEC1Example() {
   return (

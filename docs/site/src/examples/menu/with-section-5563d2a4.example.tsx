@@ -6,7 +6,7 @@ import {
   MenuItem,
   MenuItemLocked,
   MenuSection,
-} from "@/components/ui/menu";
+} from "@hustradio/unitary-ui";
 
 export function MenuWithSection5563D2A4Example() {
   return (

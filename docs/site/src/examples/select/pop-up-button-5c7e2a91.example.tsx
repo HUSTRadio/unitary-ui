@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 /**
  * Pop-up Button（macOS NSPopUpButton）——Select 的 HIG 用法：

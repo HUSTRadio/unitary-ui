@@ -76,7 +76,7 @@ Page state drives masked, showing the real content regain interactivity after un
 ## Live Demo
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonDefaultWithSetWidthD6DD99FEExample() {
   return <Skeleton width={160} />;
@@ -86,7 +86,7 @@ export function SkeletonDefaultWithSetWidthD6DD99FEExample() {
 ## Default with box height
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonDefaultWithBoxHeight3D00A453Example() {
   return <Skeleton boxHeight={42} width={160} />;
@@ -96,8 +96,8 @@ export function SkeletonDefaultWithBoxHeight3D00A453Example() {
 ## Wrapping children
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonWrappingChildrenC2461A19Example() {
   return (
@@ -117,8 +117,8 @@ export function SkeletonWrappingChildrenC2461A19Example() {
 ## Wrapping children with fixed size
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonWrappingChildrenWithFixedSize94B70C1BExample() {
   return (
@@ -138,7 +138,7 @@ export function SkeletonWrappingChildrenWithFixedSize94B70C1BExample() {
 ## Pill
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonPill9945C78BExample() {
   return <Skeleton pill width={48} />;
@@ -148,7 +148,7 @@ export function SkeletonPill9945C78BExample() {
 ## Rounded
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonRounded0A62CD80Example() {
   return <Skeleton boxHeight={48} height={48} rounded width={48} />;
@@ -158,7 +158,7 @@ export function SkeletonRounded0A62CD80Example() {
 ## Squared
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonSquared053B9038Example() {
   return <Skeleton boxHeight={48} height={48} squared width={48} />;
@@ -168,7 +168,7 @@ export function SkeletonSquared053B9038Example() {
 ## No animation
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonNoAnimation8DF7155EExample() {
   return (
@@ -188,8 +188,8 @@ With button prop (extends animation by 1px):
 Multiple buttons loading:
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonButton707EAB0CExample() {
   return (
@@ -233,8 +233,8 @@ Lena Roy
 Staff engineer · Berlin
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton";
-import { SkeletonMask } from "@/components/ui/skeleton-mask";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { SkeletonMask } from "@hustradio/unitary-ui";
 
 /**
  * SkeletonMask 用法：把「骨架模板」和「真实内容」一起交给它，由 masked 决定显示哪一侧。
@@ -286,9 +286,9 @@ Oil Filters$2,000.00
 Car Batteries$5,000.00
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SkeletonMask } from "@/components/ui/skeleton-mask";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { SkeletonMask } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 const ROWS = [
@@ -356,7 +356,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Skeleton, SkeletonMask } from "@/components/ui/skeleton";
+import { Skeleton, SkeletonMask } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

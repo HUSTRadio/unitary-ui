@@ -62,8 +62,8 @@ Showcases the success-type toast (green indicator) indicating an operation compl
 ## Live Demo
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastDefault21B111CBExample() {
   const toasts = useToasts();
@@ -84,8 +84,8 @@ export function ToastDefault21B111CBExample() {
 ## Multi-line
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastMultiLine15F3E22CExample() {
   const toasts = useToasts();
@@ -110,8 +110,8 @@ export function ToastMultiLine15F3E22CExample() {
 ## With jsx
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWithJsx76A6D122Example() {
   const toasts = useToasts();
@@ -141,8 +141,8 @@ export function ToastWithJsx76A6D122Example() {
 ## With a link
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWithALink1C527727Example() {
   const toasts = useToasts();
@@ -179,8 +179,8 @@ export function ToastWithALink1C527727Example() {
 ## Preserve
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastPreserve25DFADC0Example() {
   const toasts = useToasts();
@@ -206,9 +206,9 @@ Rabbit position: behind the fence.
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const COPY = {
   en: {
@@ -260,9 +260,9 @@ Rabbit position: behind the fence.
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const COPY = {
   en: {
@@ -312,8 +312,8 @@ export function ToastUndoA8283ADEExample() {
 ## Success
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastSuccessC88A0B90Example() {
   const toasts = useToasts();
@@ -334,8 +334,8 @@ export function ToastSuccessC88A0B90Example() {
 ## Warning
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWarningE981DDAEExample() {
   const toasts = useToasts();
@@ -356,8 +356,8 @@ export function ToastWarningE981DDAEExample() {
 ## Error
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastError54A0E8C1Example() {
   const toasts = useToasts();
@@ -382,7 +382,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Toasts, useToasts, createToastStore } from "@/components/ui/toast";
+import { Toasts, useToasts, createToastStore } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

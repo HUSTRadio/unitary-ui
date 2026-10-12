@@ -1,4 +1,4 @@
-import { CustomButton } from "@/components/ui/button";
+import { CustomButton } from "@hustradio/unitary-ui";
 
 export function ButtonCustom6CDFD271Example() {
   return (

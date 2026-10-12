@@ -1,4 +1,4 @@
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 4400, profit: 2605 },

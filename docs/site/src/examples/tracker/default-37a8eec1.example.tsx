@@ -1,4 +1,4 @@
-import { Tracker } from "@/components/ui/charts/tracker";
+import { Tracker } from "@hustradio/unitary-ui";
 
 function createRandomData(days: number) {
   const colors = ["emerald", "amber", "rose"] as const;

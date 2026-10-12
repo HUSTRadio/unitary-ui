@@ -66,7 +66,7 @@ Some menu items are disabled due to permissions or conditions, while others rema
 ## Live Demo
 
 ```tsx
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem } from "@hustradio/unitary-ui";
 
 export function DotsMenuDefault37A8EEC1Example() {
   return (
@@ -82,7 +82,7 @@ export function DotsMenuDefault37A8EEC1Example() {
 ## Sizes
 
 ```tsx
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem } from "@hustradio/unitary-ui";
 
 export function DotsMenuSizes7C69F3FAExample() {
   return (
@@ -110,7 +110,7 @@ export function DotsMenuSizes7C69F3FAExample() {
 ## Disabled
 
 ```tsx
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem } from "@hustradio/unitary-ui";
 
 export function DotsMenuDisabled17EB3C01Example() {
   return (
@@ -126,7 +126,7 @@ export function DotsMenuDisabled17EB3C01Example() {
 ## Disabled menu item
 
 ```tsx
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem } from "@hustradio/unitary-ui";
 
 export function DotsMenuDisabledMenuItem717ABAD2Example() {
   return (
@@ -146,7 +146,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
+import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

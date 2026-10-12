@@ -1,8 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Kbd } from "@/components/ui/keyboard-input";
-import { Spinner } from "@/components/ui/spinner";
-import { Tooltip } from "@/components/ui/tooltip";
+import { Badge } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Kbd } from "@hustradio/unitary-ui";
+import { Spinner } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipComponentsA150CE22Example() {
   return (

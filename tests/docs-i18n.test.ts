@@ -24,7 +24,7 @@ describe("docs language support", () => {
   it("bridges the docs language state into framework component translations", () => {
     const source = readFileSync(resolve(process.cwd(), "docs/site/src/i18n/language.tsx"), "utf8");
 
-    expect(source).toContain('import { I18nProvider } from "@/lib/i18n"');
+    expect(source).toContain('import { I18nProvider } from "@hustradio/unitary-ui"');
     expect(source).toContain('<I18nProvider locale={language === "zh-CN" ? "zh-CN" : "en"}>');
   });
 

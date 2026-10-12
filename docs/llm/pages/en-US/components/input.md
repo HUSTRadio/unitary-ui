@@ -65,7 +65,7 @@ Correct usage paired with a visible label; the component associates the label an
 ## Live Demo
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputDefault37A8EEC1Example() {
   return (
@@ -85,7 +85,7 @@ https://.com
 unitary/
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 import { ArrowUpCircle } from "lucide-react";
 
 export function InputPrefixAndSuffix99076368Example() {
@@ -114,7 +114,7 @@ export function InputPrefixAndSuffix99076368Example() {
 https://.com
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 import { ArrowUpCircle } from "lucide-react";
 
 export function InputDisabled17EB3C01Example() {
@@ -154,7 +154,7 @@ An error message.
 An error message.
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputErrorCA00FCCFExample() {
   return (
@@ -172,7 +172,7 @@ export function InputErrorCA00FCCFExample() {
 Label
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputLabel1ACA80E8Example() {
   return <Input label="Label" placeholder="Label" />;
@@ -184,7 +184,7 @@ export function InputLabel1ACA80E8Example() {
 www..com
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputRoundedPrefixAndSuffix04A5C184Example() {
   return <Input rounded prefix="www." suffix=".com" placeholder="Label example" />;
@@ -196,7 +196,7 @@ export function InputRoundedPrefixAndSuffix04A5C184Example() {
 www..com
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputRoundedPrefixAndSuffixWithoutStyling437B8F06Example() {
   return (
@@ -215,7 +215,7 @@ export function InputRoundedPrefixAndSuffixWithoutStyling437B8F06Example() {
 ## States
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputStates2F6E9DAEExample() {
   return (
@@ -235,7 +235,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `InputHTMLAttributes<HTMLInputElement>`

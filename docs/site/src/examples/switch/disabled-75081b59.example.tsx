@@ -1,4 +1,4 @@
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchDisabled75081B59Example() {
   return (

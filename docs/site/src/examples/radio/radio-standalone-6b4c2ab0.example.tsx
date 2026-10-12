@@ -1,4 +1,4 @@
-import { Radio } from "@/components/ui/radio";
+import { Radio } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function RadioRadioStandalone6B4C2AB0Example() {

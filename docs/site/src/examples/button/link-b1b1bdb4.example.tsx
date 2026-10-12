@@ -1,4 +1,4 @@
-import { ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@hustradio/unitary-ui";
 
 export function ButtonLinkB1B1BDB4Example() {
   return (

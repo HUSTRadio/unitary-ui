@@ -1,0 +1,9 @@
+{
+  "name": "@hustradio/unitary-ui",
+  "versions": {
+    "0.1.0-beta.0": {
+      "integrity": "sha512-L9r/G7JdAtniNz53Bfe3vNPjrvH3mAZOWv7FZISIF5LC9fYeqZ/j4dx/C1OieSUfBYAASIvzDtcT912AFwJEtQ==",
+      "provenance": "https://registry.npmjs.org/-/npm/v1/attestations/@hustradio%2funitary-ui@0.1.0-beta.0"
+    }
+  }
+}

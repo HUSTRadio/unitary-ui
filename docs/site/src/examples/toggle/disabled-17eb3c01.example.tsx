@@ -1,4 +1,4 @@
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleDisabled17EB3C01Example() {
   return (

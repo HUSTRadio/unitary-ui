@@ -59,7 +59,7 @@ Not applicable: Relative Time Card formats the supplied date at render time and 
 5m ago
 
 ```tsx
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+import { RelativeTimeCard } from "@hustradio/unitary-ui";
 
 export function RelativeTimeCardDefault21B111CBExample() {
   return <RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />;
@@ -73,7 +73,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+import { RelativeTimeCard } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

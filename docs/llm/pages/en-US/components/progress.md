@@ -62,7 +62,7 @@ Demonstrates marking specific milestone nodes on the progress bar, suitable for 
 ## Live Demo
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressCustomMax6AE46D08Example() {
   return <Progress value={30} max={40} aria-label="Progress 30 of 40" />;
@@ -75,8 +75,8 @@ export function ProgressCustomMax6AE46D08Example() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { Button } from "@hustradio/unitary-ui";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressDynamicColors88E87705Example() {
   const [value, setValue] = useState(0);
@@ -112,7 +112,7 @@ export function ProgressDynamicColors88E87705Example() {
 ## Themed
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressThemed489AC184Example() {
   return (
@@ -129,7 +129,7 @@ export function ProgressThemed489AC184Example() {
 ## With Stops
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressWithStops45480676Example() {
   return (
@@ -152,7 +152,7 @@ export function ProgressWithStops45480676Example() {
 ## Widths
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressWidthsB33DD987Example() {
   return (
@@ -170,7 +170,7 @@ export function ProgressWidthsB33DD987Example() {
 ## Heights
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressHeights9E0B6320Example() {
   return (
@@ -203,7 +203,7 @@ bottom-center
 bottom-right
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressLabelPositionsF2E2D4C4Example() {
   return (
@@ -253,9 +253,9 @@ export function ProgressLabelPositionsF2E2D4C4Example() {
 Animated transition
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Toggle } from "@/components/ui/toggle";
+import { Progress } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Toggle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ProgressDynamicB6EE7B3EExample() {
@@ -301,7 +301,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

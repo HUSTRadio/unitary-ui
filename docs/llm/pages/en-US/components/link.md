@@ -53,7 +53,7 @@ Not applicable: Link is a stateless native-anchor wrapper; href and the browser 
 [Button documentation](#/components/button)[GitHub repository](https://github.com/HUSTRadio/unitary-ui)[GitLab repository](https://gitlab.com/gitlab-org/gitlab)[MDN Web Docs](https://developer.mozilla.org)
 
 ```tsx
-import { Link } from "@/components/ui/link";
+import { Link } from "@hustradio/unitary-ui";
 
 export function LinkDefault37A8EEC1Example() {
   return (
@@ -74,7 +74,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Link } from "@/components/ui/link";
+import { Link } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ComponentProps<"a">`

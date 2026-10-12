@@ -64,7 +64,7 @@ toggle
 ## 实时示例
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ToggleDefault37A8EEC1Example() {
@@ -91,7 +91,7 @@ export function ToggleDefault37A8EEC1Example() {
 ## 禁用
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleDisabled17EB3C01Example() {
   return (
@@ -106,7 +106,7 @@ export function ToggleDisabled17EB3C01Example() {
 ## 尺寸
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleSizes7C69F3FAExample() {
   return (
@@ -122,7 +122,7 @@ export function ToggleSizes7C69F3FAExample() {
 ## 自定义颜色
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
@@ -189,7 +189,7 @@ Enable FirewallEnable Firewall
 Enable FirewallEnable Firewall
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
@@ -279,7 +279,7 @@ export function ToggleWithLabelBB9F6883Example() {
 导入
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

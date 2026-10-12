@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Note, NoteAction, NoteContent } from "@/components/ui/note";
+import { Button } from "@hustradio/unitary-ui";
+import { Note, NoteAction, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteAction64CFF131Example() {
   const [message, setMessage] = useState("");

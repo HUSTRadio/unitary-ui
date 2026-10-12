@@ -1,6 +1,6 @@
 {
   "name": "@hustradio/unitary-ui",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Unitary — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
   "keywords": [
     "components",
@@ -47,6 +47,7 @@
       "require": "./dist/unitary-ui.cjs"
     },
     "./styles.css": "./dist/unitary-ui.css",
+    "./tailwind-reference.css": "./dist/tailwind-reference.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -58,11 +59,14 @@
     "build": "node scripts/run-locked-script.mjs build",
     "build:lib": "node scripts/run-locked-script.mjs build:lib",
     "build:docs": "node scripts/run-locked-script.mjs build:docs",
+    "build:docs:registry": "node scripts/run-locked-script.mjs build:docs:registry",
+    "test:docs:package": "node scripts/run-locked-script.mjs test:docs:package",
     "lint": "node scripts/run-locked-script.mjs lint",
     "test": "node scripts/run-locked-script.mjs test",
     "verify": "node scripts/run-locked-script.mjs verify",
     "preview": "vite preview",
     "typecheck": "node scripts/run-locked-script.mjs typecheck",
+    "typecheck:docs": "node scripts/run-locked-script.mjs typecheck:docs",
     "tokens:generate": "node scripts/run-locked-script.mjs tokens:generate",
     "tokens:check": "node scripts/run-locked-script.mjs tokens:check",
     "typecheck:tests": "node scripts/run-locked-script.mjs typecheck:tests",

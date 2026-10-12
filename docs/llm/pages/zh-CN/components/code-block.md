@@ -82,7 +82,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockDefault37A8EEC1Example() {
   const code = `// Usage:
@@ -120,7 +120,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockNoFilenameC9029DC2Example() {
   const code = `function MyComponent(props) {
@@ -156,7 +156,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockHighlightedLines610E38F8Example() {
   const code = `function MyComponent(props) {
@@ -195,7 +195,7 @@ module.exports = {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockAddedRemovedLinesED9789E1Example() {
   const code = `module.exports = {
@@ -232,7 +232,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockReferencedLines009BBC04Example() {
   const code = `function MyComponent(props) {
@@ -267,7 +267,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 const code = `function MyComponent(props) {
@@ -355,7 +355,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 const code = `function MyComponent(props) {
@@ -444,7 +444,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockHiddenLineNumbers3831A2F1Example() {
   const code = `function MyComponent(props) {
@@ -502,7 +502,7 @@ function MyComponent(props) {
 [在此处打开在 v0 中打开](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20%20%20return%20(%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20)%3B%0A%20%20%7D>)
 
 ```tsx
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockOpenInV0CA6FBF0AExample() {
   const code = `function MyComponent(props) {
@@ -534,7 +534,7 @@ export function CodeBlockOpenInV0CA6FBF0AExample() {
 导入
 
 ```tsx
-import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/code-block";
+import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

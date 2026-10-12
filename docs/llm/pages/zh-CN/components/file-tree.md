@@ -60,7 +60,7 @@ file-tree
 - public
 
 ```tsx
-import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
+import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@hustradio/unitary-ui";
 
 export function FileTreeDefault21B111CBExample() {
   return (
@@ -91,7 +91,7 @@ export function FileTreeDefault21B111CBExample() {
 导入
 
 ```tsx
-import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@/components/ui/file-tree";
+import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

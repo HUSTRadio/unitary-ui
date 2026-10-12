@@ -56,7 +56,7 @@ customTooltip 输出自定义样式的数值卡。
 - precipitation
 
 ```tsx
-import { LineChart } from "@/components/ui/charts/line-chart";
+import { LineChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },
@@ -88,7 +88,7 @@ export function LineChartDefault37A8EEC1Example() {
 - precipitation
 
 ```tsx
-import { LineChart, type TooltipProps } from "@/components/ui/charts/line-chart";
+import { LineChart, type LineChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },
@@ -134,7 +134,7 @@ export function LineChartCustomTooltip4D7B2E8AExample() {
 导入
 
 ```tsx
-import { LineChart } from "@/components/ui/line-chart";
+import { LineChart } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

@@ -64,7 +64,7 @@ checkbox
 Option 1
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function CheckboxDefault37A8EEC1Example() {
@@ -83,7 +83,7 @@ export function CheckboxDefault37A8EEC1Example() {
 DisabledDisabled CheckedDisabled Indeterminate
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 
 export function CheckboxDisabled17EB3C01Example() {
   return (
@@ -105,7 +105,7 @@ export function CheckboxDisabled17EB3C01Example() {
 Indeterminate (partial selection)CheckedUnchecked
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 
 export function CheckboxIndeterminateD5DB1EBAExample() {
   return (
@@ -134,7 +134,7 @@ export function CheckboxIndeterminateD5DB1EBAExample() {
 导入
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

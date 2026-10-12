@@ -1,4 +1,4 @@
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { Triangle } from "lucide-react";
 
 export function ComboboxWithPrefixIcons033AD1CBExample() {

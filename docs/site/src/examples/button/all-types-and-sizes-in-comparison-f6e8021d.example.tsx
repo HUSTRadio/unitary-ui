@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonAllTypesAndSizesInComparisonF6E8021DExample() {
   return (

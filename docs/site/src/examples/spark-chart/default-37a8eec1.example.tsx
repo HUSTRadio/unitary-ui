@@ -2,7 +2,7 @@ import {
   SparkAreaChart,
   SparkBarChart,
   SparkLineChart,
-} from "@/components/ui/charts/spark-chart";
+} from "@hustradio/unitary-ui";
 
 const visitorsData = [
   { month: "Jan", visitors: 3911 },

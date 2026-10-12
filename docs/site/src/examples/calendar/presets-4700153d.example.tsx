@@ -1,4 +1,4 @@
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarPresets4700153DExample() {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HamburgerMenu } from "@/components/ui/hamburger-menu";
+import { HamburgerMenu } from "@hustradio/unitary-ui";
 
 const items = [
   { label: "Overview", to: "/overview" },

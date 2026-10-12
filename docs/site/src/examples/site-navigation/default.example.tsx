@@ -1,4 +1,4 @@
-import { SiteNavigation } from "@/components/ui/site-navigation";
+import { SiteNavigation } from "@hustradio/unitary-ui";
 
 export default function SiteNavigationExample() {
   return (

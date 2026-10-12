@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetCallback32E8D276Example() {
   const [message, setMessage] = useState("");

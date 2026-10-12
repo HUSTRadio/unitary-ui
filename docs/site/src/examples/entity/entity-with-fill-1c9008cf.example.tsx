@@ -1,4 +1,4 @@
-import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity";
+import { Entity, EntityContent, EntityDescription } from "@hustradio/unitary-ui";
 
 export function EntityEntityWithFill1C9008CFExample() {
   return (

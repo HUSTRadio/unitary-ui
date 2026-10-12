@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 import { Shield } from "lucide-react";
 
 export function BadgeWithIcons1F71F4BCExample() {

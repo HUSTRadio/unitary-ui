@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 import { ArrowUpCircle } from "lucide-react";
 
 export function SelectPrefixAndSuffix99076368Example() {

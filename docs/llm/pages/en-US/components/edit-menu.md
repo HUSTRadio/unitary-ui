@@ -59,7 +59,7 @@ Long-press or drag to select text, then use the capsule actions.
 ```tsx
 import * as React from "react";
 
-import { EditMenu } from "@/components/ui/edit-menu";
+import { EditMenu } from "@hustradio/unitary-ui";
 
 const INITIAL_TEXT =
   "Select any words in this sentence to reveal the floating edit capsule above the selection.";
@@ -119,7 +119,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { EditMenu } from "@/components/ui/edit-menu";
+import { EditMenu } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

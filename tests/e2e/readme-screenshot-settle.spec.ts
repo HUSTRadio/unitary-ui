@@ -1,4 +1,4 @@
-import { chromium, expect, test } from "@playwright/test";
+import { chromium, expect, test, type Page } from "@playwright/test";
 import {
   createCapturePage,
   settle,
@@ -6,13 +6,14 @@ import {
   stopPreview,
 } from "../../scripts/capture-readme-screenshots.mjs";
 import { cleanupReadmePreview } from "../../scripts/lib/readme-preview.mjs";
+import { motionFeaturesRequest } from "./docs-artifact";
 
 test("README production preview renders the real styleguide with the capture browser", async () => {
   const preview = await startPreview();
   let browser;
   try {
     browser = await chromium.launch();
-    const page = await createCapturePage(browser);
+    const page: Page = await createCapturePage(browser);
     const requests: string[] = [];
     page.on("request", (request) => requests.push(request.url()));
     await page.goto(preview.url, { waitUntil: "networkidle", timeout: 120_000 });
@@ -58,13 +59,13 @@ for (const theme of ["light", "dark"]) {
     browser,
     baseURL,
   }) => {
-    const page = await createCapturePage(browser);
+    const page: Page = await createCapturePage(browser);
     let release!: () => void;
     const ready = new Promise<void>((resolve) => {
       release = resolve;
     });
     let featuresRequested = false;
-    await page.route("**/src/lib/motion-features.ts*", async (route) => {
+    await page.route(motionFeaturesRequest(), async (route) => {
       featuresRequested = true;
       await ready;
       await route.continue();

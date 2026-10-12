@@ -68,8 +68,8 @@ Forest
 Image 1 of 3
 
 ```tsx
-import { Carousel } from "@/components/ui/carousel";
-import { useI18n } from "@/lib/i18n";
+import { Carousel } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselExample() {
   const { locale } = useI18n();
@@ -113,9 +113,9 @@ Image 1 of 3
 
 ```tsx
 import { useState } from "react";
-import { Carousel, type CarouselVariant } from "@/components/ui/carousel";
-import { Select, SelectItem } from "@/components/ui/select";
-import { useI18n } from "@/lib/i18n";
+import { Carousel, type CarouselVariant } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselVariantsExample() {
   const { locale } = useI18n();
@@ -152,7 +152,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Carousel } from "@/components/ui/carousel";
+import { Carousel } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `Omit<ComponentProps<"div">, "children" | "onChange">`

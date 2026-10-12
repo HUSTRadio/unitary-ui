@@ -1,4 +1,4 @@
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputDefault37A8EEC1Example() {

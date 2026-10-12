@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 import { ArrowUpCircle } from "lucide-react";
 
 export function InputDisabled17EB3C01Example() {

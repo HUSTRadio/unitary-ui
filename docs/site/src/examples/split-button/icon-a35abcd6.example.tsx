@@ -1,4 +1,4 @@
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 import { ExternalLink, Rocket } from "lucide-react";
 
 export function SplitButtonIconA35ABCD6Example() {

@@ -51,7 +51,7 @@ Not applicable: CopyButton colors and styles automatically adapt to the current 
 Click to copy “lipsum”
 
 ```tsx
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@hustradio/unitary-ui";
 
 export function CopyButtonDefault21B111CBExample() {
   return (
@@ -70,7 +70,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ButtonHTMLAttributes<HTMLButtonElement>`

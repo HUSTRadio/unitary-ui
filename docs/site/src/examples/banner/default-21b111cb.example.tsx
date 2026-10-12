@@ -1,4 +1,4 @@
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@hustradio/unitary-ui";
 
 export function BannerDefault21B111CBExample() {
   return (

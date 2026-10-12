@@ -1,4 +1,4 @@
-import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/avatar";
+import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@hustradio/unitary-ui";
 
 export function AvatarGitB949C922Example() {
   return (

@@ -57,7 +57,7 @@ Not applicable: Pill does not store selection; the parent updates state in onCli
 ## Live Demo
 
 ```tsx
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function PillDefault21B111CBExample() {
@@ -87,7 +87,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

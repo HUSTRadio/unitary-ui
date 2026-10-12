@@ -22,7 +22,7 @@ A two-dimensional layout system with guide lines, cells, crosses, and breakpoint
 A Grid without cells renders only its guide lines. Set height so the empty surface stays visible.
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGrid0D7D12ACExample() {
   return (
@@ -50,7 +50,7 @@ Cells without explicit placement flow into the tracks in DOM order.
 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridBasicGrid278AA3F9Example() {
   return (
@@ -89,7 +89,7 @@ G
 H
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridSolidCellsE676560CExample() {
   return (
@@ -130,7 +130,7 @@ columns and rows accept responsive objects; give values for sm, md, and lg expli
 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridResponsiveGrid8DF1FB3EExample() {
   return (
@@ -167,7 +167,7 @@ Feature
 8
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridResponsiveGuideClippingA58874D5Example() {
   return (
@@ -197,7 +197,7 @@ export function GridResponsiveGuideClippingA58874D5Example() {
 hideGuides="row" removes the horizontal guide borders.
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridHiddenRowGuides59338B9FExample() {
   return (
@@ -213,7 +213,7 @@ export function GridHiddenRowGuides59338B9FExample() {
 hideGuides="column" removes the vertical guide borders.
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridHiddenColumnGuidesE1033A1BExample() {
   return (
@@ -233,7 +233,7 @@ A
 B
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridOverlayingCellsB9F603D6Example() {
   return (
@@ -269,7 +269,7 @@ Use explicit line ranges ("a/b") to clip exactly the guides under a span.
 5 + 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridSpecificGuideClipping4F529B64Example() {
   return (
@@ -306,7 +306,7 @@ GridCross marks an intersection of grid lines.
 6
 
 ```tsx
-import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGridWithCross6A783E1BExample() {
   return (
@@ -347,7 +347,7 @@ Inside a GridSystem with dashedGuides, crosses render dashed as well.
 6
 
 ```tsx
-import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridDashedGridWithCrossB76B6591Example() {
   return (
@@ -374,7 +374,7 @@ export function GridDashedGridWithCrossB76B6591Example() {
 GridPage wraps the grid in a page-level background-200 surface and centers it horizontally — with dashedGuides the guides are drawn dashed.
 
 ```tsx
-import { Grid, GridPage as GridPageFrame, GridSystem } from "@/components/ui/grid";
+import { Grid, GridPage as GridPageFrame, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridDashedGridWithGridPageFA2E79AFExample() {
   return (
@@ -394,7 +394,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

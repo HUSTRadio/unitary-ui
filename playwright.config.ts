@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
+const artifactMode = Boolean(process.env.UNITARY_DOCS_ARTIFACT);
+
 /**
  * docs 布局审计 harness（计划任务 11）。
  * dev server 由 webServer 托管：本 worktree 专用端口 5211，
@@ -31,13 +33,15 @@ export default defineConfig({
   webServer: {
     // vp（vite-plus@0.x）是单点依赖：启动失败时回退到原生 vite dev
     command:
-      "vp dev docs --host 127.0.0.1 --port 5211 --strictPort || vite dev docs --host 127.0.0.1 --port 5211 --strictPort",
+      artifactMode
+        ? "node scripts/serve-docs-artifact.mjs"
+        : "vp dev docs --host 127.0.0.1 --port 5211 --strictPort || vite dev docs --host 127.0.0.1 --port 5211 --strictPort",
     cwd: process.cwd(),
     url: "http://127.0.0.1:5211",
     // 默认仍由 Playwright 独占启动/回收（审计的确定性）；本地迭代视觉核查时
     // 先手动起一个常驻 5211 dev server，再用 PW_REUSE_SERVER=1 复用，
     // 省去每次 ~1min 的 vite 冷启动。
-    reuseExistingServer: process.env.PW_REUSE_SERVER === "1",
+    reuseExistingServer: !artifactMode && process.env.PW_REUSE_SERVER === "1",
     timeout: 120_000,
   },
 });

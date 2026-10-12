@@ -61,7 +61,7 @@ Demonstrates the error state with a red border and inline validation message dis
 ## Live Demo
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaDefault37A8EEC1Example() {
   return (
@@ -76,7 +76,7 @@ export function TextareaDefault37A8EEC1Example() {
 ## Disabled
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaDisabled17EB3C01Example() {
   return (
@@ -98,7 +98,7 @@ There has been an error.
 There has been an error.
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaError54A0E8C1Example() {
   const LOREM_IPSUM =
@@ -132,7 +132,7 @@ export function TextareaError54A0E8C1Example() {
 ## Sizes
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaSizes74A3978DExample() {
   const LOREM_IPSUM =
@@ -151,7 +151,7 @@ export function TextareaSizes74A3978DExample() {
 ## Read Only
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaReadOnlyCA104850Example() {
   const LOREM_IPSUM =
@@ -168,7 +168,7 @@ export function TextareaReadOnlyCA104850Example() {
 ## Rows
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaRows101F2FF3Example() {
   return (
@@ -190,7 +190,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `TextareaHTMLAttributes<HTMLTextAreaElement>`

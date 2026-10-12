@@ -52,7 +52,7 @@ status-dot
 ## 实时示例
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 
 export function StatusDotDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ export function StatusDotDefault21B111CBExample() {
 排队中构建中错误就绪已取消
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 
 export function StatusDotLabel0E66373FExample() {
   return (
@@ -94,7 +94,7 @@ export function StatusDotLabel0E66373FExample() {
 导入
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot";
+import { StatusDot } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

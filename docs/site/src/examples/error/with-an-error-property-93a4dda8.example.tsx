@@ -1,4 +1,4 @@
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorWithAnErrorProperty93A4DDA8Example() {
   return (

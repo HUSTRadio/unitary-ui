@@ -59,7 +59,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 
 ```tsx
 import { useState } from "react";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
+import { SidebarNav } from "@hustradio/unitary-ui";
 
 const groups = [
   {
@@ -95,12 +95,12 @@ export default function SidebarNavExample() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { SidebarNav } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@hustradio/unitary-ui";
 
 export default function SidebarNavScrollTrackingExample() {
   const { locale } = useI18n();
@@ -219,9 +219,11 @@ export default function SidebarNavScrollTrackingExample() {
 导入
 
 ```tsx
-import { SidebarNav } from "@/components/ui/sidebar-nav";
+import { SidebarNav, NAV_CONTENT_INSET } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调
 
 <table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">groups</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SidebarNavGroup[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">导航分组和链接。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">activeTo</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">当前活动条目的路径。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onNavigate</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(to: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">拦截无修饰键的链接激活；修饰键点击仍走原生导航。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">side</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"left" | "right"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">右侧形态增加左分隔线。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"left"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">collapsible</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">允许分组标题切换展开状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">persistKey</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">提供时将折叠状态保存在 localStorage。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">scrollTracking</code><span data-slot="docs-api-extension-badge" class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled" | "on-reload" | "always"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在最近纵向滚动容器顶部下方对齐所选目标，首选 16px 留白；若会露出前方文字或图标，按 spacing 尺度缩小。on-reload 在挂载后执行一次，always 在进入该模式、activeTo 或 scrollTrackingTarget 变化时执行。类型为 ScrollTrackingMode；受滚动边界限制，仍可手动滚动。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">scrollTrackingTarget</code><span data-slot="docs-api-extension-badge" class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"item" | "category"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">选择当前链接或所属二级分类小标题；category 在没有 subgroups 时使用一级分组标题。类型为 SidebarNavScrollTrackingTarget。文档侧栏使用 category + on-reload。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"item"</td></tr></tbody></table>
+
+NAV\_CONTENT\_INSET 是共用的 px-6 py-4 类名字符串：默认 spacing 尺度下水平留白 24px、垂直留白 16px。将其应用于调用方拥有的 SidebarNav 滚动容器，使内容留白与 HamburgerMenu 一致。

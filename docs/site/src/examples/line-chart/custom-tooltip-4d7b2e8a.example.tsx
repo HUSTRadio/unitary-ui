@@ -1,4 +1,4 @@
-import { LineChart, type TooltipProps } from "@/components/ui/charts/line-chart";
+import { LineChart, type LineChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },

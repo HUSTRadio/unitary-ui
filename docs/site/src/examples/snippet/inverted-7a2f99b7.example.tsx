@@ -1,4 +1,4 @@
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetInverted7A2F99B7Example() {
   return (

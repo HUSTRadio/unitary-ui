@@ -53,7 +53,7 @@ video
 ## 实时示例
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoDefault37A8EEC1Example() {
   return (
@@ -67,7 +67,7 @@ export function VideoDefault37A8EEC1Example() {
 ## 不循环
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoNoLoopAE976739Example() {
   return (
@@ -81,7 +81,7 @@ export function VideoNoLoopAE976739Example() {
 ## 无控件
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoNoControlsA3B62E68Example() {
   return (
@@ -99,7 +99,7 @@ export function VideoNoControlsA3B62E68Example() {
 导入
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`VideoHTMLAttributes<HTMLVideoElement>`

@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@hustradio/unitary-ui";
 import { Bell } from "lucide-react";
 
 /**

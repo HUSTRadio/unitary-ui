@@ -67,7 +67,7 @@ import {
   MultiSelectRoot,
   MultiSelectRow,
   MultiSelectTrigger,
-} from "@/components/ui/multi-select";
+} from "@hustradio/unitary-ui";
 
 export function MultiSelectSelectActionsC10A8A49Example() {
   const actionItems = [
@@ -141,7 +141,7 @@ import {
   MultiSelectRoot,
   MultiSelectRow,
   MultiSelectTrigger,
-} from "@/components/ui/multi-select";
+} from "@hustradio/unitary-ui";
 
 export function MultiSelectKeyboardNavigationE44E91F8Example() {
   const keyboardShortcuts = [
@@ -217,7 +217,7 @@ import {
   MultiSelectRoot,
   MultiSelectRow,
   MultiSelectTrigger,
-} from "@/components/ui/multi-select";
+} from "@hustradio/unitary-ui";
 
 export function MultiSelectControlledStateAE611285Example() {
   const controlledItems = [
@@ -328,7 +328,7 @@ import {
   MultiSelectTrigger,
   MultiSelectContent,
   MultiSelectRow,
-} from "@/components/ui/multi-select";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

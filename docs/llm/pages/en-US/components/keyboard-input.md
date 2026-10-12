@@ -63,7 +63,7 @@ Not applicable: The Kbd component itself does not implement responsive layout lo
 
 
 ```tsx
-import { Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@hustradio/unitary-ui";
 
 export function KeyboardInputModifiers8527867BExample() {
   return (
@@ -82,7 +82,7 @@ export function KeyboardInputModifiers8527867BExample() {
 
 
 ```tsx
-import { Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@hustradio/unitary-ui";
 
 export function KeyboardInputCombination5F3258EAExample() {
   return <Kbd meta shift />;
@@ -94,7 +94,7 @@ export function KeyboardInputCombination5F3258EAExample() {
 /
 
 ```tsx
-import { Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@hustradio/unitary-ui";
 
 export function KeyboardInputSmall81DB8EBBExample() {
   return <Kbd small>/</Kbd>;
@@ -106,7 +106,7 @@ export function KeyboardInputSmall81DB8EBBExample() {
 K
 
 ```tsx
-import { Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@hustradio/unitary-ui";
 
 export function KeyboardInputPlainCommand4E2140C6Example() {
   return (
@@ -124,7 +124,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
+import { KeyboardInput, Kbd } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

@@ -45,7 +45,7 @@ async function preflight() {
   const packument = await readPackument();
   const input = { event, manifest, onMaster: ancestor.status === 0, packument };
   const mode = beta ? validateBeta({ ...input, ref: process.env.GITHUB_REF }) : validateRelease(input);
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `mode=${mode}\nsha=${sha}\ntag=${tag}\nfilename=hustradio-unitary-ui-${manifest.version}.tgz\n`);
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `mode=${mode}\nsha=${sha}\nversion=${manifest.version}\ntag=${tag}\nfilename=hustradio-unitary-ui-${manifest.version}.tgz\n`);
   console.log(`Release preflight passed: ${manifest.name}@${manifest.version} (${mode})`);
 }
 

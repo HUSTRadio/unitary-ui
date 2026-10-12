@@ -1,4 +1,4 @@
-import { Grid, GridPage as GridPageFrame, GridSystem } from "@/components/ui/grid";
+import { Grid, GridPage as GridPageFrame, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridDashedGridWithGridPageFA2E79AFExample() {
   return (

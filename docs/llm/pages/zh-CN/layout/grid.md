@@ -22,7 +22,7 @@
 没有单元格的 Grid 只渲染辅助线。设置 height 让空表面保持可见。
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGrid0D7D12ACExample() {
   return (
@@ -50,7 +50,7 @@ export function GridGrid0D7D12ACExample() {
 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridBasicGrid278AA3F9Example() {
   return (
@@ -89,7 +89,7 @@ G
 H
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridSolidCellsE676560CExample() {
   return (
@@ -130,7 +130,7 @@ columns 和 rows 接受响应式对象；请为 sm、md、lg 显式给值。
 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridResponsiveGrid8DF1FB3EExample() {
   return (
@@ -167,7 +167,7 @@ Feature
 8
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridResponsiveGuideClippingA58874D5Example() {
   return (
@@ -197,7 +197,7 @@ export function GridResponsiveGuideClippingA58874D5Example() {
 hideGuides="row" 移除水平方向的辅助线边框。
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridHiddenRowGuides59338B9FExample() {
   return (
@@ -213,7 +213,7 @@ export function GridHiddenRowGuides59338B9FExample() {
 hideGuides="column" 移除垂直方向的辅助线边框。
 
 ```tsx
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridHiddenColumnGuidesE1033A1BExample() {
   return (
@@ -233,7 +233,7 @@ A
 B
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridOverlayingCellsB9F603D6Example() {
   return (
@@ -269,7 +269,7 @@ export function GridOverlayingCellsB9F603D6Example() {
 5 + 6
 
 ```tsx
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridSpecificGuideClipping4F529B64Example() {
   return (
@@ -306,7 +306,7 @@ GridCross 标记网格线的交点。
 6
 
 ```tsx
-import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGridWithCross6A783E1BExample() {
   return (
@@ -347,7 +347,7 @@ export function GridGridWithCross6A783E1BExample() {
 6
 
 ```tsx
-import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridDashedGridWithCrossB76B6591Example() {
   return (
@@ -374,7 +374,7 @@ export function GridDashedGridWithCrossB76B6591Example() {
 GridPage 给网格套一层页面级背景（background-200）并水平居中——配合 dashedGuides 时辅助线以虚线绘制。
 
 ```tsx
-import { Grid, GridPage as GridPageFrame, GridSystem } from "@/components/ui/grid";
+import { Grid, GridPage as GridPageFrame, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridDashedGridWithGridPageFA2E79AFExample() {
   return (
@@ -394,7 +394,7 @@ export function GridDashedGridWithGridPageFA2E79AFExample() {
 导入
 
 ```tsx
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

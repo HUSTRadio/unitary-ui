@@ -1,4 +1,4 @@
-import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGridWithCross6A783E1BExample() {
   return (

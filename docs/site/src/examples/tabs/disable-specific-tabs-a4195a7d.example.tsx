@@ -1,4 +1,4 @@
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDisableSpecificTabsA4195A7DExample() {

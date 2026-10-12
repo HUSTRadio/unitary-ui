@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
 import { createVitest, type Vitest } from "vitest/node";
-import { discoverVerification } from "../scripts/lib/verification-discovery.mjs";
+import { discoverVerification, repositoryImports } from "../scripts/lib/verification-discovery.mjs";
 
 const roots: string[] = [];
 const environmentKeys = [
@@ -55,6 +55,20 @@ function fixture(overrides: Record<string, string> = {}) {
   }
   return { root, files: Object.keys(entries) };
 }
+
+it("associates public package imports with the canonical library and styles", () => {
+  const { root, files } = fixture({
+    "src/lib/index.ts": 'export { radio } from "../components/ui/radio";',
+    "src/styles/index.css": ":root {}",
+    "docs/site/src/examples/radio/default.example.tsx":
+      'import type { radio } from "@hustradio/unitary-ui"; import "@hustradio/unitary-ui/styles.css";',
+  });
+  const closure = repositoryImports(root, files).closure("docs/site/src/examples/radio/default.example.tsx");
+  expect(closure.opaque).toBe(false);
+  expect([...closure.files]).toEqual(expect.arrayContaining([
+    "src/lib/index.ts", "src/components/ui/radio.ts", "src/styles/index.css",
+  ]));
+});
 
 it.each([
   { name: "unset", values: environment(undefined) },

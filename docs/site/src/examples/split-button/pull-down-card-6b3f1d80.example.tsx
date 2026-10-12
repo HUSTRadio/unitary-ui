@@ -1,6 +1,8 @@
 import * as React from "react";
 
-import { SplitButton, SplitButtonMenuItem, type SplitButtonExpandCorner } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
+
+type SplitButtonExpandCorner = NonNullable<React.ComponentProps<typeof SplitButton>["expandCorner"]>;
 
 const CORNERS: readonly SplitButtonExpandCorner[] = [
   "top-left",

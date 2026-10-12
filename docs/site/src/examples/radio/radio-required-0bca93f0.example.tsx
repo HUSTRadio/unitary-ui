@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { Button } from "@hustradio/unitary-ui";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 
 export function RadioRadioRequired0BCA93F0Example() {
   return (

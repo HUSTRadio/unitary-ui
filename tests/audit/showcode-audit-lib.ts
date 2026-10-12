@@ -450,7 +450,7 @@ export async function writeTypecheckFixtures(
           skipLibCheck: true,
           ignoreDeprecations: "6.0",
           baseUrl: repoRoot,
-          paths: { "@/*": ["src/*"] },
+          paths: { "@/*": ["src/*"], "@hustradio/unitary-ui": ["src/lib/index.ts"] },
           types: ["react", "react-dom", "vite/client"],
         },
         include: ["./*.tsx", path.join(repoRoot, "src/types/**/*.d.ts")],

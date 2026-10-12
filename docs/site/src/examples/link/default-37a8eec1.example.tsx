@@ -1,4 +1,4 @@
-import { Link } from "@/components/ui/link";
+import { Link } from "@hustradio/unitary-ui";
 
 export function LinkDefault37A8EEC1Example() {
   return (

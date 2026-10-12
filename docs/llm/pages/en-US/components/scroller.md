@@ -53,7 +53,7 @@ Not applicable: There is no controlled scroll-position prop. Wheel, touch and dr
 ## Live Demo
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerVertical727CD3A6Example() {
   return (
@@ -72,7 +72,7 @@ export function ScrollerVertical727CD3A6Example() {
 ## Horizontal
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerHorizontal0ABBA441Example() {
   return (
@@ -96,7 +96,7 @@ export function ScrollerHorizontal0ABBA441Example() {
 ## Free
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerFreeF411A1FBExample() {
   return (
@@ -116,7 +116,7 @@ export function ScrollerFreeF411A1FBExample() {
 ## Vertical with buttons
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerVerticalWithButtonsEB1E78D8Example() {
   return (
@@ -134,7 +134,7 @@ export function ScrollerVerticalWithButtonsEB1E78D8Example() {
 ## Horizontal with buttons
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerHorizontalWithButtons29D25875Example() {
   return (
@@ -162,7 +162,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

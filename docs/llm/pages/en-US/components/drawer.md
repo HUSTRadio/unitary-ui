@@ -59,8 +59,8 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 ## Live Demo
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@hustradio/unitary-ui";
+import { Drawer, DrawerDescription, DrawerTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DrawerDefault37A8EEC1Example() {
@@ -85,8 +85,8 @@ export function DrawerDefault37A8EEC1Example() {
 ## Custom height
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@hustradio/unitary-ui";
+import { Drawer, DrawerDescription, DrawerTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DrawerCustomHeight986065F9Example() {
@@ -113,7 +113,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Drawer, DrawerTitle, DrawerDescription } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

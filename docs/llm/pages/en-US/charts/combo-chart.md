@@ -56,7 +56,7 @@ Not applicable: Display-only component.
 - operatingCosts
 
 ```tsx
-import { ComboChart } from "@/components/ui/charts/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", revenue: 4400, operatingCosts: 2205 },
@@ -94,7 +94,7 @@ export function ComboChartDefault37A8EEC1Example() {
 - margin
 
 ```tsx
-import { ComboChart } from "@/components/ui/charts/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", revenue: 4400, margin: 0.18 },
@@ -133,7 +133,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ComboChart } from "@/components/ui/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

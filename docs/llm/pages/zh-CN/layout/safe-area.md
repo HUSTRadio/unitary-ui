@@ -49,7 +49,7 @@ safe-area
 Content stays clear of rounded corners, notches, and system bars.
 
 ```tsx
-import { SafeArea } from "@/components/ui/layout";
+import { SafeArea } from "@hustradio/unitary-ui";
 
 /**
  * SafeArea —— 安全区边距容器：内边距取「间距档」与设备安全区 env() 的较大值，

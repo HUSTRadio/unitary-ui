@@ -1,4 +1,4 @@
-import { Gauge } from "@/components/ui/gauge";
+import { Gauge } from "@hustradio/unitary-ui";
 
 export function GaugeArcPriorityAB3EBA95Example() {
   return (

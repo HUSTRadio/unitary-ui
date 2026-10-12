@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { SidebarNav } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@hustradio/unitary-ui";
 
 export default function SidebarNavScrollTrackingExample() {
   const { locale } = useI18n();

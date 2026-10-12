@@ -29,7 +29,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@hustradio/unitary-ui";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 

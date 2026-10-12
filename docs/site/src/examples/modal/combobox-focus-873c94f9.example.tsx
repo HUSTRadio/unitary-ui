@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Combobox,
   ComboboxInput,
   ComboboxList,
   ComboboxOption,
-} from "@/components/ui/combobox";
+} from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -13,7 +13,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalComboboxFocus873C94F9Example() {

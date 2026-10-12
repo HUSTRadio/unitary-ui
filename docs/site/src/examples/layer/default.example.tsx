@@ -1,7 +1,7 @@
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@hustradio/unitary-ui";
 import { useState } from "react";
-import { Layer, LayerScope } from "@/components/ui/layer";
-import { Button } from "@/components/ui/button";
+import { Layer, LayerScope } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 export function LayerDefaultExample() {
   const zh = useI18n().locale === "zh-CN";

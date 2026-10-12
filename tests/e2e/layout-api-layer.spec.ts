@@ -16,11 +16,16 @@ for (const theme of ["light", "dark"] as const) {
         const button = section.getByRole("button", { name: "Show code", exact: true });
         await button.click();
         await expect(button).toHaveAttribute("aria-expanded", "true");
-        await expect(section.locator("pre")).toContainText("@/components/ui/grid");
-        await expect(section.locator("pre")).toContainText("Grid");
+        const code = section.locator("pre");
+        await expect(code).toContainText("@hustradio/unitary-ui");
+        await expect(code).toContainText("Grid");
+        await expect(code).not.toContainText("@/");
         if (theme === "light" && width === 390) {
           await section.getByRole("button", { name: "Copy to clipboard", exact: true }).click();
-          expect(await page.evaluate(() => navigator.clipboard.readText())).toContain("@/components/ui/grid");
+          const copied = await page.evaluate(() => navigator.clipboard.readText());
+          expect(copied).toContain("@hustradio/unitary-ui");
+          expect(copied).toContain("Grid");
+          expect(copied).not.toContain("@/");
         }
         await button.click();
         await expect(button).toHaveAttribute("aria-expanded", "false");

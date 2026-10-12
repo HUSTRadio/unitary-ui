@@ -1,4 +1,4 @@
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorNoLabelD6728773Example() {
   return (

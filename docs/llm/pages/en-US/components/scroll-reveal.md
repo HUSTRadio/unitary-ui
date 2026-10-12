@@ -50,7 +50,7 @@ Revealed content stays visible.
 
 ```tsx
 import { useState } from "react";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { ScrollReveal } from "@hustradio/unitary-ui";
 
 export default function ScrollRevealExample() {
   const [root, setRoot] = useState<HTMLDivElement | null>(null);
@@ -74,7 +74,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { ScrollReveal } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

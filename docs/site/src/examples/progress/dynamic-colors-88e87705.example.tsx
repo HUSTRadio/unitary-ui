@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { Button } from "@hustradio/unitary-ui";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressDynamicColors88E87705Example() {
   const [value, setValue] = useState(0);

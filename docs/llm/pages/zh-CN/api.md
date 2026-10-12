@@ -6,6 +6,16 @@
 
 按用途查找包根公开的钩子和工具。组件属性由各组件页面维护，布局与层级接口由对应专题维护。
 
+## 滚动与导航布局
+
+最近滚动容器中的可取消滚动，以及侧栏与菜单共用的内容留白。
+
+```tsx
+import { scrollIntoViewWithMotion, NAV_CONTENT_INSET } from "@hustradio/unitary-ui";
+```
+
+[查看参考](#/api#scrolling)
+
 ## 主题与国际化
 
 管理明暗偏好、文档全局 Solid、Hybrid、Glass 外观和框架消息语言；UI 配色与代码主题独立设置。
@@ -134,6 +144,46 @@ import {
 ```
 
 [查看参考](#/charts)
+
+## 滚动与导航布局
+
+scrollIntoViewWithMotion(target, block = "start") 接受 HTMLElement，block 支持 "start" 或 "center"；只移动最近的纵向滚动容器，找不到时使用文档滚动容器，并考虑目标的 scroll-margin 与容器的 scroll-padding。返回 ScrollAnimation，其中 cancel() 停止当前动画，refresh() 唤醒尚未结束的动画。调用方应在组件卸载时取消；该函数不移动焦点。
+
+动画从目标的级联样式读取 --uni-motion-state 与 --ease-in-out。减少动态效果时立即定位，动画期间偏好切换也立即完成。滚轮、触摸、指针与滚动按键会中断动画；同一容器的新滚动命令取消旧命令。
+
+NAV\_CONTENT\_INSET 是共用的 px-6 py-4 类名字符串，在默认 spacing 尺度下提供水平 24px、垂直 16px 的留白。将其应用于调用方拥有的 SidebarNav 滚动容器，可与 HamburgerMenu 的内容留白保持一致。
+
+```tsx
+import { useEffect, useRef } from "react";
+import {
+  NAV_CONTENT_INSET,
+  scrollIntoViewWithMotion,
+  type ScrollAnimation,
+} from "@hustradio/unitary-ui";
+
+export function ScrollExample() {
+  const target = useRef<HTMLHeadingElement>(null);
+  const animation = useRef<ScrollAnimation | null>(null);
+  useEffect(() => () => animation.current?.cancel(), []);
+  return (
+    <div className={NAV_CONTENT_INSET} style={{ height: 240, overflowY: "auto" }}>
+      <button
+        onClick={() => {
+          if (!target.current) return;
+          animation.current?.cancel();
+          animation.current = scrollIntoViewWithMotion(target.current, "start");
+        }}
+      >
+        Scroll to heading
+      </button>
+      <div style={{ height: 320 }} />
+      <h2 ref={target} style={{ scrollMarginBlockStart: 16 }}>
+        Target
+      </h2>
+    </div>
+  );
+}
+```
 
 ## Provider 与钩子
 

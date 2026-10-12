@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsDefault21B111CBExample() {
   return (

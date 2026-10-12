@@ -47,7 +47,7 @@ tracker
 ## 实时示例
 
 ```tsx
-import { Tracker } from "@/components/ui/charts/tracker";
+import { Tracker } from "@hustradio/unitary-ui";
 
 function createRandomData(days: number) {
   const colors = ["emerald", "amber", "rose"] as const;
@@ -69,7 +69,7 @@ export function TrackerDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { Tracker } from "@/components/ui/tracker";
+import { Tracker } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

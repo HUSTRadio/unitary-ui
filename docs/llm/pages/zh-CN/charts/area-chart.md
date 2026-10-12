@@ -65,7 +65,7 @@ customTooltip 汇总两系列为合计卡片。
 - successfulPayments
 
 ```tsx
-import { AreaChart } from "@/components/ui/charts/area-chart";
+import { AreaChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 2890, successfulPayments: 2453 },
@@ -97,7 +97,7 @@ export function AreaChartDefault37A8EEC1Example() {
 - embedded
 
 ```tsx
-import { AreaChart } from "@/components/ui/charts/area-chart";
+import { AreaChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", desktop: 1243, mobile: 954, embedded: 312 },
@@ -129,7 +129,7 @@ export function AreaChartStacked5E4F2A9BExample() {
 - successfulPayments
 
 ```tsx
-import { AreaChart, type TooltipProps } from "@/components/ui/charts/area-chart";
+import { AreaChart, type AreaChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 2890, successfulPayments: 2453 },
@@ -179,10 +179,10 @@ Desktop and mobile sessions, last 6 months
 ```tsx
 import * as React from "react";
 
-import { AreaChart, type TooltipProps } from "@/components/ui/charts/area-chart";
-import { getColorClassName } from "@/components/ui/charts/chart-colors";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { AreaChart, type AreaChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
+import { getColorClassName } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 
 /**
  * 图表卡模式：卡片头部承载标题与区间筛选，图表用 customTooltip 输出合计卡片。
@@ -288,7 +288,7 @@ export function AreaChartChartCardE6B2D9F1Example() {
 导入
 
 ```tsx
-import { AreaChart } from "@/components/ui/area-chart";
+import { AreaChart } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

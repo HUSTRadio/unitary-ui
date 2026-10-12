@@ -1,4 +1,4 @@
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function PillDefault21B111CBExample() {

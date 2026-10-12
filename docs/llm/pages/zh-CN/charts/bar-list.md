@@ -67,7 +67,7 @@ bar-list
 23,456
 
 ```tsx
-import { BarList } from "@/components/ui/charts/bar-list";
+import { BarList } from "@hustradio/unitary-ui";
 
 const pagesData = [
   { name: "/home", value: 123456 },
@@ -95,7 +95,7 @@ export function BarListDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { BarList } from "@/components/ui/bar-list";
+import { BarList } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

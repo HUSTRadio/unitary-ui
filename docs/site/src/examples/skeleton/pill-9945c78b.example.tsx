@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonPill9945C78BExample() {
   return (

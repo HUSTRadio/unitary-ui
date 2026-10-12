@@ -1,6 +1,9 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "tw-animate-css";
 @import "./color-schemes.css";
+@source "../";
+/* Public shape utilities must ship even when no library component uses them. */
+@source inline("rounded-circle rounded-circular rounded-pill rounded-capsule rounded-continuous");
 
 @custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
 

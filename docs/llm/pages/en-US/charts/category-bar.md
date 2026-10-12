@@ -55,7 +55,7 @@ Not applicable: Static display component.
 100
 
 ```tsx
-import { CategoryBar } from "@/components/ui/charts/category-bar";
+import { CategoryBar } from "@hustradio/unitary-ui";
 
 export function CategoryBarDefault37A8EEC1Example() {
   return (
@@ -75,7 +75,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { CategoryBar } from "@/components/ui/category-bar";
+import { CategoryBar } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

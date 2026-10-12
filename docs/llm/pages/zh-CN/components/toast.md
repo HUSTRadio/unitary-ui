@@ -62,8 +62,8 @@ toast
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastDefault21B111CBExample() {
   const toasts = useToasts();
@@ -84,8 +84,8 @@ export function ToastDefault21B111CBExample() {
 ## 多行
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastMultiLine15F3E22CExample() {
   const toasts = useToasts();
@@ -110,8 +110,8 @@ export function ToastMultiLine15F3E22CExample() {
 ## 带 JSX
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWithJsx76A6D122Example() {
   const toasts = useToasts();
@@ -141,8 +141,8 @@ export function ToastWithJsx76A6D122Example() {
 ## 带链接
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWithALink1C527727Example() {
   const toasts = useToasts();
@@ -179,8 +179,8 @@ export function ToastWithALink1C527727Example() {
 ## 保留
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastPreserve25DFADC0Example() {
   const toasts = useToasts();
@@ -206,9 +206,9 @@ export function ToastPreserve25DFADC0Example() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const COPY = {
   en: {
@@ -260,9 +260,9 @@ export function ToastAction64CFF131Example() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const COPY = {
   en: {
@@ -312,8 +312,8 @@ export function ToastUndoA8283ADEExample() {
 ## 成功
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastSuccessC88A0B90Example() {
   const toasts = useToasts();
@@ -334,8 +334,8 @@ export function ToastSuccessC88A0B90Example() {
 ## 警告
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastWarningE981DDAEExample() {
   const toasts = useToasts();
@@ -356,8 +356,8 @@ export function ToastWarningE981DDAEExample() {
 ## 错误
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 
 export function ToastError54A0E8C1Example() {
   const toasts = useToasts();
@@ -382,7 +382,7 @@ export function ToastError54A0E8C1Example() {
 导入
 
 ```tsx
-import { Toasts, useToasts, createToastStore } from "@/components/ui/toast";
+import { Toasts, useToasts, createToastStore } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

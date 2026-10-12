@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@hustradio/unitary-ui";
+import { Input } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -8,7 +8,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalMobileSheetInputsFAB5970DExample() {

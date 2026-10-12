@@ -1,4 +1,4 @@
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SliderRangeWithInputs16EAD947Example() {

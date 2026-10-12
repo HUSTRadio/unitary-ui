@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { SkeletonMask } from "@/components/ui/skeleton-mask";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { SkeletonMask } from "@hustradio/unitary-ui";
 
 /**
  * SkeletonMask 用法：把「骨架模板」和「真实内容」一起交给它，由 masked 决定显示哪一侧。

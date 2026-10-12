@@ -8,7 +8,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetDefault37A8EEC1Example() {
   const [message, setMessage] = useState("");

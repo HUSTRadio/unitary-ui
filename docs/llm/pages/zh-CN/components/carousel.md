@@ -68,8 +68,8 @@ carousel
 第 1 张图片，共 3 张
 
 ```tsx
-import { Carousel } from "@/components/ui/carousel";
-import { useI18n } from "@/lib/i18n";
+import { Carousel } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselExample() {
   const { locale } = useI18n();
@@ -113,9 +113,9 @@ export default function CarouselExample() {
 
 ```tsx
 import { useState } from "react";
-import { Carousel, type CarouselVariant } from "@/components/ui/carousel";
-import { Select, SelectItem } from "@/components/ui/select";
-import { useI18n } from "@/lib/i18n";
+import { Carousel, type CarouselVariant } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselVariantsExample() {
   const { locale } = useI18n();
@@ -152,7 +152,7 @@ export default function CarouselVariantsExample() {
 导入
 
 ```tsx
-import { Carousel } from "@/components/ui/carousel";
+import { Carousel } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`Omit<ComponentProps<"div">, "children" | "onChange">`

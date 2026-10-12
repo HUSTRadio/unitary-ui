@@ -6,6 +6,14 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Added
+
+- **Public documentation consumption**: Exports `scrollIntoViewWithMotion`, `ScrollAnimation`, and `NAV_CONTENT_INSET`; adds `@hustradio/unitary-ui/tailwind-reference.css`, generated from canonical CSS so consumers can compile their own Tailwind utilities.
+
+### Changed
+
+- **Documentation structure**: Keeps docs in the repository as a private workspace using public package imports. Local development resolves source; release candidates and published static artifacts consume independently installed packages. Separates library configuration, stylesheet scanning, and declaration entries, with frozen locks, full browser coverage, bilingual corpus comparison, and publication receipt validation. The release workflow retains deployable documentation artifacts.
+
 ### Fixed
 
 - **Publication scanning recovery**: waits read-only for up to 20 minutes after an accepted npm upload, within a 30-minute publishing job; documents first-package tags and the trusted publisher 48-hour validation deadline. These follow-up changes are not included in the published beta tarball.

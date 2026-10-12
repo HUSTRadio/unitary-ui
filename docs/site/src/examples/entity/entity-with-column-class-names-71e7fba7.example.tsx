@@ -1,5 +1,5 @@
-import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } from "@/components/ui/entity";
+import { Avatar } from "@hustradio/unitary-ui";
+import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } from "@hustradio/unitary-ui";
 
 export function EntityEntityWithColumnClassNames71E7FBA7Example() {
   return (

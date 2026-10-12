@@ -1,5 +1,5 @@
-import { Carousel } from "@/components/ui/carousel";
-import { useI18n } from "@/lib/i18n";
+import { Carousel } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselExample() {
   const { locale } = useI18n();

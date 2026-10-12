@@ -1,4 +1,4 @@
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookTexturedB29877FBExample() {
   return (

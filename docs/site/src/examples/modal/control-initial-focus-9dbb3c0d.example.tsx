@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useRef, useState } from "react";
 
 export function ModalControlInitialFocus9DBB3C0DExample() {

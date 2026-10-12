@@ -59,7 +59,7 @@ relative-time-card
 5分钟前
 
 ```tsx
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+import { RelativeTimeCard } from "@hustradio/unitary-ui";
 
 export function RelativeTimeCardDefault21B111CBExample() {
   return <RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />;
@@ -73,7 +73,7 @@ export function RelativeTimeCardDefault21B111CBExample() {
 导入
 
 ```tsx
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+import { RelativeTimeCard } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

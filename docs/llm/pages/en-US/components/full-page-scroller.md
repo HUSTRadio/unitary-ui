@@ -69,9 +69,9 @@ Scroll or swipe past the threshold to change sections, or use the arrow keys.
 
 ```tsx
 import { useRef, useState } from "react";
-import { FullPageScroller } from "@/components/ui/full-page-scroller";
-import { Button } from "@/components/ui/button";
-import { useI18n } from "@/lib/i18n";
+import { FullPageScroller } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function FullPageExample() {
   const frame = useRef<HTMLDivElement>(null);
@@ -136,7 +136,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { FullPageScroller } from "@/components/ui/full-page-scroller";
+import { FullPageScroller } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `Omit<ComponentProps<"div">, "onChange">`

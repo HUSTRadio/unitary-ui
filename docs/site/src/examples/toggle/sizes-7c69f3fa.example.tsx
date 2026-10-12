@@ -1,4 +1,4 @@
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleSizes7C69F3FAExample() {
   return (

@@ -68,7 +68,7 @@ Not applicable: JsonView uses fixed typography and indentation and does not add 
 ```
 
 ```tsx
-import { JsonView } from "@/components/ui/json-view";
+import { JsonView } from "@hustradio/unitary-ui";
 
 export function JsonViewSingleLineD66572A5Example() {
   const data = {
@@ -88,7 +88,7 @@ export function JsonViewSingleLineD66572A5Example() {
 ```
 
 ```tsx
-import { JsonView } from "@/components/ui/json-view";
+import { JsonView } from "@hustradio/unitary-ui";
 
 export function JsonViewWrapped62540EE0Example() {
   const data = {
@@ -107,7 +107,7 @@ export function JsonViewWrapped62540EE0Example() {
 ```
 
 ```tsx
-import { JsonView } from "@/components/ui/json-view";
+import { JsonView } from "@hustradio/unitary-ui";
 
 export function JsonViewCollapsedB322B652Example() {
   const data = {
@@ -135,7 +135,7 @@ export function JsonViewCollapsedB322B652Example() {
 ```
 
 ```tsx
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
+import { JsonView, makeJsonViewHighlightPattern } from "@hustradio/unitary-ui";
 
 export function JsonViewHighlightedF00CEE7CExample() {
   const data = {
@@ -159,7 +159,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
+import { JsonView, makeJsonViewHighlightPattern } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

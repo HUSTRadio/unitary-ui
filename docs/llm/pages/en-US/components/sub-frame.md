@@ -50,8 +50,8 @@ This frame owns the overlay: the sheet opens inside it instead of covering the w
 
 ```tsx
 import { useState } from "react";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { SubFrame } from "@/components/ui/sub-frame";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { SubFrame } from "@hustradio/unitary-ui";
 
 export default function SubFrameExample() {
   const [open, setOpen] = useState(false);
@@ -89,7 +89,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SubFrame } from "@/components/ui/sub-frame";
+import { SubFrame } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

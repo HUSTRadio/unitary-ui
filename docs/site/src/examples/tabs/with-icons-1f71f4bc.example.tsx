@@ -1,4 +1,4 @@
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { LayoutGrid } from "lucide-react";
 import { useState } from "react";
 

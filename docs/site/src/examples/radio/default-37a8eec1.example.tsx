@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function RadioDefault37A8EEC1Example() {

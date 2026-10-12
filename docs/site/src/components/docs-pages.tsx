@@ -10,8 +10,8 @@ import {
   DocsSection,
   DocsSectionTitle,
 } from "./docs-typography";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
 import {
   Table,
   TableBody,
@@ -20,18 +20,19 @@ import {
   TableHeader,
   TableRoot,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+} from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 import {
   FOUNDATION_COLOR_ROLE_PARTITIONS,
   FOUNDATION_COLOR_SCALES,
   SEMANTIC_COLOR_TOKENS,
+  formatColorValue,
   type FoundationColor,
   type SemanticColorToken,
 } from "../data/foundation-colors";
 import { useLanguage, type DocsLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
-import { LazyLoad } from "@/components/ui/lazy-load";
+import { LazyLoad } from "@hustradio/unitary-ui";
 
 const IntroductionIllustration = lazy(() => import("../examples/hitu-player/default.example"));
 
@@ -338,7 +339,7 @@ function SemanticColorValue({
         style={{ backgroundColor: `var(${token})` }}
         aria-hidden
       />
-      <span className="font-mono text-copy-13 text-foreground">{value || "—"}</span>
+      <span className="font-mono text-copy-13 text-foreground">{formatColorValue(value) || "—"}</span>
     </span>
   );
 }

@@ -1,4 +1,4 @@
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaSizes7C69F3FAExample() {
   const loremIpsum =

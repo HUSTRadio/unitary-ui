@@ -2,7 +2,7 @@
 
 [English](./npm-release.en.md)
 
-目标包为 `@hustradio/unitary-ui`，当前首版为 `0.1.0-beta.0`，发布到 `beta`。从 `master` 手动触发 `publish.yml`，不发布 GitHub Release。未来正式版本仍由正式 Release 的 `published` 事件发布到 `latest`；草稿、预发布 Release 和 tag 推送不会自动发布。
+目标包为 `@hustradio/unitary-ui`，首版 `0.1.0-beta.0` 已发布；当前准备版本为 `0.1.0-beta.1`，发布到 `beta`。从 `master` 手动触发 `publish.yml`，不发布 GitHub Release。未来正式版本仍由正式 Release 的 `published` 事件发布到 `latest`；草稿、预发布 Release 和 tag 推送不会自动发布。
 
 ## 首发前配置
 
@@ -24,18 +24,18 @@ pnpm run verify -- --dry-run --full
 pnpm run verify -- --full
 ```
 
-`test:package` 清理并构建 `dist`，通过 pnpm 打包，在独立临时项目中安装压缩包，检查类型、ESM/CJS、SSR、hydration 和双主题 CSS。内部打包使用 `--config.ignore-scripts=true`，避免重复执行 `prepack`；单独运行 `pnpm pack` 仍会自动构建。
+`test:package` 清理并构建 `dist`，通过 pnpm 打包一次，在独立临时项目中安装压缩包，检查类型、ESM/CJS、SSR、hydration 和双主题 CSS。随后将同一 tarball 安装进完整 docs 应用，通过独立锁冻结依赖，验证类型、静态构建、双语语料和全量浏览器矩阵。`pnpm run test:docs:package` 复用同一验证，不生成第二份压缩包。内部打包使用 `--config.ignore-scripts=true`，避免重复执行 `prepack`；单独运行 `pnpm pack` 仍会自动构建。
 
-验收产物在 `.scratch/npm-release/`：`hustradio-unitary-ui-0.1.0-beta.0.tgz`、`files.json`、`summary.json`、`SHA256SUMS`。这些是被忽略的本地产物，不提交。浏览器或网络受限制时，必须在具备相应权限的环境重跑，不能跳过检查。
+验收产物在 `.scratch/npm-release/`：`hustradio-unitary-ui-0.1.0-beta.1.tgz`、`files.json`、`summary.json`、`SHA256SUMS`。这些是被忽略的本地产物，不提交。浏览器或网络受限制时，必须在具备相应权限的环境重跑，不能跳过检查。
 
 语料或截图检查发现漂移时，使用仓库生成命令生成、审阅修改，再重跑确定性检查和完整验证。保留 16 个字体子集及双语第三方许可和现有风险披露；包并非将字体重新许可为 MIT。
 
 ## 无需 Release 发布 beta
 
-将 `package.json` 保持为 `0.1.0-beta.0`，把通过验证的修改提交到 `master` 后手动运行：
+将 `package.json` 保持为 `0.1.0-beta.1`，把通过验证的修改提交到 `master` 后手动运行：
 
 ```sh
-gh workflow run publish.yml --repo HUSTRadio/unitary-ui --ref master -f version=0.1.0-beta.0
+gh workflow run publish.yml --repo HUSTRadio/unitary-ui --ref master -f version=0.1.0-beta.1
 ```
 
 输入版本必须与包版本一致，且为 `-beta.N`。仍须通过全部 CI、全量浏览器矩阵和 Windows README 截图检查。最终压缩包以 `--tag beta --provenance` 发布，核验 `beta` 标签及 `refs/heads/master` 的 provenance。无需 Release 或版本 tag，正式 Release 保持草稿。远端核验成功之前，Changelog 继续保留在 `Unreleased`。
@@ -61,10 +61,28 @@ gh workflow run publish.yml --repo HUSTRadio/unitary-ui --ref master -f version=
 - 发布前检查失败：检查对应 job 的输出和产物，修复后在正确提交上重新准备版本；不绕过失败检查。
 - 首版认证失败且 registry 仍为 404：确认 scope 权限、Token 有效期及 bypass 2FA，再重新运行失败工作流。
 - 后续 OIDC 失败：核对 npm trusted publisher 的仓库、文件名、环境及权限；不增加 Token 回退。
-- 发布步骤或发布后校验失败：先查询 `npm view @hustradio/unitary-ui@0.1.0-beta.0 --registry=https://registry.npmjs.org/ --json`。若版本存在，保留原产物摘要并核对 integrity、`beta`（正式版为 `latest`） 和 provenance，不重新发同版本；全量重跑会因版本存在被阻止。
+- 发布步骤或发布后校验失败：从原运行的 `summary.json` 读取确切版本，再查询该版本；本次为 `npm view @hustradio/unitary-ui@0.1.0-beta.1 --registry=https://registry.npmjs.org/ --json`。若版本存在，保留原产物摘要并核对 integrity、`beta`（正式版为 `latest`） 和 provenance，不重新发同版本；全量重跑会因版本存在被阻止。
 - 版本存在但发布后核验不完整：下载原运行的 `npm-package` 及证据，按摘要和 registry 元数据补做核验。若内容本身有问题，修复后发布新版本；若仅目标 dist-tag 指向不符，维护者核实后单独修复 dist-tag。不要删除版本以尝试重发。
 
 - npm 已接受上传但版本尚不可查询：先等待扫描，不能仅凭此时的 404 判定发布失败。版本可用后将原 `npm-package` 文件还原到 `.scratch/npm-release/`，使用原运行的 `GITHUB_SHA`、`GITHUB_REF`、`GITHUB_EVENT_NAME` 执行 `node scripts/npm-release.mjs verify`，保留 `published.json`；不要重跑发布 job。
 - 首个 beta 包即使使用 `--tag beta`，npm 仍会添加 `latest`，且完成 2FA 后删除可能返回 HTTP 400。保留 beta 版本并披露实际标签，明确使用 `@beta` 或版本号安装；不要为改变该行为虚构正式版本或重发。[npm CLI 问题记录](https://github.com/npm/cli/issues/8490)
 
 线上发布确认后，再将双语 Changelog 的相关变更归档到实际发布版本（首版为 `0.1.0-beta.0`），填写实际发布日；后续变更继续留在 `Unreleased`。
+
+## 构建已发布包的文档静态产物
+
+`pnpm run test:package` 只打包一次：原有独立库 consumer 校验后，将同一 tarball 安装进完整文档应用，使用独立冻结锁检查类型、静态构建、双语 corpus 和完整浏览器矩阵。`pnpm run test:docs:package` 复用此流程，不产生第二份 tarball。
+
+发布核验完成后，`docs-static` job 检出同一发布提交，下载原候选 tarball 和 `published.json`，消费 registry 上的精确版本，并将下载包的 integrity 与候选包核对。外部依赖继续使用候选文档 consumer 的同一锁定依赖树。完整浏览器矩阵和双语 corpus 比较基于构建后的应用；验证后关闭测试 fixture，重新构建正式静态产物并再次比较 corpus。
+
+Actions 产物 `unitary-docs-<version>-<sha>` 包含可部署的静态文件和 `build-metadata.json`，记录库版本、integrity、发布提交和依赖锁摘要。产物名使用该次发布的精确版本和完整提交 SHA。托管另行配置，本流程只交付文件。`docs-publication-evidence` 保留独立 consumer 的 manifest、冻结锁文件和验证输出。
+
+如仅文档产物失败，恢复原运行的 `npm-package` 和 `npm-publication-evidence` 文件至 `.scratch/npm-release/`，使用原发布提交的干净 checkout，再执行：
+
+```sh
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm run build:docs:registry -- --receipt .scratch/npm-release/published.json
+```
+
+结果位于 `.scratch/npm-release/docs-static/`。该命令不发布新包，也不解析浮动 dist-tag；dirty 候选、dirty 发布 checkout、源码或依赖锁不一致、registry 包与原候选 integrity 不符均会失败。本地包测试允许未提交修改，但其 receipt 标记为 dirty，不能充当正式发布产物；发布前应在干净的发布提交上重新验证。

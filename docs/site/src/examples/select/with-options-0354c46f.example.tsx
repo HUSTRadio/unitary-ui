@@ -1,4 +1,4 @@
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 export function SelectWithOptions0354C46FExample() {
   return (

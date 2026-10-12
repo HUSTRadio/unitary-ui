@@ -1,4 +1,4 @@
-import { DonutChart } from "@/components/ui/charts/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 
 const cityData = [
   { name: "New York", value: 95574 },

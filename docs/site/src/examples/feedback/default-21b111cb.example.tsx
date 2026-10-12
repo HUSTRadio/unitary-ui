@@ -1,5 +1,5 @@
-import { Feedback } from "@/components/ui/feedback";
-import { Note, NoteContent } from "@/components/ui/note";
+import { Feedback } from "@hustradio/unitary-ui";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function FeedbackDefault21B111CBExample() {
   return (

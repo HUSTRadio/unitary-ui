@@ -1,4 +1,4 @@
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetNoPromptFD175ECDExample() {
   return (

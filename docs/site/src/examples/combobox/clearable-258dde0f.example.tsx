@@ -1,4 +1,4 @@
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ComboboxClearable258DDE0FExample() {

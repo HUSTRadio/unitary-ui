@@ -115,13 +115,13 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link } from "@/components/ui/link";
-import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal";
-import { cn } from "@/lib/utils";
+import { Checkbox } from "@hustradio/unitary-ui";
+import { CodeBlock as CodeBlockComponent } from "@hustradio/unitary-ui";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalHeader, ModalTitle } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 import {

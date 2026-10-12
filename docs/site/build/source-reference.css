@@ -1,0 +1,4 @@
+/* Source mode imports the canonical theme through styles.css already.
+ * Do not @reference that same file: Tailwind would suppress its runtime tokens.
+ * Package mode resolves the published tailwind-reference.css instead.
+ */

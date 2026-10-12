@@ -52,7 +52,7 @@ Not applicable: Step points use fixed semantic colors (grey unvisited, brand act
 - Approved
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point";
+import { StepPoint } from "@hustradio/unitary-ui";
 
 export function StepPointDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point";
+import { StepPoint } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

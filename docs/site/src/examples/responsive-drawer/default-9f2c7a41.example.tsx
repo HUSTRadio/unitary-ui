@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ResponsiveDrawer,
   ResponsiveDrawerBody,
@@ -10,7 +10,7 @@ import {
   ResponsiveDrawerFooter,
   ResponsiveDrawerHeader,
   ResponsiveDrawerTitle,
-} from "@/components/ui/responsive-drawer";
+} from "@hustradio/unitary-ui";
 
 export function ResponsiveDrawerDefault9F2C7A41Example() {
   const [open, setOpen] = React.useState(false);

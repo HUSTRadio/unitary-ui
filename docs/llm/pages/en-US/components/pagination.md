@@ -59,8 +59,8 @@ Search results: page 6 of 24
 
 ```tsx
 import { useState } from "react";
-import { NumberedPagination } from "@/components/ui/pagination";
-import { useI18n } from "@/lib/i18n";
+import { NumberedPagination } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function NumberedExample() {
   const [page, setPage] = useState(6);
@@ -81,7 +81,7 @@ export default function NumberedExample() {
 ## Default
 
 ```tsx
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from "@hustradio/unitary-ui";
 
 export function PaginationDefault21B111CBExample() {
   return (
@@ -100,7 +100,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Pagination, NumberedPagination } from "@/components/ui/pagination";
+import { Pagination, NumberedPagination } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ComponentProps<"nav">`

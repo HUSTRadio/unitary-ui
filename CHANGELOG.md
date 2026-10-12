@@ -6,6 +6,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- **公开文档消费入口**：公开 `scrollIntoViewWithMotion`、`ScrollAnimation` 和 `NAV_CONTENT_INSET`；新增由 canonical CSS 生成的 `@hustradio/unitary-ui/tailwind-reference.css`，供消费者生成自己的 Tailwind 工具类。
+
+### Changed
+
+- **文档代码结构**：docs 保留同仓并成为私有工作区，示例与站点统一使用公共包入口；本地映射源码，发布候选和发布后静态产物消费独立安装的真实包。隔离库构建配置、样式扫描与声明入口，增加冻结锁文件、完整浏览器、双语语料及发布回执校验；发布工作流保存可部署文档产物。
+
 ### Fixed
 
 - **发布扫描恢复**：npm 接受上传后只读等待最多 20 分钟，发布 job 限时 30 分钟；补充首个包的标签行为和 trusted publisher 的 48 小时验证期限。这些后续修改不在已发布 beta 压缩包内。

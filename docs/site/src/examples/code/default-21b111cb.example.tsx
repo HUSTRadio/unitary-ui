@@ -1,4 +1,4 @@
-import { Code, InlineCode } from "@/components/ui/code";
+import { Code, InlineCode } from "@hustradio/unitary-ui";
 
 export function CodeDefault21B111CBExample() {
   return (

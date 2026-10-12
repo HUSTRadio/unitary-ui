@@ -1,4 +1,4 @@
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
+import { MiddleTruncate } from "@hustradio/unitary-ui";
 
 export function MiddleTruncateExamplesE68EE04DExample() {
   return (

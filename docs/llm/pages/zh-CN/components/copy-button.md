@@ -51,7 +51,7 @@ copy-button
 Click to copy “lipsum”
 
 ```tsx
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@hustradio/unitary-ui";
 
 export function CopyButtonDefault21B111CBExample() {
   return (
@@ -70,7 +70,7 @@ export function CopyButtonDefault21B111CBExample() {
 导入
 
 ```tsx
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ButtonHTMLAttributes<HTMLButtonElement>`

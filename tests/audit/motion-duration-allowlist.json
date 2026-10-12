@@ -3,6 +3,18 @@
   "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/site/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
   "entries": [
     {
+      "literal": "100ms",
+      "source": "docs-tokens-example-relocation",
+      "reason": "Existing runnable token editor fixture demonstrates public duration writes; not a fixed rendered animation duration.",
+      "files": ["docs/site/src/examples/tokens/TokensExample.tsx"]
+    },
+    {
+      "literal": "500ms",
+      "source": "docs-tokens-example-relocation",
+      "reason": "Existing runnable token editor fixture demonstrates public duration writes; not a fixed rendered animation duration.",
+      "files": ["docs/site/src/examples/tokens/TokensExample.tsx"]
+    },
+    {
       "literal": "0.01ms",
       "source": "motion-baseline-2026-09-20",
       "reason": "prefers-reduced-motion 全局兜底（近乎禁用动画），刻意极小",
@@ -29,8 +41,8 @@
     {
       "literal": "250ms",
       "source": "motion-baseline-2026-09-20",
-      "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换",
-      "files": ["src/components/ui/book.module.css"]
+      "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换。Token editor fixture demonstrates public writes and retains its literal value.",
+      "files": ["src/components/ui/book.module.css", "docs/site/src/examples/tokens/TokensExample.tsx"]
     },
     {
       "literal": "2s",

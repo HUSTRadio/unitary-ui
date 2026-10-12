@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Copy } from "lucide-react";
 
-import { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
+import { Toolbar, ToolbarGroup, ToolbarItem } from "@hustradio/unitary-ui";
 
 /**
  * Toolbar —— 窗口级工具操作组：leading / center / trailing 三段分组。

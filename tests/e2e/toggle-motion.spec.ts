@@ -2,10 +2,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { getComponentDocsPath } from "../../docs/site/src/data/docs-routes";
+import { artifactMode, artifactModule } from "./docs-artifact";
 
 type Theme = "light" | "dark";
 type Box = { x: number; y: number; width: number; height: number };
-const fixtureUrl = `/@fs/${path.resolve(path.dirname(fileURLToPath(import.meta.url)), "fixtures/toggle-motion.tsx").replace(/\\/g, "/")}`;
+const fixtureUrl = artifactMode
+  ? artifactModule("site/build/browser-fixtures.ts")
+  : `/@fs/${path.resolve(path.dirname(fileURLToPath(import.meta.url)), "fixtures/toggle-motion.tsx").replace(/\\/g, "/")}`;
 
 test.setTimeout(60_000);
 

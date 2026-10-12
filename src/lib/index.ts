@@ -1,9 +1,6 @@
 // Unitary — Library Entry Point
 // 仅导出实际存在的公开 API
 
-// Styles (side-effect 导入，打包输出独立 styles.css)
-import "../styles/index.css";
-
 // Theme & i18n providers
 export { ThemeProvider, useTheme } from "./theme";
 export type { ThemeProviderProps, ThemePreference, ResolvedTheme, TexturePreference } from "./theme";
@@ -31,6 +28,9 @@ export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics 
 
 // Navigation dismissal primitive (HIG-AUD-017)
 export { useDismissOnNavigate } from "./navigation";
+export { scrollIntoViewWithMotion } from "./scroll-animation";
+export type { ScrollAnimation } from "./scroll-animation";
+export { NAV_CONTENT_INSET } from "@/components/ui/nav-layout";
 export type { ScrollTrackingMode } from "./scroll-tracking";
 export { usePageScroll } from "./use-page-scroll";
 export type { PageScrollState } from "./use-page-scroll";

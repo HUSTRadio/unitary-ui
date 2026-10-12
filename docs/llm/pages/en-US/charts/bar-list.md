@@ -67,7 +67,7 @@ Not applicable: Static display component.
 23,456
 
 ```tsx
-import { BarList } from "@/components/ui/charts/bar-list";
+import { BarList } from "@hustradio/unitary-ui";
 
 const pagesData = [
   { name: "/home", value: 123456 },
@@ -95,7 +95,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { BarList } from "@/components/ui/bar-list";
+import { BarList } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

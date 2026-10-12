@@ -18,6 +18,13 @@ describe("canonical documentation categories", () => {
     for (const name of ["lazy-load", "prefetch"]) expect(getDocsRoute(getComponentDocsPath(name))?.group).toBe("network");
     for (const old of ["/grid", "/typography", "/tokens", "/lifecycle-and-hooks", "/components/grid", "/components/stack", "/components/safe-area", "/components/prefetch", "/components/lazy-load"]) expect(getDocsRoute(old)).toBeUndefined();
   });
+  it("indexes cancellable scrolling and shared navigation spacing in both languages", () => {
+    const entry = FRAMEWORK_API.find((group) => group.to === "/api#scrolling");
+    expect(entry?.names).toEqual(["scrollIntoViewWithMotion", "NAV_CONTENT_INSET"]);
+    expect(entry?.titleZh).toBe("滚动与导航布局");
+    expect(entry?.description).toContain("Cancellable");
+    expect(entry?.descriptionZh).toContain("可取消");
+  });
   it("indexes only real package-root exports and valid reference destinations", () => {
     const source = ts.createSourceFile("index.ts", readFileSync("src/lib/index.ts", "utf8"), ts.ScriptTarget.Latest, true);
     const names = new Set<string>();

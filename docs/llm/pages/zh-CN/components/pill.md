@@ -57,7 +57,7 @@ pill
 ## 实时示例
 
 ```tsx
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function PillDefault21B111CBExample() {
@@ -87,7 +87,7 @@ export function PillDefault21B111CBExample() {
 导入
 
 ```tsx
-import { Pill } from "@/components/ui/pill";
+import { Pill } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

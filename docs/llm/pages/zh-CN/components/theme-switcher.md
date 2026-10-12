@@ -40,7 +40,7 @@ theme-switcher
 
 ## 受控行为
 
-- Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。
+- Theme Switcher 通过 @hustradio/unitary-ui 导出的 ThemeProvider 读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。
 - 本库不依赖 next-themes：公开 API 仅有 className / compact / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。
 - 需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。
 
@@ -57,7 +57,7 @@ theme-switcher
 ## 实时示例
 
 ```tsx
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
 
 export function ThemeSwitcherDefault21B111CBExample() {
   return <ThemeSwitcher />;
@@ -67,7 +67,7 @@ export function ThemeSwitcherDefault21B111CBExample() {
 ## 紧凑布局
 
 ```tsx
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
 
 export function ThemeSwitcherCompact5263293FExample() {
   return <ThemeSwitcher compact />;
@@ -77,7 +77,7 @@ export function ThemeSwitcherCompact5263293FExample() {
 ## 禁用
 
 ```tsx
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
 
 export function ThemeSwitcherDisabled75081B59Example() {
   return <ThemeSwitcher disabled />;
@@ -91,7 +91,7 @@ export function ThemeSwitcherDisabled75081B59Example() {
 导入
 
 ```tsx
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调
@@ -102,7 +102,7 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 - 规范 Light / System / Dark 控件用 Theme Switcher。每个应用放一次，页脚或设置里，不要跨页面重复。
 - 空间紧凑的界面区域（页脚、下拉）传 compact；设置页有标签呼吸空间时用默认尺寸。
-- Theme Switcher 读写框架的 ThemeProvider（src/lib/theme.tsx），所以应用根部包一次 ThemeProvider，不要把它镜像到本地 React state。
+- Theme Switcher 读写 @hustradio/unitary-ui 导出的 ThemeProvider，所以应用根部包一次 ThemeProvider，不要把它镜像到本地 React state。
 - 本库不依赖 next-themes：公开 API 仅有 className / compact / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接使用 useTheme()。
 - 不要用 Switch 或三个图标按钮重建主题选择器。Theme Switcher 已处理图标、每选项 aria-label 与 System 检测。
 - 选项标签经框架 i18n（t()）本地化；保持这种写法，让无障碍名称与界面语言一致。

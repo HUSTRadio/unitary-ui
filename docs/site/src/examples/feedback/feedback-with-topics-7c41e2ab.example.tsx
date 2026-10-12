@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 
 /**
  * 非 dryRun 的主题演示：真实提交后才渲染收据，证明 topic 确实经 onSubmit 的第 4 个

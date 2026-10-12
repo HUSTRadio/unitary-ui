@@ -55,7 +55,7 @@ Not applicable: As an inline element, Loading Dots scales with the current line'
 ## Live Demo
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 
 export function LoadingDotsDefault21B111CBExample() {
   return (
@@ -73,7 +73,7 @@ export function LoadingDotsDefault21B111CBExample() {
 Loading
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 
 export function LoadingDotsWithTextF00F2530Example() {
   return (
@@ -91,7 +91,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

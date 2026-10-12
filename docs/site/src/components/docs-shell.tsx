@@ -2,19 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { Languages, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { HamburgerMenu } from "@/components/ui/hamburger-menu";
-import { Input } from "@/components/ui/input";
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
-import { NAV_CONTENT_INSET } from "@/components/ui/nav-layout";
-import { Navbar } from "@/components/ui/navbar";
+import { HamburgerMenu } from "@hustradio/unitary-ui";
+import { Input } from "@hustradio/unitary-ui";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
+import { NAV_CONTENT_INSET } from "@hustradio/unitary-ui";
+import { Navbar } from "@hustradio/unitary-ui";
 import {
   SidebarNav,
   type SidebarNavBadge,
   type SidebarNavGroup,
-} from "@/components/ui/sidebar-nav";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
-import { useDismissOnNavigate } from "@/lib/navigation";
-import { cn } from "@/lib/utils";
+} from "@hustradio/unitary-ui";
+import { ThemeSwitcher } from "@hustradio/unitary-ui";
+import { useDismissOnNavigate } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 
 import { UnitaryLogoHorizontal } from "./unitary-logo";
 

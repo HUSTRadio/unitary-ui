@@ -1,4 +1,4 @@
-import { ComboChart } from "@/components/ui/charts/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", revenue: 4400, margin: 0.18 },

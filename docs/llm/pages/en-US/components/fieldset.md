@@ -83,7 +83,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetDefault37A8EEC1Example() {
   const [message, setMessage] = useState("");
@@ -132,7 +132,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetDisabled17EB3C01Example() {
   return (
@@ -170,7 +170,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithLongContent39C2ED17Example() {
   const [message, setMessage] = useState("");
@@ -241,7 +241,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetMultipleFieldsets9DD2DFF4Example() {
   const [message, setMessage] = useState("");
@@ -309,12 +309,7 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nisl nisl aliquam nisl.
 
 ```tsx
-import {
-  Fieldset,
-  FieldsetContent,
-  FieldsetSubtitle,
-  FieldsetTitle,
-} from "@/components/ui/fieldset";
+import { Fieldset, FieldsetContent, FieldsetSubtitle, FieldsetTitle } from "@hustradio/unitary-ui";
 
 export function FieldsetWithoutFooterED163245Example() {
   return (
@@ -344,7 +339,7 @@ import {
   FieldsetFooter,
   FieldsetFooterStatus,
   FieldsetSubtitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithoutTitle2B0715C3Example() {
   return (
@@ -387,7 +382,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithErrorTextB52BED15Example() {
   const [message, setMessage] = useState("");
@@ -442,7 +437,7 @@ import {
   FieldsetSubtitle,
   FieldsetTitle,
   WarningText,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithWarningText16633F67Example() {
   const [message, setMessage] = useState("");
@@ -500,7 +495,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithDisabledWallB242E994Example() {
   return (
@@ -547,7 +542,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetErrorType96E58B0DExample() {
   const [message, setMessage] = useState("");
@@ -603,7 +598,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWarningType82942353Example() {
   const [message, setMessage] = useState("");
@@ -656,7 +651,7 @@ import {
   ErrorText,
   WarningText,
   DisabledWall,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

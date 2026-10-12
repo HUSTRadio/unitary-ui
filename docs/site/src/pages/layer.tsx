@@ -1,5 +1,4 @@
-import { LAYER_TOKENS } from "@/components/ui/layer";
-import { GLOBAL_TOKENS } from "@/lib/token-catalog";
+import { GLOBAL_TOKENS } from "@hustradio/unitary-ui";
 import { LayerDefaultExample } from "../examples/layer/default.example";
 import DefaultSource from "../examples/layer/default.example.tsx?example-source";
 import { LayerScopedExample } from "../examples/layer/scoped.example";
@@ -10,6 +9,11 @@ import { DemoShowCode } from "../components/demo-show-code";
 import { ComponentApiReference } from "../components/docs-api-reference";
 import { DocsPageTitle, DocsPageLead, DocsSection, DocsSectionTitle, DocsParagraph } from "../components/docs-typography";
 import type { DocsLanguage } from "../i18n/language";
+
+// Public metadata owns both the level names and their values; retain z-order in the table.
+const layerTokens = Object.entries(GLOBAL_TOKENS)
+  .filter(([token, metadata]) => metadata.group === "layers" && token.startsWith("--uni-z-"))
+  .sort(([, left], [, right]) => Number(left.value) - Number(right.value));
 
 export function LayerPage({ language }: { language: DocsLanguage }) {
   const zh = language === "zh-CN";
@@ -28,7 +32,7 @@ export function LayerPage({ language }: { language: DocsLanguage }) {
     </DocsSection>
     <DocsSection>
       <DocsSectionTitle>{zh ? "语义层级" : "Semantic levels"}</DocsSectionTitle>
-      <div data-slot="docs-local-scroll" className="overflow-x-auto"><table className="w-full text-copy-13" aria-label={zh ? "层级表" : "Layer levels"}><thead><tr><th className="p-3 text-left">Level</th><th className="p-3 text-left">Token</th><th className="p-3 text-left">z-index</th></tr></thead><tbody>{Object.entries(LAYER_TOKENS).map(([level, token]) => <tr key={level}><td className="border-t p-3 font-mono">{level}</td><td className="border-t p-3 font-mono">{token}</td><td className="border-t p-3">{GLOBAL_TOKENS[token].value}</td></tr>)}</tbody></table></div>
+      <div data-slot="docs-local-scroll" className="overflow-x-auto"><table className="w-full text-copy-13" aria-label={zh ? "层级表" : "Layer levels"}><thead><tr><th className="p-3 text-left">Level</th><th className="p-3 text-left">Token</th><th className="p-3 text-left">z-index</th></tr></thead><tbody>{layerTokens.map(([token, metadata]) => <tr key={token}><td className="border-t p-3 font-mono">{token.slice("--uni-z-".length)}</td><td className="border-t p-3 font-mono">{token}</td><td className="border-t p-3">{metadata.value}</td></tr>)}</tbody></table></div>
       <DocsParagraph>{zh ? "base=0 显式创建局部堆叠上下文，与 auto 不同。Calendar 主弹层保留 30；其预设组合菜单使用 popover。遮罩与内容保持同档，局部顺序由原有 DOM 关系决定。Avatar、Grid 等内部的小数值用于局部装饰顺序。" : "base=0 explicitly creates a local stacking context and differs from auto. Calendar’s main popup retains 30; its preset menu uses popover. Backdrops and content retain the same band, with local order determined by their existing DOM relationships. Small internal values in Avatar and Grid describe local decorative order."}</DocsParagraph>
     </DocsSection>
     <ComponentApiReference componentName="layer" />

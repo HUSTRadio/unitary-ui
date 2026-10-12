@@ -50,8 +50,8 @@ Not applicable: Error containment is viewport-independent; the caller owns respo
 
 ```tsx
 import * as React from "react";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { Button } from "@/components/ui/button";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 function BrokenPreview(): never {
   throw new Error("Deployment preview failed to render");
@@ -92,7 +92,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

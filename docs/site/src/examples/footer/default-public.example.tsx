@@ -1,4 +1,4 @@
-import { Footer } from "@/components/ui/footer";
+import { Footer } from "@hustradio/unitary-ui";
 
 export default function FooterExample() {
   return (

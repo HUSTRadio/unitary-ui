@@ -1,4 +1,4 @@
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderStepMax1112E58CExample() {
   return (

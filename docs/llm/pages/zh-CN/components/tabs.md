@@ -75,7 +75,7 @@ tabs
 ## 实时示例
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDefault21B111CBExample() {
@@ -101,7 +101,7 @@ export function TabsDefault21B111CBExample() {
 ## 禁用
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDisabled75081B59Example() {
@@ -126,7 +126,7 @@ export function TabsDisabled75081B59Example() {
 ## 禁用指定标签页
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDisableSpecificTabsA4195A7DExample() {
@@ -150,7 +150,7 @@ export function TabsDisableSpecificTabsA4195A7DExample() {
 ## 带图标
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { LayoutGrid } from "lucide-react";
 import { useState } from "react";
 
@@ -175,7 +175,7 @@ export function TabsWithIcons1F71F4BCExample() {
 ## 次要
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsSecondary62F2CCFFExample() {
@@ -200,7 +200,7 @@ export function TabsSecondary62F2CCFFExample() {
 ## 紧凑布局
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsCompactB6B54201Example() {
@@ -250,12 +250,12 @@ export function TabsCompactB6B54201Example() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { Tabs } from "@/components/ui/tabs";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { Tabs } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode } from "@hustradio/unitary-ui";
 
 export default function TabsScrollTrackingExample() {
   const { locale } = useI18n();
@@ -366,7 +366,7 @@ export default function TabsScrollTrackingExample() {
 导入
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

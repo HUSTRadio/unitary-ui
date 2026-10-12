@@ -67,7 +67,7 @@ Default Radio Example
 Option 1Option 2
 
 ```tsx
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function RadioDefault37A8EEC1Example() {
@@ -91,7 +91,7 @@ Disabled Radio Example
 Option 1Option 2
 
 ```tsx
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 
 export function RadioRadioDisabled2226FEE4Example() {
   return (
@@ -108,8 +108,8 @@ export function RadioRadioDisabled2226FEE4Example() {
 ## Radio required
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { Button } from "@hustradio/unitary-ui";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 
 export function RadioRadioRequired0BCA93F0Example() {
   return (
@@ -132,7 +132,7 @@ Option 1Option 2
 
 ```tsx
 import { useState } from "react";
-import { RadioGroup, useRadio } from "@/components/ui/radio";
+import { RadioGroup, useRadio } from "@hustradio/unitary-ui";
 
 export function RadioRadioHeadlessF2D8A0DBExample() {
   const [value, setValue] = useState("one");
@@ -163,7 +163,7 @@ export function RadioRadioHeadlessF2D8A0DBExample() {
 - Option 1
 
 ```tsx
-import { Radio } from "@/components/ui/radio";
+import { Radio } from "@hustradio/unitary-ui";
 
 export function RadioRadioStandalone65A01781Example() {
   return (
@@ -182,7 +182,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Radio, RadioGroup, RadioGroupItem, useRadio } from "@/components/ui/radio";
+import { Radio, RadioGroup, RadioGroupItem, useRadio } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

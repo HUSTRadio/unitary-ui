@@ -61,7 +61,7 @@ show-more
 ## 实时示例
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ShowMoreDefault21B111CBExample() {
@@ -74,7 +74,7 @@ export function ShowMoreDefault21B111CBExample() {
 ## 展开
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 
 export function ShowMoreExpandedE72D5D8DExample() {
   return <ShowMore expanded />;
@@ -84,7 +84,7 @@ export function ShowMoreExpandedE72D5D8DExample() {
 ## 无边框
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 
 export function ShowMoreNoBorder5DEDD0A8Example() {
   return <ShowMore noBorder />;
@@ -98,7 +98,7 @@ export function ShowMoreNoBorder5DEDD0A8Example() {
 导入
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ButtonHTMLAttributes<HTMLButtonElement>`

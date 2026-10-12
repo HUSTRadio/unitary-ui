@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@hustradio/unitary-ui";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@hustradio/unitary-ui";
 import { X } from "lucide-react";
 import { useState } from "react";
 

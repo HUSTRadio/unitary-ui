@@ -60,7 +60,7 @@ This is the first section of content.
 This is the second section of content.
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@hustradio/unitary-ui";
 
 export function SeparatorHorizontal69B273A2Example() {
   return (
@@ -90,7 +90,7 @@ Services
 Contact
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@hustradio/unitary-ui";
 
 export function SeparatorVertical34DA5602Example() {
   return (
@@ -124,7 +124,7 @@ Center
 Right
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@hustradio/unitary-ui";
 
 export function SeparatorOrientationVariants25A5D06AExample() {
   return (
@@ -159,7 +159,7 @@ export function SeparatorOrientationVariants25A5D06AExample() {
 导入
 
 ```tsx
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

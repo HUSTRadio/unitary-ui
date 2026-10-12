@@ -62,8 +62,8 @@ continuous-surface
 ```tsx
 import { useId } from "react";
 
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
-import { superellipsePath } from "@/lib/continuous-corner";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
+import { superellipsePath } from "@hustradio/unitary-ui";
 
 const curves = [
   { label: "Circular · p=2", exponent: 2 },
@@ -127,7 +127,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`HTMLAttributes<HTMLDivElement>`

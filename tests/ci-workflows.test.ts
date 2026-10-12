@@ -49,7 +49,7 @@ function runIndex(job: Job, command: string): number {
 const browserInstall = "pnpm exec playwright install --with-deps chromium";
 const ciJobs = [
   { id: "checks", timeout: 20, commands: ["lint", "typecheck", "typecheck:tests", "test"] },
-  { id: "build-package", timeout: 30, commands: ["build", "test:package"] },
+  { id: "build-package", timeout: 90, commands: ["build", "test:package"] },
   { id: "docs", timeout: 30, commands: ["build:docs", "docs:llm:check"] },
 ];
 

@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 /**
  * 真正的「带外框」变体：外框由 `TableRoot` 的 `frame="outline"` 提供

@@ -51,9 +51,9 @@ Skeletons preserve image aspect ratios; scrolling increases the mounted count an
 
 ```tsx
 import { useState } from "react";
-import { LazyLoad } from "@/components/ui/lazy-load";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useI18n } from "@/lib/i18n";
+import { LazyLoad } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function LazyLoadExample() {
   const [viewport, setViewport] = useState<HTMLDivElement | null>(null);
@@ -107,7 +107,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { LazyLoad } from "@/components/ui/lazy-load";
+import { LazyLoad } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ComponentProps<"div">`

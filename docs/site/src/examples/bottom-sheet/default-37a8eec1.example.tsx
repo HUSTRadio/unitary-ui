@@ -1,6 +1,6 @@
 import * as React from "react";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { Button } from "@/components/ui/button";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 export function BottomSheetDefault37A8EEC1Example() {
   const [open, setOpen] = React.useState(false);

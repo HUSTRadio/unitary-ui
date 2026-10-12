@@ -64,7 +64,7 @@ Left
 Right
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipNoDelay1EEF43B1Example() {
   return (
@@ -115,7 +115,7 @@ Right/Center
 Right/Right
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipBoxAlign42ACE5E0Example() {
   return (
@@ -187,7 +187,7 @@ Left
 Right
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipCustomContent61146064Example() {
   return (
@@ -255,7 +255,7 @@ Left
 Right
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipCustomType2E67D6C7Example() {
   return (
@@ -294,11 +294,11 @@ LEFT
 Shortcut
 
 ```tsx
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Kbd } from "@/components/ui/keyboard-input";
-import { Spinner } from "@/components/ui/spinner";
-import { Tooltip } from "@/components/ui/tooltip";
+import { Badge } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Kbd } from "@hustradio/unitary-ui";
+import { Spinner } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipComponentsA150CE22Example() {
   return (
@@ -348,7 +348,7 @@ No tip indicator
 No center text
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function TooltipOtherF97E9DA0Example() {
   return (
@@ -375,7 +375,7 @@ export function TooltipOtherF97E9DA0Example() {
 导入
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip";
+import { Tooltip } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Carousel, type CarouselVariant } from "@/components/ui/carousel";
-import { Select, SelectItem } from "@/components/ui/select";
-import { useI18n } from "@/lib/i18n";
+import { Carousel, type CarouselVariant } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function CarouselVariantsExample() {
   const { locale } = useI18n();

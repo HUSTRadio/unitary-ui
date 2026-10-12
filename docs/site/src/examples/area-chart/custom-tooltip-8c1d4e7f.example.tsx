@@ -1,4 +1,4 @@
-import { AreaChart, type TooltipProps } from "@/components/ui/charts/area-chart";
+import { AreaChart, type AreaChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 2890, successfulPayments: 2453 },

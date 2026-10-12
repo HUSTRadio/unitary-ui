@@ -62,7 +62,7 @@ Not applicable: Display-only component; onValueChange reports interaction select
 - profit
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 4400, profit: 2605 },
@@ -94,7 +94,7 @@ export function BarChartDefault37A8EEC1Example() {
 - embedded
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", desktop: 1243, mobile: 954, embedded: 312 },
@@ -123,7 +123,7 @@ export function BarChartStacked6B2E8D3AExample() {
 - visits
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const verticalData = [
   { browser: "Chrome", visits: 4245 },
@@ -153,7 +153,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { BarChart } from "@/components/ui/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

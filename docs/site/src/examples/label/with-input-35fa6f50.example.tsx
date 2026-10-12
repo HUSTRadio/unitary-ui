@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelWithInput35FA6F50Example() {
   return (

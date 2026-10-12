@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { Button } from "@hustradio/unitary-ui";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function RadioRadioRequiredE6F9B6F0Example() {

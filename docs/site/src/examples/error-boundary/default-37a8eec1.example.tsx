@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { Button } from "@/components/ui/button";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 function BrokenPreview(): never {
   throw new Error("Deployment preview failed to render");

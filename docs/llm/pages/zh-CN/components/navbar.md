@@ -49,7 +49,7 @@ UnitaryWorkspace
 Page content begins below the header.
 
 ```tsx
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@hustradio/unitary-ui";
 
 export default function NavbarExample() {
   return (
@@ -73,7 +73,7 @@ export default function NavbarExample() {
 导入
 
 ```tsx
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

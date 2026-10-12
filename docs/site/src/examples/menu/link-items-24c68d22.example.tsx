@@ -1,4 +1,4 @@
-import { Menu, MenuButton, MenuContainer, MenuLink } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuLink } from "@hustradio/unitary-ui";
 
 export function MenuLinkItems24C68D22Example() {
   return (

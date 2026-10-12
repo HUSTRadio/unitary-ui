@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextCard,
   ContextCardBody,
@@ -7,7 +7,7 @@ import {
   ContextCardHeader,
   ContextCardTitle,
   ContextCardTrigger,
-} from "@/components/ui/context-card";
+} from "@hustradio/unitary-ui";
 
 export function ContextCardAlignment47CCB97AExample() {
   const card = (

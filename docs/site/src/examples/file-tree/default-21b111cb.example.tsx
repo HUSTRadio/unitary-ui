@@ -3,7 +3,7 @@ import {
   FileTreeIcon,
   FileTreeItem,
   FileTreeLabel,
-} from "@/components/ui/file-tree";
+} from "@hustradio/unitary-ui";
 
 export function FileTreeDefault21B111CBExample() {
   return (

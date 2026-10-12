@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RadioGroup, useRadio } from "@/components/ui/radio";
+import { RadioGroup, useRadio } from "@hustradio/unitary-ui";
 
 export function RadioRadioHeadlessF2D8A0DBExample() {
   const [value, setValue] = useState("one");

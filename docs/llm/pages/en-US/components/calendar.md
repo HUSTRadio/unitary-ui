@@ -64,7 +64,7 @@ Pins the calendar to a specific timezone to avoid cross-timezone ambiguity.
 ## Live Demo
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarDefault37A8EEC1Example() {
   return <Calendar label="Select Date Range" />;
@@ -74,7 +74,7 @@ export function CalendarDefault37A8EEC1Example() {
 ## Horizontal Layout
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarHorizontalLayout7E958EE5Example() {
   return <Calendar label="Select Date Range" horizontalLayout />;
@@ -84,7 +84,7 @@ export function CalendarHorizontalLayout7E958EE5Example() {
 ## Sizes
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarSizes7C69F3FAExample() {
   return (
@@ -101,7 +101,7 @@ export function CalendarSizes7C69F3FAExample() {
 Combobox Menu
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarPresets4700153DExample() {
   return (
@@ -130,7 +130,7 @@ export function CalendarPresets4700153DExample() {
 Combobox Menu
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarCompactB6B54201Example() {
   return (
@@ -155,7 +155,7 @@ export function CalendarCompactB6B54201Example() {
 Combobox Menu
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarStacked62739DB4Example() {
   return (
@@ -181,7 +181,7 @@ export function CalendarStacked62739DB4Example() {
 Combobox Menu
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarPresetsDefault52146B29Example() {
   return (
@@ -209,7 +209,7 @@ export function CalendarPresetsDefault52146B29Example() {
 ## Min max
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarMinMax133CB44DExample() {
   const now = new Date();
@@ -225,7 +225,7 @@ export function CalendarMinMax133CB44DExample() {
 ## Pinned Timezone
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 
 export function CalendarPinnedTimezoneEF9CAF79Example() {
   return <Calendar label="Select Date Range" pinnedTimezone="America/Los_Angeles" />;
@@ -239,7 +239,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

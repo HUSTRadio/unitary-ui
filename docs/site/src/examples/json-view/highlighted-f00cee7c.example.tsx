@@ -1,4 +1,4 @@
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
+import { JsonView, makeJsonViewHighlightPattern } from "@hustradio/unitary-ui";
 
 export function JsonViewHighlightedF00CEE7CExample() {
   const data = {

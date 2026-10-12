@@ -59,8 +59,8 @@ Pagination 的 previous/next 提供相邻页面标题及目标链接。
 
 ```tsx
 import { useState } from "react";
-import { NumberedPagination } from "@/components/ui/pagination";
-import { useI18n } from "@/lib/i18n";
+import { NumberedPagination } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function NumberedExample() {
   const [page, setPage] = useState(6);
@@ -81,7 +81,7 @@ export default function NumberedExample() {
 ## 默认
 
 ```tsx
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from "@hustradio/unitary-ui";
 
 export function PaginationDefault21B111CBExample() {
   return (
@@ -100,7 +100,7 @@ export function PaginationDefault21B111CBExample() {
 导入
 
 ```tsx
-import { Pagination, NumberedPagination } from "@/components/ui/pagination";
+import { Pagination, NumberedPagination } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ComponentProps<"nav">`

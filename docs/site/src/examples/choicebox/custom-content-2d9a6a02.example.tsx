@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge";
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { Badge } from "@hustradio/unitary-ui";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ChoiceboxCustomContent2D9A6A02Example() {

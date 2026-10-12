@@ -63,7 +63,7 @@ book
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookDefault21B111CBExample() {
   return <Book title="The user experience of the Frontend Cloud" />;
@@ -77,7 +77,7 @@ The user experience of the Frontend Cloud
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookVariants63D2643BExample() {
   return (
@@ -98,7 +98,7 @@ Design Engineering at Unitary
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookCustomColorA5F69A18Example() {
   return (
@@ -125,7 +125,7 @@ Next.js Documentation
 React Essentials
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 import { ArrowRight, Atom, Triangle } from "lucide-react";
 
 export function BookCustomIconEE5755A2Example() {
@@ -146,7 +146,7 @@ The user experience of the Frontend Cloud
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 import { ChartColumn, Waves } from "lucide-react";
 
 export function BookCustomIllustration79A95CD3Example() {
@@ -171,7 +171,7 @@ export function BookCustomIllustration79A95CD3Example() {
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookResponsiveDE779794Example() {
   return <Book title="The user experience of the Frontend Cloud" width={{ sm: 150, md: 196 }} />;
@@ -187,7 +187,7 @@ The user experience of the Frontend Cloud
 The user experience of the Frontend Cloud
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookWidth3019947BExample() {
   return (
@@ -215,7 +215,7 @@ Design Engineering at Unitary
 Design Engineering at Unitary
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 
 export function BookTexturedB29877FBExample() {
   return (
@@ -260,7 +260,7 @@ export function BookTexturedB29877FBExample() {
 导入
 
 ```tsx
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

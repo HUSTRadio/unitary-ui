@@ -49,11 +49,12 @@ Show code
 TokensExample.tsx
 
 ```tsx
+// Foundation demo shared by the docs token page and the living styleguide.
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Select, SelectItem } from "@/components/ui/select";
-import { useI18n } from "@/lib/i18n";
-import { setTokens, resetTokens, useTokens, type TokenTarget } from "@/lib/tokens";
+import { Button } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import { setTokens, resetTokens, useTokens, type TokenTarget } from "@hustradio/unitary-ui";
 
 const names = ["--primary", "--primary-foreground", "--radius", "--uni-duration-fast"] as const;
 

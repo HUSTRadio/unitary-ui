@@ -1,5 +1,5 @@
-import { ProjectBanner } from "@/components/ui/project-banner";
-import { Tooltip } from "@/components/ui/tooltip";
+import { ProjectBanner } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 

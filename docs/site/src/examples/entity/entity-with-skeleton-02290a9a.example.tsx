@@ -1,5 +1,5 @@
-import { Entity } from "@/components/ui/entity";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Entity } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function EntityEntityWithSkeleton02290A9AExample() {
   return (

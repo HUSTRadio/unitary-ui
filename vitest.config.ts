@@ -12,9 +12,10 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url));
 export default {
   plugins: [componentExamplesPlugin(), exampleSourcePlugin()],
   resolve: {
-    alias: {
-      "@": path.resolve(rootDir, "src"),
-    },
+    alias: [
+      { find: /^@hustradio\/unitary-ui$/, replacement: path.resolve(rootDir, "src/lib/index.ts") },
+      { find: "@", replacement: path.resolve(rootDir, "src") },
+    ],
   },
   test: {
     // Windows full-suite runs perform many concurrent Git/filesystem operations;

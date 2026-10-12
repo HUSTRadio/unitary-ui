@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@hustradio/unitary-ui";
 
 export function InputRoundedPrefixAndSuffix04A5C184Example() {
   return (

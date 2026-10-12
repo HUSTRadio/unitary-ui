@@ -1,5 +1,5 @@
 import { CHART_COMPONENT_NAMES, getComponentDocsPath } from "../data/docs-routes";
-import { AreaChart } from "@/components/ui/charts/area-chart";
+import { AreaChart } from "@hustradio/unitary-ui";
 
 import { COMPONENTS } from "../data/components";
 import { type DocsLanguage } from "../i18n/language";

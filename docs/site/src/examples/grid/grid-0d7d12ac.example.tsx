@@ -1,4 +1,4 @@
-import { Grid, GridSystem } from "@/components/ui/grid";
+import { Grid, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridGrid0D7D12ACExample() {
   return (

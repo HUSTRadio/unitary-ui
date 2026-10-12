@@ -61,7 +61,7 @@ Green:Loading...
 Blue:Loading...
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@hustradio/unitary-ui";
 
 export function SpinnerColors88C45D9EExample() {
   return (
@@ -94,7 +94,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

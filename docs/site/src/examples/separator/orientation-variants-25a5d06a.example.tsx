@@ -1,4 +1,4 @@
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@hustradio/unitary-ui";
 
 export function SeparatorOrientationVariants25A5D06AExample() {
   return (

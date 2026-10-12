@@ -59,7 +59,7 @@ Not applicable: Breadcrumbs is a passive navigational indicator driven by routin
 [Home](#/)[Dashboard](#/components)[Overview](#/components/breadcrumbs)
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsDefault21B111CBExample() {
   return (
@@ -82,7 +82,7 @@ export function BreadcrumbsDefault21B111CBExample() {
 ## Active
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsActive92340695Example() {
   return (
@@ -98,7 +98,7 @@ export function BreadcrumbsActive92340695Example() {
 ## Disabled
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsDisabled75081B59Example() {
   return (
@@ -118,7 +118,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

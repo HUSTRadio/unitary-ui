@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { AreaChart, type TooltipProps } from "@/components/ui/charts/area-chart";
-import { getColorClassName } from "@/components/ui/charts/chart-colors";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { AreaChart, type AreaChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
+import { getColorClassName } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 
 /**
  * 图表卡模式：卡片头部承载标题与区间筛选，图表用 customTooltip 输出合计卡片。

@@ -1,9 +1,9 @@
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@hustradio/unitary-ui";
 import { useState } from "react";
-import { LayerScope } from "@/components/ui/layer";
-import { Button } from "@/components/ui/button";
-import { Select, SelectItem } from "@/components/ui/select";
-import { Tooltip } from "@/components/ui/tooltip";
+import { LayerScope } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function LayerScopedExample() {
   const zh = useI18n().locale === "zh-CN";

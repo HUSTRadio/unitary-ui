@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ChevronRight } from "lucide-react";
-import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
+import { CodeBlock as CodeBlockComponent } from "@hustradio/unitary-ui";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 

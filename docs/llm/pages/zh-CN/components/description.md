@@ -61,7 +61,7 @@ Section Title
 Data about this section.
 
 ```tsx
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 
 export function DescriptionDefault37A8EEC1Example() {
   return (
@@ -81,7 +81,7 @@ Section Title
 Data about this section.
 
 ```tsx
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 
 export function DescriptionTextRightFE5B1527Example() {
   return (
@@ -102,7 +102,7 @@ Section Title
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero. Phasellus consectetur turpis ac est pulvinar finibus. Mauris non tellus pretium, vehicula lectus sed, iaculis ex. Integer eu aliquet turpis. Cras sem nulla, commodo ut libero id, suscipit pulvinar lorem.
 
 ```tsx
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 
 export function DescriptionEllipsisB014A021Example() {
   return (
@@ -123,7 +123,7 @@ export function DescriptionEllipsisB014A021Example() {
 导入
 
 ```tsx
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

@@ -1,4 +1,4 @@
-import { Browser } from "@/components/ui/browser";
+import { Browser } from "@hustradio/unitary-ui";
 
 export function BrowserComposition47FCA483Example() {
   return (

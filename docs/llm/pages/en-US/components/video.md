@@ -53,7 +53,7 @@ Hides built-in playback controls for an immersive viewing experience, suitable f
 ## Live Demo
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoDefault37A8EEC1Example() {
   return (
@@ -67,7 +67,7 @@ export function VideoDefault37A8EEC1Example() {
 ## No Loop
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoNoLoopAE976739Example() {
   return (
@@ -81,7 +81,7 @@ export function VideoNoLoopAE976739Example() {
 ## No Controls
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoNoControlsA3B62E68Example() {
   return (
@@ -99,7 +99,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `VideoHTMLAttributes<HTMLVideoElement>`

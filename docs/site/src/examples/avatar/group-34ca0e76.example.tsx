@@ -1,4 +1,4 @@
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarGroup34CA0E76Example() {
   return (

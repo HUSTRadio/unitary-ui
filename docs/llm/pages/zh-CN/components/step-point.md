@@ -52,7 +52,7 @@ step-point
 - Approved
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point";
+import { StepPoint } from "@hustradio/unitary-ui";
 
 export function StepPointDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ export function StepPointDefault21B111CBExample() {
 导入
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point";
+import { StepPoint } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

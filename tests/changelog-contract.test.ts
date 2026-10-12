@@ -62,8 +62,14 @@ describe("Changelog contract", () => {
     expect(readme, "README 默认链接简体中文 changelog").toContain("CHANGELOG.md");
   });
 
-  it("不虚构发布历史：版本与 package.json / git tags 一致", () => {
+  it("不虚构发布历史：版本与当前包、git tags 或已核验 npm 记录一致", () => {
     const pkgVersion = JSON.parse(read("package.json")).version;
+    const published = JSON.parse(read("tests/fixtures/npm-publications.json"));
+    expect(published.name).toBe("@hustradio/unitary-ui");
+    for (const evidence of Object.values(published.versions) as { integrity: string; provenance: string }[]) {
+      expect(evidence.integrity).toMatch(/^sha512-[A-Za-z0-9+/]+={0,2}$/);
+      expect(new URL(evidence.provenance).origin).toBe("https://registry.npmjs.org");
+    }
     let tags: string[] = [];
     try {
       tags = execFileSync("git", ["tag", "--list"], { cwd: ROOT, encoding: "utf8" })
@@ -79,8 +85,8 @@ describe("Changelog contract", () => {
         // 每个已发布版本必须能对应到 tag 或 package 版本
         const normalized = version.replace(/^v/, "");
         expect(
-          tags.includes(version) || tags.includes(`v${normalized}`) || normalized === pkgVersion,
-          `${file} 中的版本 ${version} 无法从 git tags / package.json 证实`,
+          tags.includes(version) || tags.includes(`v${normalized}`) || normalized === pkgVersion || Boolean(published.versions[normalized]),
+          `${file} 中的版本 ${version} 无法从 git tags / package.json / npm 记录证实`,
         ).toBe(true);
       }
     }

@@ -61,7 +61,7 @@ Not applicable: ShowMore renders only a fixed 32px-high trigger. It does not man
 ## Live Demo
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ShowMoreDefault21B111CBExample() {
@@ -74,7 +74,7 @@ export function ShowMoreDefault21B111CBExample() {
 ## Expanded
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 
 export function ShowMoreExpandedE72D5D8DExample() {
   return <ShowMore expanded />;
@@ -84,7 +84,7 @@ export function ShowMoreExpandedE72D5D8DExample() {
 ## No border
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 
 export function ShowMoreNoBorder5DEDD0A8Example() {
   return <ShowMore noBorder />;
@@ -98,7 +98,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ButtonHTMLAttributes<HTMLButtonElement>`

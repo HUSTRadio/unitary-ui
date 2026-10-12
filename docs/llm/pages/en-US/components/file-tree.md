@@ -60,7 +60,7 @@ Displays the default file tree component with expandable folder nodes and file i
 - public
 
 ```tsx
-import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
+import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@hustradio/unitary-ui";
 
 export function FileTreeDefault21B111CBExample() {
   return (
@@ -91,7 +91,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@/components/ui/file-tree";
+import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

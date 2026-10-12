@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui/label";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelDefault37A8EEC1Example() {
   return (

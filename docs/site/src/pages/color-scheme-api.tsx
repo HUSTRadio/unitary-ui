@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import { DocsPageTitle, DocsPageLead, DocsSection, DocsSectionTitle, DocsParagraph } from "../components/docs-typography";
 import type { DocsLanguage } from "../i18n/language";
 

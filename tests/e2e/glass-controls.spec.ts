@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
+import { artifactMode, artifactModule } from "./docs-artifact";
 
 type Theme = "light" | "dark";
 type Texture = "solid" | "hybrid" | "glass";
@@ -34,9 +35,9 @@ async function texture(page: Page, value: Texture) {
   await frames(page);
 }
 
-/** Render the actual shared implementations through the existing docs Vite
- * server, rather than fabricating their DOM/classes. Read optimized dependency
- * URLs from Vite's real transformed imports; no machine paths are retained. */
+/** Render the public components from the built fixture or the docs Vite server.
+ * Source mode reads optimized dependency URLs from Vite's transformed imports;
+ * no machine paths are retained. */
 async function mountButtons(page: Page, ownerFixture = false) {
   await page.addStyleTag({ content: `@layer utilities {
     .glass-control-author-fill { background-color: rgb(80 100 120); }
@@ -46,19 +47,43 @@ async function mountButtons(page: Page, ownerFixture = false) {
     .glass-control-author-state:active { background-color: rgb(60 80 100); }
   }` });
   const moduleUrl = `/@fs/${process.cwd().replaceAll("\\", "/")}/src/components/ui/button.tsx`;
-  await page.evaluate(async ({ moduleUrl, ownerFixture }) => {
-    const [main, button] = await Promise.all([
-      fetch("/site/src/main.tsx").then(response => response.text()),
-      fetch(moduleUrl).then(response => response.text()),
-    ]);
-    const reactUrl = button.match(/from\s*["']([^"']*\/react\.js[^"']*)["']/)?.[1];
-    const clientUrl = main.match(/from\s*["']([^"']*react-dom_client\.js[^"']*)["']/)?.[1];
-    if (!reactUrl || !clientUrl) throw new Error("The docs preview must expose its actual React imports");
-    const [reactModule, clientModule, buttons] = await Promise.all([
-      import(reactUrl), import(clientUrl), import(moduleUrl),
-    ]);
-    const React = reactModule.default ?? reactModule;
-    const ReactDOM = clientModule.default ?? clientModule;
+  const fixtureUrl = artifactMode ? artifactModule("site/build/browser-fixtures.ts") : undefined;
+  await page.evaluate(async ({ moduleUrl, ownerFixture, fixtureUrl }) => {
+    const fixtures = fixtureUrl ? await import(fixtureUrl) : undefined;
+    let React: typeof import("react");
+    let ReactDOM: typeof import("react-dom/client");
+    let buttons: Pick<typeof import("@hustradio/unitary-ui"), "Button" | "ButtonLink">;
+    let ownerModules: [
+      Pick<typeof import("@hustradio/unitary-ui"), "Toolbar">,
+      Pick<typeof import("@hustradio/unitary-ui"), "RadioGroup" | "RadioGroupItem">,
+    ] | undefined;
+    if (fixtures) {
+      for (const name of ["Button", "ButtonLink", ...(ownerFixture ? ["Toolbar", "RadioGroup", "RadioGroupItem"] : [])]) {
+        if (!fixtures[name]) throw new Error(`Built docs browser fixture is missing ${name}`);
+      }
+      React = fixtures.React;
+      ReactDOM = fixtures.ReactDOM;
+      buttons = fixtures;
+      ownerModules = ownerFixture ? [fixtures, fixtures] : undefined;
+    } else {
+      const [main, button] = await Promise.all([
+        fetch("/site/src/main.tsx").then(response => response.text()),
+        fetch(moduleUrl).then(response => response.text()),
+      ]);
+      const reactUrl = button.match(/from\s*["']([^"']*\/react\.js[^"']*)["']/)?.[1];
+      const clientUrl = main.match(/from\s*["']([^"']*react-dom_client\.js[^"']*)["']/)?.[1];
+      if (!reactUrl || !clientUrl) throw new Error("The docs preview must expose its actual React imports");
+      const [reactModule, clientModule, buttonModule] = await Promise.all([
+        import(reactUrl), import(clientUrl), import(moduleUrl),
+      ]);
+      React = reactModule.default ?? reactModule;
+      ReactDOM = clientModule.default ?? clientModule;
+      buttons = buttonModule;
+      ownerModules = ownerFixture ? await Promise.all([
+        import(moduleUrl.replace("button.tsx", "toolbar.tsx")),
+        import(moduleUrl.replace("button.tsx", "radio.tsx")),
+      ]) : undefined;
+    }
     const host = document.createElement("div");
     host.dataset.glassControlFixture = "";
     Object.assign(host.style, {
@@ -68,18 +93,19 @@ async function mountButtons(page: Page, ownerFixture = false) {
     });
     document.body.append(host);
     const h = React.createElement;
-    const ownerModules = ownerFixture ? await Promise.all([
-      import(moduleUrl.replace("button.tsx", "toolbar.tsx")),
-      import(moduleUrl.replace("button.tsx", "radio.tsx")),
-    ]) : undefined;
-    const control = (name: string, props: Record<string, unknown> = {}, link = false) =>
-      h(link ? buttons.ButtonLink : buttons.Button, {
-        type: "secondary", ...(link ? { href: "#glass-controls" } : { typeName: "button" }),
+    const control = (name: string, props: Record<string, unknown> = {}, link = false) => {
+      const shared = {
+        type: "secondary" as const,
         "data-glass-control": name, style: { width: "160px" }, ...props,
-      }, link ? "Glass link" : "Glass action");
-    const row = (children: unknown[], props: Record<string, unknown> = {}) => h("div", {
+      };
+      return link
+        ? h(buttons.ButtonLink, { href: "#glass-controls", ...shared }, "Glass link")
+        : h(buttons.Button, { typeName: "button", ...shared }, "Glass action");
+    };
+    const row = (children: import("react").ReactNode[], props: Record<string, unknown> = {}) => h("div", {
       style: { display: "flex", flexWrap: "wrap", gap: "12px", padding: "12px" }, ...props,
     }, ...children);
+    const toolbarProps = { collapse: false, "data-glass-control-owner": "toolbar" };
     ReactDOM.createRoot(host).render(h(React.Fragment, null,
       control("focus-start", { type: "tertiary", size: "tiny" }),
       row([control("button"), control("link", {}, true)], {
@@ -114,17 +140,16 @@ async function mountButtons(page: Page, ownerFixture = false) {
         style: { position: "relative", width: "360px", height: "180px", padding: "12px",
           display: "flex", flexWrap: "wrap", alignContent: "flex-start", gap: "12px" },
       }),
-      ...(ownerModules ? [row([h(ownerModules[0].Toolbar, {
-        collapse: false, "data-glass-control-owner": "toolbar",
-      }, control("toolbar-button"), control("toolbar-link", {}, true),
-      h(ownerModules[1].RadioGroup, { value: "option", "aria-label": "Toolbar options" },
-        h(ownerModules[1].RadioGroupItem, { value: "option",
-          className: "relative min-h-11 rounded-md border border-border bg-background px-3 text-foreground",
-        }, "Option")))], { "data-material": "floating", className: "material-menu",
+      ...(ownerModules ? [row([h(ownerModules[0].Toolbar, toolbarProps,
+        control("toolbar-button"), control("toolbar-link", {}, true),
+        h(ownerModules[1].RadioGroup, { value: "option", "aria-label": "Toolbar options" },
+          h(ownerModules[1].RadioGroupItem, { value: "option",
+            className: "relative min-h-11 rounded-md border border-border bg-background px-3 text-foreground",
+          }, "Option")))], { "data-material": "floating", className: "material-menu",
         "data-glass-control-stage": "toolbar" })] : []),
     ));
     await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-  }, { moduleUrl, ownerFixture });
+  }, { moduleUrl, ownerFixture, fixtureUrl });
   const fixture = page.locator("[data-glass-control-fixture]");
   await expect(fixture.locator('[data-glass-control="button"]')).toHaveAttribute("data-uni-button", "");
   await expect(fixture.locator('[data-glass-control="link"]')).toHaveAttribute("href", "#glass-controls");
@@ -260,7 +285,7 @@ for (const theme of ["light", "dark"] as const) {
         }
         await testInfo.attach("glass-controls-without-optical-rims", { body: suppressedBuffer, contentType: "image/png" });
       } finally {
-        await rimOverride.evaluate(el => el.remove());
+        await rimOverride.evaluate(el => el.parentNode?.removeChild(el));
         await frames(page);
       }
       for (const name of ["contrast-button", "contrast-link"]) {

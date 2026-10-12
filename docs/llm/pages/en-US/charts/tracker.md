@@ -47,7 +47,7 @@ Not applicable: Static display component.
 ## Live Demo
 
 ```tsx
-import { Tracker } from "@/components/ui/charts/tracker";
+import { Tracker } from "@hustradio/unitary-ui";
 
 function createRandomData(days: number) {
   const colors = ["emerald", "amber", "rose"] as const;
@@ -69,7 +69,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Tracker } from "@/components/ui/tracker";
+import { Tracker } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

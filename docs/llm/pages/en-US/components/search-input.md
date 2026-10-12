@@ -52,7 +52,7 @@ Not applicable: The parent manages the query through value and onChange.
 ## Live Demo
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputDefault37A8EEC1Example() {
@@ -76,7 +76,7 @@ export function SearchInputDefault37A8EEC1Example() {
 ⌘K
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputWithCmdkC25FADFBExample() {
@@ -101,7 +101,7 @@ export function SearchInputWithCmdkC25FADFBExample() {
 ⌘K
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputDisabled17EB3C01Example() {
@@ -127,7 +127,7 @@ export function SearchInputDisabled17EB3C01Example() {
 Loading...
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputLoadingB4A070A2Example() {
@@ -151,7 +151,7 @@ export function SearchInputLoadingB4A070A2Example() {
 
 ```tsx
 import { Sparkles } from "lucide-react";
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SearchInputCustomPrefix3441EADCExample() {
@@ -178,7 +178,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input";
+import { SearchInput } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

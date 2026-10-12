@@ -1,4 +1,4 @@
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarOverlap38B163F9Example() {
   return (

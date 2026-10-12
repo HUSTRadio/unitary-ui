@@ -1,6 +1,6 @@
 import type { DocsLanguage } from "../i18n/language";
-import type { SchemeTokens } from "@/lib/color-schemes/presets";
-import type { CodeColors } from "@/lib/color-schemes/code-themes";
+import type { ColorSchemeTokens as SchemeTokens } from "@hustradio/unitary-ui";
+import type { CodeColors } from "@hustradio/unitary-ui";
 
 const uiRoles = [
   ["--background", "画布", "Canvas"], ["--card", "表面", "Surface"], ["--secondary", "次级表面", "Subtle surface"],

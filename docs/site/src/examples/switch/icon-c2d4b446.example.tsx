@@ -1,4 +1,4 @@
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 import { LayoutGrid, List } from "lucide-react";
 
 export function SwitchIconC2D4B446Example() {

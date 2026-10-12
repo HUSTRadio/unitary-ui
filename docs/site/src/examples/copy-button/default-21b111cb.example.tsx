@@ -1,4 +1,4 @@
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@hustradio/unitary-ui";
 
 export function CopyButtonDefault21B111CBExample() {
   return (

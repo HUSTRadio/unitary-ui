@@ -1,4 +1,4 @@
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@hustradio/unitary-ui";
 
 export function ProgressHeights9E0B6320Example() {
   return (

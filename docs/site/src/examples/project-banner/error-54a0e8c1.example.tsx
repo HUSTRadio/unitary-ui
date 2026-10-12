@@ -1,4 +1,4 @@
-import { ProjectBanner } from "@/components/ui/project-banner";
+import { ProjectBanner } from "@hustradio/unitary-ui";
 import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 

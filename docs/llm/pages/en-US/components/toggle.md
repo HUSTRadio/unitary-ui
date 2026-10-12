@@ -64,7 +64,7 @@ Not applicable: Toggle is a small boolean switch whose behavior and layout remai
 ## Live Demo
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ToggleDefault37A8EEC1Example() {
@@ -91,7 +91,7 @@ export function ToggleDefault37A8EEC1Example() {
 ## Disabled
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleDisabled17EB3C01Example() {
   return (
@@ -106,7 +106,7 @@ export function ToggleDisabled17EB3C01Example() {
 ## Sizes
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 
 export function ToggleSizes7C69F3FAExample() {
   return (
@@ -122,7 +122,7 @@ export function ToggleSizes7C69F3FAExample() {
 ## Custom color
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
@@ -189,7 +189,7 @@ Enable FirewallEnable Firewall
 Enable FirewallEnable Firewall
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
@@ -279,7 +279,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

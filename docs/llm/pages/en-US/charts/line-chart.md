@@ -56,7 +56,7 @@ Not applicable: Display-only component.
 - precipitation
 
 ```tsx
-import { LineChart } from "@/components/ui/charts/line-chart";
+import { LineChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },
@@ -88,7 +88,7 @@ export function LineChartDefault37A8EEC1Example() {
 - precipitation
 
 ```tsx
-import { LineChart, type TooltipProps } from "@/components/ui/charts/line-chart";
+import { LineChart, type LineChartTooltipProps as TooltipProps } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },
@@ -134,7 +134,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { LineChart } from "@/components/ui/line-chart";
+import { LineChart } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

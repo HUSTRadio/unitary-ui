@@ -1,4 +1,4 @@
-import { ShowMore } from "@/components/ui/show-more";
+import { ShowMore } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ShowMoreDefault21B111CBExample() {

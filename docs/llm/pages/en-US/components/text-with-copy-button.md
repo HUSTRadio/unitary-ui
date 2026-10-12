@@ -55,7 +55,7 @@ Not applicable: TextWithCopyButton is a passive display component; copy behavior
 ## Live Demo
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 
 export function TextWithCopyButtonDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ export function TextWithCopyButtonDefault21B111CBExample() {
 ## With Small and Tertiary
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 
 export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
   return (
@@ -93,7 +93,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

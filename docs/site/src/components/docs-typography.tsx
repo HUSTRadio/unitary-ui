@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@hustradio/unitary-ui";
 
 export function DocsPageTitle({
   className,

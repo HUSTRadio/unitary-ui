@@ -62,8 +62,8 @@ Not applicable: ContinuousSurface has no controlled state.
 ```tsx
 import { useId } from "react";
 
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
-import { superellipsePath } from "@/lib/continuous-corner";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
+import { superellipsePath } from "@hustradio/unitary-ui";
 
 const curves = [
   { label: "Circular · p=2", exponent: 2 },
@@ -127,7 +127,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `HTMLAttributes<HTMLDivElement>`

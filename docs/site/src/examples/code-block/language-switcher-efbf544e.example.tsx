@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 const code = `function MyComponent(props) {

@@ -1,4 +1,4 @@
-import { Flex } from "@/components/ui/layout";
+import { Flex } from "@hustradio/unitary-ui";
 
 /**
  * Flex —— 方向 + 间距堆叠：语义化的 flex 预设，统一间距档，避免随机 gap 值。

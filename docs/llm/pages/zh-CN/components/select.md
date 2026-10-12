@@ -52,7 +52,7 @@ select
 ## 实时示例
 
 ```tsx
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 export function SelectSizes7C69F3FAExample() {
   return (
@@ -80,7 +80,7 @@ export function SelectSizes7C69F3FAExample() {
 ## 前缀与后缀
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 import { ArrowUpCircle } from "lucide-react";
 
 export function SelectPrefixAndSuffix99076368Example() {
@@ -99,7 +99,7 @@ export function SelectPrefixAndSuffix99076368Example() {
 ## 禁用
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 
 export function SelectDisabled17EB3C01Example() {
   return <Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />;
@@ -115,7 +115,7 @@ Please select a value.
 Please select a value.
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 
 export function SelectErrorCA00FCCFExample() {
   return (
@@ -147,7 +147,7 @@ export function SelectErrorCA00FCCFExample() {
 My label
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 
 export function SelectLabel1ACA80E8Example() {
   return <Select label="My label" placeholder="With label" />;
@@ -159,7 +159,7 @@ export function SelectLabel1ACA80E8Example() {
 Required field
 
 ```tsx
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 export function SelectRequiredD0A36305Example() {
   return (
@@ -175,7 +175,7 @@ export function SelectRequiredD0A36305Example() {
 ## 带选项
 
 ```tsx
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 export function SelectWithOptions1AADC401Example() {
   return (
@@ -196,7 +196,7 @@ Current value: automatic
 ```tsx
 import * as React from "react";
 
-import { Select, SelectItem } from "@/components/ui/select";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
 
 /**
  * Pop-up Button（macOS NSPopUpButton）——Select 的 HIG 用法：
@@ -226,7 +226,7 @@ export function SelectPopUpButton5C7E2A91Example() {
 导入
 
 ```tsx
-import { Select, SelectItem, SelectGroup, SelectSeparator } from "@/components/ui/select";
+import { Select, SelectItem, SelectGroup, SelectSeparator } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.ComponentProps<typeof SelectPrimitive.Root>`

@@ -59,7 +59,7 @@ Compare three tracking modes and item/category-heading alignment; choose an acti
 
 ```tsx
 import { useState } from "react";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
+import { SidebarNav } from "@hustradio/unitary-ui";
 
 const groups = [
   {
@@ -95,12 +95,12 @@ For the horizontal equivalent, see [Tabs documentation](#/components/tabs).
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { SidebarNav } from "@/components/ui/sidebar-nav";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { SidebarNav } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode, SidebarNavScrollTrackingTarget } from "@hustradio/unitary-ui";
 
 export default function SidebarNavScrollTrackingExample() {
   const { locale } = useI18n();
@@ -219,9 +219,11 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SidebarNav } from "@/components/ui/sidebar-nav";
+import { SidebarNav, NAV_CONTENT_INSET } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks
 
 <table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">groups</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SidebarNavGroup[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Navigation groups and their links.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">activeTo</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Path of the active item.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onNavigate</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(to: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Intercepts unmodified link activation; modified clicks retain native navigation.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">side</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"left" | "right"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Places the divider on the right-side variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"left"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">collapsible</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Allows group headings to toggle their contents.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">persistKey</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Persists collapsed groups in localStorage when provided.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">scrollTracking</code><span data-slot="docs-api-extension-badge" class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">Extension</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled" | "on-reload" | "always"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Aligns the chosen target below its nearest vertical scroll container's top with a preferred 16px inset, reduced by the spacing scale when preceding text or icons would remain visible. on-reload runs once after mounting; always runs on mode entry, activeTo or scrollTrackingTarget changes. Uses ScrollTrackingMode; scroll limits apply and manual scrolling remains available.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">scrollTrackingTarget</code><span data-slot="docs-api-extension-badge" class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">Extension</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"item" | "category"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Chooses the active link or its subgroup heading; category uses the group heading when no subgroups exist. Uses SidebarNavScrollTrackingTarget. The docs sidebar opts into category with on-reload.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"item"</td></tr></tbody></table>
+
+NAV\_CONTENT\_INSET is the shared px-6 py-4 class string: 24px horizontal and 16px vertical padding at the default spacing scale. Apply it to the caller-owned SidebarNav scroll container to match HamburgerMenu content spacing.

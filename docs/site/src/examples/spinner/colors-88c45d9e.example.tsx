@@ -1,4 +1,4 @@
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@hustradio/unitary-ui";
 
 export function SpinnerColors88C45D9EExample() {
   return (

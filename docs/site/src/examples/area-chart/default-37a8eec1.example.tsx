@@ -1,4 +1,4 @@
-import { AreaChart } from "@/components/ui/charts/area-chart";
+import { AreaChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 2890, successfulPayments: 2453 },

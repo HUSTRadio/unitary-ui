@@ -109,7 +109,7 @@ describe("License contract", () => {
   });
 
   it("库构建不发布 sourcemap，并把 npm 依赖保留为外部依赖", () => {
-    const vite = read("vite.config.ts");
+    const vite = read("vite.lib.config.ts");
     expect(vite).toContain("const dependencies = Object.keys(pkg.dependencies ?? {})");
     expect(vite).toContain("dependencies.some");
     expect(vite).toMatch(/sourcemap:\s*false/);

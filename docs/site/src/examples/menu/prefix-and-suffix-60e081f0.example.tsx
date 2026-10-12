@@ -1,4 +1,4 @@
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 import { Accessibility, MoreHorizontal } from "lucide-react";
 
 export function MenuPrefixAndSuffix60E081F0Example() {

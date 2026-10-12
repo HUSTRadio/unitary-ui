@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function CheckboxDefault37A8EEC1Example() {

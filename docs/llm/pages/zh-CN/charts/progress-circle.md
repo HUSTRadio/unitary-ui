@@ -53,7 +53,7 @@ Bandwidth used
 375 GB of 500 GB
 
 ```tsx
-import { ProgressCircle } from "@/components/ui/charts/progress-circle";
+import { ProgressCircle } from "@hustradio/unitary-ui";
 
 export function ProgressCircleDefault37A8EEC1Example() {
   return (
@@ -77,7 +77,7 @@ export function ProgressCircleDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { ProgressCircle } from "@/components/ui/progress-circle";
+import { ProgressCircle } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

@@ -1,6 +1,6 @@
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@hustradio/unitary-ui";
 import { useState } from "react";
-import { Layer, LayerPortal, LayerScope, useLayerStyle } from "@/components/ui/layer";
+import { Layer, LayerPortal, LayerScope, useLayerStyle } from "@hustradio/unitary-ui";
 
 function CustomSurface() {
   const zh = useI18n().locale === "zh-CN";

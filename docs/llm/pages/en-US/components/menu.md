@@ -66,7 +66,7 @@ Use MenuItemLocked to display a lock icon and disabled state for permission-gate
 ## Live Demo
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 
 export function MenuDefault21B111CBExample() {
   return (
@@ -89,7 +89,7 @@ export function MenuDefault21B111CBExample() {
 ## With chevron
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 
 export function MenuWithChevron2CC766B6Example() {
   return (
@@ -114,7 +114,7 @@ export function MenuWithChevron2CC766B6Example() {
 ## Disabled items
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 
 export function MenuDisabledItems1BA9CD5EExample() {
   return (
@@ -138,8 +138,8 @@ export function MenuDisabledItems1BA9CD5EExample() {
 ## Locked items
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem, MenuItemLocked } from "@/components/ui/menu";
-import { Tooltip } from "@/components/ui/tooltip";
+import { Menu, MenuButton, MenuContainer, MenuItem, MenuItemLocked } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function MenuLockedItemsE410D1DAExample() {
   return (
@@ -160,7 +160,7 @@ export function MenuLockedItemsE410D1DAExample() {
 ## Link items
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuLink } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuLink } from "@hustradio/unitary-ui";
 
 export function MenuLinkItems24C68D22Example() {
   return (
@@ -179,8 +179,8 @@ export function MenuLinkItems24C68D22Example() {
 ## Custom trigger
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
-import { Avatar } from "@/components/ui/avatar";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function MenuCustomTrigger74C52681Example() {
   return (
@@ -201,7 +201,7 @@ export function MenuCustomTrigger74C52681Example() {
 ## Prefix and suffix
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 import { Accessibility, MoreHorizontal } from "lucide-react";
 
 export function MenuPrefixAndSuffix60E081F0Example() {
@@ -235,7 +235,7 @@ export function MenuPrefixAndSuffix60E081F0Example() {
 ## Menu position
 
 ```tsx
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 
 export function MenuMenuPosition55A3EF38Example() {
   return (
@@ -261,7 +261,7 @@ import {
   MenuItem,
   MenuItemLocked,
   MenuSection,
-} from "@/components/ui/menu";
+} from "@hustradio/unitary-ui";
 
 export function MenuWithSection5563D2A4Example() {
   return (
@@ -300,7 +300,7 @@ import {
   MenuLink,
   MenuDivider,
   MenuSection,
-} from "@/components/ui/menu";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

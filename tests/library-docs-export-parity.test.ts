@@ -19,6 +19,7 @@ const REQUIRED_PUBLIC_COMPONENT_MODULES = [
 ] as const;
 
 const DOCUMENT_OWNER_BY_MODULE: Readonly<Record<string, readonly string[]>> = {
+  "nav-layout": ["sidebar-nav", "hamburger-menu"],
   layout: ["safe-area", "flex"],
   "skeleton-mask": ["skeleton"],
   "rating-pill": ["feedback"],

@@ -63,7 +63,7 @@ Orders
 1,705 orders
 
 ```tsx
-import { SparkAreaChart, SparkBarChart, SparkLineChart } from "@/components/ui/charts/spark-chart";
+import { SparkAreaChart, SparkBarChart, SparkLineChart } from "@hustradio/unitary-ui";
 
 const visitorsData = [
   { month: "Jan", visitors: 3911 },
@@ -152,9 +152,9 @@ Spend by service
 ```tsx
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
-import { DonutChart } from "@/components/ui/charts/donut-chart";
-import { SparkAreaChart, SparkBarChart } from "@/components/ui/charts/spark-chart";
-import { cn } from "@/lib/utils";
+import { DonutChart } from "@hustradio/unitary-ui";
+import { SparkAreaChart, SparkBarChart } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 
 /**
  * KPI 统计卡模式：指标值大字号 + 趋势微图 + 涨跌标注。
@@ -268,7 +268,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SparkAreaChart, SparkLineChart, SparkBarChart } from "@/components/ui/spark-chart";
+import { SparkAreaChart, SparkLineChart, SparkBarChart } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`

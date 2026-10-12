@@ -35,6 +35,7 @@ import { chromium, type Page } from "@playwright/test";
 import TurndownService from "turndown";
 import { extractMainHtml } from "./lib/llm-html";
 import { withPackageLock } from "./lib/package-script-lock.mjs";
+import { startDocsPreview } from "./lib/docs-preview.mjs";
 
 import { COMPONENTS } from "../docs/site/src/data/components";
 import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
@@ -46,6 +47,22 @@ const LOCALES = ["zh-CN", "en-US"] as const;
 type Locale = (typeof LOCALES)[number];
 
 const CHECK_MODE = process.argv.includes("--check");
+function argument(name: string): string | undefined {
+  const index = process.argv.indexOf(name);
+  if (index < 0) return undefined;
+  const value = process.argv[index + 1];
+  if (!value || value.startsWith("--")) throw new Error(`Missing value for ${name}`);
+  return path.resolve(value);
+}
+const BUILT_DIR = argument("--built-dir");
+const OUTPUT_DIR = argument("--output");
+const COMPARE_DIR = argument("--compare") ?? LLM_DIR;
+if (BUILT_DIR && !CHECK_MODE && !OUTPUT_DIR) {
+  throw new Error("Built artifact capture requires --check or an explicit scratch --output");
+}
+if (OUTPUT_DIR && !OUTPUT_DIR.startsWith(`${path.join(ROOT, ".scratch")}${path.sep}`)) {
+  throw new Error("Custom corpus output must be inside the repository .scratch directory");
+}
 const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 const COMPONENT_BY_NAME = new Map(COMPONENTS.map((component) => [component.name, component]));
@@ -55,8 +72,7 @@ function log(message: string): void {
 }
 
 function fail(message: string): never {
-  log(`错误: ${message}`);
-  process.exit(1);
+  throw new Error(message);
 }
 
 function sha256(content: string): string {
@@ -97,7 +113,12 @@ async function findAvailablePort(startPort: number): Promise<number> {
   fail(`找不到可用的本地预览端口（${startPort}-${startPort + 99}）`);
 }
 
-async function startPreview(): Promise<{ child: ChildProcess; port: number }> {
+async function startPreview(): Promise<{ child: ChildProcess | null; port: number; close?: () => Promise<unknown> }> {
+  if (BUILT_DIR) {
+    const preview = await startDocsPreview(BUILT_DIR);
+    log(`Built artifact preview ${preview.url}`);
+    return { child: null, port: Number(new URL(preview.url).port), close: preview.close };
+  }
   const port = await findAvailablePort(START_PORT);
   const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn(
@@ -294,7 +315,7 @@ async function captureRoute(
 }
 
 async function captureAllRoutes(): Promise<RouteOutput[]> {
-  const { child, port } = await startPreview();
+  const { child, port, close } = await startPreview();
   const baseUrl = `http://127.0.0.1:${port}`;
   const outputs: RouteOutput[] = [];
   let browser: Awaited<ReturnType<typeof chromium.launch>> | null = null;
@@ -360,6 +381,7 @@ async function captureAllRoutes(): Promise<RouteOutput[]> {
   } finally {
     if (browser) await browser.close().catch(() => undefined);
     stopPreview(child);
+    await close?.();
   }
   return outputs;
 }
@@ -491,7 +513,11 @@ async function main(): Promise<void> {
     formatOutput(stagingDir);
 
     if (CHECK_MODE) {
-      const drift = findDrift(stagingDir, LLM_DIR);
+      if (OUTPUT_DIR) {
+        mkdirSync(OUTPUT_DIR, { recursive: true });
+        cpSync(stagingDir, OUTPUT_DIR, { recursive: true });
+      }
+      const drift = findDrift(stagingDir, COMPARE_DIR);
       if (drift.length > 0) {
         for (const item of drift) log(item);
         fail(`--check 发现 ${drift.length} 处漂移`);
@@ -502,14 +528,15 @@ async function main(): Promise<void> {
 
     // 原子替换：临时目录与目标可能跨卷，无法 rename；清空后整体拷贝。
     const pagesStaging = path.join(stagingDir, "pages");
-    const pagesTarget = path.join(LLM_DIR, "pages");
-    mkdirSync(LLM_DIR, { recursive: true });
+    const targetDir = OUTPUT_DIR ?? LLM_DIR;
+    const pagesTarget = path.join(targetDir, "pages");
+    mkdirSync(targetDir, { recursive: true });
     if (existsSync(pagesTarget)) {
       rmSync(pagesTarget, { recursive: true, force: true });
     }
     cpSync(pagesStaging, pagesTarget, { recursive: true });
     writeFileSync(
-      path.join(LLM_DIR, "index.json"),
+      path.join(targetDir, "index.json"),
       readFileSync(path.join(stagingDir, "index.json"), "utf8"),
       "utf8",
     );
@@ -521,5 +548,6 @@ async function main(): Promise<void> {
 
 withPackageLock(ROOT, "workspace-checks", main).catch((error: unknown) => {
   const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
-  fail(message);
+  log(`错误: ${message}`);
+  process.exitCode = 1;
 });

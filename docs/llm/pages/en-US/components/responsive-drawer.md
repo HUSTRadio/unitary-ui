@@ -67,7 +67,7 @@ placement="bottom" with detents=\[0.4, 0.8, 1\]: the indicator tracks your finge
 ```tsx
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ResponsiveDrawer,
   ResponsiveDrawerBody,
@@ -77,7 +77,7 @@ import {
   ResponsiveDrawerFooter,
   ResponsiveDrawerHeader,
   ResponsiveDrawerTitle,
-} from "@/components/ui/responsive-drawer";
+} from "@hustradio/unitary-ui";
 
 export function ResponsiveDrawerDefault9F2C7A41Example() {
   const [open, setOpen] = React.useState(false);
@@ -123,7 +123,7 @@ export function ResponsiveDrawerDefault9F2C7A41Example() {
 ```tsx
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ResponsiveDrawer,
   ResponsiveDrawerBody,
@@ -133,7 +133,7 @@ import {
   ResponsiveDrawerFooter,
   ResponsiveDrawerHeader,
   ResponsiveDrawerTitle,
-} from "@/components/ui/responsive-drawer";
+} from "@hustradio/unitary-ui";
 
 export function ResponsiveDrawerResponsive4B8E1D6CExample() {
   const [open, setOpen] = React.useState(false);
@@ -179,7 +179,7 @@ export function ResponsiveDrawerResponsive4B8E1D6CExample() {
 ```tsx
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ResponsiveDrawer,
   ResponsiveDrawerBody,
@@ -189,7 +189,7 @@ import {
   ResponsiveDrawerFooter,
   ResponsiveDrawerHeader,
   ResponsiveDrawerTitle,
-} from "@/components/ui/responsive-drawer";
+} from "@hustradio/unitary-ui";
 
 export function ResponsiveDrawerDetents7A3F5E92Example() {
   const [open, setOpen] = React.useState(false);
@@ -251,7 +251,7 @@ import {
   ResponsiveDrawerBody,
   ResponsiveDrawerFooter,
   ResponsiveDrawerClose,
-} from "@/components/ui/responsive-drawer";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

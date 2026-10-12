@@ -51,7 +51,7 @@ import {
   SidePanelClose,
   SidePanelDescription,
   SidePanelTitle,
-} from "@/components/ui/side-panel";
+} from "@hustradio/unitary-ui";
 
 export default function SidePanelExample() {
   const [show, setShow] = useState(false);
@@ -90,7 +90,7 @@ import {
   SidePanelTitle,
   SidePanelDescription,
   SidePanelClose,
-} from "@/components/ui/side-panel";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

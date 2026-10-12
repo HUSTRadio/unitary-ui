@@ -55,7 +55,7 @@ loading-dots
 ## 实时示例
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 
 export function LoadingDotsDefault21B111CBExample() {
   return (
@@ -73,7 +73,7 @@ export function LoadingDotsDefault21B111CBExample() {
 Loading
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 
 export function LoadingDotsWithTextF00F2530Example() {
   return (
@@ -91,7 +91,7 @@ export function LoadingDotsWithTextF00F2530Example() {
 导入
 
 ```tsx
-import { LoadingDots } from "@/components/ui/loading-dots";
+import { LoadingDots } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

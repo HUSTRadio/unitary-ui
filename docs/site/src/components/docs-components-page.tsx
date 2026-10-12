@@ -3,10 +3,9 @@ import { DOCS_ROUTE_SEQUENCE } from "../data/docs-routes";
 import * as React from "react";
 import { ArrowLeft, Smartphone } from "lucide-react";
 
-import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
-import { SubFrame } from "@/components/ui/sub-frame";
-import { cn } from "@/lib/utils";
-import { createPrefetch, type PrefetchResource } from "@/lib/prefetch";
+import { SubFrame } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
+import { createPrefetch, type PrefetchResource } from "@hustradio/unitary-ui";
 
 import { getComponentGuide } from "../content/component-guides";
 import { COMPONENTS, type ComponentMeta } from "../data/components";

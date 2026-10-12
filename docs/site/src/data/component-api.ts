@@ -30,6 +30,7 @@ const row = (
 
 const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string): ComponentApi => ({
   exports,
+  importPath: "@hustradio/unitary-ui",
   extends: extendsType,
   rows,
 });
@@ -1875,8 +1876,9 @@ const O = {
       row("scrollTracking", '"disabled" | "on-reload" | "always"', "Aligns the selected tab at horizontal start with a preferred 16px inset, reduced by the spacing scale when preceding text or icons would remain visible. on-reload runs once after mounting; always runs on mode entry or selected-value changes. Uses ScrollTrackingMode; scroll limits apply and manual scrolling remains available.", "在水平起始边对齐活动标签，首选 16px 留白；若会露出前一标签的文字或图标，按 spacing 尺度缩小。on-reload 在挂载后执行一次，always 在进入该模式或 selected 值变化时执行。类型为 ScrollTrackingMode；受滚动边界限制，仍可手动滚动。", { defaultValue: '"disabled"', origin: "extension" }),
     ],
   ),
-  "sidebar-nav": component(
-    ["SidebarNav"],
+  "sidebar-nav": {
+    ...component(
+    ["SidebarNav", "NAV_CONTENT_INSET"],
     [
       row("groups", "SidebarNavGroup[]", "Navigation groups and their links.", "导航分组和链接。", { required: true }),
       row("activeTo", "string", "Path of the active item.", "当前活动条目的路径。"),
@@ -1888,6 +1890,8 @@ const O = {
       row("scrollTrackingTarget", '"item" | "category"', "Chooses the active link or its subgroup heading; category uses the group heading when no subgroups exist. Uses SidebarNavScrollTrackingTarget. The docs sidebar opts into category with on-reload.", "选择当前链接或所属二级分类小标题；category 在没有 subgroups 时使用一级分组标题。类型为 SidebarNavScrollTrackingTarget。文档侧栏使用 category + on-reload。", { defaultValue: '"item"', origin: "extension" }),
     ],
   ),
+    notes: [{ en: "NAV_CONTENT_INSET is the shared px-6 py-4 class string: 24px horizontal and 16px vertical padding at the default spacing scale. Apply it to the caller-owned SidebarNav scroll container to match HamburgerMenu content spacing.", zh: "NAV_CONTENT_INSET 是共用的 px-6 py-4 类名字符串：默认 spacing 尺度下水平留白 24px、垂直留白 16px。将其应用于调用方拥有的 SidebarNav 滚动容器，使内容留白与 HamburgerMenu 一致。" }],
+  },
   navbar: component(
     ["Navbar"],
     [
@@ -1928,8 +1932,9 @@ const O = {
     row("threshold", "number", "Absolute distance after which the control appears, in px.", "显示控件的绝对滚动距离，单位 px。", { defaultValue: "640" }),
     row("children", "ReactNode", "Provide localized visible text or an aria-label for an icon button.", "提供本地化可见文字或为图标按钮设置 aria-label。"),
   ]),
-  "hamburger-menu": component(
-    ["HamburgerMenu"],
+  "hamburger-menu": {
+    ...component(
+    ["HamburgerMenu", "NAV_CONTENT_INSET"],
     [
       row("anchor", '"topbar" | "sidebar"', "Chooses the trigger context; both anchors open downward by default.", "选择触发场景和默认展开方向。", { required: true }),
       row("anchorElement", "HTMLElement | null", "Element used to position the panel below a topbar.", "用于将面板定位到顶栏下方的元素。"),
@@ -1947,6 +1952,8 @@ const O = {
       row("searchMode", '"query" | "toolbar"', "Search by query or input focus.", "按输入内容或焦点进入搜索。", { defaultValue: '"query"' }),
     ],
   ),
+    notes: [{ en: "NAV_CONTENT_INSET is the shared px-6 py-4 class string used by HamburgerMenu: 24px horizontal and 16px vertical padding at the default spacing scale. Reuse it on the caller-owned SidebarNav scroll container for matching content spacing.", zh: "NAV_CONTENT_INSET 是 HamburgerMenu 使用的共用 px-6 py-4 类名字符串：默认 spacing 尺度下水平留白 24px、垂直留白 16px。可在调用方拥有的 SidebarNav 滚动容器上复用，以保持内容留白一致。" }],
+  },
   "side-panel": component(
     ["SidePanel", "SidePanelTitle", "SidePanelDescription", "SidePanelClose"],
     [

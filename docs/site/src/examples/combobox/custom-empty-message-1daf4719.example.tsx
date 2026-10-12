@@ -1,4 +1,4 @@
-import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList } from "@hustradio/unitary-ui";
 
 export function ComboboxCustomEmptyMessage1DAF4719Example() {
   return (

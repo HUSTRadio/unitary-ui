@@ -61,7 +61,7 @@ textarea
 ## 实时示例
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaDefault37A8EEC1Example() {
   return (
@@ -76,7 +76,7 @@ export function TextareaDefault37A8EEC1Example() {
 ## 禁用
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaDisabled17EB3C01Example() {
   return (
@@ -98,7 +98,7 @@ There has been an error.
 There has been an error.
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaError54A0E8C1Example() {
   const LOREM_IPSUM =
@@ -132,7 +132,7 @@ export function TextareaError54A0E8C1Example() {
 ## 尺寸
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaSizes74A3978DExample() {
   const LOREM_IPSUM =
@@ -151,7 +151,7 @@ export function TextareaSizes74A3978DExample() {
 ## 只读
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaReadOnlyCA104850Example() {
   const LOREM_IPSUM =
@@ -168,7 +168,7 @@ export function TextareaReadOnlyCA104850Example() {
 ## 行数
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 
 export function TextareaRows101F2FF3Example() {
   return (
@@ -190,7 +190,7 @@ export function TextareaRows101F2FF3Example() {
 导入
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`TextareaHTMLAttributes<HTMLTextAreaElement>`

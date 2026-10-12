@@ -65,7 +65,7 @@ Title
 A message conveying the state of the product.
 
 ```tsx
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 import { ChartColumn } from "lucide-react";
 
 export function EmptyStateEmptyStateDesignFrameworkFF959773Example() {
@@ -86,7 +86,7 @@ Title
 A message conveying the state of the product.
 
 ```tsx
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 import { ChartColumn } from "lucide-react";
 
 export function EmptyStateBlankSlateE6F82752Example() {
@@ -109,8 +109,8 @@ This should detail the actions you can take on this screen, as well as why it’
 [Learn more](/)
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { Button } from "@hustradio/unitary-ui";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 import { ArrowRight, ChartColumn } from "lucide-react";
 
 export function EmptyStateInformationalBE8ED055Example() {
@@ -142,7 +142,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

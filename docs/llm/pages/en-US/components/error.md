@@ -63,7 +63,7 @@ Not applicable: Error is a presentation-only component driven by whether an erro
 **Email Error:**This email address is already in use.
 
 ```tsx
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorCustomLabel4BA9290BExample() {
   return <Error label="Email Error">This email address is already in use.</Error>;
@@ -75,7 +75,7 @@ export function ErrorCustomLabel4BA9290BExample() {
 This email address is already in use.
 
 ```tsx
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorNoLabelD6728773Example() {
   return <Error label={false}>This email address is already in use.</Error>;
@@ -91,7 +91,7 @@ This email is in use.
 This email is in use.
 
 ```tsx
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorSizes74A3978DExample() {
   return (
@@ -109,7 +109,7 @@ export function ErrorSizes74A3978DExample() {
 The request failed. [Contact Us](https://example.com/contact)
 
 ```tsx
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 
 export function ErrorWithAnErrorProperty93A4DDA8Example() {
   return (
@@ -131,7 +131,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Error } from "@/components/ui/error";
+import { Error } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `ComponentProps<"div">`

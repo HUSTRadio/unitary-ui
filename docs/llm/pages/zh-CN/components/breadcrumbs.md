@@ -59,7 +59,7 @@ breadcrumbs
 [Home](#/)[Dashboard](#/components)[Overview](#/components/breadcrumbs)
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsDefault21B111CBExample() {
   return (
@@ -82,7 +82,7 @@ export function BreadcrumbsDefault21B111CBExample() {
 ## 激活
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsActive92340695Example() {
   return (
@@ -98,7 +98,7 @@ export function BreadcrumbsActive92340695Example() {
 ## 禁用
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 
 export function BreadcrumbsDisabled75081B59Example() {
   return (
@@ -118,7 +118,7 @@ export function BreadcrumbsDisabled75081B59Example() {
 导入
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+import { Breadcrumb, BreadcrumbItem } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

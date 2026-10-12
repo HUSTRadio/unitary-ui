@@ -50,7 +50,7 @@ Scroll down to reveal the return control.
 
 ```tsx
 import { useRef, useState } from "react";
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@hustradio/unitary-ui";
 
 export default function BackToTopExample() {
   const [target, setTarget] = useState<HTMLDivElement | null>(null);
@@ -80,7 +80,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

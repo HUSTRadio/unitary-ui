@@ -65,7 +65,7 @@ Showcases all Snippet variant styles and configuration options available.
 `$ npm init next-app`
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetDefault21B111CBExample() {
   return <Snippet text="npm init next-app" width="300px" />;
@@ -77,7 +77,7 @@ export function SnippetDefault21B111CBExample() {
 `$ npm init next-app`
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetInverted7A2F99B7Example() {
   return <Snippet dark text="npm init next-app" width="300px" />;
@@ -89,7 +89,7 @@ export function SnippetInverted7A2F99B7Example() {
 `$ cd project``$ now`
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetMultiLine8E24895DExample() {
   return <Snippet text={["cd project", "now"]} width="100%" />;
@@ -101,7 +101,7 @@ export function SnippetMultiLine8E24895DExample() {
 `npm init next-app`
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetNoPromptFD175ECDExample() {
   return <Snippet prompt={false} text="npm init next-app" width="300px" />;
@@ -114,7 +114,7 @@ export function SnippetNoPromptFD175ECDExample() {
 
 ```tsx
 import { useState } from "react";
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetCallback32E8D276Example() {
   const [message, setMessage] = useState("");
@@ -143,7 +143,7 @@ export function SnippetCallback32E8D276Example() {
 `$ npm init next-app`
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 
 export function SnippetVariants63D2643BExample() {
   return (
@@ -164,7 +164,7 @@ export function SnippetVariants63D2643BExample() {
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 import type { JSX } from "react";
 
 const COPY_TEXT = `# About
@@ -203,7 +203,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet";
+import { Snippet } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

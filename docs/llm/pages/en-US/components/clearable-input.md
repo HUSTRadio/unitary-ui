@@ -67,7 +67,7 @@ Leverages the onChange handler to detect when the value is cleared, enabling cus
 ## Live Demo
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputDefault37A8EEC1Example() {
@@ -91,7 +91,7 @@ export function ClearableInputDefault37A8EEC1Example() {
 Email
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputWithLabelBB9F6883Example() {
@@ -115,7 +115,7 @@ export function ClearableInputWithLabelBB9F6883Example() {
 Esc⌘K
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputWithCmdkC25FADFBExample() {
@@ -138,7 +138,7 @@ export function ClearableInputWithCmdkC25FADFBExample() {
 ## Disabled
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputDisabled17EB3C01Example() {
@@ -163,7 +163,7 @@ export function ClearableInputDisabled17EB3C01Example() {
 Cleared 0 times
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputWithClearCallback3538EFCAExample() {
@@ -197,7 +197,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 ```
 
 Also accepts props defined by: `InputHTMLAttributes<HTMLInputElement>`

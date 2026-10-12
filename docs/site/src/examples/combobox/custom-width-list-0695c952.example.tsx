@@ -1,4 +1,4 @@
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 
 export function ComboboxCustomWidthList0695C952Example() {
   return (

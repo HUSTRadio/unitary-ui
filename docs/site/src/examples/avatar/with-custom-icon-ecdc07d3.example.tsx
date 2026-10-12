@@ -1,4 +1,4 @@
-import { AvatarWithIcon } from "@/components/ui/avatar";
+import { AvatarWithIcon } from "@hustradio/unitary-ui";
 import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
 
 export function AvatarWithCustomIconECDC07D3Example() {

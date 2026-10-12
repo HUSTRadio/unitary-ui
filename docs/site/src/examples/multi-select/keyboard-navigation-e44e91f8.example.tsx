@@ -4,7 +4,7 @@ import {
   MultiSelectRoot,
   MultiSelectRow,
   MultiSelectTrigger,
-} from "@/components/ui/multi-select";
+} from "@hustradio/unitary-ui";
 
 export function MultiSelectKeyboardNavigationE44E91F8Example() {
   const keyboardShortcuts = [

@@ -3,7 +3,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@hustradio/unitary-ui";
 
 export function ContextMenuLinkItems2FF9F194Example() {
   return (

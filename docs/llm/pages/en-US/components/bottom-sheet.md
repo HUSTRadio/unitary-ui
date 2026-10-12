@@ -53,8 +53,8 @@ Owns the sheet through open, onOpenChange, and detents while keeping an explicit
 
 ```tsx
 import * as React from "react";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { Button } from "@/components/ui/button";
+import { BottomSheet } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 export function BottomSheetDefault37A8EEC1Example() {
   const [open, setOpen] = React.useState(false);
@@ -89,7 +89,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { BottomSheet } from "@/components/ui/bottom-sheet";
+import { BottomSheet } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

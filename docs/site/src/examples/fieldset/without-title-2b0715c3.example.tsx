@@ -4,7 +4,7 @@ import {
   FieldsetFooter,
   FieldsetFooterStatus,
   FieldsetSubtitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithoutTitle2B0715C3Example() {
   return (

@@ -1,4 +1,4 @@
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 

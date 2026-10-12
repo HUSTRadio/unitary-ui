@@ -61,7 +61,7 @@ Not applicable: The Load More Button always occupies the container's full width.
 
 ```tsx
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonDefault21B111CBExample() {
   const [count, setCount] = useState(3);
@@ -80,7 +80,7 @@ export function LoadMoreButtonDefault21B111CBExample() {
 ## Loading
 
 ```tsx
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonLoadingDC380888Example() {
   return <LoadMoreButton loading>Loading...</LoadMoreButton>;
@@ -93,7 +93,7 @@ export function LoadMoreButtonLoadingDC380888Example() {
 
 ```tsx
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonNoGap7BF8EBE8Example() {
   const [count, setCount] = useState(3);
@@ -117,7 +117,7 @@ export function LoadMoreButtonNoGap7BF8EBE8Example() {
 
 ```tsx
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
   const [count, setCount] = useState(3);
@@ -141,7 +141,7 @@ export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
 
 ```tsx
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonCustomTextCFD55183Example() {
   const [count, setCount] = useState(3);
@@ -166,7 +166,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

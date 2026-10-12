@@ -22,6 +22,13 @@ export interface SemanticColorToken {
   usage: string;
 }
 
+/** Keep rendered token values stable when CSS minifiers shorten hex colors. */
+export function formatColorValue(value: string | undefined): string | undefined {
+  if (!value) return value;
+  return value.replace(/^#([\da-f]{3,4})$/i, (_, hex: string) =>
+    `#${[...hex].map((digit) => digit + digit).join("")}`);
+}
+
 const numberedSteps = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000] as const;
 
 function scale(

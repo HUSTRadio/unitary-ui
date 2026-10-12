@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockHiddenLineNumbers3831A2F1Example() {
   const code = `function MyComponent(props) {

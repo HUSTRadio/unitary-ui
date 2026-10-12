@@ -1,20 +1,20 @@
 import { useId } from "react";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { CodeBlock } from "@/components/ui/code-block";
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Badge } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { CodeBlock } from "@hustradio/unitary-ui";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@hustradio/unitary-ui";
 import {
   Modal, ModalClose, ModalContent, ModalDescription, ModalFooter,
   ModalHeader, ModalTitle, ModalTrigger,
-} from "@/components/ui/modal";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+} from "@hustradio/unitary-ui";
+import { RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 import {
   ResponsiveDrawer, ResponsiveDrawerBody, ResponsiveDrawerClose,
   ResponsiveDrawerContent, ResponsiveDrawerFooter, ResponsiveDrawerHeader,
   ResponsiveDrawerTrigger, ResponsiveDrawerTitle, ResponsiveDrawerDescription,
-} from "@/components/ui/responsive-drawer";
-import { useTheme, type TexturePreference } from "@/lib/theme";
+} from "@hustradio/unitary-ui";
+import { useTheme, type TexturePreference } from "@hustradio/unitary-ui";
 
 import { useLanguage, type DocsLanguage } from "../i18n/language";
 import { DocsBlock, DocsCaption, DocsList, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";

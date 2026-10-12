@@ -69,9 +69,9 @@ full-page-scroller
 
 ```tsx
 import { useRef, useState } from "react";
-import { FullPageScroller } from "@/components/ui/full-page-scroller";
-import { Button } from "@/components/ui/button";
-import { useI18n } from "@/lib/i18n";
+import { FullPageScroller } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function FullPageExample() {
   const frame = useRef<HTMLDivElement>(null);
@@ -136,7 +136,7 @@ export default function FullPageExample() {
 导入
 
 ```tsx
-import { FullPageScroller } from "@/components/ui/full-page-scroller";
+import { FullPageScroller } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`Omit<ComponentProps<"div">, "onChange">`

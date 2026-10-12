@@ -6,6 +6,16 @@
 
 Find package-root hooks and utilities by purpose. Component pages own their props; layout topics own their corresponding interfaces.
 
+## Scrolling & navigation layout
+
+Cancellable scrolling in the nearest scroll container and shared sidebar/menu content spacing.
+
+```tsx
+import { scrollIntoViewWithMotion, NAV_CONTENT_INSET } from "@hustradio/unitary-ui";
+```
+
+[View reference](#/api#scrolling)
+
 ## Theme & localization
 
 Light/dark preferences, document-wide Solid, Hybrid and Glass appearances, and framework messages; UI palettes and code themes stay independent.
@@ -134,6 +144,46 @@ import {
 ```
 
 [View reference](#/charts)
+
+## Scrolling and navigation layout
+
+scrollIntoViewWithMotion(target, block = "start") accepts an HTMLElement and "start" or "center" alignment. It moves only the nearest vertical scroll container, falling back to the document, and respects target scroll-margin and container scroll-padding. It returns a ScrollAnimation: cancel() stops the animation; refresh() wakes an unfinished animation. Cancel on component unmount. The function does not move focus.
+
+The animation reads --uni-motion-state and --ease-in-out from the target's cascaded styles. Reduced motion positions immediately, including preference changes during animation. Wheel, touch, pointer and scrolling keys interrupt movement; a new command for the same container cancels the previous command.
+
+NAV\_CONTENT\_INSET is the shared px-6 py-4 class string, providing 24px horizontal and 16px vertical padding at the default spacing scale. Apply it to the caller-owned SidebarNav scroll container to match HamburgerMenu content spacing.
+
+```tsx
+import { useEffect, useRef } from "react";
+import {
+  NAV_CONTENT_INSET,
+  scrollIntoViewWithMotion,
+  type ScrollAnimation,
+} from "@hustradio/unitary-ui";
+
+export function ScrollExample() {
+  const target = useRef<HTMLHeadingElement>(null);
+  const animation = useRef<ScrollAnimation | null>(null);
+  useEffect(() => () => animation.current?.cancel(), []);
+  return (
+    <div className={NAV_CONTENT_INSET} style={{ height: 240, overflowY: "auto" }}>
+      <button
+        onClick={() => {
+          if (!target.current) return;
+          animation.current?.cancel();
+          animation.current = scrollIntoViewWithMotion(target.current, "start");
+        }}
+      >
+        Scroll to heading
+      </button>
+      <div style={{ height: 320 }} />
+      <h2 ref={target} style={{ scrollMarginBlockStart: 16 }}>
+        Target
+      </h2>
+    </div>
+  );
+}
+```
 
 ## Providers and hooks
 

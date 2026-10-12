@@ -1,4 +1,4 @@
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+import { RelativeTimeCard } from "@hustradio/unitary-ui";
 
 export function RelativeTimeCardDefault21B111CBExample() {
   return (

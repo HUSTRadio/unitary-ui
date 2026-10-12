@@ -56,7 +56,7 @@ enableBiaxial 让金额与百分比共存。
 - operatingCosts
 
 ```tsx
-import { ComboChart } from "@/components/ui/charts/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", revenue: 4400, operatingCosts: 2205 },
@@ -94,7 +94,7 @@ export function ComboChartDefault37A8EEC1Example() {
 - margin
 
 ```tsx
-import { ComboChart } from "@/components/ui/charts/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", revenue: 4400, margin: 0.18 },
@@ -133,7 +133,7 @@ export function ComboChartBiaxial2A9F5C3EExample() {
 导入
 
 ```tsx
-import { ComboChart } from "@/components/ui/combo-chart";
+import { ComboChart } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

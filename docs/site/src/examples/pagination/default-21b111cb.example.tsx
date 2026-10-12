@@ -1,4 +1,4 @@
-import { Pagination } from "@/components/ui/pagination";
+import { Pagination } from "@hustradio/unitary-ui";
 
 export function PaginationDefault21B111CBExample() {
   return (

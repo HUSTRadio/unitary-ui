@@ -75,7 +75,7 @@ Compare disabled, on-reload and always; select a tab externally, reload the demo
 ## Live Demo
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDefault21B111CBExample() {
@@ -101,7 +101,7 @@ export function TabsDefault21B111CBExample() {
 ## Disabled
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDisabled75081B59Example() {
@@ -126,7 +126,7 @@ export function TabsDisabled75081B59Example() {
 ## Disable specific tabs
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsDisableSpecificTabsA4195A7DExample() {
@@ -150,7 +150,7 @@ export function TabsDisableSpecificTabsA4195A7DExample() {
 ## With icons
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { LayoutGrid } from "lucide-react";
 import { useState } from "react";
 
@@ -175,7 +175,7 @@ export function TabsWithIcons1F71F4BCExample() {
 ## Secondary
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsSecondary62F2CCFFExample() {
@@ -200,7 +200,7 @@ export function TabsSecondary62F2CCFFExample() {
 ## Compact
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function TabsCompactB6B54201Example() {
@@ -250,12 +250,12 @@ For the vertical equivalent, see [SidebarNav documentation](#/components/sidebar
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/components/ui/link";
-import { Select, SelectItem } from "@/components/ui/select";
-import { Tabs } from "@/components/ui/tabs";
-import { useI18n } from "@/lib/i18n";
-import type { ScrollTrackingMode } from "@/lib";
+import { Button } from "@hustradio/unitary-ui";
+import { Link } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { Tabs } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
+import type { ScrollTrackingMode } from "@hustradio/unitary-ui";
 
 export default function TabsScrollTrackingExample() {
   const { locale } = useI18n();
@@ -366,7 +366,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useToasts } from "@/components/ui/toast";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const COPY = {
   en: {

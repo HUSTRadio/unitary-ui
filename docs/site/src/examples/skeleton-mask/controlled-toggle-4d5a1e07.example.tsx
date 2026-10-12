@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { SkeletonMask } from "@/components/ui/skeleton-mask";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { SkeletonMask } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 const ROWS = [

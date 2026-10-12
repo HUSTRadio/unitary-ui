@@ -54,7 +54,7 @@ middle-truncate
 https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
+import { MiddleTruncate } from "@hustradio/unitary-ui";
 
 export function MiddleTruncateExamplesE68EE04DExample() {
   return (
@@ -72,7 +72,7 @@ export function MiddleTruncateExamplesE68EE04DExample() {
 导入
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
+import { MiddleTruncate } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

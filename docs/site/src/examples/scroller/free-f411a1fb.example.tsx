@@ -1,4 +1,4 @@
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerFreeF411A1FBExample() {
   return (

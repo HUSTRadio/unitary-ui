@@ -1,4 +1,4 @@
-import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridSystem } from "@hustradio/unitary-ui";
 
 export function GridOverlayingCellsB9F603D6Example() {
   return (

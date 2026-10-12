@@ -50,7 +50,7 @@ Scroll down to reveal the return control.
 
 ```tsx
 import { useRef, useState } from "react";
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@hustradio/unitary-ui";
 
 export default function BackToTopExample() {
   const [target, setTarget] = useState<HTMLDivElement | null>(null);
@@ -80,7 +80,7 @@ export default function BackToTopExample() {
 导入
 
 ```tsx
-import { BackToTop } from "@/components/ui/back-to-top";
+import { BackToTop } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

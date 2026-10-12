@@ -1,4 +1,4 @@
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function AvatarPlaceholderF4B24FEDExample() {
   return (

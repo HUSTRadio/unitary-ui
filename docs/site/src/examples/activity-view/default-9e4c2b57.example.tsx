@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Copy } from "lucide-react";
 
-import { ActivityView } from "@/components/ui/activity-view";
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent } from "@/components/ui/modal";
+import { ActivityView } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent } from "@hustradio/unitary-ui";
 
 /**
  * ActivityView —— 底部分享面板：分享目标网格 + 操作列表 + 取消行。

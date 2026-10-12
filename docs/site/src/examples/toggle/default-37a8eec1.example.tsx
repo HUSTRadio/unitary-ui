@@ -1,4 +1,4 @@
-import { Toggle } from "@/components/ui/toggle";
+import { Toggle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ToggleDefault37A8EEC1Example() {

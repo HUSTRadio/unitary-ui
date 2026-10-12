@@ -50,8 +50,8 @@ error-boundary
 
 ```tsx
 import * as React from "react";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { Button } from "@/components/ui/button";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
 
 function BrokenPreview(): never {
   throw new Error("Deployment preview failed to render");
@@ -92,7 +92,7 @@ export function ErrorBoundaryDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

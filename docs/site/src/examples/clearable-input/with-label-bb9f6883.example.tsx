@@ -1,4 +1,4 @@
-import { ClearableInput } from "@/components/ui/clearable-input";
+import { ClearableInput } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ClearableInputWithLabelBB9F6883Example() {

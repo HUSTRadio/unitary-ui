@@ -1,4 +1,4 @@
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 
 export function SplitButtonMenuAlignmentAE78EA5CExample() {
   return (

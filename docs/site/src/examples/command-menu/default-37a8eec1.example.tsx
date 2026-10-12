@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   CommandMenu,
   CommandMenuGroup,
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
-} from "@/components/ui/command-menu";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function CommandMenuDefault37A8EEC1Example() {

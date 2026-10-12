@@ -60,7 +60,7 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 This is a label
 
 ```tsx
-import { Label } from "@/components/ui/label";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelDefault37A8EEC1Example() {
   return <Label id="label-default" value="This is a label" />;
@@ -72,8 +72,8 @@ export function LabelDefault37A8EEC1Example() {
 Email Address
 
 ```tsx
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelWithInput35FA6F50Example() {
   return (
@@ -90,8 +90,8 @@ export function LabelWithInput35FA6F50Example() {
 Email address
 
 ```tsx
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@hustradio/unitary-ui";
+import { Label } from "@hustradio/unitary-ui";
 
 export function LabelBypassCasingB8D7E5E0Example() {
   return (
@@ -114,7 +114,7 @@ export function LabelBypassCasingB8D7E5E0Example() {
 导入
 
 ```tsx
-import { Label } from "@/components/ui/label";
+import { Label } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`LabelHTMLAttributes<HTMLLabelElement>`

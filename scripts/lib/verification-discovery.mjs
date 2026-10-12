@@ -40,11 +40,17 @@ export function repositoryImports(root, files, stopAt = new Set()) {
     visit(parsed);
     for (const imported of imports) {
       if (/^(?:node:)?(?:fs(?:\/promises)?|child_process)$/.test(imported)) result.opaque = true;
-      if (!imported.startsWith(".") && !imported.startsWith("@/")) continue;
+      if (!imported.startsWith(".") && !imported.startsWith("@/") &&
+          !imported.startsWith("@hustradio/unitary-ui")) continue;
       const id = imported.split("?", 1)[0];
-      const relative = imported.startsWith("@/")
+      const publicInputs = {
+        "@hustradio/unitary-ui": "src/lib/index.ts",
+        "@hustradio/unitary-ui/styles.css": "src/styles/index.css",
+        "@hustradio/unitary-ui/tailwind-reference.css": "src/styles/index.css",
+      };
+      const relative = publicInputs[id] ?? (imported.startsWith("@/")
         ? `src/${id.slice(2)}`
-        : path.posix.normalize(path.posix.join(path.posix.dirname(file), id));
+        : path.posix.normalize(path.posix.join(path.posix.dirname(file), id)));
       if (relative.startsWith("../")) throw new Error(`Import leaves the repository: ${file}`);
       const candidates = [
         relative,

@@ -1,4 +1,4 @@
-import { Select } from "@/components/ui/select";
+import { Select } from "@hustradio/unitary-ui";
 
 export function SelectLabel1ACA80E8Example() {
   return (

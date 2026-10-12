@@ -1,7 +1,7 @@
 import { useId } from "react";
-import { Avatar } from "@/components/ui/avatar";
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
-import { superellipsePath } from "@/lib/continuous-corner";
+import { Avatar } from "@hustradio/unitary-ui";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
+import { superellipsePath } from "@hustradio/unitary-ui";
 
 const CURVATURE_VARIANTS = [
   { label: "Circular · p = 2", exponent: 2 },

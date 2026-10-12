@@ -1,4 +1,4 @@
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderDisabledRangeWithInputsFCA5E8B4Example() {
   return (

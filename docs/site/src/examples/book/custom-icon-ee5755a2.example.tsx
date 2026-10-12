@@ -1,4 +1,4 @@
-import { Book } from "@/components/ui/book";
+import { Book } from "@hustradio/unitary-ui";
 import { ArrowRight, Atom, Triangle } from "lucide-react";
 
 export function BookCustomIconEE5755A2Example() {

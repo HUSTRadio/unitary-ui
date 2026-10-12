@@ -62,7 +62,7 @@ layout="vertical" 适配长类目标签。
 - profit
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", sales: 4400, profit: 2605 },
@@ -94,7 +94,7 @@ export function BarChartDefault37A8EEC1Example() {
 - embedded
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", desktop: 1243, mobile: 954, embedded: 312 },
@@ -123,7 +123,7 @@ export function BarChartStacked6B2E8D3AExample() {
 - visits
 
 ```tsx
-import { BarChart } from "@/components/ui/charts/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 
 const verticalData = [
   { browser: "Chrome", visits: 4245 },
@@ -153,7 +153,7 @@ export function BarChartVertical9F0A3C5EExample() {
 导入
 
 ```tsx
-import { BarChart } from "@/components/ui/bar-chart";
+import { BarChart } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlock } from "@hustradio/unitary-ui";
 
 export function CodeBlockDefault37A8EEC1Example() {
   const code = `// Usage:

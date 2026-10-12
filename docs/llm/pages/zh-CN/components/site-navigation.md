@@ -45,7 +45,7 @@ Grouped website links with desktop panels and a modal mobile disclosure navigati
 ## 实时示例
 
 ```tsx
-import { SiteNavigation } from "@/components/ui/site-navigation";
+import { SiteNavigation } from "@hustradio/unitary-ui";
 
 export default function SiteNavigationExample() {
   return (
@@ -93,7 +93,7 @@ export default function SiteNavigationExample() {
 导入
 
 ```tsx
-import { SiteNavigation } from "@/components/ui/site-navigation";
+import { SiteNavigation } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

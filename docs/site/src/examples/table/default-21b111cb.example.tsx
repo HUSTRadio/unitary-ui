@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 export function TableDefault21B111CBExample() {
   return (

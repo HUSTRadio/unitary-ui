@@ -28,5 +28,5 @@
     }
   },
   "include": ["src/lib/index.ts", "src/lib/**/*.ts", "src/components/**/*.tsx", "src/components/**/*.ts", "src/types/**/*.d.ts"],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "src/main.tsx", "src/App.tsx", "src/examples/**"]
+  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "src/lib/bundle.ts", "src/main.tsx", "src/App.tsx", "src/examples/**"]
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { ScrollReveal } from "@hustradio/unitary-ui";
 
 export default function ScrollRevealExample() {
   const [root, setRoot] = useState<HTMLDivElement | null>(null);

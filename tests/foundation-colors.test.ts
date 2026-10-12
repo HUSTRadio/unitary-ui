@@ -6,6 +6,7 @@ import {
   FOUNDATION_COLOR_ROLE_PARTITIONS,
   FOUNDATION_COLOR_SCALES,
   SEMANTIC_COLOR_TOKENS,
+  formatColorValue,
 } from "../docs/site/src/data/foundation-colors";
 
 const expectedScales = [
@@ -22,6 +23,14 @@ const expectedScales = [
 ] as const;
 
 describe("foundation color metadata", () => {
+  test("renders equivalent source and minified hex token values consistently", () => {
+    expect(formatColorValue("#fff")).toBe(formatColorValue("#ffffff"));
+    expect(formatColorValue("#a1b8")).toBe("#aa11bb88");
+    for (const value of [undefined, "", "#171717", "rgb(0 0 0 / 0.5)", "oklch(50% 0.2 240)"]) {
+      expect(formatColorValue(value)).toBe(value);
+    }
+  });
+
   test("keeps the canonical scale order, existing steps, and only token metadata", async () => {
     const css = await readFile("src/styles/index.css", "utf8");
 

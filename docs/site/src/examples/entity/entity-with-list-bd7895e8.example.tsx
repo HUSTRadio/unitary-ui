@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
+import { Button } from "@hustradio/unitary-ui";
+import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } from "@hustradio/unitary-ui";
 
 const INITIAL_SESSIONS = [
   { id: "github", title: "GitHub Desktop on MacBook Pro", description: "Last used just now" },

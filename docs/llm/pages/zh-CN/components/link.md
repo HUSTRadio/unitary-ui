@@ -53,7 +53,7 @@ link
 [Button documentation](#/components/button)[GitHub repository](https://github.com/HUSTRadio/unitary-ui)[GitLab repository](https://gitlab.com/gitlab-org/gitlab)[MDN Web Docs](https://developer.mozilla.org)
 
 ```tsx
-import { Link } from "@/components/ui/link";
+import { Link } from "@hustradio/unitary-ui";
 
 export function LinkDefault37A8EEC1Example() {
   return (
@@ -74,7 +74,7 @@ export function LinkDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { Link } from "@/components/ui/link";
+import { Link } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ComponentProps<"a">`

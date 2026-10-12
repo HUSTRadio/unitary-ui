@@ -1,4 +1,4 @@
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteSizes74A3978DExample() {
   return (

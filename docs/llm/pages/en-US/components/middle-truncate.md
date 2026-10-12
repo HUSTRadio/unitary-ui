@@ -54,7 +54,7 @@ Not applicable: The visual presentation of Middle Truncate fully inherits from t
 https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
+import { MiddleTruncate } from "@hustradio/unitary-ui";
 
 export function MiddleTruncateExamplesE68EE04DExample() {
   return (
@@ -72,7 +72,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
+import { MiddleTruncate } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

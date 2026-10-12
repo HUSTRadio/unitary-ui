@@ -9,7 +9,7 @@ import {
   FieldsetSubtitle,
   FieldsetTitle,
   WarningText,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithWarningText16633F67Example() {
   const [message, setMessage] = useState("");

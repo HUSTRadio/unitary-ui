@@ -55,7 +55,7 @@ category-bar
 100
 
 ```tsx
-import { CategoryBar } from "@/components/ui/charts/category-bar";
+import { CategoryBar } from "@hustradio/unitary-ui";
 
 export function CategoryBarDefault37A8EEC1Example() {
   return (
@@ -75,7 +75,7 @@ export function CategoryBarDefault37A8EEC1Example() {
 导入
 
 ```tsx
-import { CategoryBar } from "@/components/ui/category-bar";
+import { CategoryBar } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`

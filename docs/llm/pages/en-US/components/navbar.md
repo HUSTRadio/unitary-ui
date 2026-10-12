@@ -49,7 +49,7 @@ UnitaryWorkspace
 Page content begins below the header.
 
 ```tsx
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@hustradio/unitary-ui";
 
 export default function NavbarExample() {
   return (
@@ -73,7 +73,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

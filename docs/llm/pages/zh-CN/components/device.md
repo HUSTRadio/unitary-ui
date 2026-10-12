@@ -62,7 +62,7 @@ device
 ![Unitary dashboard on iPhone](/dashboard.png)
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceComposition47FCA483Example() {
   return (
@@ -87,7 +87,7 @@ export function DeviceComposition47FCA483Example() {
 08:00
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceModelsD17D2D78Example() {
   const models = ["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const;
@@ -111,7 +111,7 @@ export function DeviceModelsD17D2D78Example() {
 08:00
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceDynamicIsland8E97BE46Example() {
   return (
@@ -131,7 +131,7 @@ export function DeviceDynamicIsland8E97BE46Example() {
 08:00
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceStatusBar3EF6E901Example() {
   return (
@@ -156,7 +156,7 @@ example.com↻
 ![Website shown in the Safari mockup](/page.png)
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceSafariChrome0140AFFBExample() {
   return (
@@ -178,7 +178,7 @@ export function DeviceSafariChrome0140AFFBExample() {
 08:00
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceLandscapeE658D3AEExample() {
   return (
@@ -196,7 +196,7 @@ export function DeviceLandscapeE658D3AEExample() {
 9:41
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 /** 屏幕占位层：亮/暗两套内容（示意壁纸，非官方素材） */
 function Wallpaper({ dark }: { dark?: boolean }) {
@@ -237,7 +237,7 @@ export function DeviceAppearance1C9D4B2EExample() {
 导入
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

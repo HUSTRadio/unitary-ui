@@ -194,9 +194,9 @@ describe("release artifacts", () => {
   });
   it("requires legal documents and entry points and rejects application and scratch output", () => {
     const documents = ["LICENSE", "LICENSE.zh-CN.md", "OFL-1.1.txt", "CREDITS.md", "CREDITS.en.md", "CHANGELOG.md", "CHANGELOG.en.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md", "README.md", "README.en.md", "package.json"];
-    const files = [...documents, "dist/unitary-ui.es.js", "dist/unitary-ui.cjs", "dist/unitary-ui.css", "dist/types/lib/index.d.ts"];
+    const files = [...documents, "dist/unitary-ui.es.js", "dist/unitary-ui.cjs", "dist/unitary-ui.css", "dist/tailwind-reference.css", "dist/types/lib/index.d.ts"];
     expect(validatePackageFiles(files, manifest)).toContain("dist/unitary-ui.css");
-    for (const omitted of ["OFL-1.1.txt", "THIRD_PARTY_NOTICES.en.md", "dist/types/lib/index.d.ts"]) expect(() => validatePackageFiles(files.filter(file => file !== omitted), manifest)).toThrow("Missing");
+    for (const omitted of ["OFL-1.1.txt", "THIRD_PARTY_NOTICES.en.md", "dist/types/lib/index.d.ts", "dist/tailwind-reference.css"]) expect(() => validatePackageFiles(files.filter(file => file !== omitted), manifest)).toThrow("Missing");
     for (const extra of ["dist/assets/demo.js", "dist/unitary-ui.es.js.map", "scripts/release.mjs", "dist/.scratch/private.txt", "../private"]) expect(() => validatePackageFiles([...files, extra], manifest)).toThrow();
   });
   it("checks installed chunk, declaration and font references without repository resolution", () => {
@@ -208,10 +208,15 @@ describe("release artifacts", () => {
     write("dist/types/lib/index.d.ts", 'export { Probe } from "./probe";');
     write("dist/types/lib/probe.d.ts", "export type Probe = string;");
     write("dist/unitary-ui.css", "@font-face{src:url(./fonts/test.woff2)}");
+    write("dist/tailwind-reference.css", '@import "./color-schemes.css";');
+    write("dist/color-schemes.css", ":root {}");
     write("dist/fonts/test.woff2", "font");
     const notice = "Maple Mono OPPO Sans HarmonyOS Sans Material Symbols Rounded Apache License";
     for (const name of ["THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md"]) write(name, notice);
     expect(() => validateInstalledPackage(root, ["test.woff2"])).not.toThrow();
+    rmSync(path.join(root, "dist/color-schemes.css"));
+    expect(() => validateInstalledPackage(root, ["test.woff2"])).toThrow("Missing reference");
+    write("dist/color-schemes.css", ":root {}");
     rmSync(path.join(root, "dist/motion.js"));
     expect(() => validateInstalledPackage(root, ["test.woff2"])).toThrow("Missing reference");
     write("dist/motion.js", "export {};");
@@ -261,6 +266,12 @@ describe("publishing workflow gates", () => {
     const receiptIndex = job.steps.findIndex(step => step.run === "node scripts/npm-release.mjs check-artifact");
     expect(receiptIndex).toBeGreaterThan(0);
     expect(job.steps.indexOf(credentialSteps[0])).toBeGreaterThan(receiptIndex);
+    const docs = workflow.jobs["docs-static"];
+    expect(docs.needs).toEqual(["guard", "package", "publish"]);
+    expect(docs.permissions).toEqual({ contents: "read" });
+    expect(docs.steps.some(step => step.run === "pnpm run build:docs:registry -- --receipt .scratch/npm-release/published.json")).toBe(true);
+    expect(docs.steps.some(step => /npm publish|build:lib|test:package/.test(step.run ?? ""))).toBe(false);
+    expect(JSON.stringify(docs)).not.toContain("NPM_TOKEN");
     for (const current of Object.values(workflow.jobs) as Array<{ steps?: Array<{ uses?: string }> }>) {
       for (const step of current.steps ?? []) if (step.uses) expect(step.uses).toMatch(/@[a-f0-9]{40}$/);
     }

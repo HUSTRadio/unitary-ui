@@ -9,7 +9,7 @@ import {
   FieldsetFooterStatus,
   FieldsetSubtitle,
   FieldsetTitle,
-} from "@/components/ui/fieldset";
+} from "@hustradio/unitary-ui";
 
 export function FieldsetWithErrorTextB52BED15Example() {
   const [message, setMessage] = useState("");

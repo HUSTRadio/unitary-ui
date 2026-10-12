@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 

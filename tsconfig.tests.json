@@ -20,6 +20,7 @@
 
     /* Path aliases */
     "paths": {
+      "@hustradio/unitary-ui": ["./src/lib/index.ts"],
       "@/*": ["./src/*"]
     }
   },

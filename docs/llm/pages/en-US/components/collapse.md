@@ -75,7 +75,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseDefault37A8EEC1Example() {
   return (
@@ -115,7 +115,7 @@ Plus 图标展开时逆时针旋转 45° 变成 ×，收起时回到加号，适
 旋转走高频微反馈档位（--uni-motion-feedback），与悬停、颜色变化保持同一节奏。
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapsePlus9C4E1A7BExample() {
   return (
@@ -152,7 +152,7 @@ export function CollapsePlus9C4E1A7BExample() {
 不可达内容：禁用态触发器整体降不透明度并切换为 not-allowed 光标，点击不会展开。
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseDisabled2F7D5B6EExample() {
   return (
@@ -189,7 +189,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseExpandedE72D5D8DExample() {
   return (
@@ -220,7 +220,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseMultiple14070FDBExample() {
   return (
@@ -249,7 +249,7 @@ export function CollapseMultiple14070FDBExample() {
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 ```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+import { Collapse, CollapseContent, CollapseTrigger } from "@hustradio/unitary-ui";
 
 export function CollapseSmall5263293FExample() {
   return (
@@ -274,7 +274,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
+import { Collapse, CollapseTrigger, CollapseContent } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

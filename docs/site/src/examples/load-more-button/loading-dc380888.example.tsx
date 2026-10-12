@@ -1,4 +1,4 @@
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonLoadingDC380888Example() {
   return (

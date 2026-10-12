@@ -72,7 +72,7 @@ Not applicable: Entity provides the row layout; the parent handles selection and
   Connected 1h ago
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 import {
   Entity,
   EntityAction,
@@ -80,7 +80,7 @@ import {
   EntityDescription,
   EntityMedia,
   EntityTitle,
-} from "@/components/ui/entity";
+} from "@hustradio/unitary-ui";
 
 export function EntityDefault37A8EEC1Example() {
   return (
@@ -103,8 +103,8 @@ export function EntityDefault37A8EEC1Example() {
 ## Entity with skeleton
 
 ```tsx
-import { Entity } from "@/components/ui/entity";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Entity } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function EntityEntityWithSkeleton02290A9AExample() {
   return (
@@ -138,14 +138,14 @@ export function EntityEntityWithSkeleton02290A9AExample() {
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Entity,
   EntityAction,
   EntityContent,
   EntityDescription,
   EntityTitle,
-} from "@/components/ui/entity";
+} from "@hustradio/unitary-ui";
 
 const INITIAL_SESSIONS = [
   { id: "github", title: "GitHub Desktop on MacBook Pro", description: "Last used just now" },
@@ -207,14 +207,14 @@ export function EntityEntityWithListBD7895E8Example() {
   Last used 25min ago
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@hustradio/unitary-ui";
 import {
   Entity,
   EntityContent,
   EntityDescription,
   EntityMedia,
   EntityTitle,
-} from "@/components/ui/entity";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function EntityEntityWithListAndCheckbox26EB60A8Example() {
@@ -279,7 +279,7 @@ export function EntityEntityWithListAndCheckbox26EB60A8Example() {
   This is a simple description
 
 ```tsx
-import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity";
+import { Entity, EntityContent, EntityDescription } from "@hustradio/unitary-ui";
 
 export function EntityEntityWithFill1C9008CFExample() {
   return (
@@ -304,14 +304,14 @@ export function EntityEntityWithFill1C9008CFExample() {
   \[some action\]
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 import {
   Entity,
   EntityAction,
   EntityContent,
   EntityDescription,
   EntityMedia,
-} from "@/components/ui/entity";
+} from "@hustradio/unitary-ui";
 
 export function EntityEntityWithColumnClassNames71E7FBA7Example() {
   return (
@@ -349,7 +349,7 @@ import {
   EntityTitle,
   EntityDescription,
   EntityAction,
-} from "@/components/ui/entity";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

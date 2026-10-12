@@ -1,4 +1,4 @@
-import { Video } from "@/components/ui/video";
+import { Video } from "@hustradio/unitary-ui";
 
 export function VideoNoControlsA3B62E68Example() {
   return (

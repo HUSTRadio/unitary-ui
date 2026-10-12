@@ -52,7 +52,7 @@ sheet
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Sheet,
   SheetClose,
@@ -62,7 +62,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@hustradio/unitary-ui";
 
 export function SheetDefault37A8EEC1Example() {
   return (
@@ -95,8 +95,8 @@ export function SheetDefault37A8EEC1Example() {
 ## 四边弹出方向
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@hustradio/unitary-ui";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@hustradio/unitary-ui";
 
 export function SheetWithSideCF31B857Example() {
   const sides = ["top", "right", "bottom", "left"] as const;
@@ -139,7 +139,7 @@ import {
   SheetDescription,
   SheetFooter,
   SheetClose,
-} from "@/components/ui/sheet";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

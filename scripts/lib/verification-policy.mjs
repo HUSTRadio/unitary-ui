@@ -7,12 +7,20 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("docs-public-imports.test.ts docs-preview.test.ts docs-package-consumer.test.ts docs-package-boundary.test.ts library-build-boundary.test.ts"),
+    inputs: ["docs/**", "src/**", "scripts/**", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "*config*", ".github/workflows/**"],
+  },
+  {
     tests: unitFiles("npm-release.test.ts"),
     inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", ".github/workflows/**", "docs/guides/npm-release.md", "docs/guides/npm-release.en.md"],
   },
   {
     tests: unitFiles("motion-easing-governance.test.ts"),
     inputs: ["src/**", "docs/site/**", "tests/audit/motion-easing-allowlist.json"],
+  },
+  {
+    tests: unitFiles("motion-duration-governance.test.ts"),
+    inputs: ["src/**", "docs/site/**", "tests/audit/motion-duration-allowlist.json"],
   },
   {
     tests: unitFiles("ci-workflows.test.ts"),
@@ -129,7 +137,7 @@ export const INDIRECT_INPUT_GROUPS = [
       tooltip-tip.test.ts video-api.test.ts`),
     inputs: ["src/**", "docs/site/**", "docs/llm/**", "docs/geist-markdown-refs/**", "public/**"],
   },
-  { tests: unitFiles("changelog-contract.test.ts"), inputs: ["CHANGELOG*.md", "package.json"] },
+  { tests: unitFiles("changelog-contract.test.ts"), inputs: ["CHANGELOG*.md", "package.json", "tests/fixtures/npm-publications.json"] },
   {
     tests: unitFiles("gitignore-policy.test.ts readme-agents-contract.test.ts"),
     inputs: [".gitignore", "AGENTS.md", "README*.md"],
@@ -144,6 +152,7 @@ export const INDIRECT_INPUT_GROUPS = [
       "public/**",
       "package.json",
       "README*.md",
+      "vite.lib.config.ts",
     ],
   },
   {
@@ -432,6 +441,7 @@ export function classifyVerification(context, full = false) {
         corpus: true,
         browser: true,
         lint: true,
+        package: true,
       });
       if (!file.startsWith("docs/site/src/examples/")) scope.fullBrowser = true;
     } else if (
@@ -441,7 +451,7 @@ export function classifyVerification(context, full = false) {
       file.startsWith(".github/")
     ) {
       Object.assign(scope, { unit: true, typecheck: true, appBuild: true, lint: true });
-      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs", "scripts/test-packed-package.mjs", "scripts/clean-library-output.mjs", "scripts/lib/package-artifact.mjs"]))
+      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs", "scripts/test-packed-package.mjs", "scripts/clean-library-output.mjs", "scripts/lib/package-artifact.mjs", "scripts/*docs*artifact*.mjs", "scripts/*docs*package*.mjs", "scripts/build-docs-registry.mjs", "scripts/lib/docs-*.mjs"]))
         scope.package = true;
       if (
         matches(file, [

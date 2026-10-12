@@ -3,6 +3,7 @@
 // 2. 删除 demo 演示资源（不属于库包）
 import { readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { copyTailwindReference } from "./copy-tailwind-reference.mjs";
 
 const distDir = join(import.meta.dirname, "../dist");
 
@@ -67,3 +68,7 @@ try {
 } catch {
   console.log("css.d.ts copy failed");
 }
+
+// 5. Expose the canonical Tailwind theme and its adjacent palette import.
+copyTailwindReference(join(import.meta.dirname, ".."));
+console.log("canonical Tailwind reference and palette copied to dist/");

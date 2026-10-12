@@ -1,4 +1,4 @@
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 import { Sparkles } from "lucide-react";
 
 export function NoteCustomIconEE5755A2Example() {

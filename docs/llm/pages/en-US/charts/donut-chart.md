@@ -51,7 +51,7 @@ Not applicable: Display-only component.
 ## Live Demo
 
 ```tsx
-import { DonutChart } from "@/components/ui/charts/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 
 const cityData = [
   { name: "New York", value: 95574 },
@@ -78,7 +78,7 @@ export function DonutChartDefault37A8EEC1Example() {
 ## Pie
 
 ```tsx
-import { DonutChart } from "@/components/ui/charts/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 
 const cityData = [
   { name: "New York", value: 95574 },
@@ -108,7 +108,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { DonutChart } from "@/components/ui/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

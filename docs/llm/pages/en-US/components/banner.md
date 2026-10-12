@@ -57,7 +57,7 @@ Not applicable: Banner has no open, collapsed, or dismissal state; its parent de
 [Read more](#/components)
 
 ```tsx
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@hustradio/unitary-ui";
 
 export function BannerDefault21B111CBExample() {
   return (
@@ -75,7 +75,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Banner } from "@/components/ui/banner";
+import { Banner } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

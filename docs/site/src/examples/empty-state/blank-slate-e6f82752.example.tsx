@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+import { EmptyState, EmptyStateIcon } from "@hustradio/unitary-ui";
 import { ChartColumn } from "lucide-react";
 
 export function EmptyStateBlankSlateE6F82752Example() {

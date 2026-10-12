@@ -53,7 +53,7 @@ scroller
 ## 实时示例
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerVertical727CD3A6Example() {
   return (
@@ -72,7 +72,7 @@ export function ScrollerVertical727CD3A6Example() {
 ## 水平
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerHorizontal0ABBA441Example() {
   return (
@@ -96,7 +96,7 @@ export function ScrollerHorizontal0ABBA441Example() {
 ## 自由
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerFreeF411A1FBExample() {
   return (
@@ -116,7 +116,7 @@ export function ScrollerFreeF411A1FBExample() {
 ## 垂直布局（带按钮）
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerVerticalWithButtonsEB1E78D8Example() {
   return (
@@ -134,7 +134,7 @@ export function ScrollerVerticalWithButtonsEB1E78D8Example() {
 ## 水平布局（带按钮）
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 
 export function ScrollerHorizontalWithButtons29D25875Example() {
   return (
@@ -162,7 +162,7 @@ export function ScrollerHorizontalWithButtons29D25875Example() {
 导入
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller";
+import { Scroller } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

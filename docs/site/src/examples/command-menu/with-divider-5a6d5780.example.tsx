@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   CommandMenu,
   CommandMenuDivider,
@@ -6,7 +6,7 @@ import {
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
-} from "@/components/ui/command-menu";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function CommandMenuWithDivider5A6D5780Example() {

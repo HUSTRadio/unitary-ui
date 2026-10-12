@@ -66,8 +66,8 @@ modal
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalDefault37A8EEC1Example() {
@@ -106,8 +106,8 @@ export function ModalDefault37A8EEC1Example() {
 ## 吸顶标题栏
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 
@@ -155,8 +155,8 @@ export function ModalSticky964A9431Example() {
 ## 紧凑布局
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalCompactC4E1A90BExample() {
@@ -196,8 +196,8 @@ export function ModalCompactC4E1A90BExample() {
 ## 单个按钮
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalSingleButton15781DA6Example() {
@@ -229,8 +229,8 @@ export function ModalSingleButton15781DA6Example() {
 ## 内嵌样式
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { Button } from "@hustradio/unitary-ui";
+import { Modal, ModalContent, ModalTrigger } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalInset2F0C8478Example() {
@@ -271,7 +271,7 @@ export function ModalInset2F0C8478Example() {
 ## 禁用操作按钮
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -280,7 +280,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalDisabledActions96FBF6AEExample() {
@@ -316,7 +316,7 @@ export function ModalDisabledActions96FBF6AEExample() {
 ## 控件初始焦点
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -325,7 +325,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useRef, useState } from "react";
 
 export function ModalControlInitialFocus9DBB3C0DExample() {
@@ -370,8 +370,8 @@ export function ModalControlInitialFocus9DBB3C0DExample() {
 ## 打开时聚焦输入框
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@hustradio/unitary-ui";
+import { Input } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -380,7 +380,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useRef, useState } from "react";
 
 export function ModalFocusInputOnOpenDB430094Example() {
@@ -436,8 +436,8 @@ export function ModalFocusInputOnOpenDB430094Example() {
 ## 移动端底部弹层输入
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@hustradio/unitary-ui";
+import { Input } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -446,7 +446,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalMobileSheetInputsFAB5970DExample() {
@@ -502,8 +502,8 @@ export function ModalMobileSheetInputsFAB5970DExample() {
 ## Combobox 聚焦
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { Button } from "@hustradio/unitary-ui";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -512,7 +512,7 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalComboboxFocus873C94F9Example() {
@@ -578,7 +578,7 @@ export function ModalComboboxFocus873C94F9Example() {
 ## Toast 与焦点陷阱
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   Modal,
   ModalContent,
@@ -587,8 +587,8 @@ import {
   ModalHeader,
   ModalTrigger,
   ModalTitle,
-} from "@/components/ui/modal";
-import { useToasts } from "@/components/ui/toast";
+} from "@hustradio/unitary-ui";
+import { useToasts } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function ModalToastsFocusTrap2DACB2BDExample() {
@@ -657,7 +657,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalClose,
-} from "@/components/ui/modal";
+} from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

@@ -1,4 +1,4 @@
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@hustradio/unitary-ui";
 
 export function DeviceModelsD17D2D78Example() {
   const models = ["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const;

@@ -1,0 +1,4 @@
+@import "./styles/index.css";
+
+/* Shared documentation demos belong to the living styleguide, not the library CSS. */
+@source "../docs/site/src/examples";

@@ -62,7 +62,7 @@ variant="pulldown" 将菜单渲染为悬浮卡片；expandCorner 指定卡片锚
 ## 实时示例
 
 ```tsx
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 
 export function SplitButtonMenuAlignmentAE78EA5CExample() {
   return (
@@ -108,7 +108,7 @@ export function SplitButtonMenuAlignmentAE78EA5CExample() {
 ## 图标
 
 ```tsx
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 import { ExternalLink, Rocket } from "lucide-react";
 
 export function SplitButtonIconA35ABCD6Example() {
@@ -143,7 +143,7 @@ export function SplitButtonIconA35ABCD6Example() {
 ## 带图标标题
 
 ```tsx
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 import { CircleArrowUp, Save } from "lucide-react";
 
 export function SplitButtonTitleWithIcon9D4D6961Example() {
@@ -191,11 +191,11 @@ No command yet.
 ```tsx
 import * as React from "react";
 
-import {
-  SplitButton,
-  SplitButtonMenuItem,
-  type SplitButtonExpandCorner,
-} from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
+
+type SplitButtonExpandCorner = NonNullable<
+  React.ComponentProps<typeof SplitButton>["expandCorner"]
+>;
 
 const CORNERS: readonly SplitButtonExpandCorner[] = [
   "top-left",
@@ -271,7 +271,7 @@ export function SplitButtonPullDownCard6B3F1D80Example() {
 导入
 
 ```tsx
-import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

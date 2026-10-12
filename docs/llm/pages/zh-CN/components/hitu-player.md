@@ -57,13 +57,13 @@ HituBox 与 HituFile 共用帧时间线，提供播放、暂停、重播和循�
 
 ```tsx
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { EmptyState } from "@/components/ui/empty-state";
-import { HituPlayer, type HituPlayerRef } from "@/components/ui/hitu-player";
-import { HituBox, HituFile } from "@/vendor/hitu/assets";
-import { MotionProvider, motion, useMotionTransition } from "@/lib/motion";
-import { useI18n } from "@/lib/i18n";
+import { Button } from "@hustradio/unitary-ui";
+import { Checkbox } from "@hustradio/unitary-ui";
+import { EmptyState } from "@hustradio/unitary-ui";
+import { HituPlayer, type HituPlayerRef } from "@hustradio/unitary-ui";
+import { HituBox, HituFile } from "@hustradio/unitary-ui";
+import { MotionProvider, motion, useMotionTransition } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 const shapes = [
   {

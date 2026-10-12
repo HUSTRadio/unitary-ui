@@ -65,7 +65,7 @@ avatar
 ![用户 christopherkindl 的头像](https://github.com/christopherkindl.png?size=64)![用户 rauno 的头像](https://github.com/rauno.png?size=64)![用户 shuding 的头像](https://github.com/shuding.png?size=64)![用户 skllcrn 的头像](https://github.com/skllcrn.png?size=64)+2
 
 ```tsx
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarGroup34CA0E76Example() {
   return (
@@ -101,7 +101,7 @@ export function AvatarGroup34CA0E76Example() {
 ![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=64)![用户 severinlandolt 的头像](https://github.com/severinlandolt.png?size=64)![用户 rauchg 的头像](https://github.com/rauchg.png?size=64)
 
 ```tsx
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarStackingOrderD2DD6E34Example() {
   return (
@@ -139,7 +139,7 @@ export function AvatarStackingOrderD2DD6E34Example() {
 ![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=96)![用户 severinlandolt 的头像](https://github.com/severinlandolt.png?size=96)![用户 rauchg 的头像](https://github.com/rauchg.png?size=96)
 
 ```tsx
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarOverlap38B163F9Example() {
   return (
@@ -194,7 +194,7 @@ export function AvatarOverlap38B163F9Example() {
 ![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=48)![用户 severinlandolt 的头像](https://github.com/severinlandolt.png?size=48)![用户 rauchg 的头像](https://github.com/rauchg.png?size=48)
 
 ```tsx
-import { AvatarGroup } from "@/components/ui/avatar";
+import { AvatarGroup } from "@hustradio/unitary-ui";
 
 export function AvatarFixedOverlapD4FD80A3Example() {
   return (
@@ -236,7 +236,7 @@ export function AvatarFixedOverlapD4FD80A3Example() {
 ![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=48)![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=64)![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=96)
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function AvatarSize1AF85190Example() {
   return (
@@ -254,7 +254,7 @@ export function AvatarSize1AF85190Example() {
 ![用户 rauchg 的头像](https://github.com/rauchg.png?size=64)![用户 severinlandolt 的头像](https://gitlab.com/severinlandolt.png?size=64)![用户 evilrabbit 的头像](https://bitbucket.org/evilrabbit/avatar/64)
 
 ```tsx
-import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/avatar";
+import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@hustradio/unitary-ui";
 
 export function AvatarGitB949C922Example() {
   return (
@@ -270,7 +270,7 @@ export function AvatarGitB949C922Example() {
 ## 自定义图标
 
 ```tsx
-import { AvatarWithIcon } from "@/components/ui/avatar";
+import { AvatarWithIcon } from "@hustradio/unitary-ui";
 import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
 
 export function AvatarWithCustomIconECDC07D3Example() {
@@ -301,7 +301,7 @@ export function AvatarWithCustomIconECDC07D3Example() {
 SLEKCK
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function AvatarLetter1BF163F2Example() {
   return (
@@ -317,7 +317,7 @@ export function AvatarLetter1BF163F2Example() {
 ## 占位符
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function AvatarPlaceholderF4B24FEDExample() {
   return <Avatar placeholder size={90} />;
@@ -346,9 +346,9 @@ Superellipse · n = 5
 
 ```tsx
 import { useId } from "react";
-import { Avatar } from "@/components/ui/avatar";
-import { ContinuousSurface } from "@/components/ui/continuous-surface";
-import { superellipsePath } from "@/lib/continuous-corner";
+import { Avatar } from "@hustradio/unitary-ui";
+import { ContinuousSurface } from "@hustradio/unitary-ui";
+import { superellipsePath } from "@hustradio/unitary-ui";
 
 const CURVATURE_VARIANTS = [
   { label: "Circular · p = 2", exponent: 2 },
@@ -410,7 +410,7 @@ import {
   GitHubAvatar,
   GitLabAvatar,
   BitbucketAvatar,
-} from "@/components/ui/avatar";
+} from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ComponentProps<typeof AvatarPrimitive.Root>`

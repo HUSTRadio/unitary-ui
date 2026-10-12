@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
   TableRoot,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 const items = [
   ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],

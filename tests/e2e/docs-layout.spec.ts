@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { expect, test, type Page } from "@playwright/test";
+import { moduleRequest } from "./docs-artifact";
 
 import { collectLocalScrollOwners } from "./helpers/scroll-owner-bounds";
 import {
@@ -178,13 +179,13 @@ async function gotoRoute(page: Page, route: string, viewport: { width: number; h
 for (const scenario of [
   {
     route: "/layout/grid",
-    request: "**/site/src/components/docs-grid-page.tsx*",
+    request: moduleRequest("components/docs-grid-page.tsx", "**/site/src/components/docs-grid-page.tsx*"),
     loading: '[data-slot="docs-page-loading"]',
     content: '[data-grid-demo="responsive-breakpoints"] [data-slot="grid"]',
   },
   {
     route: "/components/split-button",
-    request: "**/registry.ts?example-component=split-button",
+    request: moduleRequest("registry.ts?example-component=split-button", "**/registry.ts?example-component=split-button"),
     loading: '[data-slot="docs-examples-loading"]',
     content: '[data-demo-component="split-button"][data-demo-mode="live"]',
   },

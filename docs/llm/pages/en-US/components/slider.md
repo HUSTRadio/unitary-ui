@@ -62,7 +62,7 @@ Not applicable: The track fills its container, but the component does not resize
 ## Live Demo
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderDefault37A8EEC1Example() {
   return <Slider defaultValue={[50]} aria-label="Value" />;
@@ -72,7 +72,7 @@ export function SliderDefault37A8EEC1Example() {
 ## Step max
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderStepMax1112E58CExample() {
   return <Slider defaultValue={[20]} step={10} max={50} marks aria-label="Value in steps of 10" />;
@@ -84,7 +84,7 @@ export function SliderStepMax1112E58CExample() {
 Volume
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderWithLabelBB9F6883Example() {
   return <Slider label="Volume" defaultValue={[40]} />;
@@ -94,7 +94,7 @@ export function SliderWithLabelBB9F6883Example() {
 ## Range with inputs
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SliderRangeWithInputs16EAD947Example() {
@@ -109,7 +109,7 @@ export function SliderRangeWithInputs16EAD947Example() {
 ## Disabled range with inputs
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 
 export function SliderDisabledRangeWithInputsFCA5E8B4Example() {
   return <Slider disabled showStartInput showEndInput value={[50, 75]} aria-label="Range" />;
@@ -123,7 +123,7 @@ Drag then release
 Last committed: —
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function SliderCommitOnRelease97B1700EExample() {
@@ -151,7 +151,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

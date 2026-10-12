@@ -59,8 +59,8 @@ drawer
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@hustradio/unitary-ui";
+import { Drawer, DrawerDescription, DrawerTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DrawerDefault37A8EEC1Example() {
@@ -85,8 +85,8 @@ export function DrawerDefault37A8EEC1Example() {
 ## 自定义高度
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@hustradio/unitary-ui";
+import { Drawer, DrawerDescription, DrawerTitle } from "@hustradio/unitary-ui";
 import { useState } from "react";
 
 export function DrawerCustomHeight986065F9Example() {
@@ -113,7 +113,7 @@ export function DrawerCustomHeight986065F9Example() {
 导入
 
 ```tsx
-import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Drawer, DrawerTitle, DrawerDescription } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

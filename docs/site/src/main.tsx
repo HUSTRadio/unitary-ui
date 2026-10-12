@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { ThemeProvider } from "@/lib/theme";
+import { ErrorBoundary } from "@hustradio/unitary-ui";
+import { ThemeProvider } from "@hustradio/unitary-ui";
 import App from "./App";
 import "./index.css";
 import { LanguageProvider, readDocsLanguage } from "./i18n/language";

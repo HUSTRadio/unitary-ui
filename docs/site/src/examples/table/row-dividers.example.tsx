@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@hustradio/unitary-ui";
 
 /**
  * 行间分隔线：`colorScheme="bordered"` 只在**行与行之间**画 1px 发丝线。

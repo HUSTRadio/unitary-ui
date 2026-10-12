@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { CodeBlock } from "@/components/ui/code-block";
-import { SearchInput } from "@/components/ui/search-input";
-import { Select, SelectItem } from "@/components/ui/select";
-import { TokensExample } from "@/examples/TokensExample";
-import TokensExampleSource from "@/examples/TokensExample.tsx?example-source";
+import { CodeBlock } from "@hustradio/unitary-ui";
+import { SearchInput } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { TokensExample } from "../examples/tokens/TokensExample";
+import TokensExampleSource from "../examples/tokens/TokensExample.tsx?example-source";
 import {
   GLOBAL_TOKENS,
   TOKEN_NAMES,
   RUNTIME_TOKEN_NAMES,
   type TokenGroup,
-} from "@/lib/token-catalog";
+} from "@hustradio/unitary-ui";
 import {
   DocsPageTitle,
   DocsPageLead,

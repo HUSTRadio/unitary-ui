@@ -60,10 +60,10 @@ prefetch
 
 ```tsx
 import { useState } from "react";
-import { Prefetch, usePrefetchState } from "@/components/ui/prefetch";
-import { createPrefetch } from "@/lib/prefetch";
-import { Button } from "@/components/ui/button";
-import { useI18n } from "@/lib/i18n";
+import { Prefetch, usePrefetchState } from "@hustradio/unitary-ui";
+import { createPrefetch } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function PrefetchExample() {
   const { locale } = useI18n();
@@ -154,11 +154,11 @@ export default function PrefetchExample() {
 
 ```tsx
 import { useState } from "react";
-import { Prefetch, usePrefetchState, type PrefetchTrigger } from "@/components/ui/prefetch";
-import { createPrefetch } from "@/lib/prefetch";
-import { Button } from "@/components/ui/button";
-import { Select, SelectItem } from "@/components/ui/select";
-import { useI18n } from "@/lib/i18n";
+import { Prefetch, usePrefetchState, type PrefetchTrigger } from "@hustradio/unitary-ui";
+import { createPrefetch } from "@hustradio/unitary-ui";
+import { Button } from "@hustradio/unitary-ui";
+import { Select, SelectItem } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function PrefetchStrategiesExample() {
   const { locale } = useI18n();

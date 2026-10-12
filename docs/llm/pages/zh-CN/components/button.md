@@ -70,7 +70,7 @@ button
 ## 实时示例
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonSizes7C69F3FAExample() {
   return (
@@ -90,7 +90,7 @@ export function ButtonSizes7C69F3FAExample() {
 ## 全部类型与尺寸对比
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonAllTypesAndSizesInComparisonF6E8021DExample() {
   return (
@@ -154,7 +154,7 @@ export function ButtonAllTypesAndSizesInComparisonF6E8021DExample() {
 ## 形状
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import { ArrowUp } from "lucide-react";
 
 export function ButtonShapesE729E861Example() {
@@ -192,7 +192,7 @@ export function ButtonShapesE729E861Example() {
 ## 前缀与后缀
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export function ButtonPrefixAndSuffix99076368Example() {
@@ -215,7 +215,7 @@ export function ButtonPrefixAndSuffix99076368Example() {
 ## 圆角
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonRounded01024DEEExample() {
   return (
@@ -237,7 +237,7 @@ export function ButtonRounded01024DEEExample() {
 ## 加载中
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonLoadingB4A070A2Example() {
   return (
@@ -259,7 +259,7 @@ export function ButtonLoadingB4A070A2Example() {
 ## 禁用
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonDisabled17EB3C01Example() {
   return (
@@ -281,7 +281,7 @@ export function ButtonDisabled17EB3C01Example() {
 ## 各变体禁用态
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonDisabledVariantsCB2C3BEAExample() {
   return (
@@ -311,7 +311,7 @@ export function ButtonDisabledVariantsCB2C3BEAExample() {
 [Sign Up](https://example.com/signup)
 
 ```tsx
-import { ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@hustradio/unitary-ui";
 
 export function ButtonLinkB1B1BDB4Example() {
   return (
@@ -325,7 +325,7 @@ export function ButtonLinkB1B1BDB4Example() {
 ## 自定义样式
 
 ```tsx
-import { CustomButton } from "@/components/ui/button";
+import { CustomButton } from "@hustradio/unitary-ui";
 
 export function ButtonCustom6CDFD271Example() {
   return (
@@ -358,7 +358,7 @@ export function ButtonCustom6CDFD271Example() {
 ## 变体
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 
 export function ButtonVariants63D2643BExample() {
   return (
@@ -388,7 +388,7 @@ export function ButtonVariants63D2643BExample() {
 导入
 
 ```tsx
-import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
+import { Button, ButtonLink, CustomButton, buttonVariants } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ButtonHTMLAttributes<HTMLButtonElement>`

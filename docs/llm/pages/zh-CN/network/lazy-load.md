@@ -51,9 +51,9 @@ lazy-load
 
 ```tsx
 import { useState } from "react";
-import { LazyLoad } from "@/components/ui/lazy-load";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useI18n } from "@/lib/i18n";
+import { LazyLoad } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
+import { useI18n } from "@hustradio/unitary-ui";
 
 export default function LazyLoadExample() {
   const [viewport, setViewport] = useState<HTMLDivElement | null>(null);
@@ -107,7 +107,7 @@ export default function LazyLoadExample() {
 导入
 
 ```tsx
-import { LazyLoad } from "@/components/ui/lazy-load";
+import { LazyLoad } from "@hustradio/unitary-ui";
 ```
 
 还支持以下类型中定义的属性：`ComponentProps<"div">`

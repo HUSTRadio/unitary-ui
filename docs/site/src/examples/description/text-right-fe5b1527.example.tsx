@@ -1,4 +1,4 @@
-import { Description } from "@/components/ui/description";
+import { Description } from "@hustradio/unitary-ui";
 
 export function DescriptionTextRightFE5B1527Example() {
   return (

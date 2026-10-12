@@ -1,4 +1,4 @@
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar } from "@hustradio/unitary-ui";
 
 export function AvatarLetter1BF163F2Example() {
   return (

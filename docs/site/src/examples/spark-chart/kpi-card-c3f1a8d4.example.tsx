@@ -1,8 +1,8 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
-import { DonutChart } from "@/components/ui/charts/donut-chart";
-import { SparkAreaChart, SparkBarChart } from "@/components/ui/charts/spark-chart";
-import { cn } from "@/lib/utils";
+import { DonutChart } from "@hustradio/unitary-ui";
+import { SparkAreaChart, SparkBarChart } from "@hustradio/unitary-ui";
+import { cn } from "@hustradio/unitary-ui";
 
 /**
  * KPI 统计卡模式：指标值大字号 + 趋势微图 + 涨跌标注。

@@ -55,7 +55,7 @@ text-with-copy-button
 ## 实时示例
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 
 export function TextWithCopyButtonDefault21B111CBExample() {
   return (
@@ -72,7 +72,7 @@ export function TextWithCopyButtonDefault21B111CBExample() {
 ## 小号 + 三级按钮
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 
 export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
   return (
@@ -93,7 +93,7 @@ export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
 导入
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+import { TextWithCopyButton } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

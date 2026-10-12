@@ -2,13 +2,13 @@
  * docs/site 样式入口
  *
  * 引入顺序有讲究：
- * 1. 根 src/styles/index.css 是 Geist token / 排版 / 材质的唯一权威样式源，
- *    其中声明了 HarmonyOS Sans SC + JetBrains Maple Mono 的 @font-face（自托管 woff2）。
- * 2. @source 让 Tailwind v4 额外扫描根仓库 src/components（shadcn/ui 元件
- *    不在 docs/site 目录内，默认自动扫描覆盖不到）。
+ * 1. 库的公开样式提供 tokens、排版、材质和字体。
+ * 2. 公共 Tailwind reference 提供同一份主题与 utilities，docs 只扫描本站源码。
  */
-@import "../../../src/styles/index.css";
-@source "../../../src/components";
+@import "@hustradio/unitary-ui/styles.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@reference "@hustradio/unitary-ui/tailwind-reference.css";
+@source "./";
 
 :root {
   --theme-accent: #0d47a1;

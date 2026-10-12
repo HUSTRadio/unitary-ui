@@ -45,7 +45,7 @@ Grouped website navigation sharing links between desktop panels and a modal mobi
 ## Live Demo
 
 ```tsx
-import { SiteNavigation } from "@/components/ui/site-navigation";
+import { SiteNavigation } from "@hustradio/unitary-ui";
 
 export default function SiteNavigationExample() {
   return (
@@ -93,7 +93,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SiteNavigation } from "@/components/ui/site-navigation";
+import { SiteNavigation } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

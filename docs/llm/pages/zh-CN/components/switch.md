@@ -61,7 +61,7 @@ Source
 Output
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchDefault37A8EEC1Example() {
   return (
@@ -80,7 +80,7 @@ Source
 Output
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchDisabled75081B59Example() {
   return (
@@ -109,7 +109,7 @@ Source
 Output
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchSizes74A3978DExample() {
   return (
@@ -144,7 +144,7 @@ Source
 Output
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchFullWidthD34008D2Example() {
   return (
@@ -163,8 +163,8 @@ Source
 Output
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
-import { Tooltip } from "@/components/ui/tooltip";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function SwitchTooltip20F12289Example() {
   return (
@@ -198,7 +198,7 @@ Output
 
 ```tsx
 import { LayoutGrid, List } from "lucide-react";
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 
 export function SwitchIconA35ABCD6Example() {
   return (
@@ -233,7 +233,7 @@ export function SwitchIconA35ABCD6Example() {
 导入
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

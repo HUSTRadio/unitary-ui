@@ -1,5 +1,5 @@
-import { Switch, SwitchControl } from "@/components/ui/switch";
-import { Tooltip } from "@/components/ui/tooltip";
+import { Switch, SwitchControl } from "@hustradio/unitary-ui";
+import { Tooltip } from "@hustradio/unitary-ui";
 
 export function SwitchTooltip20F12289Example() {
   return (

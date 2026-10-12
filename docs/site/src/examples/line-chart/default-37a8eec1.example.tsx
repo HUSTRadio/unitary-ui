@@ -1,4 +1,4 @@
-import { LineChart } from "@/components/ui/charts/line-chart";
+import { LineChart } from "@hustradio/unitary-ui";
 
 const chartData = [
   { month: "Jan", temperature: 4.5, precipitation: 68 },

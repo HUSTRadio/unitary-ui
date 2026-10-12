@@ -51,7 +51,7 @@ variant="pie" 去除中心留白。
 ## 实时示例
 
 ```tsx
-import { DonutChart } from "@/components/ui/charts/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 
 const cityData = [
   { name: "New York", value: 95574 },
@@ -78,7 +78,7 @@ export function DonutChartDefault37A8EEC1Example() {
 ## 饼形
 
 ```tsx
-import { DonutChart } from "@/components/ui/charts/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 
 const cityData = [
   { name: "New York", value: 95574 },
@@ -108,7 +108,7 @@ export function DonutChartPie7E3C1B6DExample() {
 导入
 
 ```tsx
-import { DonutChart } from "@/components/ui/donut-chart";
+import { DonutChart } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

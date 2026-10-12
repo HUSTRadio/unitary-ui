@@ -1,4 +1,4 @@
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithPrefixEBD13739Example() {

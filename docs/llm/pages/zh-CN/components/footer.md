@@ -52,7 +52,7 @@ Resources
 - [Guides](#/guides)
 
 ```tsx
-import { Footer } from "@/components/ui/footer";
+import { Footer } from "@hustradio/unitary-ui";
 
 export default function FooterExample() {
   return (
@@ -81,7 +81,7 @@ export default function FooterExample() {
 导入
 
 ```tsx
-import { Footer } from "@/components/ui/footer";
+import { Footer } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

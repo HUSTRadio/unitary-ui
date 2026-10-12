@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@hustradio/unitary-ui";
+import { Skeleton } from "@hustradio/unitary-ui";
 
 export function SkeletonWrappingChildrenWithFixedSize94B70C1BExample() {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
+import { LoadMoreButton } from "@hustradio/unitary-ui";
 
 export function LoadMoreButtonNoGap7BF8EBE8Example() {
   const [count, setCount] = useState(3);

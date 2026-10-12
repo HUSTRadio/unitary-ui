@@ -65,7 +65,7 @@ Left
 Right
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextCard,
   ContextCardBody,
@@ -74,7 +74,7 @@ import {
   ContextCardHeader,
   ContextCardTitle,
   ContextCardTrigger,
-} from "@/components/ui/context-card";
+} from "@hustradio/unitary-ui";
 
 export function ContextCardDefault37A8EEC1Example() {
   const card = (
@@ -117,7 +117,7 @@ export function ContextCardDefault37A8EEC1Example() {
 ## Alignment
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextCard,
   ContextCardBody,
@@ -126,7 +126,7 @@ import {
   ContextCardHeader,
   ContextCardTitle,
   ContextCardTrigger,
-} from "@/components/ui/context-card";
+} from "@hustradio/unitary-ui";
 
 export function ContextCardAlignment47CCB97AExample() {
   const card = (
@@ -175,7 +175,7 @@ export function ContextCardAlignment47CCB97AExample() {
 [Rendered as a link](#render-prop)
 
 ```tsx
-import { Button } from "@/components/ui/button";
+import { Button } from "@hustradio/unitary-ui";
 import {
   ContextCard,
   ContextCardBody,
@@ -184,7 +184,7 @@ import {
   ContextCardHeader,
   ContextCardTitle,
   ContextCardTrigger,
-} from "@/components/ui/context-card";
+} from "@hustradio/unitary-ui";
 
 export function ContextCardRenderProp84FF0355Example() {
   const card = (
@@ -249,7 +249,7 @@ import {
   ContextCardAvatar,
   ContextCardBody,
   ContextCardFooter,
-} from "@/components/ui/context-card";
+} from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

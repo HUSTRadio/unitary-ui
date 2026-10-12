@@ -68,7 +68,7 @@ A small note.
 A medium note.
 
 ```tsx
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteSizes74A3978DExample() {
   return (
@@ -92,8 +92,8 @@ This note details a large amount information that could potentially wrap into tw
 
 ```tsx
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Note, NoteAction, NoteContent } from "@/components/ui/note";
+import { Button } from "@hustradio/unitary-ui";
+import { Note, NoteAction, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteAction64CFF131Example() {
   const [message, setMessage] = useState("");
@@ -132,7 +132,7 @@ export function NoteAction64CFF131Example() {
 This note details some secondary information.
 
 ```tsx
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteSecondary62F2CCFFExample() {
   return (
@@ -150,7 +150,7 @@ export function NoteSecondary62F2CCFFExample() {
 This note details some violet information.
 
 ```tsx
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteViolet2A364288Example() {
   return (
@@ -166,7 +166,7 @@ export function NoteViolet2A364288Example() {
 This note details some cyan information.
 
 ```tsx
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteCyanE95BB222Example() {
   return (
@@ -182,8 +182,8 @@ export function NoteCyanE95BB222Example() {
 This note details a warning.
 
 ```tsx
-import { Button } from "@/components/ui/button";
-import { Note, NoteAction, NoteContent } from "@/components/ui/note";
+import { Button } from "@hustradio/unitary-ui";
+import { Note, NoteAction, NoteContent } from "@hustradio/unitary-ui";
 
 export function NoteDisabled75081B59Example() {
   return (
@@ -206,7 +206,7 @@ export function NoteDisabled75081B59Example() {
 Region Change:Changing this region restarts all functions.
 
 ```tsx
-import { Note, NoteContent, NoteLabel } from "@/components/ui/note";
+import { Note, NoteContent, NoteLabel } from "@hustradio/unitary-ui";
 
 export function NoteLabel0E66373FExample() {
   return (
@@ -226,7 +226,7 @@ A custom icon replaces the variant's default.
 Pass a null icon to render no icon at all.
 
 ```tsx
-import { Note, NoteContent } from "@/components/ui/note";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 import { Sparkles } from "lucide-react";
 
 export function NoteCustomIconEE5755A2Example() {
@@ -250,7 +250,7 @@ export function NoteCustomIconEE5755A2Example() {
 导入
 
 ```tsx
-import { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note";
+import { Note, NoteContent, NoteAction, NoteLabel } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

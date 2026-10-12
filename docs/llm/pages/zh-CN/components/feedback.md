@@ -79,8 +79,8 @@ feedback
 This example is hidden because it is intended for only desktop.
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
-import { Note, NoteContent } from "@/components/ui/note";
+import { Feedback } from "@hustradio/unitary-ui";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function FeedbackDefault21B111CBExample() {
   return (
@@ -103,7 +103,7 @@ export function FeedbackDefault21B111CBExample() {
 这对你有帮助吗？
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 
 export function FeedbackInline99ED40ACExample() {
   // 官方 demo 将胶囊在演示区水平居中（flex justify-center），保持一致。
@@ -120,8 +120,8 @@ export function FeedbackInline99ED40ACExample() {
 This example is hidden because it is intended for only desktop.
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
-import { Note, NoteContent } from "@/components/ui/note";
+import { Feedback } from "@hustradio/unitary-ui";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function FeedbackFeedbackWithSelectBF2A8F56Example() {
   return (
@@ -146,7 +146,7 @@ Submit the panel to see what onSubmit receives.
 ```tsx
 import { useState } from "react";
 
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 
 /**
  * 非 dryRun 的主题演示：真实提交后才渲染收据，证明 topic 确实经 onSubmit 的第 4 个
@@ -179,8 +179,8 @@ export function FeedbackFeedbackWithTopics7C41E2ABExample() {
 This example is hidden because it is intended for only desktop.
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
-import { Note, NoteContent } from "@/components/ui/note";
+import { Feedback } from "@hustradio/unitary-ui";
+import { Note, NoteContent } from "@hustradio/unitary-ui";
 
 export function FeedbackFeedbackWithMetadata6449A9ACExample() {
   return (
@@ -215,7 +215,7 @@ Was this helpful?
 Was this helpful?
 
 ```tsx
-import { RatingPill } from "@/components/ui/rating-pill";
+import { RatingPill } from "@hustradio/unitary-ui";
 
 /** Local Unitary extension; not one of the six official Geist Feedback demos. */
 export function FeedbackRatingBar253F979EExample() {
@@ -232,7 +232,7 @@ export function FeedbackRatingBar253F979EExample() {
 ## 带前缀的反馈
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithPrefixEBD13739Example() {
@@ -243,7 +243,7 @@ export function FeedbackFeedbackWithPrefixEBD13739Example() {
 ## 带后缀的反馈
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
+import { Feedback } from "@hustradio/unitary-ui";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithSuffixE429255FExample() {
@@ -258,7 +258,7 @@ export function FeedbackFeedbackWithSuffixE429255FExample() {
 导入
 
 ```tsx
-import { Feedback, RatingPill } from "@/components/ui/feedback";
+import { Feedback, RatingPill } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调
