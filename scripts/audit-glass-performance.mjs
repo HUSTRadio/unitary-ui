@@ -12,8 +12,16 @@ export function percentile(values, fraction = .95) {
 
 export function evaluateSample(sample) {
   const failures=[];
-  for(const name of ["activation","first-input","interaction","scroll"])
+  for(const name of ["scene-load","activation","first-input","interaction","scroll"])
     if(sample.phases?.filter(phase=>phase.name===name).length!==1)failures.push(`${name}:missing-or-duplicate`);
+  const ready=sample.sceneReadiness,activation=sample.phases?.find(phase=>phase.name==="activation");
+  if(!ready || ready.texture!=="solid" || ready.builds!==0 || ready.encodes!==0 || ready.samplers!==0
+    || !(ready.imageDecodedAt>=ready.fontsReadyAt) || !ready.paint?.scene || ready.paint.url!==ready.imageURL
+    || !(ready.paint.renderTime>0) || !(ready.paint.size>0) || !(ready.paint.observedAt>=ready.imageDecodedAt)
+    || !(ready.readyAt>=Math.max(ready.paint.renderTime,ready.paint.observedAt))
+    || !(activation?.start>=ready.readyAt))failures.push("scene:unready-or-prewarmed");
+  if(sample.texture==="glass" && !sample.mobile && (!sample.builds?.some(build=>Number.isFinite(build.decodedEnd)) || !(sample.encodes?.length>=2)))failures.push("glass:missing-build-evidence");
+  if(sample.texture==="glass" && !sample.mobile && (sample.renderer!=="svg" || sample.samplers!==1))failures.push("glass:unexpected-sampling");
   for(const phase of sample.phases ?? []) {
     if(["interaction","scroll"].includes(phase.name)) {
       if(phase.duration<5000 || phase.frames.length<120)failures.push(`${phase.name}:insufficient-sample`);
@@ -54,25 +62,47 @@ export function orderedCases(profiles, repetitions=3, usages=["clear","regular",
 function installProbe() {
   const audit={events:[],commits:[],tasks:[],encodes:[],builds:[],phases:[],active:null,raf:0,last:0,scrollTops:new WeakMap()};
   const builds=new WeakMap();
-  const createImageData=CanvasRenderingContext2D.prototype.createImageData;
-  CanvasRenderingContext2D.prototype.createImageData=function(...args){
-    if(!builds.has(this.canvas)) {
-      const build={start:performance.now(),end:Infinity,width:this.canvas.width,height:this.canvas.height};
-      builds.set(this.canvas,build);audit.builds.push(build);
-    }
-    return createImageData.apply(this,args);
-  };
+  const blobs=new WeakMap(),urls=new Map();
+  const encoded=(build,blob)=>{if(build){build.end=build.encodedEnd=performance.now();if(blob)blobs.set(blob,build);}};
+  for(const context of [CanvasRenderingContext2D,window.OffscreenCanvasRenderingContext2D].filter(Boolean)){
+    const createImageData=context.prototype.createImageData;
+    context.prototype.createImageData=function(...args){
+      if(!builds.has(this.canvas)) {
+        const build={start:performance.now(),end:Infinity,width:this.canvas.width,height:this.canvas.height};
+        builds.set(this.canvas,build);audit.builds.push(build);
+      }
+      return createImageData.apply(this,args);
+    };
+  }
   for(const method of ["toDataURL","toBlob"]) {
     const original=HTMLCanvasElement.prototype[method];
     HTMLCanvasElement.prototype[method]=function(...args){
       audit.encodes.push({at:performance.now(),method,width:this.width,height:this.height});
       const build=builds.get(this);
       if(method==="toBlob" && build) {
-        const callback=args[0];args[0]=blob=>{build.end=performance.now();callback(blob);};
+        const callback=args[0];args[0]=blob=>{encoded(build,blob);callback(blob);};
       }
       const result=original.apply(this,args);if(method==="toDataURL"&&build)build.end=performance.now();return result;
     };
   }
+  if(window.OffscreenCanvas?.prototype.convertToBlob){
+    const original=OffscreenCanvas.prototype.convertToBlob;
+    OffscreenCanvas.prototype.convertToBlob=function(...args){
+      audit.encodes.push({at:performance.now(),method:"convertToBlob",width:this.width,height:this.height});
+      const build=builds.get(this);
+      return original.apply(this,args).then(blob=>{encoded(build,blob);return blob;});
+    };
+  }
+  const read=FileReader.prototype.readAsDataURL;
+  FileReader.prototype.readAsDataURL=function(blob){
+    const build=blobs.get(blob);if(build)this.addEventListener("load",()=>urls.set(String(this.result),build),{once:true});
+    return read.call(this,blob);
+  };
+  const decode=HTMLImageElement.prototype.decode;
+  HTMLImageElement.prototype.decode=function(){
+    const build=urls.get(this.src);if(build)build.decodeStart=performance.now();
+    return decode.call(this).then(value=>{if(build)build.end=build.decodedEnd=performance.now();return value;});
+  };
   const observer=new PerformanceObserver(list=>audit.tasks.push(...list.getEntries().map(entry=>({startTime:entry.startTime,duration:entry.duration}))));
   observer.observe({type:"longtask",buffered:false});
   for(const name of ["pointerdown","pointerup","pointermove","keydown","wheel","touchstart","touchmove","touchend"])document.addEventListener(name,event=>audit.events.push({type:name,at:performance.now(),eventTime:event.timeStamp,trusted:event.isTrusted,key:event.key}),{capture:true,passive:true});
@@ -89,6 +119,7 @@ function installProbe() {
   };
   audit.finish=()=>{observer.disconnect();return {events:audit.events,commits:audit.commits,tasks:audit.tasks,encodes:audit.encodes,builds:audit.builds,phases:audit.phases};};
   window.__glassAudit=audit;
+  audit.begin("scene-load");
 }
 
 async function digest(directory) {
@@ -127,7 +158,27 @@ async function measure(origin,condition,artifactHash) {
     const errors=[];page.on("pageerror",error=>errors.push(error.message));
     await page.goto(`${origin}/site/build/glass-regression.html?usage=${condition.usage}`);
     await page.waitForFunction(()=>document.documentElement.dataset.glassFixtureReady==="true");
-    await page.evaluate(async()=>{await document.fonts.ready;const image=new Image();image.src=getComputedStyle(document.querySelector(".glass-fixture-landscape")).backgroundImage.match(/url\("?([^")]+)"?\)/)[1];await image.decode();});
+    const sceneReadiness=await page.evaluate(async()=>{
+      await document.fonts.ready;const fontsReadyAt=performance.now();
+      const image=new Image();image.src=getComputedStyle(document.querySelector(".glass-fixture-landscape")).backgroundImage.match(/url\("?([^")]+)"?\)/)[1];await image.decode();
+      const imageDecodedAt=performance.now(),imageURL=image.src;
+      // decode() can finish before Chromium's separate GPU JPEG decode. Wait for the
+      // actual background's reported paint; never initialize Glass or capture a screenshot.
+      const paint=await new Promise((resolve,reject)=>{
+        const timer=setTimeout(()=>{observer.disconnect();reject(new Error("Scene photo did not report LCP"));},10000);
+        const observer=new PerformanceObserver(list=>{
+          for(const entry of list.getEntries())if(entry.url===imageURL&&entry.renderTime>0){
+            clearTimeout(timer);observer.disconnect();
+            resolve({renderTime:entry.renderTime,loadTime:entry.loadTime,size:entry.size,url:entry.url,
+              observedAt:performance.now(),scene:entry.element===document.querySelector(".glass-fixture-landscape")});return;
+          }
+        });
+        observer.observe({type:"largest-contentful-paint",buffered:true});
+      });
+      const ready={fontsReadyAt,imageDecodedAt,imageURL,paint,readyAt:performance.now(),texture:document.documentElement.dataset.texture,
+        builds:window.__glassAudit.builds.length,encodes:window.__glassAudit.encodes.length,samplers:document.querySelectorAll('[data-uni-glass-renderer="svg"]').length};
+      window.__glassAudit.end();return ready;
+    });
     const dense=condition.usage==="dense";
     const owner=dense?page.locator('[data-slot="select-content"]'):page.getByTestId("optical-owner");
     const action=dense?page.locator('[data-slot="select-trigger"]'):page.getByRole("button",{name:condition.usage==="clear"?"Playback":"Pin",exact:true});
@@ -191,10 +242,10 @@ async function measure(origin,condition,artifactHash) {
     const raw=await page.evaluate(()=>window.__glassAudit.finish());
     const phases=raw.phases.map(phase=>{
       const gaps=phase.frames.slice(1).map((timestamp,index)=>timestamp-phase.frames[index]);
-      return {...phase,p95:percentile(gaps),max:gaps.length?Math.max(...gaps):null,encodes:raw.encodes.filter(entry=>entry.at>=phase.start&&entry.at<phase.end).length,longTasks:raw.tasks.filter(entry=>entry.startTime<phase.end&&entry.startTime+entry.duration>phase.start)};
+      return {...phase,median:percentile(gaps,.5),p95:percentile(gaps),max:gaps.length?Math.max(...gaps):null,encodes:raw.encodes.filter(entry=>entry.at>=phase.start&&entry.at<phase.end).length,longTasks:raw.tasks.filter(entry=>entry.startTime<phase.end&&entry.startTime+entry.duration>phase.start)};
     });
     const stateChanged=dense?raw.commits.some(commit=>commit.value!=="item-0"):raw.commits.length>commitsBefore;
-    const result={...condition,startedAt:new Date(started).toISOString(),wallTimeMs:Date.now()-started,artifactHash,browser:browser.version(),userAgent:await page.evaluate(()=>navigator.userAgent),viewport,dpr,mobile,theme,...snapshot,phases,events:raw.events,commits:raw.commits,longTasks:raw.tasks,encodes:raw.encodes,builds:raw.builds,idleRafRequests,stateChanged,geometry:{before:geometry,after:afterGeometry},geometryStable:geometry.width===afterGeometry.width&&geometry.height===afterGeometry.height,errors};
+    const result={...condition,startedAt:new Date(started).toISOString(),wallTimeMs:Date.now()-started,artifactHash,browser:browser.version(),userAgent:await page.evaluate(()=>navigator.userAgent),viewport,dpr,mobile,theme,...snapshot,sceneReadiness,phases,events:raw.events,commits:raw.commits,longTasks:raw.tasks,encodes:raw.encodes,builds:raw.builds,idleRafRequests,stateChanged,geometry:{before:geometry,after:afterGeometry},geometryStable:geometry.width===afterGeometry.width&&geometry.height===afterGeometry.height,errors};
     result.failures=[...evaluateSample(result),...errors.map(error=>`page:${error}`)];return result;
   }finally{clearTimeout(timeout);await context?.close();await browser.close();}
 }
@@ -206,7 +257,7 @@ export async function runAudit(options) {
   const run=path.join(output,new Date().toISOString().replaceAll(/[:.]/g,"-")+"-"+crypto.randomBytes(3).toString("hex"));await fs.mkdir(run,{recursive:true});
   const hash=await digest(artifact),preview=await startDocsPreview(artifact),results=[];
   const harnessHash=crypto.createHash("sha256").update(await fs.readFile(new URL(import.meta.url))).digest("hex");
-  await fs.writeFile(path.join(run,"manifest.json"),JSON.stringify({startedAt:new Date().toISOString(),artifactHash:hash,harnessHash,host:{platform:process.platform,arch:process.arch,node:process.version},seed:20261017,cases,phase:options.phase??"verification",budget:{stableWindowMs:5000,p95Ms:20,longTaskMs:50}},null,2));
+  await fs.writeFile(path.join(run,"manifest.json"),JSON.stringify({startedAt:new Date().toISOString(),artifactHash:hash,harnessHash,measurementVersion:4,sceneBoundary:"fonts + image decode + matching background photo LCP while Solid; zero optical builds/encodes/samplers; no screenshots or material prewarming",host:{platform:process.platform,arch:process.arch,node:process.version},seed:20261017,cases,phase:options.phase??"verification",budget:{stableWindowMs:5000,p95Ms:20,longTaskMs:50}},null,2));
   try {
     for(const [index,condition] of cases.entries()) {
       let result;try{result=await measure(preview.url,condition,hash);}catch(error){result={...condition,failures:[String(error)],wallTimeMs:null};}

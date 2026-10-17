@@ -167,6 +167,18 @@ Android touch browser and assert CSS rendering; they are not physical-device or 
 
 Each unique run directory retains the artifact digest, browser configuration, raw RAF timestamps,
 trusted input events, React commits, canvas construction intervals, encodes and long tasks.
+Initial scene loading is recorded separately: after fonts and image decoding, wait for the exact
+background photo's [LCP paint record](https://www.w3.org/TR/largest-contentful-paint/) while still
+Solid. Chromium can separately decode a JPEG for its GPU image cache after `image.decode()` returns;
+two RAF callbacks alone do not establish scene readiness. No screenshot, fixed wait or Glass
+prewarming is used. Initial costs remain in the evidence. A mismatched photo/element, missing paint,
+non-Solid scene, existing map builds/encodes or SVG samplers fails readiness.
+Both HTML and Offscreen canvas encoding are counted; construction ends after the displacement PNG
+decodes. Desktop Glass without construction/decode evidence, its PNG pair or exactly one SVG
+sampler fails evidence validation. Scene-capture experiments are diagnostic warm GPU evidence
+and cannot replace cold activation runs. The LCP record establishes the scene boundary; it is not
+a measurement of GPU presentation duration. Raw frames and their median/P95 retain the observed
+page scheduling cadence so changes in the host's cadence are not attributed to library speedups.
 Activation, first input and Portal reopening are separate from explicitly warmed interaction and
 scrolling windows of at least five seconds. Cold long tasks overlapping raster construction are
 flagged separately; all other cold long tasks remain in the raw evidence. Stable phases require
@@ -178,6 +190,15 @@ marks its measurement condition unstable. Failures remain saved and produce exit
 回退条件，每条件独立运行三次。移动条件使用 Android 触摸浏览器模拟并断言 CSS renderer，
 不能作为实体移动设备或移动 SVG 证据。可用上述参数缩小诊断范围，空条件、重复条件及无效
 次数会被拒绝，不能生成空跑通过结果。
+
+初始场景加载单独记录：字体和照片解码后，保持 Solid，等待背景照片本身的 LCP 呈现记录。
+Chromium 可能在 `image.decode()` 返回后仍为 GPU 图像缓存解码 JPEG，两个 RAF 不能证明场景
+就绪。不使用截图、固定等待或 Glass 预热，保留初始耗时；照片 URL／元素不匹配、没有呈现
+记录、已启用非 Solid、已经构建／编码贴图或已有 SVG 采样器的样本均失败。
+同时计数 HTML 与 Offscreen 两种编码路径，构建区间延伸至位移 PNG 解码完成。桌面 Glass
+缺少构建／解码、一对 PNG 或单个 SVG 采样器的证据即失败。场景截图实验属于 GPU 已初始化
+的诊断，不能替代冷测。LCP 仅用于划分场景就绪，不代表 GPU 呈现耗时；保留原始帧及中位数／
+P95，避免把宿主帧调度节奏变化称作组件库提速。
 
 工具逐次保留产物摘要、浏览器配置、原始帧时间、真实输入、状态提交、画布构建区间、编码及
 长任务。材质启用、首次输入、Portal 重开分别计量；稳定交互和滚动明确预热后各采集至少
