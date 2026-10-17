@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 
 type Theme = "light" | "dark";
-type Texture = "hybrid" | "glass";
+type Texture = "acrylic" | "glass";
 
 test.setTimeout(60_000);
 
@@ -15,7 +15,7 @@ async function frames(page: Page) {
 async function open(page: Page, theme: Theme, width = 1280) {
   await page.addInitScript(({ theme }) => {
     localStorage.setItem("unitary-theme-preference", theme);
-    localStorage.removeItem("unitary-texture-preference");
+    localStorage.removeItem("unitary-texture-preference-v2");
   }, { theme });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width, height: 900 });
@@ -101,7 +101,7 @@ async function backgroundRGBA(mask: Locator) {
 
 for (const theme of ["light", "dark"] as const) {
   for (const width of [390, 1280]) {
-    for (const texture of ["hybrid", "glass"] as const) {
+    for (const texture of ["acrylic", "glass"] as const) {
       test(`Modal and Drawer retain the same neutral painted context: ${theme}, ${width}, ${texture}`, async ({ page }, testInfo) => {
         const materials = await open(page, theme, width);
         const patch = await installBackground(page);
@@ -206,7 +206,7 @@ async function installStaticMasks(page: Page) {
   };
 }
 
-for (const texture of ["hybrid", "glass"] as const) {
+for (const texture of ["acrylic", "glass"] as const) {
   test(`Public neutral mask opacity, legacy alias, and local palette remain effective: ${texture}`, async ({ page }) => {
     const materials = await open(page, "light");
     const fixture = await installStaticMasks(page);

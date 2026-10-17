@@ -38,8 +38,9 @@ describe("global functional texture materials", () => {
   it("registers material controls without adding palette colors, and bounds blur costs", () => {
     const tokens = collectGlobalTokens(css);
     for (const [name, expected, maximum] of [
-      ["--material-texture-hybrid-blur", "8px", 12],
-      ["--material-texture-glass-blur", "20px", 20],
+      ["--material-texture-acrylic-blur", "8px", 12],
+      ["--material-texture-aero-blur", "20px", 20],
+      ["--material-texture-glass-blur", "1px", 1],
       ["--material-texture-mask-blur", "8px", 8],
       ["--material-texture-control-blur", "6px", 8],
     ] as const) {
@@ -47,16 +48,21 @@ describe("global functional texture materials", () => {
       expect(tokens[name].value).toBe(expected);
       expect(Number.parseFloat(tokens[name].value)).toBeLessThanOrEqual(maximum);
     }
-    expect(tokens["--material-texture-hybrid-opacity"].value).toBe("80%");
-    expect(tokens["--material-texture-glass-opacity"]).toMatchObject({
+    expect(tokens["--material-texture-acrylic-opacity"].value).toBe("80%");
+    expect(tokens["--material-texture-aero-opacity"]).toMatchObject({
       value: "60%",
       darkValue: "74%",
     });
+    expect(tokens["--material-texture-glass-opacity"]).toMatchObject({ value: "52%", darkValue: "68%" });
+    expect(tokens["--material-texture-glass-refraction"].value).toBe("6px");
+    expect(tokens["--material-texture-glass-edge-width"].value).toBe("10px");
+    expect(tokens["--material-texture-glass-roughness"].value).toBe("0.24");
+    expect(Object.keys(tokens).some(name=>name.startsWith('--_uni-glass-'))).toBe(false);
     for (const name of Object.keys(tokens)) {
       if (name.startsWith("--material-texture-")) expect(tokens[name].group).toBe("materials");
     }
-    expect(tokens["--material-texture-glass-highlight"].darkValue).not.toBe("");
-    expect(tokens["--material-texture-glass-edge"].darkValue).not.toBe("");
+    expect(tokens["--material-texture-aero-highlight"].darkValue).not.toBe("");
+    expect(tokens["--material-texture-aero-edge"].darkValue).not.toBe("");
     expect(tokens["--material-texture-blur"]).toBeUndefined();
     expect(tokens["--material-texture-blur-opacity"]).toBeUndefined();
     expect(tokens["--material-texture-edge-opacity"]).toMatchObject({ value: "10%", darkValue: "12%" });

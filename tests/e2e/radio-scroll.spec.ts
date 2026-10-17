@@ -14,7 +14,7 @@ async function openRadio(page: Page) {
   await page.addInitScript(() => {
     localStorage.setItem("unitary-docs-language", "en-US");
     localStorage.setItem("unitary-theme-preference", "light");
-    localStorage.removeItem("unitary-texture-preference");
+    localStorage.removeItem("unitary-texture-preference-v2");
   });
   await page.goto("/?lang=en-US#/components/radio");
   const group = page.locator('[data-slot="radio-group"]').first();

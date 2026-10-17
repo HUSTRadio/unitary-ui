@@ -7,6 +7,10 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("glass-performance.test.ts"),
+    inputs: ["scripts/audit-glass-performance.mjs", "scripts/lib/docs-preview.mjs", "docs/site/build/glass-regression*"],
+  },
+  {
     tests: unitFiles("docs-public-imports.test.ts docs-preview.test.ts docs-package-consumer.test.ts docs-package-boundary.test.ts library-build-boundary.test.ts"),
     inputs: ["docs/**", "src/**", "scripts/**", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "*config*", ".github/workflows/**"],
   },
@@ -225,6 +229,11 @@ export const BROWSER_DISPATCH_INPUTS = [
 // Broad probes keep their complete assertions. Narrow probes declare their component owners.
 export const BROWSER_INPUT_GROUPS = [
   {
+    specs: names("glass-stability"),
+    inputs: ["src/lib/glass-*", "src/lib/theme.tsx", "src/styles/**", "docs/site/build/glass-regression*"],
+    owners: names("button toolbar select menu modal drawer"),
+  },
+  {
     specs: names(
       "docs-layout component-geometry continuous-surface-review reduced-motion scroll-owner-bounds touch-targets",
     ),
@@ -334,8 +343,8 @@ export const BROWSER_INPUT_GROUPS = [
     owners: names("selection-indicator checkbox radio choicebox"),
   },
   {
-    specs: names("texture glass-controls mask-unification material-lines"),
-    inputs: ["src/styles/**", "docs/site/src/components/docs-materials*", "src/lib/token*"],
+    specs: names("texture glass-controls glass-optics mask-unification material-lines"),
+    inputs: ["src/styles/**", "docs/site/src/components/docs-materials*", "src/lib/token*", "src/lib/glass-*", "src/lib/theme.tsx"],
     owners: names("button modal calendar-panel menu tooltip navbar toolbar"),
   },
 ];

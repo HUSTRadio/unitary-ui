@@ -1046,17 +1046,38 @@ html[data-font-tier="system"],
 
   /* Global texture policy. These material controls are independent of palette and
      code themes; surface colors are resolved on the consuming element. */
-  --material-texture-hybrid-blur: 8px;
-  --material-texture-glass-blur: 20px;
+  --material-texture-acrylic-blur: 8px;
+  --material-texture-aero-blur: 20px;
+  --material-texture-glass-blur: 1px;
+  --material-texture-glass-opacity: 52%;
+  --material-texture-glass-ior: 1.5;
+  --material-texture-glass-roughness: 0.24;
+  --material-texture-glass-thickness: 1;
+  --material-texture-glass-absorption: 0.08;
+  --material-texture-glass-light-azimuth: 315deg;
+  --material-texture-glass-light-intensity: 0.65;
+  --material-texture-glass-ambient-intensity: 0.25;
+  --material-texture-glass-ambient-color: currentColor;
+  --material-texture-glass-refraction: 6px;
+  --material-texture-glass-edge-width: 10px;
   --material-texture-mask-blur: 8px;
   --material-texture-mask-saturation: 85%;
   --material-texture-mask-opacity: 8%;
-  --material-texture-hybrid-opacity: 80%;
-  --material-texture-glass-opacity: 60%;
+  --material-texture-acrylic-opacity: 80%;
+  --material-texture-aero-opacity: 60%;
   /* @token deprecated --material-texture-mask-opacity */
   --material-texture-mask-backdrop-opacity: var(--material-texture-mask-opacity);
-  --material-texture-glass-highlight: rgb(255 255 255 / 6%);
-  --material-texture-glass-edge: rgb(255 255 255 / 18%);
+  --material-texture-aero-highlight: rgb(255 255 255 / 6%);
+  --material-texture-aero-edge: rgb(255 255 255 / 18%);
+  /* Normalized optical inputs; these are UI approximations, not measured aero. */
+  --material-texture-aero-ior: 1.5;
+  --material-texture-aero-roughness: 0.35;
+  --material-texture-aero-thickness: 1;
+  --material-texture-aero-absorption: 0.08;
+  --material-texture-aero-light-azimuth: 315deg;
+  --material-texture-aero-light-intensity: 0.55;
+  --material-texture-aero-ambient-intensity: 0.28;
+  --material-texture-aero-ambient-color: currentColor;
   --material-texture-edge-opacity: 10%;
   --material-texture-line-opacity: 18%;
   --material-texture-control-blur: 6px;
@@ -1399,12 +1420,13 @@ html[data-font-tier="system"],
     rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px,
     rgb(0, 0, 0) 0px 0px 0px 1px;
 
-  /* Dark glass combines a denser tint with the material's clearer secondary
+  /* Dark aero combines a denser tint with the material's clearer secondary
      copy, retaining transmission over both dark and bright backdrops. */
-  --material-texture-glass-opacity: 74%;
+  --material-texture-aero-opacity: 74%;
+  --material-texture-glass-opacity: 68%;
   --material-texture-control-opacity: 80%;
-  --material-texture-glass-highlight: rgb(255 255 255 / 4%);
-  --material-texture-glass-edge: rgb(255 255 255 / 16%);
+  --material-texture-aero-highlight: rgb(255 255 255 / 4%);
+  --material-texture-aero-edge: rgb(255 255 255 / 16%);
   --material-texture-edge-opacity: 12%;
   --material-texture-line-opacity: 22%;
   --material-texture-shadow-tooltip: 0 2px 4px -2px rgb(0 0 0 / 20%), 0 6px 12px -4px rgb(0 0 0 / 24%);
@@ -2036,7 +2058,7 @@ html[data-font-tier="system"],
 /* Only html can declare texture: scoped palettes still resolve their own colors.
    Solid has no enhancement selectors and retains all measured defaults. */
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and (background: color-mix(in srgb, black, transparent)) {
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="floating"], [data-material="navigation"],
     .material-tooltip, .material-menu, .material-modal, .material-fullscreen
   ) {
@@ -2048,12 +2070,12 @@ html[data-font-tier="system"],
     --_uni-material-border: initial;
     --_uni-material-line-opacity: var(--material-texture-line-opacity);
     --material-texture-base: var(--color-bg-elevated);
-    --material-texture-fill: color-mix(in srgb, var(--material-texture-base) var(--material-texture-hybrid-opacity), transparent);
-    -webkit-backdrop-filter: blur(var(--material-texture-hybrid-blur));
-    backdrop-filter: blur(var(--material-texture-hybrid-blur));
+    --material-texture-fill: color-mix(in srgb, var(--material-texture-base) var(--material-texture-acrylic-opacity), transparent);
+    -webkit-backdrop-filter: blur(var(--material-texture-acrylic-blur));
+    backdrop-filter: blur(var(--material-texture-acrylic-blur));
   }
 
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="navigation"], .material-menu,
     [data-material="floating"].material-medium,
     [data-material="floating"].bg-background,
@@ -2065,25 +2087,25 @@ html[data-font-tier="system"],
   }
 
   /* Preserve semantic variants, including their existing foreground and stem. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface]) {
     --material-texture-base: var(--tooltip-background);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface="inverted"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface="inverted"]) {
     --material-texture-base: var(--foreground);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="success"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="success"]) {
     --material-texture-base: var(--link);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="warning"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="warning"]) {
     --material-texture-base: var(--button-warning);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="error"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-kind="error"]) {
     --material-texture-base: var(--danger);
   }
 
   /* cn() removes these defaults when an author supplies another background
      class. That lets ordinary author color classes keep their override contract. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
     .bg-background, .bg-background-100, .bg-surface, .bg-popover,
     .bg-link, .bg-button-warning, .bg-danger, .material-medium:not([class*="bg-"]),
     [class~="bg-[var(--uni-background-100)]"],
@@ -2093,26 +2115,26 @@ html[data-font-tier="system"],
     background-color: var(--material-texture-fill);
   }
 
-  :where(html[data-texture="glass"]) :where(
+  :where(html[data-texture="aero"]) :where(
     [data-material="floating"], [data-material="navigation"],
     .material-tooltip, .material-menu, .material-modal, .material-fullscreen
   ) {
-    --material-texture-fill: color-mix(in srgb, var(--material-texture-base) var(--material-texture-glass-opacity), transparent);
-    -webkit-backdrop-filter: blur(var(--material-texture-glass-blur));
-    backdrop-filter: blur(var(--material-texture-glass-blur));
+    --material-texture-fill: color-mix(in srgb, var(--material-texture-base) var(--material-texture-aero-opacity), transparent);
+    -webkit-backdrop-filter: blur(var(--material-texture-aero-blur));
+    backdrop-filter: blur(var(--material-texture-aero-blur));
   }
 
   /* Keep the frozen default classes as the Solid path. cn() removes those
      classes for authored shadows; only their actual functional owners opt in.
      Tailwind combines this shadow with the existing ring/outline machinery. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     .material-menu,
     [data-material="floating"][class~="shadow-[var(--material-shadow-menu)]"],
     [data-material="floating"][class~="shadow-[var(--uni-shadow-menu)]"]
   ) {
     --_uni-material-shadow: var(--_uni-material-outline), var(--material-texture-shadow-menu);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     .material-tooltip,
     [data-material="floating"][data-material-surface],
     [data-material="floating"][class~="shadow-[var(--material-shadow-tooltip)]"],
@@ -2120,7 +2142,7 @@ html[data-font-tier="system"],
   ) {
     --_uni-material-shadow: var(--_uni-material-outline), var(--material-texture-shadow-tooltip);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     .material-modal, .material-fullscreen,
     [data-material="floating"].material-medium,
     [data-material="floating"].command-menu-scale,
@@ -2129,26 +2151,26 @@ html[data-font-tier="system"],
   ) {
     --_uni-material-shadow: var(--_uni-material-outline), var(--material-texture-shadow-modal);
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="navigation"][class~="shadow-[0_0_0_1px_var(--gray-alpha-400)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="navigation"][class~="shadow-[0_0_0_1px_var(--gray-alpha-400)]"]) {
     --_uni-material-shadow: var(--_uni-material-outline);
     --tw-shadow: var(--_uni-material-shadow, 0 0 0 1px var(--gray-alpha-400));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-menu)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-menu)]"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--material-shadow-menu));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--uni-shadow-menu)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--uni-shadow-menu)]"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--uni-shadow-menu));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-tooltip)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-tooltip)]"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--material-shadow-tooltip));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-modal)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--material-shadow-modal)]"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--material-shadow-modal));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--uni-shadow-modal-elevated)]"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-[var(--uni-shadow-modal-elevated)]"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--uni-shadow-modal-elevated));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-(--material-shadow-base)"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][class~="shadow-(--material-shadow-base)"]) {
     --tw-shadow: var(--_uni-material-shadow, var(--material-shadow-base));
   }
   /* Size-based shadows already use alpha projections. Keep their native
@@ -2156,20 +2178,20 @@ html[data-font-tier="system"],
 
   /* Real borders own the contour; do not add a second shadow hairline. The
      original color classes disappear when an author supplies another color. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"]):where(.border, .border-t, .border-b, .border-l, .border-r) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"]):where(.border, .border-t, .border-b, .border-l, .border-r) {
     --_uni-material-outline: 0 0 #0000;
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
     .border-border, .border-gray-alpha-400,
     [class~="border-[color:var(--_uni-material-border,var(--border))]"]
   ) {
     --_uni-material-border: var(--_uni-material-edge);
   }
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]).border-border {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]).border-border {
       border-color: var(--_uni-material-border, var(--border));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]).border-gray-alpha-400 {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]).border-gray-alpha-400 {
       border-color: var(--_uni-material-border, var(--gray-alpha-400));
     }
 
@@ -2178,25 +2200,25 @@ html[data-font-tier="system"],
        inner palette does not inherit its parent's already computed color.
        The private opacity gate also lets opaque and accessibility fallbacks
        restore the canonical colors without rewriting palette tokens. */
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where(.border-border, .border-gray-alpha-400) {
       --_uni-material-line: color-mix(in srgb, var(--color-text-primary) var(--_uni-material-line-opacity), transparent);
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) .border-border:not(:where([data-material="floating"], [data-material="navigation"])) {
       border-color: var(--_uni-material-line, var(--border));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) .border-gray-alpha-400:not(:where([data-material="floating"], [data-material="navigation"])) {
       border-color: var(--_uni-material-line, var(--gray-alpha-400));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where(
@@ -2205,7 +2227,7 @@ html[data-font-tier="system"],
     ):where(.bg-gray-200, .bg-gray-alpha-400, .bg-border) {
       --_uni-material-line: color-mix(in srgb, var(--color-text-primary) var(--_uni-material-line-opacity), transparent);
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where(
@@ -2214,7 +2236,7 @@ html[data-font-tier="system"],
     ).bg-gray-200 {
       background-color: var(--_uni-material-line, var(--gray-200));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where(
@@ -2223,7 +2245,7 @@ html[data-font-tier="system"],
     ).bg-gray-alpha-400 {
       background-color: var(--_uni-material-line, var(--gray-alpha-400));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where(
@@ -2236,22 +2258,22 @@ html[data-font-tier="system"],
 
   /* The separate stem and body overlap. Keep one opaque fill for these shapes
      while still refining the contour, rather than inventing a translucent seam. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-material-stem]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-material-stem]) {
     --material-texture-fill: var(--material-texture-base);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface="default"][data-material-stem]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-material-surface="default"][data-material-stem]) {
     --_uni-material-border: var(--_uni-material-edge);
   }
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"][data-material-stem]) {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"][data-material-stem]) {
       background-image: none;
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material-surface="default"][data-material-stem]) :where([data-slot="tooltip-tip"] path) {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material-surface="default"][data-material-stem]) :where([data-slot="tooltip-tip"] path) {
       stroke: var(--_uni-material-border, var(--tooltip-tip-stroke));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-slot="context-card-popover"]) :where([data-slot="context-card-tip"] path) {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-slot="context-card-popover"]) :where([data-slot="context-card-tip"] path) {
       stroke: var(--_uni-material-border, var(--context-card-tip-stroke));
     }
   }
@@ -2259,10 +2281,10 @@ html[data-font-tier="system"],
   /* Stronger transmission needs clearer secondary copy. Derive this locally
      from the surface's palette instead of rewriting palette or gray tokens.
      Authored backgrounds and semantic colored surfaces retain their colors. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     .material-tooltip, .material-menu, .material-modal, .material-fullscreen
   ):not(:where([class*="bg-"], [data-material-surface]:not([data-material-surface="default"]), [data-kind="success"], [data-kind="warning"], [data-kind="error"])),
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-material="floating"], [data-material="navigation"]):where(
     .bg-background, .bg-background-100, .bg-surface, .bg-popover,
     .material-medium:not([class*="bg-"]),
     [class~="bg-[var(--uni-background-100)]"],
@@ -2274,13 +2296,13 @@ html[data-font-tier="system"],
   }
 
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) .text-gray-900 {
       color: var(--material-texture-muted, var(--gray-900));
     }
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) .text-gray-800 {
@@ -2288,21 +2310,76 @@ html[data-font-tier="system"],
     }
   }
 
+  /* Evaluate on each owner: local token overrides and palettes must recompute
+     the model. The front is flat, while a virtual 70deg bevel approximates the
+     rim. Schlick and Beer-Lambert are scalar calculations; gradients approximate
+     geometry and a roughness-dependent Gaussian light convolution, not a BRDF
+     or scene capture. Older engines retain the complete static Aero below. */
+  @supports (opacity: exp(-0.08)) and (opacity: pow(0.5, 2)) and (opacity: sin(45deg)) {
+    :where(html[data-texture="aero"]) :where(
+      [data-material="floating"], [data-material="navigation"],
+      .material-tooltip, .material-menu, .material-modal, .material-fullscreen,
+      [data-uni-button][data-type="secondary"].bg-background-100,
+      [data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)
+    ) {
+      --_uni-aero-ior: clamp(1.01, var(--material-texture-aero-ior), 2.5);
+      --_uni-aero-roughness: clamp(0, var(--material-texture-aero-roughness), 1);
+      --_uni-aero-thickness: clamp(0, var(--material-texture-aero-thickness), 4);
+      --_uni-aero-f0: pow(calc((var(--_uni-aero-ior) - 1) / (var(--_uni-aero-ior) + 1)), 2);
+      --_uni-aero-fresnel: calc(var(--_uni-aero-f0) + (1 - var(--_uni-aero-f0)) * pow(calc(1 - cos(70deg)), 5));
+      --_uni-aero-transmission: exp(calc(-1 * clamp(0, var(--material-texture-aero-absorption), 1) * var(--_uni-aero-thickness)));
+      --_uni-aero-wash: clamp(0, calc((1 - var(--_uni-aero-transmission)) * 0.35), 0.08);
+      --_uni-aero-wash-color: color-mix(in srgb, var(--material-texture-base, var(--color-bg-surface)) calc(var(--_uni-aero-wash) * 100%), transparent);
+      --_uni-aero-sigma: calc(0.08 + var(--_uni-aero-roughness) * 0.3);
+      /* Relative Gaussian peak preserves energy as its width changes. */
+      --_uni-aero-peak: calc(0.034225 / pow(var(--_uni-aero-sigma), 2));
+      --_uni-aero-key: calc(clamp(0, var(--material-texture-aero-light-intensity), 2) * var(--_uni-aero-interaction, 1));
+      --_uni-aero-rim-gain: clamp(0, calc(var(--_uni-aero-key) * var(--_uni-aero-fresnel) / 0.158395 * 1.5), 1);
+      --_uni-aero-x: sin(var(--material-texture-aero-light-azimuth));
+      --_uni-aero-y: cos(var(--material-texture-aero-light-azimuth));
+      --_uni-aero-top: color-mix(in srgb, var(--material-texture-aero-edge) calc(var(--_uni-aero-rim-gain) * clamp(0, calc(0.35 + var(--_uni-aero-y) * 0.65), 1) * 100%), transparent);
+      --_uni-aero-bottom: color-mix(in srgb, var(--material-texture-aero-edge) calc(var(--_uni-aero-rim-gain) * clamp(0, calc(0.35 - var(--_uni-aero-y) * 0.65), 1) * 100%), transparent);
+      --_uni-aero-left: color-mix(in srgb, var(--material-texture-aero-edge) calc(var(--_uni-aero-rim-gain) * clamp(0, calc(0.35 - var(--_uni-aero-x) * 0.65), 1) * 100%), transparent);
+      --_uni-aero-right: color-mix(in srgb, var(--material-texture-aero-edge) calc(var(--_uni-aero-rim-gain) * clamp(0, calc(0.35 + var(--_uni-aero-x) * 0.65), 1) * 100%), transparent);
+      --_uni-aero-specular: color-mix(in srgb, var(--material-texture-aero-highlight) calc(clamp(0, calc(var(--_uni-aero-key) * var(--_uni-aero-f0) / 0.04 * var(--_uni-aero-peak)), 1) * 100%), transparent);
+      --_uni-aero-ambient: color-mix(in srgb, color-mix(in srgb, var(--color-bg-surface), var(--material-texture-aero-ambient-color)) calc(clamp(0, calc(clamp(0, var(--material-texture-aero-ambient-intensity), 1) * var(--_uni-aero-fresnel)), 0.05) * 100%), transparent);
+    }
+  }
+
   /* Decorative optics sit below ordinary author background-image utilities. */
   @layer utilities {
-    :where(html[data-texture="glass"]) :where(
+    :where(html[data-texture="aero"]) :where(
       [data-material="floating"], [data-material="navigation"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ):not(:where([data-material-stem])) {
       background-image:
-        linear-gradient(180deg, var(--material-texture-glass-edge) 0 1px, transparent 1px),
+        linear-gradient(180deg, var(--material-texture-aero-edge) 0 1px, transparent 1px),
         linear-gradient(0deg, rgb(0 0 0 / calc(var(--material-texture-line-opacity) / 2)) 0 1px, transparent 2px),
-        linear-gradient(135deg, var(--material-texture-glass-highlight), transparent 45%);
+        linear-gradient(135deg, var(--material-texture-aero-highlight), transparent 45%);
+    }
+    @supports (opacity: exp(-0.08)) and (opacity: pow(0.5, 2)) and (opacity: sin(45deg)) {
+      :where(html[data-texture="aero"]) :where(
+        [data-material="floating"], [data-material="navigation"],
+        .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+      ):not(:where([data-material-stem])) {
+        background-image:
+          linear-gradient(180deg, var(--_uni-aero-top) 0 1px, transparent 3px),
+          linear-gradient(0deg, var(--_uni-aero-bottom) 0 1px, transparent 3px),
+          linear-gradient(90deg, var(--_uni-aero-left) 0 1px, transparent 3px),
+          linear-gradient(270deg, var(--_uni-aero-right) 0 1px, transparent 3px),
+          radial-gradient(ellipse farthest-corner at calc(50% + var(--_uni-aero-x) * 32%) calc(50% - var(--_uni-aero-y) * 32%),
+            var(--_uni-aero-specular),
+            color-mix(in srgb, var(--_uni-aero-specular) 60.6531%, transparent) calc(var(--_uni-aero-sigma) * 100%),
+            color-mix(in srgb, var(--_uni-aero-specular) 13.5335%, transparent) calc(var(--_uni-aero-sigma) * 200%),
+            transparent calc(var(--_uni-aero-sigma) * 300%)),
+          linear-gradient(var(--material-texture-aero-light-azimuth), var(--_uni-aero-ambient), transparent 75%),
+          linear-gradient(var(--_uni-aero-wash-color), var(--_uni-aero-wash-color));
+      }
     }
   }
 
   /* Status colors retain their measured foreground contrast and opaque stems. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="floating"][data-material-surface]:not([data-material-surface="default"]),
     [data-material="floating"][data-kind="success"],
     [data-material="floating"][data-kind="warning"],
@@ -2317,7 +2394,7 @@ html[data-font-tier="system"],
     backdrop-filter: none;
   }
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"][data-material-surface]:not([data-material-surface="default"]),
       [data-material="floating"][data-kind="success"],
       [data-material="floating"][data-kind="warning"],
@@ -2325,7 +2402,7 @@ html[data-font-tier="system"],
     ) { background-image: none; }
   }
 
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="mask-backdrop"], [data-material="mask-scrim"],
     .material-mask, .material-mask-scrim
   ) {
@@ -2337,7 +2414,7 @@ html[data-font-tier="system"],
     -webkit-backdrop-filter: blur(var(--material-texture-mask-blur)) saturate(var(--material-texture-mask-saturation));
     backdrop-filter: blur(var(--material-texture-mask-blur)) saturate(var(--material-texture-mask-saturation));
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="mask-backdrop"], .material-mask
   ) {
     opacity: 1;
@@ -2345,7 +2422,7 @@ html[data-font-tier="system"],
 
   /* Descendant functional surfaces share an already sampled backdrop. Portal
      siblings still sample independently; document/form controls are untouched. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
     [data-material="floating"], [data-material="navigation"],
     [data-material="mask-backdrop"], [data-material="mask-scrim"],
     .material-tooltip, .material-menu, .material-modal, .material-fullscreen
@@ -2363,14 +2440,14 @@ html[data-font-tier="system"],
     /* The nearest owner decides whether it supplies a neutral readable fill.
        Reset at every owner: a transparent/custom inner surface must not inherit
        an outer surface's thinner film. Resolve palette opacity on the control. */
-    :where(html[data-texture="glass"]) :where(
+    :where(html[data-texture="aero"]) :where(
       [data-material="floating"], [data-material="navigation"],
       [data-material="mask-backdrop"], [data-material="mask-scrim"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) {
       --_uni-material-control-film-divisor: 1;
     }
-    :where(html[data-texture="glass"]) :where(
+    :where(html[data-texture="aero"]) :where(
       :where([data-material="floating"], [data-material="navigation"]):where(
         .bg-background, .bg-background-100, .bg-surface, .bg-popover,
         .material-medium:not([class*="bg-"]),
@@ -2385,9 +2462,10 @@ html[data-font-tier="system"],
     )) {
       --_uni-material-control-film-divisor: 3;
     }
-    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:not(:where(:disabled, [aria-disabled="true"])),
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted):not(:where(:has(input:disabled))) {
+    :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:not(:where(:disabled, [aria-disabled="true"])),
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted):not(:where(:has(input:disabled))) {
       --_uni-material-control-opacity: calc(var(--material-texture-control-opacity) / var(--_uni-material-control-film-divisor, 1));
+      --_uni-aero-interaction: 1;
       background-color: color-mix(in srgb, var(--color-bg-surface) var(--_uni-material-control-opacity), transparent);
       -webkit-backdrop-filter: blur(var(--material-texture-control-blur));
       backdrop-filter: blur(var(--material-texture-control-blur));
@@ -2396,17 +2474,17 @@ html[data-font-tier="system"],
        Keep the film during interaction: replacing it with an alpha-only hover
        wash would expose a photograph and lose small-label contrast. Only the
        canonical state classes opt in; authored hover/active colors still win. */
-    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="hover:bg-gray-alpha-200"]):hover:not(:where(:disabled, [aria-disabled="true"])) {
+    :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="hover:bg-gray-alpha-200"]):hover:not(:where(:disabled, [aria-disabled="true"])) {
       background-color: color-mix(in srgb, color-mix(in srgb, var(--color-bg-surface) 92%, var(--color-text-primary)) var(--_uni-material-control-opacity), transparent);
     }
-    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="active:bg-gray-alpha-300"]):active:not(:where(:disabled, [aria-disabled="true"])) {
+    :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="active:bg-gray-alpha-300"]):active:not(:where(:disabled, [aria-disabled="true"])) {
       background-color: color-mix(in srgb, color-mix(in srgb, var(--color-bg-surface) 84%, var(--color-text-primary)) var(--_uni-material-control-opacity), transparent);
     }
     /* 作者的定位和伪元素覆盖优先；仅在已知的自身定位盒中绘制光学轮廓。
        Author positioning and pseudo-elements take priority. Decorate only a
        known containing block; inline positioning opts out of the rim. */
-    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"].bg-background-100):where(.relative, .absolute, .fixed, .sticky):not(:where(:disabled, [aria-disabled="true"], [style*="position:"]))::before,
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)):where(.relative, .absolute, .fixed, .sticky):not(:where(:has(input:disabled), [style*="position:"]))::before {
+    :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"].bg-background-100):where(.relative, .absolute, .fixed, .sticky):not(:where(:disabled, [aria-disabled="true"], [style*="position:"]))::before,
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)):where(.relative, .absolute, .fixed, .sticky):not(:where(:has(input:disabled), [style*="position:"]))::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -2418,17 +2496,44 @@ html[data-font-tier="system"],
          above the neutral contour, pair it with a weak dark thickness seam,
          and keep both inside the rim so the center stays transmissive. */
       box-shadow:
-        inset 0 1px 0 0 var(--material-texture-glass-edge),
-        inset 0 2px 2px -1px var(--material-texture-glass-highlight),
+        inset 0 1px 0 0 var(--material-texture-aero-edge),
+        inset 0 2px 2px -1px var(--material-texture-aero-highlight),
         inset 0 -1px 0 0 rgb(0 0 0 / calc(var(--material-texture-line-opacity) / 2)),
         inset 0 0 0 1px color-mix(in srgb, var(--color-text-primary) var(--material-texture-line-opacity), transparent);
     }
-    :where(html[data-texture="glass"]) :where(
+    @supports (opacity: exp(-0.08)) and (opacity: pow(0.5, 2)) and (opacity: sin(45deg)) {
+      :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"].bg-background-100):where(.relative, .absolute, .fixed, .sticky):not(:where(:disabled, [aria-disabled="true"], [style*="position:"]))::before,
+      :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)):where(.relative, .absolute, .fixed, .sticky):not(:where(:has(input:disabled), [style*="position:"]))::before {
+        /* Only the rim is painted above content; no light wash crosses labels. */
+        box-shadow:
+          inset 0 1px 0 0 var(--_uni-aero-top),
+          inset 1px 0 0 0 var(--_uni-aero-left),
+          inset -1px 0 0 0 var(--_uni-aero-right),
+          inset 0 -1px 0 0 var(--_uni-aero-bottom),
+          inset 0 2px calc(1px + var(--_uni-aero-roughness) * 3px) -1px var(--_uni-aero-specular),
+          inset 0 -1px 0 0 rgb(0 0 0 / calc(var(--material-texture-line-opacity) / 2 + var(--_uni-aero-wash) * 100%)),
+          inset 0 0 0 1px color-mix(in srgb, var(--color-text-primary) var(--material-texture-line-opacity), transparent);
+        transition: box-shadow var(--uni-motion-state) var(--ease-snap);
+      }
+      @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+        :where(html[data-texture="aero"]) :where(
+          [data-uni-button][data-type="secondary"].bg-background-100:not(:disabled, [aria-disabled="true"]),
+          [data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted):not(:has(input:disabled))
+        ):hover { --_uni-aero-interaction: 1.08; }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        :where(html[data-texture="aero"]) :where(
+          [data-uni-button][data-type="secondary"].bg-background-100:not(:disabled, [aria-disabled="true"]),
+          [data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted):not(:has(input:disabled))
+        ):active { --_uni-aero-interaction: 0.92; }
+      }
+    }
+    :where(html[data-texture="aero"]) :where(
       [data-material="floating"], [data-material="navigation"],
       [data-material="mask-backdrop"], [data-material="mask-scrim"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
     ) :where([data-uni-button][data-type="secondary"]).bg-background-100,
-    :where(html[data-texture="glass"]) :where(
+    :where(html[data-texture="aero"]) :where(
       [data-material="floating"], [data-material="navigation"],
       [data-material="mask-backdrop"], [data-material="mask-scrim"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
@@ -2438,7 +2543,7 @@ html[data-font-tier="system"],
     }
   }
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(
       [data-material="floating"], [data-material="navigation"],
       [data-material="mask-backdrop"], [data-material="mask-scrim"],
       .material-tooltip, .material-menu, .material-modal, .material-fullscreen
@@ -2446,25 +2551,25 @@ html[data-font-tier="system"],
       background-image: none;
     }
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(.command-menu-overlay[data-state="open"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(.command-menu-overlay[data-state="open"]) {
     animation-name: material-mask-in;
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(.command-menu-overlay[data-state="closed"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(.command-menu-overlay[data-state="closed"]) {
     animation-name: material-mask-out;
   }
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where([data-slot="command-menu-content"]) > :where([cmdk-root]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where([data-slot="command-menu-content"]) > :where([cmdk-root]) {
     background-color: transparent;
   }
 
   /* A filtered drop-shadow parent is a backdrop root. Keep that shape example
      opaque rather than simulate a blur that cannot sample the page behind it. */
-  :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(.surface-shadow) :where([data-slot="continuous-surface"][data-material="floating"]) {
+  :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(.surface-shadow) :where([data-slot="continuous-surface"][data-material="floating"]) {
     --material-texture-fill: var(--material-texture-base);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
   @layer utilities {
-    :where(html[data-texture="hybrid"], html[data-texture="glass"]) :where(.surface-shadow) :where([data-slot="continuous-surface"][data-material="floating"]) {
+    :where(html[data-texture="acrylic"], html[data-texture="aero"], html[data-texture="glass"]) :where(.surface-shadow) :where([data-slot="continuous-surface"][data-material="floating"]) {
       background-image: none;
     }
   }
@@ -2526,20 +2631,20 @@ html[data-font-tier="system"],
     :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="active:bg-gray-alpha-300"]):active:not(:where(:disabled, [aria-disabled="true"])) {
       background-color: var(--gray-alpha-300);
     }
-    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"].bg-background-100):where(.relative, .absolute, .fixed, .sticky):not(:where(:disabled, [aria-disabled="true"], [style*="position:"]))::before,
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)):where(.relative, .absolute, .fixed, .sticky):not(:where(:has(input:disabled), [style*="position:"]))::before {
+    :where(html[data-texture="aero"]) :where([data-uni-button][data-type="secondary"].bg-background-100):where(.relative, .absolute, .fixed, .sticky):not(:where(:disabled, [aria-disabled="true"], [style*="position:"]))::before,
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)):where(.relative, .absolute, .fixed, .sticky):not(:where(:has(input:disabled), [style*="position:"]))::before {
       content: none;
     }
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-background:not(:where(:has(input:disabled))) {
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]).bg-background:not(:where(:has(input:disabled))) {
       background-color: var(--background);
     }
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-background-100:not(:where(:has(input:disabled))) {
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]).bg-background-100:not(:where(:has(input:disabled))) {
       background-color: var(--uni-background-100);
     }
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-muted:not(:where(:has(input:disabled))) {
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]).bg-muted:not(:where(:has(input:disabled))) {
       background-color: var(--muted);
     }
-    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted):not(:where(:has(input:disabled))) {
+    :where(html[data-texture="aero"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted):not(:where(:has(input:disabled))) {
       -webkit-backdrop-filter: none !important;
       backdrop-filter: none !important;
     }
@@ -3136,4 +3241,183 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
  */
 body[data-scroll-locked][data-scroll-locked] {
   overflow: clip !important;
+}
+
+/* 根基准在此解析，显式 Regular 不会继承外层 Dense。Resolve Regular at the root, outside local presets. */
+:where(html[data-texture="glass"]) {
+  --_uni-glass-regular-opacity: var(--material-texture-glass-opacity);
+  --_uni-glass-regular-refraction: var(--material-texture-glass-refraction);
+  --_uni-glass-regular-edge-width: var(--material-texture-glass-edge-width);
+  --_uni-glass-regular-roughness: var(--material-texture-glass-roughness);
+  --_uni-glass-clear-opacity: 24%;
+  --_uni-glass-dense-opacity: 82%;
+  --_uni-glass-more-opacity: 92%;
+}
+:where(html[data-texture="glass"]):is(.dark, [data-theme="dark"]) {
+  --_uni-glass-clear-opacity: 36%;
+  --_uni-glass-dense-opacity: 90%;
+  --_uni-glass-more-opacity: 96%;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) and (background: color-mix(in srgb, black, transparent)) {
+  @layer utilities {
+    :where(html[data-texture="glass"]) :where(
+      [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen,
+      [data-uni-button][data-type="secondary"].bg-background-100,
+      [data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)
+    ) {
+      --material-texture-glass-opacity: var(--_uni-glass-regular-opacity);
+      --material-texture-glass-refraction: var(--_uni-glass-regular-refraction);
+      --material-texture-glass-edge-width: var(--_uni-glass-regular-edge-width);
+      --material-texture-glass-roughness: var(--_uni-glass-regular-roughness);
+      --_uni-glass-effective-opacity: var(--material-texture-glass-opacity);
+      --_uni-glass-effective-refraction: var(--material-texture-glass-refraction);
+      --_uni-glass-effective-edge-width: var(--material-texture-glass-edge-width);
+      --_uni-glass-effective-roughness: var(--material-texture-glass-roughness);
+    }
+    :where(html[data-texture="glass"]) :where(
+      [data-material="floating"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+    ) {
+      --material-texture-glass-opacity: var(--_uni-glass-dense-opacity);
+      --material-texture-glass-refraction: 3px;
+      --material-texture-glass-edge-width: 8px;
+      --material-texture-glass-roughness: 0.32;
+    }
+    :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen, [data-uni-button], [data-slot="radio-item-wrapper"]).material-glass-clear {
+      --material-texture-glass-opacity: var(--_uni-glass-clear-opacity);
+      --material-texture-glass-refraction: 6px;
+      --material-texture-glass-edge-width: 8px;
+      --material-texture-glass-roughness: 0.18;
+    }
+    :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen, [data-uni-button], [data-slot="radio-item-wrapper"]).material-glass-regular {
+      --material-texture-glass-opacity: var(--_uni-glass-regular-opacity);
+      --material-texture-glass-refraction: var(--_uni-glass-regular-refraction);
+      --material-texture-glass-edge-width: var(--_uni-glass-regular-edge-width);
+      --material-texture-glass-roughness: var(--_uni-glass-regular-roughness);
+    }
+    :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen, [data-uni-button], [data-slot="radio-item-wrapper"]).material-glass-dense {
+      --material-texture-glass-opacity: var(--_uni-glass-dense-opacity);
+      --material-texture-glass-refraction: 3px;
+      --material-texture-glass-edge-width: 8px;
+      --material-texture-glass-roughness: 0.32;
+    }
+  }
+  :where(html[data-texture="glass"]) :where(
+    [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+  ) {
+    --material-texture-fill: color-mix(in srgb, var(--material-texture-base, var(--color-bg-surface)) var(--_uni-glass-effective-opacity), transparent);
+    -webkit-backdrop-filter: var(--_uni-glass-backdrop, blur(var(--material-texture-glass-blur)));
+    backdrop-filter: var(--_uni-glass-backdrop, blur(var(--material-texture-glass-blur)));
+  }
+  :where(html[data-texture="glass"]) :where(
+    :where([data-material="floating"], [data-material="navigation"]):where(
+      .bg-background, .bg-background-100, .bg-surface, .bg-popover,
+      .material-medium:not([class*="bg-"]), [class~="bg-[var(--uni-background-100)]"],
+      [class~="bg-[var(--color-bg-elevated)]"], [class~="bg-[var(--tooltip-background)]"]
+    ), .material-tooltip:not([class*="bg-"]), .material-menu:not([class*="bg-"]),
+    .material-modal:not([class*="bg-"]), .material-fullscreen:not([class*="bg-"])
+  ):not(:where([style*="background"], [data-material-stem], [data-material-surface]:not([data-material-surface="default"]), [data-kind="success"], [data-kind="warning"], [data-kind="error"])) {
+    --material-texture-base: var(--color-bg-surface);
+    --material-texture-muted: var(--color-text-primary);
+  }
+  :where(html[data-texture="glass"]) :where([data-uni-glass-renderer="svg"]) { --material-texture-fill: transparent; }
+  @layer utilities {
+    :where(html[data-texture="glass"]) :where(
+      [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+    ):not(:where([data-material-stem])) { background-image: none; }
+    :where(html[data-texture="glass"]) :where(
+      [data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+    ) { --_uni-material-control-film-divisor: 1; }
+    :where(html[data-texture="glass"]) :where(
+      :where([data-material="floating"], [data-material="navigation"]):where(
+        .bg-background, .bg-background-100, .bg-surface, .bg-popover,
+        .material-medium:not([class*="bg-"]), [class~="bg-[var(--uni-background-100)]"], [class~="bg-[var(--color-bg-elevated)]"]
+      ), .material-tooltip:not([class*="bg-"]), .material-menu:not([class*="bg-"]),
+      .material-modal:not([class*="bg-"]), .material-fullscreen:not([class*="bg-"])
+    ):not(:where([style*="background"], [data-material-surface]:not([data-material-surface="default"]), [data-kind="success"], [data-kind="warning"], [data-kind="error"])) { --_uni-material-control-film-divisor: 3; }
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:not(:where(:disabled, [aria-disabled="true"])),
+    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted):not(:where(:has(input:disabled))) {
+      --_uni-glass-control-background: color-mix(in srgb, var(--color-bg-surface) calc(var(--_uni-glass-effective-opacity) / var(--_uni-material-control-film-divisor, 1)), transparent);
+      background-color: var(--_uni-glass-control-background);
+      -webkit-backdrop-filter: var(--_uni-glass-backdrop, blur(var(--material-texture-glass-blur)));
+      backdrop-filter: var(--_uni-glass-backdrop, blur(var(--material-texture-glass-blur)));
+    }
+    :where(html[data-texture="glass"]) [data-uni-glass-renderer="svg"] { background-color: transparent; --_uni-glass-control-background: transparent; }
+    :where(html[data-texture="glass"]) :where([data-uni-glass-renderer="svg"]) {
+      background-image: var(--_uni-glass-paint); background-size: 100% 100%; background-repeat: no-repeat;
+    }
+    /* 状态层使用既有颜色，整面均匀；不模拟追光。Uniform state overlays use existing colors, without optical decoration. */
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="hover:bg-gray-alpha-200"]):hover:not(:where(:disabled, [aria-disabled="true"])) {
+      background-color: var(--_uni-glass-control-background);
+      --_uni-glass-state-fill: color-mix(in srgb, var(--color-bg-hover) var(--material-texture-line-opacity), transparent);
+      background-image: linear-gradient(var(--_uni-glass-state-fill), var(--_uni-glass-state-fill)), var(--_uni-glass-paint, linear-gradient(transparent, transparent));
+    }
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="active:bg-gray-alpha-300"]):active:not(:where(:disabled, [aria-disabled="true"])) {
+      background-color: var(--_uni-glass-control-background);
+      --_uni-glass-state-fill: color-mix(in srgb, var(--color-bg-selected) calc(var(--material-texture-line-opacity) * 2), transparent);
+      background-image: linear-gradient(var(--_uni-glass-state-fill), var(--_uni-glass-state-fill)), var(--_uni-glass-paint, linear-gradient(transparent, transparent));
+    }
+    :where(html[data-texture="glass"]) :where([data-slot="toolbar-item"]):is([class~="hover:bg-gray-alpha-100"]):hover,
+    :where(html[data-texture="glass"]) :where([data-slot="toolbar-item"]):is([class~="focus-visible:bg-gray-alpha-100"]):focus-visible {
+      background-color: color-mix(in srgb, var(--color-bg-hover) var(--material-texture-line-opacity), transparent);
+    }
+    :where(html[data-texture="glass"]) :where([data-slot="toolbar-item"][data-active="true"]).bg-gray-alpha-200,
+    :where(html[data-texture="glass"]) :where([data-slot="toolbar-item"][data-active="true"]).bg-gray-alpha-200:is(:hover, :focus-visible) {
+      background-color: color-mix(in srgb, var(--color-bg-selected) calc(var(--material-texture-line-opacity) * 2), transparent);
+    }
+    :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen) :where(
+      [data-uni-button][data-type="secondary"], [data-slot="radio-item-wrapper"]
+    ):is(.bg-background, .bg-background-100, .bg-muted) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+    :where(html[data-texture="glass"]) :where(
+      [data-material="floating"][data-material-surface]:not([data-material-surface="default"]),
+      [data-material="floating"]:is([data-kind="success"], [data-kind="warning"], [data-kind="error"]),
+      .surface-shadow [data-slot="continuous-surface"][data-material="floating"], [data-material-stem]
+    ) { background-image: none; }
+    @media (prefers-contrast: more) {
+      :where(html[data-texture="glass"]) :where(
+        [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen,
+        [data-uni-button][data-type="secondary"].bg-background-100, [data-slot="radio-item-wrapper"]:is(.bg-background, .bg-background-100, .bg-muted)
+      ) {
+        --_uni-glass-effective-opacity: var(--_uni-glass-more-opacity);
+        --_uni-glass-effective-refraction: 3px;
+        --_uni-glass-effective-edge-width: 8px;
+        --_uni-glass-effective-roughness: 0.32;
+      }
+    }
+  }
+  :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen) :where(
+    [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen
+  ) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  :where(html[data-texture="glass"]) :where(
+    [data-material="floating"][data-material-surface]:not([data-material-surface="default"]),
+    [data-material="floating"]:is([data-kind="success"], [data-kind="warning"], [data-kind="error"]),
+    .surface-shadow [data-slot="continuous-surface"][data-material="floating"], [data-material-stem]
+  ) { --material-texture-fill: var(--material-texture-base); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  @media (prefers-contrast: more) {
+    :where(html[data-texture="glass"]) :where(
+      [data-material="floating"], [data-material="navigation"], .material-tooltip, .material-menu, .material-modal, .material-fullscreen,
+      [data-uni-button][data-type="secondary"], [data-slot="radio-item-wrapper"]
+    ) {
+      --_uni-material-edge: color-mix(in srgb, var(--color-text-primary) 65%, transparent);
+      --_uni-material-line-opacity: 65%;
+    }
+  }
+}
+@media (forced-colors: active), (prefers-reduced-transparency: reduce) {
+  :where(html[data-texture="glass"]) :where([data-material], [data-uni-glass-renderer]) {
+    --material-texture-fill: var(--material-texture-base, var(--color-bg-surface));
+    background-image: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  :where(html[data-texture="glass"]) :where([data-material], .material-tooltip, .material-menu, .material-modal, .material-fullscreen) {
+    --material-texture-muted: initial; --muted-foreground: var(--color-text-secondary);
+  }
+  @layer utilities {
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100 { background-color: var(--uni-background-100); }
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="hover:bg-gray-alpha-200"]):hover { background-color: var(--gray-alpha-200); background-image: none; }
+    :where(html[data-texture="glass"]) :where([data-uni-button][data-type="secondary"]).bg-background-100:where([class~="active:bg-gray-alpha-300"]):active { background-color: var(--gray-alpha-300); background-image: none; }
+    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-background { background-color: var(--background); }
+    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-background-100 { background-color: var(--uni-background-100); }
+    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]).bg-muted { background-color: var(--muted); }
+    :where(html[data-texture="glass"]) :where([data-slot="radio-item-wrapper"]):is(.bg-background, .bg-background-100, .bg-muted) { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  }
 }

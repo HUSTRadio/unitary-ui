@@ -422,3 +422,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
+## Glass optical design references
+
+The Glass screen-space lens and interaction code is independently implemented. Mathematical and visual references: [shuding/liquid-glass](https://github.com/shuding/liquid-glass) (JavaScript, MIT), [rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react) (TypeScript, MIT), [Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass) (Kotlin/AGSL, Apache-2.0), and [heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass) (Flutter/GLSL, MIT). No source snippets, runtime packages or demonstration assets from these projects are bundled. References inform contour normals, edge displacement, separate foregrounds and bounded contact feedback.

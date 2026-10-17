@@ -3,7 +3,20 @@ import { PNG } from "pngjs";
 import { artifactMode, artifactModule } from "./docs-artifact";
 
 type Theme = "light" | "dark";
-type Texture = "solid" | "hybrid" | "glass";
+type Texture = "solid" | "acrylic" | "aero" | "glass";
+
+/** Ask the CSS engine to evaluate a scalar rather than parsing its source expression. */
+async function opticalValue(owner: Locator, name: string) {
+  return owner.evaluate((el, name) => {
+    const probe = document.createElement("span");
+    Object.assign(probe.style, { position: "absolute", height: "0", visibility: "hidden",
+      width: `calc(var(--_uni-aero-${name}) * 1000px)` });
+    el.append(probe);
+    const value = Number.parseFloat(getComputedStyle(probe).width) / 1000;
+    probe.remove();
+    return value;
+  }, name);
+}
 
 test.setTimeout(60_000);
 
@@ -16,7 +29,7 @@ async function frames(page: Page) {
 async function open(page: Page, theme: Theme, width = 1280) {
   await page.addInitScript(theme => {
     localStorage.setItem("unitary-theme-preference", theme);
-    localStorage.removeItem("unitary-texture-preference");
+    localStorage.removeItem("unitary-texture-preference-v2");
   }, theme);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width, height: 1000 });
@@ -40,11 +53,11 @@ async function texture(page: Page, value: Texture) {
  * no machine paths are retained. */
 async function mountButtons(page: Page, ownerFixture = false) {
   await page.addStyleTag({ content: `@layer utilities {
-    .glass-control-author-fill { background-color: rgb(80 100 120); }
-    .glass-control-author-shadow { box-shadow: rgb(30 60 90) 0px 3px 9px; }
-    .glass-control-author-image { background-image: linear-gradient(90deg, rgb(50 60 70), rgb(70 80 90)); }
-    .glass-control-author-state:hover { background-color: rgb(70 90 110); }
-    .glass-control-author-state:active { background-color: rgb(60 80 100); }
+    .aero-control-author-fill { background-color: rgb(80 100 120); }
+    .aero-control-author-shadow { box-shadow: rgb(30 60 90) 0px 3px 9px; }
+    .aero-control-author-image { background-image: linear-gradient(90deg, rgb(50 60 70), rgb(70 80 90)); }
+    .aero-control-author-state:hover { background-color: rgb(70 90 110); }
+    .aero-control-author-state:active { background-color: rgb(60 80 100); }
   }` });
   const moduleUrl = `/@fs/${process.cwd().replaceAll("\\", "/")}/src/components/ui/button.tsx`;
   const fixtureUrl = artifactMode ? artifactModule("site/build/browser-fixtures.ts") : undefined;
@@ -85,7 +98,7 @@ async function mountButtons(page: Page, ownerFixture = false) {
       ]) : undefined;
     }
     const host = document.createElement("div");
-    host.dataset.glassControlFixture = "";
+    host.dataset.aeroControlFixture = "";
     Object.assign(host.style, {
       position: "fixed", left: "20px", top: "20px", width: "calc(100vw - 40px)",
       maxWidth: "760px", padding: "12px", zIndex: "2147483646",
@@ -96,47 +109,47 @@ async function mountButtons(page: Page, ownerFixture = false) {
     const control = (name: string, props: Record<string, unknown> = {}, link = false) => {
       const shared = {
         type: "secondary" as const,
-        "data-glass-control": name, style: { width: "160px" }, ...props,
+        "data-aero-control": name, style: { width: "160px" }, ...props,
       };
       return link
-        ? h(buttons.ButtonLink, { href: "#glass-controls", ...shared }, "Glass link")
-        : h(buttons.Button, { typeName: "button", ...shared }, "Glass action");
+        ? h(buttons.ButtonLink, { href: "#aero-controls", ...shared }, "Aero link")
+        : h(buttons.Button, { typeName: "button", ...shared }, "Aero action");
     };
     const row = (children: import("react").ReactNode[], props: Record<string, unknown> = {}) => h("div", {
       style: { display: "flex", flexWrap: "wrap", gap: "12px", padding: "12px" }, ...props,
     }, ...children);
-    const toolbarProps = { collapse: false, "data-glass-control-owner": "toolbar" };
+    const toolbarProps = { collapse: false, "data-aero-control-owner": "toolbar" };
     ReactDOM.createRoot(host).render(h(React.Fragment, null,
       control("focus-start", { type: "tertiary", size: "tiny" }),
       row([control("button"), control("link", {}, true)], {
-        "data-glass-control-stage": "plain",
+        "data-aero-control-stage": "plain",
         style: { display: "flex", flexWrap: "wrap", gap: "12px", padding: "12px", background: "rgb(80 120 160)" },
       }),
       row([control("contrast-button"), control("contrast-link", {}, true)], {
-        "data-glass-control-stage": "contrast",
+        "data-aero-control-stage": "contrast",
         style: { display: "flex", flexWrap: "wrap", gap: "12px", padding: "12px",
           background: "repeating-linear-gradient(90deg, #000 0 32px, #fff 32px 64px)" },
       }),
       row([...["default", "tertiary", "error", "warning"].map(type => control(type, { type })),
         control("disabled", { disabled: true }), control("disabled-link", { disabled: true }, true)]),
-      row([control("author-fill", { className: "bg-[rgb(80_100_120)] glass-control-author-fill" }),
-        control("author-shadow", { className: "shadow-md glass-control-author-shadow" }),
-        control("author-image", { className: "glass-control-author-image" }),
-        control("author-state", { className: "hover:bg-[rgb(70_90_110)] active:bg-[rgb(60_80_100)] glass-control-author-state" }),
+      row([control("author-fill", { className: "bg-[rgb(80_100_120)] aero-control-author-fill" }),
+        control("author-shadow", { className: "shadow-md aero-control-author-shadow" }),
+        control("author-image", { className: "aero-control-author-image" }),
+        control("author-state", { className: "hover:bg-[rgb(70_90_110)] active:bg-[rgb(60_80_100)] aero-control-author-state" }),
         control("author-transition", { className: "transition-all" }),
         control("author-transition-link", { className: "transition-all" }, true),
-        control("author-before", { className: "glass-control-author-before" }),
+        control("author-before", { className: "aero-control-author-before" }),
         control("author-inline", { style: { width: "160px", backgroundColor: "rebeccapurple", boxShadow: "rgb(50 60 70) 0px 4px 12px" } })]),
       ...["floating", "navigation", "mask-backdrop", "mask-scrim"].map(role => row([
         control(`nested-${role}`), control(`nested-link-${role}`, {}, true),
-      ], { "data-material": role, "data-glass-control-owner": role,
+      ], { "data-material": role, "data-aero-control-owner": role,
         className: role === "floating" ? "material-menu" : role === "navigation" ? "bg-background" : undefined })),
       row([control("static", { className: "static" }),
         control("static-link", { className: "static" }, true),
         control("inline-static", { style: { width: "160px", position: "static" } }),
         control("inline-static-link", { style: { position: "static", width: "160px" } }, true),
         control("raw-static")], {
-        "data-material": "floating", "data-glass-control-owner": "author-position", className: "material-menu",
+        "data-material": "floating", "data-aero-control-owner": "author-position", className: "material-menu",
         style: { position: "relative", width: "360px", height: "180px", padding: "12px",
           display: "flex", flexWrap: "wrap", alignContent: "flex-start", gap: "12px" },
       }),
@@ -146,17 +159,17 @@ async function mountButtons(page: Page, ownerFixture = false) {
           h(ownerModules[1].RadioGroupItem, { value: "option",
             className: "relative min-h-11 rounded-md border border-border bg-background px-3 text-foreground",
           }, "Option")))], { "data-material": "floating", className: "material-menu",
-        "data-glass-control-stage": "toolbar" })] : []),
+        "data-aero-control-stage": "toolbar" })] : []),
     ));
     await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
   }, { moduleUrl, ownerFixture, fixtureUrl });
-  const fixture = page.locator("[data-glass-control-fixture]");
-  await expect(fixture.locator('[data-glass-control="button"]')).toHaveAttribute("data-uni-button", "");
-  await expect(fixture.locator('[data-glass-control="link"]')).toHaveAttribute("href", "#glass-controls");
+  const fixture = page.locator("[data-aero-control-fixture]");
+  await expect(fixture.locator('[data-aero-control="button"]')).toHaveAttribute("data-uni-button", "");
+  await expect(fixture.locator('[data-aero-control="link"]')).toHaveAttribute("href", "#aero-controls");
   return fixture;
 }
 
-const control = (fixture: Locator, name: string) => fixture.locator(`[data-glass-control="${name}"]`);
+const control = (fixture: Locator, name: string) => fixture.locator(`[data-aero-control="${name}"]`);
 
 
 async function installAuthorPseudoUtility(page: Page) {
@@ -171,7 +184,7 @@ async function installAuthorPseudoUtility(page: Page) {
       } catch { return []; }
     });
     style.textContent = `${order.join("\n")}\n@layer utilities {
-      .glass-control-author-before::before { content: "AUTHORED"; box-shadow: none; }
+      .aero-control-author-before::before { content: "AUTHORED"; box-shadow: none; }
     }`;
     document.head.prepend(style);
   });
@@ -220,16 +233,16 @@ async function geometry(button: Locator) {
 
 for (const theme of ["light", "dark"] as const) {
   for (const width of [390, 1280]) {
-    test(`Glass controls paint clear rounded boundaries and readable labels: ${theme}, ${width}`, async ({ page }, testInfo) => {
+    test(`Aero controls paint clear rounded boundaries and readable labels: ${theme}, ${width}`, async ({ page }, testInfo) => {
       await open(page, theme, width);
       const fixture = await mountButtons(page);
       const baseline = await Promise.all(["button", "link"].map(name => paintStyle(control(fixture, name))));
       const solidPixels = PNG.sync.read(await page.screenshot({ animations: "disabled", caret: "hide", scale: "css" }));
-      for (const mode of ["solid", "hybrid"] as const) {
+      for (const mode of ["solid", "acrylic"] as const) {
         await texture(page, mode);
         expect(await Promise.all(["button", "link"].map(name => paintStyle(control(fixture, name))))).toEqual(baseline);
       }
-      await texture(page, "glass");
+      await texture(page, "aero");
       const buffer = await page.screenshot({ animations: "disabled", caret: "hide", scale: "css" });
       const png = PNG.sync.read(buffer);
       const results = [];
@@ -257,8 +270,8 @@ for (const theme of ["light", "dark"] as const) {
       }
       // Suppress only the real shared controls' optical shadow. Their film,
       // backdrop sampling and empty interior padding must remain identical.
-      const glassStyles = await Promise.all(["button", "link"].map(name => paintStyle(control(fixture, name))));
-      const rimOverride = await page.addStyleTag({ content: `[data-glass-control-stage="plain"] [data-uni-button]::before {
+      const aeroStyles = await Promise.all(["button", "link"].map(name => paintStyle(control(fixture, name))));
+      const rimOverride = await page.addStyleTag({ content: `[data-aero-control-stage="plain"] [data-uni-button]::before {
         box-shadow: none !important;
       }` });
       try {
@@ -270,7 +283,7 @@ for (const theme of ["light", "dark"] as const) {
           const before = baseline[name === "button" ? 0 : 1];
           const style = await paintStyle(button);
           expect(style.edgeShadow, `${name}: the probe suppresses optical paint only`).toBe("none");
-          expect(style.fill, `${name}: suppressing the rim keeps the same translucent film`).toBe(glassStyles[name === "button" ? 0 : 1].fill);
+          expect(style.fill, `${name}: suppressing the rim keeps the same translucent film`).toBe(aeroStyles[name === "button" ? 0 : 1].fill);
           expect(style.filter, `${name}: suppressing the rim keeps backdrop diffusion`).toBe("blur(6px)");
           expect(style.shadow, `${name}: suppressing the rim keeps the control's own shadow`).toBe(before.shadow);
           const middleX = Math.floor(bounds.x + bounds.width / 2), topY = Math.ceil(bounds.y);
@@ -283,7 +296,7 @@ for (const theme of ["light", "dark"] as const) {
             }
           }
         }
-        await testInfo.attach("glass-controls-without-optical-rims", { body: suppressedBuffer, contentType: "image/png" });
+        await testInfo.attach("aero-controls-without-optical-rims", { body: suppressedBuffer, contentType: "image/png" });
       } finally {
         await rimOverride.evaluate(el => el.parentNode?.removeChild(el));
         await frames(page);
@@ -311,7 +324,7 @@ for (const theme of ["light", "dark"] as const) {
         await button.evaluate(el => { (el as HTMLElement).style.removeProperty("backdrop-filter"); });
         await frames(page);
       }
-      await testInfo.attach("painted-glass-controls", { body: buffer, contentType: "image/png" });
+      await testInfo.attach("painted-aero-controls", { body: buffer, contentType: "image/png" });
       await testInfo.attach("painted-control-colors", { body: JSON.stringify(results, null, 2), contentType: "application/json" });
       await texture(page, "solid");
       // A fixed number of animation frames does not establish computed-style
@@ -330,7 +343,7 @@ for (const theme of ["light", "dark"] as const) {
     });
   }
 
-  test(`Glass controls preserve focus, semantic actions, disabled states, author styles and interaction: ${theme}`, async ({ page }) => {
+  test(`Aero controls preserve focus, semantic actions, disabled states, author styles and interaction: ${theme}`, async ({ page }) => {
     await open(page, theme);
     const fixture = await mountButtons(page);
     const protectedNames = ["default", "tertiary", "error", "warning", "disabled", "disabled-link"];
@@ -364,17 +377,17 @@ for (const theme of ["light", "dark"] as const) {
     await expect(button).toBeFocused();
     const originalFocus = (await paintStyle(button)).shadow;
     expect(originalFocus).not.toBe("none");
-    await texture(page, "glass");
-    expect((await paintStyle(button)).shadow, "Glass decoration must preserve the existing keyboard ring").toBe(originalFocus);
+    await texture(page, "aero");
+    expect((await paintStyle(button)).shadow, "Aero decoration must preserve the existing keyboard ring").toBe(originalFocus);
     await page.keyboard.press("Tab");
     await expect(link).toBeFocused();
     expect((await paintStyle(link)).shadow).toBe(originalFocus);
     await link.evaluate(el => (el as HTMLElement).blur());
     expect(await Promise.all(protectedNames.map(name => paintStyle(control(fixture, name))))).toEqual(baseline);
-    const glassStates = await interactionStates("button");
-    expect(glassStates.hover, "Glass hover retains its thicker readable film").not.toBe(originalStates.hover);
-    expect(glassStates.active, "Glass press retains its thicker readable film").not.toBe(originalStates.active);
-    expect(glassStates.active).not.toBe(glassStates.hover);
+    const aeroStates = await interactionStates("button");
+    expect(aeroStates.hover, "Aero hover retains its thicker readable film").not.toBe(originalStates.hover);
+    expect(aeroStates.active, "Aero press retains its thicker readable film").not.toBe(originalStates.active);
+    expect(aeroStates.active).not.toBe(aeroStates.hover);
     expect(await interactionStates("author-state"), "Authored hover and active colors retain priority").toEqual({
       hover: "rgb(70, 90, 110)", active: "rgb(60, 80, 100)",
     });
@@ -395,7 +408,7 @@ for (const theme of ["light", "dark"] as const) {
         for (let x = Math.ceil(bounds.x + bounds.radius + 4); x < bounds.x + bounds.width - bounds.radius - 4; x += 2) {
           backgrounds.push(pixel(painted, x, Math.ceil(bounds.y + 5)));
         }
-        expect(Math.min(...backgrounds.map(background => contrast(bounds.foreground, background))), `${state}: Glass retains text contrast over black and white backdrops`).toBeGreaterThanOrEqual(4.5);
+        expect(Math.min(...backgrounds.map(background => contrast(bounds.foreground, background))), `${state}: Aero retains text contrast over black and white backdrops`).toBeGreaterThanOrEqual(4.5);
       }
     } finally {
       await page.mouse.up();
@@ -419,16 +432,16 @@ for (const theme of ["light", "dark"] as const) {
     }
   });
 
-  test(`The actual materials demo applies Glass to its shared secondary buttons without repeated sampling: ${theme}`, async ({ page }) => {
+  test(`The actual materials demo applies Aero to its shared secondary buttons without repeated sampling: ${theme}`, async ({ page }) => {
     const materials = await open(page, theme);
     const trigger = materials.locator('[data-slot="texture-demo-modal-trigger"]');
     const original = await paintStyle(trigger);
-    await materials.locator('label:has([data-texture-option="glass"])').first().click();
-    await expect(page.locator("html")).toHaveAttribute("data-texture", "glass");
-    const glass = await paintStyle(trigger);
-    expect(glass.fill).not.toBe(original.fill);
-    expect(glass.filter).toBe("none");
-    expect(glass.edge).toBe('""');
+    await materials.locator('label:has([data-texture-option="aero"])').first().click();
+    await expect(page.locator("html")).toHaveAttribute("data-texture", "aero");
+    const aero = await paintStyle(trigger);
+    expect(aero.fill).not.toBe(original.fill);
+    expect(aero.filter).toBe("none");
+    expect(aero.edge).toBe('""');
     await trigger.click();
     const modal = page.locator('[data-slot="texture-demo-modal"]');
     await expect(modal).toBeVisible();
@@ -440,11 +453,11 @@ for (const theme of ["light", "dark"] as const) {
     await expect(modal).not.toBeVisible();
   });
 
-  test(`Transparent functional owners retain readable Glass control films: ${theme}`, async ({ page }) => {
+  test(`Transparent functional owners retain readable Aero control films: ${theme}`, async ({ page }) => {
     await open(page, theme);
     await page.setViewportSize({ width: 1280, height: 1600 });
     const fixture = await mountButtons(page, true);
-    const owner = fixture.locator('[data-glass-control-owner="toolbar"]');
+    const owner = fixture.locator('[data-aero-control-owner="toolbar"]');
     const controls = [control(fixture, "toolbar-button"), control(fixture, "toolbar-link"),
       owner.locator('[data-slot="radio-item-wrapper"]')];
     const alpha = (element: Locator) => element.evaluate(el => {
@@ -455,7 +468,7 @@ for (const theme of ["light", "dark"] as const) {
       context.fillRect(0, 0, 1, 1);
       return context.getImageData(0, 0, 1, 1).data[3] / 255;
     });
-    await texture(page, "glass");
+    await texture(page, "aero");
     for (const element of controls) {
       await expect.poll(() => alpha(element), {
         message: "The default filled Toolbar supplies the inner film's contrast after switching",
@@ -483,11 +496,11 @@ for (const theme of ["light", "dark"] as const) {
       // not override the nearest owner's contrast decision. For transparent
       // cases, exercise transmitted black and white regions in the real paint.
       if (kind.startsWith("transparent") || kind === "unfilled") {
-        await fixture.locator('[data-glass-control-stage="toolbar"]').evaluate(el => {
+        await fixture.locator('[data-aero-control-stage="toolbar"]').evaluate(el => {
           (el as HTMLElement).style.background = "repeating-linear-gradient(90deg, #000 0 32px, #fff 32px 64px)";
         });
       } else {
-        await fixture.locator('[data-glass-control-stage="toolbar"]').evaluate(el => {
+        await fixture.locator('[data-aero-control-stage="toolbar"]').evaluate(el => {
           (el as HTMLElement).style.removeProperty("background");
         });
       }
@@ -503,16 +516,16 @@ for (const theme of ["light", "dark"] as const) {
     }
   });
 
-  test(`Mask-only Glass controls retain readable films over black and white backgrounds: ${theme}`, async ({ page }) => {
+  test(`Mask-only Aero controls retain readable films over black and white backgrounds: ${theme}`, async ({ page }) => {
     await open(page, theme);
     await page.setViewportSize({ width: 1280, height: 1400 });
     const fixture = await mountButtons(page);
     for (const role of ["mask-backdrop", "mask-scrim"]) {
-      await fixture.locator(`[data-glass-control-owner="${role}"]`).evaluate(el => {
+      await fixture.locator(`[data-aero-control-owner="${role}"]`).evaluate(el => {
         (el as HTMLElement).style.background = "repeating-linear-gradient(90deg, #000 0 32px, #fff 32px 64px)";
       });
     }
-    await texture(page, "glass");
+    await texture(page, "aero");
     const painted = PNG.sync.read(await page.screenshot({ animations: "disabled", caret: "hide", scale: "css" }));
     for (const role of ["mask-backdrop", "mask-scrim"]) {
       for (const name of [`nested-${role}`, `nested-link-${role}`]) {
@@ -528,19 +541,19 @@ for (const theme of ["light", "dark"] as const) {
     }
   });
 
-  test(`Glass preserves unfilled, disabled and custom-filled Radio options: ${theme}`, async ({ page }) => {
+  test(`Aero preserves unfilled, disabled and custom-filled Radio options: ${theme}`, async ({ page }) => {
     const materials = await open(page, theme);
-    const cards = materials.locator('[data-slot="texture-controls"]').first().locator('[data-slot="radio-item-wrapper"]');
+    const cards = materials.locator('[data-slot="texture-controls"]').first().locator('[data-slot="radio-item-wrapper"]:not(:has([data-texture-option="glass"]))');
     await cards.nth(0).evaluate(el => el.classList.remove("bg-background", "bg-background-100", "bg-muted"));
     await cards.nth(1).evaluate(el => { el.querySelector<HTMLInputElement>("input")!.disabled = true; });
     await cards.nth(2).evaluate(el => {
       el.classList.remove("bg-background", "bg-background-100", "bg-muted");
-      el.classList.add("glass-control-author-before");
+      el.classList.add("aero-control-author-before");
       (el as HTMLElement).style.backgroundColor = "rgb(80 100 120)";
     });
     await installAuthorPseudoUtility(page);
     const original = await Promise.all((await cards.all()).map(paintStyle));
-    for (const mode of ["hybrid", "glass", "solid"] as const) {
+    for (const mode of ["acrylic", "aero", "solid"] as const) {
       await texture(page, mode);
       expect(await Promise.all((await cards.all()).map(paintStyle)),
         `${mode}: a Radio wrapper without an enabled canonical fill must keep its authored appearance`).toEqual(original);
@@ -573,7 +586,7 @@ for (const theme of ["light", "dark"] as const) {
     });
     const savedBaseline = await badgeStyle(saved), countBaseline = await badgeStyle(count);
     const results: Array<{ mode: Texture; slot: string; minimumTextContrast: number; foreground: number[] }> = [];
-    for (const mode of ["solid", "hybrid", "glass"] as const) {
+    for (const mode of ["solid", "acrylic", "aero"] as const) {
       await materials.locator(`label:has([data-texture-option="${mode}"])`).first().click();
       await expect(page.locator("html")).toHaveAttribute("data-texture", mode);
       await information.scrollIntoViewIfNeeded();
@@ -625,7 +638,7 @@ for (const theme of ["light", "dark"] as const) {
   });
 
   for (const width of [390, 1280]) {
-    test(`Glass option cards transmit the backdrop without stacked opaque fills: ${theme}, ${width}`, async ({ page }, testInfo) => {
+    test(`Aero option cards transmit the backdrop without stacked opaque fills: ${theme}, ${width}`, async ({ page }, testInfo) => {
       const materials = await open(page, theme, width);
       const picker = materials.locator('[data-slot="texture-controls"]').first();
       const cards = picker.locator('[data-slot="radio-item-wrapper"]');
@@ -637,13 +650,13 @@ for (const theme of ["light", "dark"] as const) {
         context.fillRect(0, 0, 1, 1);
         return context.getImageData(0, 0, 1, 1).data[3] / 255;
       });
-      await expect(cards).toHaveCount(3);
+      await expect(cards).toHaveCount(4);
       const solid = await Promise.all((await cards.all()).map(paintStyle));
-      await texture(page, "hybrid");
+      await texture(page, "acrylic");
       expect(await Promise.all((await cards.all()).map(paintStyle)),
-        "Hybrid retains the original option-card fills and indicator semantics").toEqual(solid);
-      await picker.locator('label:has([data-texture-option="glass"])').click();
-      await expect(page.locator("html")).toHaveAttribute("data-texture", "glass");
+        "Acrylic retains the original option-card fills and indicator semantics").toEqual(solid);
+      await picker.locator('label:has([data-texture-option="aero"])').click();
+      await expect(page.locator("html")).toHaveAttribute("data-texture", "aero");
       for (const card of await cards.all()) {
         expect(await alpha(card), "Standalone cards must transmit their backdrop").toBeLessThan(.85);
         expect((await paintStyle(card)).filter).toBe("blur(6px)");
@@ -654,16 +667,16 @@ for (const theme of ["light", "dark"] as const) {
         const layer = page.locator(`[data-slot="texture-demo-${kind}"]`);
         await expect(layer).toBeVisible();
         const options = layer.locator('[data-slot="radio-item-wrapper"]');
-        await expect(options).toHaveCount(3);
+        await expect(options).toHaveCount(4);
         for (const card of await options.all()) {
-          expect(await alpha(card), "An existing glass layer needs a thin inner film").toBeLessThan(.35);
+          expect(await alpha(card), "An existing aero layer needs a thin inner film").toBeLessThan(.35);
           const style = await paintStyle(card);
           expect(style.filter, "Do not sample the already blurred parent again").toBe("none");
           expect(style.edge).toBe('""');
         }
-        await expect(layer.locator('[data-texture-option="glass"]')).toBeChecked();
-        await expect(layer.locator('label:has([data-texture-option="glass"])')).toHaveClass(/\bborder-foreground\b/);
-        await testInfo.attach(`${kind}-glass-option-cards`, {
+        await expect(layer.locator('[data-texture-option="aero"]')).toBeChecked();
+        await expect(layer.locator('label:has([data-texture-option="aero"])')).toHaveClass(/\bborder-foreground\b/);
+        await testInfo.attach(`${kind}-aero-option-cards`, {
           body: await layer.screenshot({ animations: "disabled", caret: "hide", scale: "css" }),
           contentType: "image/png",
         });
@@ -689,7 +702,7 @@ for (const theme of ["light", "dark"] as const) {
     });
   }
 
-  test(`Global Glass switches keep blur static while preserving authored transitions: ${theme}`, async ({ page }, testInfo) => {
+  test(`Global Aero switches keep blur static while preserving authored transitions: ${theme}`, async ({ page }, testInfo) => {
     await open(page, theme);
     await page.emulateMedia({ reducedMotion: "no-preference" });
     const fixture = await mountButtons(page);
@@ -698,9 +711,9 @@ for (const theme of ["light", "dark"] as const) {
     }
     const observed = await fixture.evaluate(async el => {
       const nodes = ["button", "link"].map(name =>
-        el.querySelector<HTMLElement>(`[data-glass-control="${name}"]`)!);
+        el.querySelector<HTMLElement>(`[data-aero-control="${name}"]`)!);
       const results: Array<{ mode: Texture; values: string[][] }> = [];
-      for (const mode of ["glass", "solid"] as const) {
+      for (const mode of ["aero", "solid"] as const) {
         document.documentElement.dataset.texture = mode;
         const start = performance.now(), values: string[][] = [];
         while (performance.now() - start < 300) {
@@ -718,14 +731,14 @@ for (const theme of ["light", "dark"] as const) {
       expect(entry.values.length).toBeGreaterThan(1);
       expect(entry.values.flat().every(value => value === "none" || value === "blur(6px)"),
         `${entry.mode}: do not interpolate the blur kernel during a global switch`).toBe(true);
-      expect(entry.values.at(-1)).toEqual(Array(2).fill(entry.mode === "glass" ? "blur(6px)" : "none"));
+      expect(entry.values.at(-1)).toEqual(Array(2).fill(entry.mode === "aero" ? "blur(6px)" : "none"));
     }
     for (const name of ["author-transition", "author-transition-link"]) {
       await expect(control(fixture, name)).toHaveCSS("transition-property", "all");
     }
   });
 
-  test(`Glass rims respect authored positioning and earlier pseudo-element utilities: ${theme}`, async ({ page }, testInfo) => {
+  test(`Aero rims respect authored positioning and earlier pseudo-element utilities: ${theme}`, async ({ page }, testInfo) => {
     await open(page, theme);
     await page.setViewportSize({ width: 1280, height: 1400 });
     const fixture = await mountButtons(page);
@@ -733,7 +746,7 @@ for (const theme of ["light", "dark"] as const) {
     await control(fixture, "raw-static").evaluate(el =>
       el.setAttribute("style", "width:160px;position:static"));
     await installAuthorPseudoUtility(page);
-    await texture(page, "glass");
+    await texture(page, "aero");
     for (const name of ["static", "static-link", "inline-static", "inline-static-link", "raw-static"]) {
       const button = control(fixture, name);
       await expect(button).toHaveCSS("position", "static");
@@ -741,7 +754,7 @@ for (const theme of ["light", "dark"] as const) {
       expect((await paintStyle(button)).edge,
         `${name}: do not draw an ancestor-sized absolute rim`).toBe("none");
     }
-    const owner = fixture.locator('[data-glass-control-owner="author-position"]');
+    const owner = fixture.locator('[data-aero-control-owner="author-position"]');
     // Isolate rim positioning from the owner's translucent fill, gradients and
     // backdrop sampling: their rerasterization can quantize unchanged pixels.
     await owner.evaluate(el => {
@@ -756,7 +769,7 @@ for (const theme of ["light", "dark"] as const) {
       await fixture.evaluate(el => getComputedStyle(el).backgroundColor));
     const ownerBounds = await owner.boundingBox();
     const original = await owner.screenshot({ animations: "disabled", caret: "hide", scale: "css" });
-    await page.addStyleTag({ content: `[data-glass-control-owner="author-position"] [data-uni-button]::before {
+    await page.addStyleTag({ content: `[data-aero-control-owner="author-position"] [data-uni-button]::before {
       content: none !important;
     }` });
     const suppressed = await owner.screenshot({ animations: "disabled", caret: "hide", scale: "css" });
@@ -774,12 +787,12 @@ for (const theme of ["light", "dark"] as const) {
 }
 
 for (const preference of ["forced colors", "reduced transparency"] as const) {
-  test(`CSS alone restores solid controls for ${preference}, even with a Glass declaration`, async ({ page, context }) => {
+  test(`CSS alone restores solid controls for ${preference}, even with a Aero declaration`, async ({ page, context }) => {
     const materials = await open(page, "light");
     const picker = materials.locator('[data-slot="texture-controls"]').first();
     await picker.evaluate(el => { (el as HTMLElement).style.forcedColorAdjust = "none"; });
     const cards = picker.locator('[data-slot="radio-item-wrapper"]');
-    await cards.nth(1).evaluate(el => el.classList.add("glass-control-author-before"));
+    await cards.nth(1).evaluate(el => el.classList.add("aero-control-author-before"));
     const fixture = await mountButtons(page);
     await fixture.evaluate(el => { (el as HTMLElement).style.forcedColorAdjust = "none"; });
     await installAuthorPseudoUtility(page);
@@ -790,7 +803,7 @@ for (const preference of ["forced colors", "reduced transparency"] as const) {
     const originalCards = await Promise.all((await cards.all()).map(paintStyle));
     expect(originalCards[1].edge).toBe('"AUTHORED"');
     expect(originalAuthor.edge).toBe('"AUTHORED"');
-    await texture(page, "glass");
+    await texture(page, "aero");
     expect((await paintStyle(button)).filter).toBe("blur(6px)");
     const cdp = await context.newCDPSession(page);
     try {
@@ -801,7 +814,7 @@ for (const preference of ["forced colors", "reduced transparency"] as const) {
       ] });
       expect(await page.evaluate(preference => matchMedia(preference === "forced colors"
         ? "(forced-colors: active)" : "(prefers-reduced-transparency: reduce)").matches, preference)).toBe(true);
-      for (const mode of ["solid", "hybrid", "glass"] as const) {
+      for (const mode of ["solid", "acrylic", "aero", "glass"] as const) {
         await texture(page, mode);
         expect(await Promise.all([button, link].map(paintStyle)),
           `${mode}: static declarations must retain the CSS accessibility fallback`).toEqual(original);
@@ -813,3 +826,105 @@ for (const preference of ["forced colors", "reduced transparency"] as const) {
     } finally { await cdp.detach(); }
   });
 }
+
+for (const theme of ["light", "dark"] as const) {
+  for (const width of [390, 1280]) {
+    test(`Aero optical equations and painted environment respond to local inputs: ${theme}, ${width}`, async ({ page }, testInfo) => {
+      const materials = await open(page, theme, width);
+      await texture(page, "aero");
+      const surface = materials.locator('[data-slot="texture-interaction-demo"] [data-material="floating"]').first();
+      await surface.scrollIntoViewIfNeeded();
+      const originalFill = await surface.evaluate(el => getComputedStyle(el).backgroundColor);
+      const originalBounds = await surface.boundingBox();
+      expect(await opticalValue(surface, "f0")).toBeCloseTo(.04, 4);
+      expect(await opticalValue(surface, "fresnel")).toBeCloseTo(.158395, 4);
+      expect(await opticalValue(surface, "transmission")).toBeCloseTo(.923116, 4);
+      const defaults = await surface.evaluate(el => getComputedStyle(el).backgroundImage);
+      expect(defaults).not.toBe("none");
+      const first = await surface.screenshot({ animations: "disabled", scale: "css" });
+
+      await surface.evaluate(el => (el as HTMLElement).style.setProperty("--material-texture-aero-ior", "2"));
+      expect(await opticalValue(surface, "f0")).toBeCloseTo(1 / 9, 4);
+      // A sibling must retain its own model, rather than inheriting resolved scalars.
+      const sibling = materials.locator('[data-material-group="floating"] .material-menu').first();
+      expect(await opticalValue(sibling, "f0")).toBeCloseTo(.04, 4);
+      await surface.evaluate(el => {
+        const style = (el as HTMLElement).style;
+        style.removeProperty("--material-texture-aero-ior");
+        style.setProperty("--material-texture-aero-thickness", "2");
+      });
+      expect(await opticalValue(surface, "transmission")).toBeCloseTo(.852144, 4);
+      await surface.evaluate(el => (el as HTMLElement).style.setProperty("--material-texture-aero-thickness", "0"));
+      expect(await opticalValue(surface, "transmission")).toBe(1);
+      expect(await opticalValue(surface, "wash")).toBe(0);
+      const peak = await opticalValue(surface, "peak");
+      const sigma = await opticalValue(surface, "sigma");
+      await surface.evaluate(el => (el as HTMLElement).style.setProperty("--material-texture-aero-roughness", ".8"));
+      expect(await opticalValue(surface, "peak")).toBeLessThan(peak);
+      expect(await opticalValue(surface, "sigma")).toBeGreaterThan(sigma);
+      await surface.evaluate(el => {
+        const style = (el as HTMLElement).style;
+        style.removeProperty("--material-texture-aero-thickness");
+        style.removeProperty("--material-texture-aero-roughness");
+        style.setProperty("--material-texture-aero-light-azimuth", "135deg");
+        style.setProperty("--material-texture-aero-ambient-color", "#568ed0");
+      });
+      const second = await surface.screenshot({ animations: "disabled", scale: "css" });
+      expect(Buffer.compare(first, second), "Changed lighting must reach painted pixels").not.toBe(0);
+      expect(await surface.boundingBox()).toEqual(originalBounds);
+      expect(await surface.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(originalFill);
+      expect(await surface.evaluate(el => getComputedStyle(el).backdropFilter)).toBe("blur(20px)");
+      await testInfo.attach(`aero-environment-${theme}-${width}`, { body: second, contentType: "image/png" });
+      await surface.screenshot({ path: `.scratch/aero-optics/material-${theme}-${width}.png`, animations: "disabled" });
+      await surface.evaluate(el => (el as HTMLElement).removeAttribute("style"));
+      expect(await surface.evaluate(el => getComputedStyle(el).backgroundImage)).toBe(defaults);
+    });
+  }
+
+  test(`Aero interaction lighting respects reduced motion and existing control films: ${theme}`, async ({ page }) => {
+    await open(page, theme);
+    const fixture = await mountButtons(page);
+    await texture(page, "aero");
+    const button = control(fixture, "button");
+    const original = await paintStyle(button);
+    expect(await opticalValue(button, "interaction")).toBe(1);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await button.hover();
+    expect(await opticalValue(button, "interaction")).toBeCloseTo(1.08, 3);
+    await page.mouse.down();
+    expect(await opticalValue(button, "interaction")).toBeCloseTo(.92, 3);
+    await page.mouse.up();
+    await page.mouse.move(0, 0);
+    await expect.poll(async () => (await paintStyle(button)).fill).toBe(original.fill);
+    expect((await paintStyle(button)).filter).toBe(original.filter);
+    expect((await paintStyle(button)).shadow).toBe(original.shadow);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await button.hover();
+    expect(await opticalValue(button, "interaction")).toBe(1);
+    await page.mouse.down();
+    expect(await opticalValue(button, "interaction")).toBe(1);
+    await page.mouse.up();
+  });
+}
+
+test("Aero without CSS optical math retains its basic appearance and author overrides", async ({ page }) => {
+  const materials = await open(page, "dark");
+  await texture(page, "aero");
+  const surface = materials.locator('[data-slot="texture-interaction-demo"] [data-material="floating"]').first();
+  await page.evaluate(() => {
+    function removeMath(owner: CSSStyleSheet | CSSGroupingRule) {
+      for (let i = owner.cssRules.length - 1; i >= 0; i--) {
+        const rule = owner.cssRules[i];
+        if (rule instanceof CSSSupportsRule && rule.conditionText.includes("exp(")) owner.deleteRule(i);
+        else if (rule instanceof CSSGroupingRule) removeMath(rule);
+      }
+    }
+    for (const sheet of document.styleSheets) removeMath(sheet);
+  });
+  const fallback = await surface.evaluate(el => getComputedStyle(el).backgroundImage);
+  expect(fallback).not.toBe("none");
+  await surface.evaluate(el => (el as HTMLElement).style.setProperty("--material-texture-aero-light-azimuth", "135deg"));
+  expect(await surface.evaluate(el => getComputedStyle(el).backgroundImage)).toBe(fallback);
+  await surface.evaluate(el => { (el as HTMLElement).style.backgroundImage = "linear-gradient(red, blue)"; });
+  await expect(surface).toHaveCSS("background-image", "linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255))");
+});

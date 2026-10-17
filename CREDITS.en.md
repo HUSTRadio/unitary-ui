@@ -93,3 +93,7 @@ This repository's implementation references and benefits from the following proj
 - Source and license record: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg).
 - License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), separate from the repository's MIT license.
 - Scope: materials documentation backgrounds, original 4288×2704 image bundled only with the docs site; file details and checksum are retained in the [asset notice](docs/site/src/assets/materials-alpsee.LICENSE.md).
+
+## Glass optical design references
+
+The Glass screen-space lens and interaction code is independently implemented. Mathematical and visual references: [shuding/liquid-glass](https://github.com/shuding/liquid-glass) (JavaScript, MIT), [rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react) (TypeScript, MIT), [Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass) (Kotlin/AGSL, Apache-2.0), and [heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass) (Flutter/GLSL, MIT). No source snippets, runtime packages or demonstration assets from these projects are bundled. References inform contour normals, edge displacement, separate foregrounds and bounded contact feedback.

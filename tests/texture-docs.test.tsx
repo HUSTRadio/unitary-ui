@@ -53,13 +53,43 @@ function textureOption(scope: ParentNode, value: string) {
 }
 
 describe("global texture documentation", () => {
+  test.each(["en-US", "zh-CN"] as const)("documents optical inputs and their approximation limits in %s", async (language) => {
+    await renderPage(language);
+    const contract = container.querySelector('[data-glass-lighting-contract]')!;
+    expect(contract.textContent).toContain("315°");
+    expect(contract.textContent).toContain("Snell");
+    expect(contract.textContent).toContain("GGX / Smith");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "默认模糊 1px" : "Blur defaults to 1px");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "材质本体没有位置渐变" : "The material has no positional gradient");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "不附加边缘权重" : "without an edge weight");
+    expect(container.textContent).toContain(language === "zh-CN" ? "新 Glass 默认 1px" : "New Glass defaults to 1px");
+    expect(container.textContent).toContain(language === "zh-CN" ? "新 Glass 为 1px" : "New Glass uses 1px");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "向内采样" : "samples inward");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "线性光空间" : "linear light");
+    expect(contract.textContent).toContain("0.24");
+    const variants=container.querySelector('[data-glass-variants-contract]')!;
+    for(const variant of ['clear','regular','dense'])expect(variants.textContent).toContain('material-glass-'+variant);
+    expect(container.querySelectorAll('[data-glass-variant-example]')).toHaveLength(3);
+    expect(container.textContent).toContain('prefers-contrast: more');
+    expect(contract.textContent).toContain(language === "zh-CN" ? "不自动读取场景环境贴图" : "without automatic environment-map capture");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "屏幕空间近似" : "screen-space approximation");
+    const summary = [...container.querySelectorAll('[data-texture-summary] li')];
+    expect(summary).toHaveLength(4);
+    expect(summary.map(item => item.textContent?.split(" ")[0])).toEqual(["Solid", "Acrylic", "Aero", "Glass"]);
+    expect(summary[3].textContent).toContain(language === "zh-CN" ? "背景折射" : "backdrop refraction");
+    for (const suffix of ["ior", "roughness", "thickness", "absorption", "light-azimuth", "light-intensity", "ambient-color", "ambient-intensity"]) {
+      expect(container.textContent).toContain(`--material-texture-glass-${suffix}`);
+    }
+    expect(container.querySelector('a[href="https://developer.apple.com/videos/play/wwdc2025/219/"]')).not.toBeNull();
+  });
+
   test.each(["en-US", "zh-CN"] as const)("renders bilingual material groups and the actual menu radius in %s", async (language) => {
     await renderPage(language);
     expect(container.querySelector('[data-slot="materials-page"]')).not.toBeNull();
     expect(container.querySelectorAll('[data-material-group="surface"] > div')).toHaveLength(4);
     expect(container.querySelectorAll('[data-material-group="floating"] > div')).toHaveLength(4);
     expect(container.querySelectorAll('[data-material-group="mask"] > div')).toHaveLength(2);
-    expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(3);
+    expect(container.querySelectorAll('input[data-texture-option]')).toHaveLength(4);
     expect(textureOption(container, "solid").checked).toBe(true);
     const menuCard = [...container.querySelectorAll('[data-material-group="floating"] > div')]
       .find((card) => card.textContent?.includes("material-menu"))!;
@@ -70,7 +100,7 @@ describe("global texture documentation", () => {
     expect(tooltipCard.textContent).toContain(language === "zh-CN"
       ? "最轻的阴影。圆角 6px。用于简短的上下文提示。"
       : "Lightest shadow. Corner 6px. For short contextual hints.");
-    expect([...container.querySelectorAll('[data-slot="radio-item-wrapper"]')].map((item) => item.textContent)).toEqual(["Solid", "Hybrid", "Glass"]);
+    expect([...container.querySelectorAll('[data-slot="radio-item-wrapper"]')].map((item) => item.textContent)).toEqual(["Solid", "Acrylic", "Aero", "Glass"]);
     expect(textureOption(container, "glass").closest('[data-slot="radio-item-wrapper"]')?.textContent).toBe("Glass");
     expect(container.textContent).not.toContain(language === "zh-CN" ? "克制玻璃" : "Restrained glass");
     expect(container.textContent).toContain(language === "zh-CN" ? "背景弱化" : "Background emphasis");
@@ -95,7 +125,7 @@ describe("global texture documentation", () => {
     expect(fieldset.parentElement?.getAttribute("data-slot")).toBe("docs-prose-block");
     const group = fieldset.querySelector('[role="radiogroup"]')!;
     expect(group.getAttribute("aria-label")).toBe(language === "zh-CN" ? "全局材质外观" : "Global texture");
-    expect(group.querySelectorAll('[data-slot="radio-control"]')).toHaveLength(3);
+    expect(group.querySelectorAll('[data-slot="radio-control"]')).toHaveLength(4);
     expect(new Set([...group.querySelectorAll("input")].map((input) => input.name)).size).toBe(1);
   });
 
@@ -105,7 +135,7 @@ describe("global texture documentation", () => {
     expect(document.documentElement.dataset.texture).toBe("glass");
     expect(document.documentElement.dataset.texturePreference).toBe("glass");
     expect(container.querySelector('[data-slot="texture-status"]')?.textContent).toBe("Selected: Glass · Applied: Glass");
-    expect(localStorage.getItem("unitary-texture-preference")).toBe("glass");
+    expect(localStorage.getItem("unitary-texture-preference-v2")).toBe("glass");
   });
 
   test("a control inside the live modal updates both portal and page controls", async () => {
@@ -116,11 +146,11 @@ describe("global texture documentation", () => {
     expect(modal.getAttribute("aria-modal")).toBe("true");
     expect(modal.querySelector('[data-slot="texture-controls"]')).not.toBeNull();
     expect(modal.querySelector('[data-slot="texture-controls"]')?.parentElement?.getAttribute("data-slot")).not.toBe("docs-prose-block");
-    await act(async () => textureOption(modal, "hybrid").click());
-    expect(document.documentElement.dataset.texture).toBe("hybrid");
-    expect(textureOption(container, "hybrid").checked).toBe(true);
-    expect(textureOption(modal, "hybrid").checked).toBe(true);
-    expect(textureOption(container, "hybrid").name).not.toBe(textureOption(modal, "hybrid").name);
+    await act(async () => textureOption(modal, "acrylic").click());
+    expect(document.documentElement.dataset.texture).toBe("acrylic");
+    expect(textureOption(container, "acrylic").checked).toBe(true);
+    expect(textureOption(modal, "acrylic").checked).toBe(true);
+    expect(textureOption(container, "acrylic").name).not.toBe(textureOption(modal, "acrylic").name);
   });
 
   test("fallback guidance distinguishes the retained selection from the effective Solid appearance", async () => {
@@ -157,11 +187,11 @@ describe("global texture documentation", () => {
       root.render(<MemoryRouter><ApiOverviewPage language={language} /></MemoryRouter>);
     });
     const providers = container.querySelector("#providers")!;
-    expect(providers.textContent).toContain('TexturePreference = "solid" | "hybrid" | "glass"');
+    expect(providers.textContent).toContain('TexturePreference = "solid" | "acrylic" | "aero" | "glass"');
     expect(providers.textContent).toContain('defaultTexture="solid"');
     expect(providers.textContent).not.toMatch(/"flat"|"blur"|flat, blur|flat、blur/);
     expect(container.querySelector('[data-api-directory="Theme & localization"]')?.textContent).toContain("Solid");
-    expect(container.querySelector('[data-api-directory="Theme & localization"]')?.textContent).toContain("Hybrid");
+    expect(container.querySelector('[data-api-directory="Theme & localization"]')?.textContent).toContain("Acrylic");
     expect(container.querySelector('[data-api-directory="Theme & localization"]')?.textContent).toContain("Glass");
   });
 });

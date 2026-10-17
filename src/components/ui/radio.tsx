@@ -194,13 +194,13 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
   const handlePointerDown: React.PointerEventHandler<HTMLLabelElement> = (event) => {
     if (event.defaultPrevented || !event.isPrimary || event.button !== 0) return;
     const input = event.currentTarget.control;
-    if (!(input instanceof HTMLInputElement) || input.matches(":disabled") || event.target === input) return;
+    if (!(input instanceof HTMLInputElement) || input.matches(":disabled")) return;
+    if (event.target === input) return;
     if (!(event.target instanceof Element)) return;
     const interactive = event.target.closest(
       "a[href], button, input, select, textarea, summary, [role='button'], [role='link'], [tabindex], [contenteditable]:not([contenteditable='false'])",
     );
     if (interactive && event.currentTarget.contains(interactive)) return;
-
     // Prevent native focus scrolling without cancelling label click/change.
     // Browsers mark this programmatic focus as :focus-visible, so retain its
     // pointer origin until a keyboard event or blur clears it.

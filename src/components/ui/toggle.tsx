@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { getTokens } from "@/lib/tokens";
+import { useMotionReduced } from "@/lib/motion-policy";
 import { parseEasing } from "@/lib/motion-easing";
 
 /** Animate the visual thumb without taking ownership of the native checkbox state. */
@@ -11,6 +12,7 @@ function useToggleThumbMotion(
   checked: boolean | undefined,
   geometry: readonly [ToggleProps["size"], boolean | undefined, string | undefined, string | undefined],
 ) {
+  const reduced = useMotionReduced();
   const previous = React.useRef<{ checked: boolean; x: number } | null>(null);
   const animation = React.useRef<Animation | null>(null);
   const previousGeometry = React.useRef(geometry);
@@ -46,7 +48,7 @@ function useToggleThumbMotion(
     const translation = style.translate.match(/^(-?\d*\.?\d+)px(?:\s+(.+))?$/);
     previous.current = translation ? { checked: input.checked, x: Number(translation[1]) } : null;
     if (!old || !translation || input.disabled || thumb.closest("[inert]")
-      || view.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      || reduced
       || typeof thumb.animate !== "function") return;
 
     const width = Number.parseFloat(style.width);
@@ -86,7 +88,12 @@ function useToggleThumbMotion(
     } catch {
       // Invalid custom motion values must not interrupt native state changes.
     }
-  }, [inputRef, thumbRef, stop]);
+  }, [inputRef, thumbRef, stop, reduced]);
+
+  const latestUpdate = React.useRef(update);
+  latestUpdate.current = update;
+
+  React.useLayoutEffect(() => { if (reduced) stop(); }, [reduced, stop]);
 
   React.useLayoutEffect(() => {
     const input = inputRef.current;
@@ -101,7 +108,7 @@ function useToggleThumbMotion(
       const preferenceChanged = () => { if (reducedMotion?.matches) stop(); };
       // Controlled updates animate only after React commits the accepted state.
       // Native change events also cover defaultChecked without introducing state.
-      const changed = () => { if (!controlled.current) update(); };
+      const changed = () => { if (!controlled.current) latestUpdate.current(); };
       const align = () => { stop(); previous.current = null; update(); };
       // Reset's default action can run after the listener's microtasks. Read the
       // baseline in the next task so the next click starts at defaultChecked.
@@ -223,7 +230,7 @@ function Toggle({
         data-slot="toggle-track"
         aria-hidden
         className={cn(
-          "block cursor-pointer rounded-[14px] transition-[background,border-color] duration-(--uni-duration-base) ease-in-out",
+          "relative block cursor-pointer rounded-[14px] transition-[background,border-color] duration-(--uni-duration-base) ease-in-out",
           "bg-gray-400 peer-focus-visible:focus-ring peer-disabled:cursor-not-allowed",
           color === "blue" && "peer-checked:bg-[var(--toggle-checked)]",
           color === "amber" && "peer-checked:bg-warning",

@@ -2,7 +2,7 @@ import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { PNG } from "pngjs";
 
-type Texture = "solid" | "hybrid" | "glass";
+type Texture = "solid" | "acrylic" | "aero" | "glass";
 const SECONDARY_TEXT_CLASSES = [
   "text-muted-foreground", "text-gray-900", "text-gray-800",
   "text-[var(--material-texture-muted,var(--gray-700))]",
@@ -37,7 +37,7 @@ const textColor = (text: Locator, pseudo?: string) => text.evaluate((el, pseudo)
 async function open(page: Page, theme = "light", language = "en-US", width = 1280) {
   await page.addInitScript(({ theme }) => {
     localStorage.setItem("unitary-theme-preference", theme);
-    localStorage.removeItem("unitary-texture-preference");
+    localStorage.removeItem("unitary-texture-preference-v2");
   }, { theme });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width, height: 1000 });
@@ -114,11 +114,11 @@ for (const theme of ["light", "dark"] as const) {
  * for a visible material change. Derive the region from actual layout rather
  * than keeping a second fixture geometry or matching a particular pattern.
  * The first four pixels are excluded so the one-pixel edge is not the signal. */
-async function materialPixels(page: Page, surface: Locator) {
+async function materialPixels(page: Page, surface: Locator, readingPlane = false) {
   await surface.scrollIntoViewIfNeeded();
   await page.evaluate(() => new Promise<void>(resolve =>
     requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
-  const clip = await surface.evaluate(el => {
+  const clip = await surface.evaluate((el, readingPlane) => {
     const bounds = el.getBoundingClientRect();
     const style = getComputedStyle(el);
     const left = Number.parseFloat(style.paddingLeft);
@@ -127,14 +127,19 @@ async function materialPixels(page: Page, surface: Locator) {
     const height = Math.floor(top / 2);
     return {
       x: Math.ceil(bounds.left + left),
-      y: Math.ceil(bounds.top + Math.max(4, (top - height) / 2)),
+      y: Math.ceil(bounds.top + (readingPlane ? top : Math.max(4, (top - height) / 2))),
       width: Math.floor(bounds.width - left - right),
       height,
     };
-  });
+  }, readingPlane);
   expect(clip.height, "The material sample needs an empty padding strip").toBeGreaterThanOrEqual(4);
   expect(clip.width).toBeGreaterThan(100);
+  // Glass has an intentionally transmissive rim: assess the plane beneath actual
+  // copy, hiding ink without changing layout rather than sampling the empty bevel.
+  const copy = surface.locator('[data-contrast-text]');
+  if (readingPlane) await copy.evaluateAll(nodes => nodes.forEach(node => (node as HTMLElement).style.visibility = "hidden"));
   const buffer = await page.screenshot({ clip, animations: "disabled", caret: "hide", scale: "css" });
+  if (readingPlane) await copy.evaluateAll(nodes => nodes.forEach(node => (node as HTMLElement).style.removeProperty("visibility")));
   return { buffer, pixels: PNG.sync.read(buffer) };
 }
 
@@ -227,7 +232,7 @@ for (const theme of ["light", "dark"] as const) {
         });
         expect(typography.font).toBe(typography.expectedFont);
         expect(typography.leading).toBe(typography.expectedLeading);
-        for (const mode of ["solid", "hybrid", "glass"]) {
+        for (const mode of ["solid", "acrylic", "aero", "glass"]) {
           await expect(controls.locator(`[data-texture-option="${mode}"]`)).toHaveAccessibleName(
             mode[0].toUpperCase() + mode.slice(1),
           );
@@ -238,7 +243,7 @@ for (const theme of ["light", "dark"] as const) {
 
   test(`mask scenes share a rounded clip without an opaque scene border in ${theme}`, async ({ page }, testInfo) => {
     const materials = await open(page, theme);
-    for (const texture of ["solid", "hybrid", "glass"] as const) {
+    for (const texture of ["solid", "acrylic", "aero", "glass"] as const) {
       await select(page, materials, texture);
       for (const name of ["mask-backdrop", "mask-scrim"]) {
         const mask = materials.locator(`[data-material-sample="${name}"]`);
@@ -287,7 +292,7 @@ for (const theme of ["light", "dark"] as const) {
     });
     const classic = await foreground.evaluate(el => getComputedStyle(el).boxShadow);
     expect(await alphas(), "Solid retains its measured opaque material edge").toContain(255);
-    for (const texture of ["hybrid", "glass"] as const) {
+    for (const texture of ["acrylic", "glass"] as const) {
       await select(page, materials, texture);
       const shadowAlphas = await alphas();
       expect(shadowAlphas.length).toBeGreaterThan(0);
@@ -311,7 +316,7 @@ for (const theme of ["light", "dark"] as const) {
     const materials = await open(page, theme);
     const results: Array<{ texture: Texture; material: string; textClass: string; foreground: number[]; minimumContrast: number }> = [];
     const classicColors = new Map<string, number[]>();
-    for (const texture of ["solid", "hybrid", "glass"] as const) {
+    for (const texture of ["solid", "acrylic", "aero", "glass"] as const) {
       await select(page, materials, texture);
       await page.evaluate(({ theme, textClasses }) => {
         const fixture = document.createElement("div");
@@ -342,7 +347,7 @@ for (const theme of ["light", "dark"] as const) {
       try {
         for (const material of ["menu", "modal"]) {
           const surface = fixture.locator(`[data-contrast-material="${material}"]`);
-          const sample = await materialPixels(page, surface);
+          const sample = await materialPixels(page, surface, texture === "glass");
           await testInfo.attach(`${theme}-${texture}-${material}-painted-padding`, {
             body: sample.buffer, contentType: "image/png",
           });
@@ -398,22 +403,22 @@ for (const theme of ["light", "dark"] as const) {
     const materials = await open(page, theme);
     const surface = materials.locator('[data-material-sample="floating"]');
     const solid = await materialPixels(page, surface);
-    await select(page, materials, "hybrid");
-    const hybrid = await materialPixels(page, surface);
+    await select(page, materials, "acrylic");
+    const acrylic = await materialPixels(page, surface);
     await select(page, materials, "glass");
     const glass = await materialPixels(page, surface);
     const changes = {
-      solidToHybrid: visiblePixelChange(solid.pixels, hybrid.pixels),
-      hybridToGlass: visiblePixelChange(hybrid.pixels, glass.pixels),
+      solidToAcrylic: visiblePixelChange(solid.pixels, acrylic.pixels),
+      acrylicToGlass: visiblePixelChange(acrylic.pixels, glass.pixels),
     };
     await testInfo.attach("material-pixel-changes", {
       body: JSON.stringify(changes, null, 2), contentType: "application/json",
     });
-    for (const [name, sample] of Object.entries({ solid, hybrid, glass })) {
+    for (const [name, sample] of Object.entries({ solid, acrylic, glass })) {
       await testInfo.attach(`material-padding-${name}`, { body: sample.buffer, contentType: "image/png" });
     }
-    expect(changes.solidToHybrid.visibleFraction, "Solid and Hybrid need a perceptible surface difference").toBeGreaterThanOrEqual(0.1);
-    expect(changes.hybridToGlass.visibleFraction, "Hybrid and Glass need a perceptible surface difference").toBeGreaterThanOrEqual(0.1);
+    expect(changes.solidToAcrylic.visibleFraction, "Solid and Acrylic need a perceptible surface difference").toBeGreaterThanOrEqual(0.1);
+    expect(changes.acrylicToGlass.visibleFraction, "Acrylic and Glass need a perceptible surface difference").toBeGreaterThanOrEqual(0.1);
 
     // A separately loaded page restores the selected global preference; a
     // portal control also changes the original sample and the other page.
@@ -423,11 +428,11 @@ for (const theme of ["light", "dark"] as const) {
       await independent.goto("/?lang=en-US#/materials");
       await expect(independent.locator("html")).toHaveAttribute("data-texture", "glass");
       await expect(independent.locator("html")).toHaveAttribute("data-texture-preference", "glass");
-      await expect.poll(() => filter(independent.locator('[data-material-sample="floating"]'))).toContain("blur(");
+      await expect.poll(() => filter(independent.locator('[data-material-sample="floating"]'))).toMatch(/blur\(|url\(/);
       await materials.locator('[data-slot="texture-demo-menu-trigger"]').click();
       const portal = page.locator('[data-slot="texture-demo-menu"]');
       await expect(portal).toBeVisible();
-      await expect.poll(() => filter(portal)).toContain("blur(");
+      await expect.poll(() => filter(portal)).toMatch(/blur\(|url\(/);
       await portal.locator('[data-texture-menu-option="solid"]').click();
       await expect(portal).toBeVisible();
       for (const current of [page, independent]) {
@@ -459,28 +464,28 @@ for (const theme of ["light", "dark"] as const) {
         const geometry = await surface.evaluate(el => [el.clientWidth, el.clientHeight]);
         const titleColor = await materials.locator("h1").evaluate(el => getComputedStyle(el).color);
         await expect.poll(() => filter(surface)).toBe("none");
-        for (const texture of ["hybrid", "glass"] as const) {
+        for (const texture of ["acrylic", "glass"] as const) {
           await select(page, materials, texture);
-          await expect.poll(() => filter(surface)).toContain("blur(");
+          await expect.poll(() => filter(surface)).toMatch(/blur\(|url\(/);
           expect(await surface.evaluate(el => [el.clientWidth, el.clientHeight])).toEqual(geometry);
           await expect(materials.locator("h1")).toHaveCSS("color", titleColor);
           await materials.locator('[data-slot="texture-demo-menu-trigger"]').click();
           const menu = page.locator('[data-slot="texture-demo-menu"]');
           await expect(menu).toBeVisible();
-          await expect.poll(() => filter(menu)).toContain("blur(");
+          await expect.poll(() => filter(menu)).toMatch(/blur\(|url\(/);
           await menu.locator('[data-texture-menu-option="solid"]').click();
           await expect(menu).toBeVisible();
           await expect(page.locator("html")).toHaveAttribute("data-texture", "solid");
           await expect.poll(() => filter(menu)).toBe("none");
           await menu.locator(`[data-texture-menu-option="${texture}"]`).click();
-          await expect.poll(() => filter(menu)).toContain("blur(");
+          await expect.poll(() => filter(menu)).toMatch(/blur\(|url\(/);
           await page.keyboard.press("Escape");
           const trigger = materials.locator('[data-slot="texture-demo-modal-trigger"]');
           await trigger.click();
           const modal = page.locator('[data-slot="texture-demo-modal"]');
           await expect(modal).toBeVisible();
           // The scrim is the filter owner: child content may deliberately avoid a second pass.
-          await expect.poll(() => filter(modal.locator('xpath=..'))).toContain("blur(");
+          await expect.poll(() => filter(modal.locator('xpath=..'))).toMatch(/blur\(|url\(/);
           await select(page, modal, "solid");
           await expect(modal).toBeVisible();
           await expect.poll(() => filter(modal.locator('xpath=..'))).toBe("none");
@@ -491,7 +496,7 @@ for (const theme of ["light", "dark"] as const) {
         await materials.locator('[data-slot="texture-demo-drawer-trigger"]').click();
         const drawer = page.locator('[data-slot="texture-demo-drawer"]');
         await expect(drawer).toBeVisible();
-        await select(page, drawer, "hybrid");
+        await select(page, drawer, "acrylic");
         await select(page, drawer, "solid");
         await expect(drawer).toBeVisible();
         await page.keyboard.press("Escape");
@@ -509,7 +514,7 @@ for (const theme of ["light", "dark"] as const) {
 test("stored choice restores; forced colors and reduced transparency restore it after fallback", async ({ page, context }) => {
   const materials = await open(page);
   await select(page, materials, "glass");
-  expect(await page.evaluate(() => localStorage.getItem("unitary-texture-preference"))).toBe("glass");
+  expect(await page.evaluate(() => localStorage.getItem("unitary-texture-preference-v2"))).toBe("glass");
   // Remove the helper boot script that deliberately resets storage before this reload.
   const another = await context.newPage();
   await another.goto("/?lang=en-US#/materials");
@@ -567,7 +572,7 @@ test("texture preserves scoped UI palettes, code themes, and SubFrame layers", a
     background: getComputedStyle(el).backgroundColor, primary: getComputedStyle(el).getPropertyValue("--primary") }));
   const code = lab.locator('[data-slot="code-block"]').first();
   const codeColor = await code.evaluate(el => getComputedStyle(el).backgroundColor);
-  for (const texture of ["solid", "hybrid", "glass"] as const) {
+  for (const texture of ["solid", "acrylic", "aero", "glass"] as const) {
     await page.evaluate(texture => document.documentElement.dataset.texture = texture, texture);
     expect(await ui.evaluate(el => ({ color: getComputedStyle(el).color,
       background: getComputedStyle(el).backgroundColor, primary: getComputedStyle(el).getPropertyValue("--primary") }))).toEqual(before);
@@ -658,7 +663,7 @@ test("authored fills, text colors and background images retain priority over mat
   await menu.locator('[data-texture-menu-option="solid"]').click();
   const authoredShadow = await menu.evaluate(el => getComputedStyle(el).boxShadow);
   expect(authoredShadow).toContain("rgb(80, 60, 120)");
-  for (const texture of ["hybrid", "glass"] as const) {
+  for (const texture of ["acrylic", "glass"] as const) {
     await menu.locator(`[data-texture-menu-option="${texture}"]`).click();
     await expect(menu).toHaveCSS("box-shadow", authoredShadow);
   }
@@ -679,7 +684,7 @@ test("command mask animation keeps enhanced alpha separate and accessible masks 
   await expect(mask).toBeVisible();
   await expect(mask).toHaveCSS("animation-name", "material-mask-in");
   await expect(mask).toHaveCSS("opacity", "1");
-  await expect.poll(() => filter(mask)).toContain("blur(");
+  await expect.poll(() => filter(mask)).toMatch(/blur\(|url\(/);
   const materialPlaceholder = await input.evaluate(el => {
     const probe = document.createElement("span");
     probe.style.color = "var(--material-texture-muted)";
@@ -736,7 +741,7 @@ for (const theme of ["light", "dark"]) {
     await page.locator('[data-demo-card="Other"]').getByText("No tip indicator", { exact: true }).hover();
     await expect(tooltip).toBeVisible();
     expect(await tooltip.getAttribute("data-material-stem")).toBeNull();
-    await expect.poll(() => filter(tooltip)).toContain("blur(");
+    await expect.poll(() => filter(tooltip)).toMatch(/blur\(|url\(/);
     await page.mouse.move(0, 0);
     await page.keyboard.press("Escape");
     await page.evaluate(() => { location.hash = "/components/context-card"; });
@@ -789,11 +794,14 @@ performanceTest("local material rendering records warmed scroll frame times", as
   test.setTimeout(120_000);
   const materials = await open(page);
   const samples: Record<string, { p95: number; max: number; longTasks: number[]; scrollDistance: number }> = {};
-  for (const texture of ["solid", "hybrid", "glass"] as const) {
+  for (const texture of ["solid", "acrylic", "aero", "glass"] as const) for (const variant of texture === "glass" ? ["clear", "regular", "dense"] : [""]) {
     await select(page, materials, texture);
+    if (variant) await materials.locator('[data-slot="texture-interaction-demo"] > [data-material="floating"]').evaluate((el,variant)=>{
+      el.classList.remove('material-glass-clear','material-glass-regular','material-glass-dense');el.classList.add('material-glass-'+variant);
+    },variant);
     await materials.locator('[data-slot="texture-interaction-demo"]').scrollIntoViewIfNeeded();
     await page.waitForTimeout(500);
-    samples[texture] = await page.evaluate(() => new Promise(resolve => {
+    samples[variant ? `${texture}-${variant}` : texture] = await page.evaluate(() => new Promise(resolve => {
       const gaps: number[] = [];
       const tasks: number[] = [];
       const observer = new PerformanceObserver(list => {
@@ -825,7 +833,7 @@ performanceTest("local material rendering records warmed scroll frame times", as
   await testInfo.attach("texture-frame-times", { body: JSON.stringify(samples, null, 2), contentType: "application/json" });
   await mkdir(".scratch/texture", { recursive: true });
   await writeFile(`.scratch/texture/frame-times-${testInfo.project.name}.json`, JSON.stringify(samples, null, 2));
-  for (const texture of ["hybrid", "glass"] as const) {
+  for (const texture of ["acrylic", "glass-clear", "glass-regular", "glass-dense"] as const) {
     expect(samples[texture].scrollDistance).toBeGreaterThan(120);
     expect(samples[texture].p95).toBeLessThanOrEqual(20);
     expect(samples[texture].longTasks.filter(duration => duration > 50)).toHaveLength(0);

@@ -6,7 +6,25 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Added
+
+- **Clear Glass**: adds screen-space refraction following rounded contours, Fresnel edge lighting, absorption and ambient color response, with a uniform body that keeps foreground text clear. Desktop Chromium 151+ enables SVG backdrop sampling after capability and image-decoding checks; other environments use CSS Glass. Functional controls retain clear pressed, selected and focus feedback, respecting reduced motion.
+
+### Changed
+
+- **Glass purpose presets**: adds Clear / Regular / Dense CSS classes, with Regular for navigation and standalone actions, Dense for text-rich floating surfaces, and explicit Clear with separate media backing. Unifies CSS/SVG inputs, preserves local token overrides, adds dynamic increased contrast at 92% / 96%, and removes pointer-tracking glare, artificial rims and gel compression. Regular uses 6px refraction, 10px bevel, roughness 0.24, key light 0.65 and ambient 0.25.
+
+- **Uniform Glass body**: removes center-to-edge fill transitions and keeps material parameters uniform. Bevel normals, Snell refraction, Fresnel / GGX reflection and Beer–Lambert optical-path absorption produce the variation. Dark base fill increases from 62% to 68% to preserve text contrast under reflection; light fill stays at 52%, with uniform 1px blur.
+
+- **Four materials and migration**: Solid remains the default. Former Hybrid becomes Acrylic and former Glass becomes Aero, preserving both appearances. `texture="glass"` now selects the new Glass; use `texture="aero"` to retain the previous Glass appearance. Preferences use `unitary-texture-preference-v2`, prioritizing valid new values and migrating legacy `hybrid` / `glass` to `acrylic` / `aero`. Tokens, bilingual docs, the website and templates are updated together.
+
 ### Fixed
+
+- **Glass runtime stability**: removing a material identity cancels pending publication and releases observers, paint and filter references. Equal geometry and optical inputs share in-flight map construction. Bitmap generation yields between slices and PNG encoding is asynchronous, retaining CSS fallback until ready. Invalidations share one scan per frame, ignoring internal SVG and private style updates while preserving author CSS relationships.
+
+- **Glass edge transitions**: lowers default blur from 4px to 1px, bounds the refraction region by the smallest actual corner, and integrates continuous bounded derivatives to prevent outer-rim texture folds and corner jumps. Makes base fill and blur uniform, removes the reading-film gradient and artificial rim-brightness weights, and derives variation from normals, light direction and optical path. Removes duplicate silhouette clipping from the paint texture, and fixes nested controls sampling the backdrop twice. Sharp or degenerate contours and invalid decoded maps retain CSS Glass.
+
+- **Glass edge optics**: corrects convex-lens backdrop sampling so outer-rim displacement stays inside the sampling region; continuous bevel normals and soft limiting preserve grazing angles and refraction variation. Adds unpolarized Fresnel, GGX / Smith highlights, optical-path absorption and linear-light mixing, with a uniform body and a single blur/displacement pipeline. Center displacement, foreground text, layout and the other three materials retain their contracts.
 
 - **Published documentation artifact recovery**: exempts only the receipt- and integrity-verified exact library version from the registry consumer's release-age wait; external dependencies retain the existing policy. Adds `--release-root` so current clean tooling can recover docs from a clean checkout of the original release commit, retaining source, frozen-lock, complete browser and bilingual corpus checks. These post-publication tooling fixes are not included in the beta.1 tarball.
 

@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { acquireGlassRuntime } from "./glass-runtime";
 
 /**
  * OA Workspace — Theme preference system
@@ -23,7 +24,7 @@ import {
 export type ThemePreference = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
 /** Global material appearance, independent of the light/dark color preference. */
-export type TexturePreference = "solid" | "hybrid" | "glass";
+export type TexturePreference = "solid" | "acrylic" | "aero" | "glass";
 
 export interface ThemeProviderProps {
   children: ReactNode;
@@ -35,7 +36,7 @@ export interface ThemeProviderProps {
 }
 
 const STORAGE_KEY = "unitary-theme-preference";
-const TEXTURE_STORAGE_KEY = "unitary-texture-preference";
+const TEXTURE_STORAGE_KEY = "unitary-texture-preference-v2";
 /**
  * 迁移前沿用的键名（Geist 命名）。只用于回退读取：命中后写入新键并清理旧键，
  * 保证老用户已保存的偏好不丢失，也让 HTML 首帧脚本与运行时保持一致。
@@ -65,12 +66,12 @@ function isThemePreference(value: string | null): value is ThemePreference {
 }
 
 function isTexturePreference(value: unknown): value is TexturePreference {
-  return value === "solid" || value === "hybrid" || value === "glass";
+  return value === "solid" || value === "acrylic" || value === "aero" || value === "glass";
 }
 
 function validateTexture(value: unknown): asserts value is TexturePreference {
   if (!isTexturePreference(value)) {
-    throw new TypeError('Texture must be "solid", "hybrid", or "glass".');
+    throw new TypeError('Texture must be "solid", "acrylic", "aero", or "glass".');
   }
 }
 
@@ -78,7 +79,12 @@ function readStoredTexture(fallback: TexturePreference): TexturePreference {
   if (typeof window === "undefined") return fallback;
   try {
     const stored = window.localStorage.getItem(TEXTURE_STORAGE_KEY);
-    return isTexturePreference(stored) ? stored : fallback;
+    if (isTexturePreference(stored)) return stored;
+    const legacy = window.localStorage.getItem("unitary-texture-preference");
+    const migrated = legacy === "hybrid" ? "acrylic" : legacy === "glass" ? "aero" : legacy === "solid" ? "solid" : null;
+    if (!migrated) return fallback;
+    try { window.localStorage.setItem(TEXTURE_STORAGE_KEY, migrated); } catch { /* Session migration still applies. */ }
+    return migrated;
   } catch {
     return fallback;
   }
@@ -249,6 +255,10 @@ export function ThemeProvider({
   useEffect(() => {
     if (ownsTexture && textureReady) applyTexture(requestedTexture, resolvedTexture);
   }, [ownsTexture, textureReady, requestedTexture, resolvedTexture]);
+
+  useEffect(() => {
+    if (ownsTexture && textureReady && resolvedTexture === "glass") return acquireGlassRuntime(document);
+  }, [ownsTexture, textureReady, resolvedTexture]);
 
   useEffect(() => {
     if (!ownsTexture || controlledTexture !== undefined) return;

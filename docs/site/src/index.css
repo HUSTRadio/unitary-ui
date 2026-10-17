@@ -92,3 +92,6 @@
   .scheme-lab .workspace-topbar { padding: 0 16px; }
   .scheme-lab .workspace-health { display: none; }
 }
+
+/* Optical comparison fixture: fine lines expose edge bending over the same photo. */
+.materials-refraction-grid { position:absolute; inset:0; pointer-events:none; background-image: repeating-linear-gradient(90deg, transparent 0 39px, rgb(255 255 255 / 38%) 39px 40px), repeating-linear-gradient(0deg, transparent 0 39px, rgb(0 0 0 / 18%) 39px 40px); }

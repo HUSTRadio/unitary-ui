@@ -147,3 +147,40 @@ generation command, review its changes, and rerun its check. Existing full CI an
 只有持锁进程及已登记的子进程均结束后，才回收异常退出留下的锁。
 正常退出和失败都会释放锁。未知或损坏的元数据会使检查失败；
 清理前应检查报错中的锁目录，并停止相关进程。
+
+## Glass performance audit / Glass 性能定向测量
+
+Build an optional production fixture, then measure it without running a development server:
+
+```powershell
+$env:UNITARY_DOCS_TEST_FIXTURES = "1"
+pnpm run build:docs -- --outDir ../.scratch/glass-performance-artifact
+Remove-Item Env:UNITARY_DOCS_TEST_FIXTURES
+node scripts/audit-glass-performance.mjs --artifact .scratch/glass-performance-artifact --output .scratch/glass-performance
+```
+
+The default matrix runs Clear media controls, a Regular Toolbar and a Dense Select against Solid,
+Aero and Glass: four desktop theme/DPR profiles and two mobile CSS fallback profiles, with three
+independent browser runs per condition. Optional `--profiles`, `--usages` and `--textures` accept
+comma-separated subsets; `--repetitions` must be a positive integer. Mobile profiles emulate an
+Android touch browser and assert CSS rendering; they are not physical-device or mobile SVG evidence.
+
+Each unique run directory retains the artifact digest, browser configuration, raw RAF timestamps,
+trusted input events, React commits, canvas construction intervals, encodes and long tasks.
+Activation, first input and Portal reopening are separate from explicitly warmed interaction and
+scrolling windows of at least five seconds. Cold long tasks overlapping raster construction are
+flagged separately; all other cold long tasks remain in the raw evidence. Stable phases require
+P95 ≤20ms, no task >50ms and no map rebuilds; idle sampling requires no continuing application RAF.
+RAF spacing describes page scheduling, not GPU presentation or standard INP. A failed Solid control
+marks its measurement condition unstable. Failures remain saved and produce exit code 1.
+
+默认矩阵覆盖三档实际用途及 Solid／Aero 对照，四种桌面主题/DPR 条件与两种移动 CSS
+回退条件，每条件独立运行三次。移动条件使用 Android 触摸浏览器模拟并断言 CSS renderer，
+不能作为实体移动设备或移动 SVG 证据。可用上述参数缩小诊断范围，空条件、重复条件及无效
+次数会被拒绝，不能生成空跑通过结果。
+
+工具逐次保留产物摘要、浏览器配置、原始帧时间、真实输入、状态提交、画布构建区间、编码及
+长任务。材质启用、首次输入、Portal 重开分别计量；稳定交互和滚动明确预热后各采集至少
+五秒，要求 P95≤20ms、无超过 50ms 长任务、无贴图重建，空闲时无持续应用 RAF。
+冷阶段只将与构建区间重叠的长任务标记为构建异常，其余冷任务仍完整保留。RAF 间隔仅表示
+页面调度节奏；Solid 对照失败时标记测量条件不稳定。失败数据不会被后续成功覆盖。

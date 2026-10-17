@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
 
 type Theme = "light" | "dark";
-type Texture = "solid" | "hybrid" | "glass";
+type Texture = "solid" | "acrylic" | "glass";
 
 test.setTimeout(60_000);
 
@@ -15,7 +15,7 @@ async function frames(page: Page) {
 async function openDrawer(page: Page, theme: Theme, width = 1280) {
   await page.addInitScript(({ theme }) => {
     localStorage.setItem("unitary-theme-preference", theme);
-    localStorage.removeItem("unitary-texture-preference");
+    localStorage.removeItem("unitary-texture-preference-v2");
   }, { theme });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width, height: 900 });
@@ -98,7 +98,7 @@ async function paintedLine(png: PNG, line: ReturnType<typeof drawerLines>[number
 
 for (const theme of ["light", "dark"] as const) {
   for (const width of [390, 1280]) {
-    for (const texture of ["hybrid", "glass"] as const) {
+    for (const texture of ["acrylic", "glass"] as const) {
       test(`Material structural lines remain painted: ${theme}, ${width}, ${texture}`, async ({ page }, testInfo) => {
         const drawer = await openDrawer(page, theme, width);
         const solid = await computedLines(drawer);
@@ -182,7 +182,7 @@ for (const theme of ["light", "dark"] as const) {
     const drawer = await openDrawer(page, theme);
     const { inside, outside } = await installLineFixtures(page, drawer);
     const baselineInside = await fixtureColors(inside), baselineOutside = await fixtureColors(outside);
-    for (const texture of ["hybrid", "glass"] as const) {
+    for (const texture of ["acrylic", "glass"] as const) {
       await select(page, drawer, texture);
       const colors = await fixtureColors(inside);
       expect(colors["default-border"].border).not.toBe(baselineInside["default-border"].border);
@@ -215,7 +215,7 @@ for (const theme of ["light", "dark"] as const) {
   });
 }
 
-for (const texture of ["hybrid", "glass"] as const) {
+for (const texture of ["acrylic", "glass"] as const) {
   for (const fallback of ["forced colors", "reduced transparency"] as const) {
     test(`Material line CSS fallback clears the inherited opacity gate: ${texture}, ${fallback}`, async ({ page, context }) => {
       const drawer = await openDrawer(page, "light");

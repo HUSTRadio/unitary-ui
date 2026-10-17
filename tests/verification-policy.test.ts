@@ -18,6 +18,12 @@ import {
   browserFileFilters,
   INDIRECT_INPUT_GROUPS,
 } from "../scripts/lib/verification-policy.mjs";
+
+it("associates the optional Glass fixture with its browser contracts", () => {
+  const spec="tests/e2e/glass-stability.spec.ts";
+  expect(selectBrowserSpecs(["docs/site/build/glass-regression-fixture.tsx"],[spec],[])).toEqual({selected:[spec],missing:[]});
+  expect(selectBrowserSpecs(["src/lib/glass-runtime.ts"],[spec],[]).selected).toEqual([spec]);
+});
 import {
   createVerificationPlan,
   verificationOptions,

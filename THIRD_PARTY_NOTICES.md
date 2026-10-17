@@ -422,3 +422,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
+## Glass 光学设计参考
+
+Glass 的屏幕空间透镜与交互代码由本项目独立实现。数学及视觉参考：[shuding/liquid-glass](https://github.com/shuding/liquid-glass)（JavaScript，MIT）、[rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react)（TypeScript，MIT）、[Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass)（Kotlin/AGSL，Apache-2.0）、[heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass)（Flutter/GLSL，MIT）。参考内容包括轮廓法线、边缘位移、清晰前景分层与有界接触反馈；未打包上述项目的源码片段、运行时库或演示资产。

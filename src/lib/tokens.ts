@@ -132,7 +132,7 @@ export function subscribeTokens(listener: () => void, options: TokenOptions = {}
   });
   doc.addEventListener(changeEvent, onChange);
   view.addEventListener("resize", listener);
-  const media = ["(prefers-color-scheme: dark)", "(prefers-reduced-motion: reduce)"].map((query) =>
+  const media = ["(prefers-color-scheme: dark)", "(prefers-reduced-motion: reduce)", "(prefers-contrast: more)"].map((query) =>
     view.matchMedia?.(query),
   );
   media.forEach((query) => query?.addEventListener("change", listener));

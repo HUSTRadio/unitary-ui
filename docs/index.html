@@ -36,8 +36,16 @@
       (function () {
         var texture = "solid";
         try {
-          var stored = localStorage.getItem("unitary-texture-preference");
-          if (stored === "solid" || stored === "hybrid" || stored === "glass") texture = stored;
+          var stored = localStorage.getItem("unitary-texture-preference-v2");
+          if (stored === "solid" || stored === "acrylic" || stored === "aero" || stored === "glass") texture = stored;
+          else {
+            var legacy = localStorage.getItem("unitary-texture-preference");
+            var migrated = legacy === "hybrid" ? "acrylic" : legacy === "glass" ? "aero" : legacy === "solid" ? "solid" : null;
+            if (migrated) {
+              texture = migrated;
+              try { localStorage.setItem("unitary-texture-preference-v2", migrated); } catch (e) {}
+            }
+          }
         } catch (e) {}
         var supported = false;
         try {

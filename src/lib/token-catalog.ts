@@ -2526,6 +2526,118 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
+  "--material-texture-acrylic-blur": {
+    "value": "8px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-acrylic-opacity": {
+    "value": "80%",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-absorption": {
+    "value": "0.08",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-ambient-color": {
+    "value": "currentColor",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-ambient-intensity": {
+    "value": "0.28",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-blur": {
+    "value": "20px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-edge": {
+    "value": "rgb(255 255 255 / 18%)",
+    "darkValue": "rgb(255 255 255 / 16%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-highlight": {
+    "value": "rgb(255 255 255 / 6%)",
+    "darkValue": "rgb(255 255 255 / 4%)",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-ior": {
+    "value": "1.5",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-light-azimuth": {
+    "value": "315deg",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-light-intensity": {
+    "value": "0.55",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-opacity": {
+    "value": "60%",
+    "darkValue": "74%",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-roughness": {
+    "value": "0.35",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-aero-thickness": {
+    "value": "1",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
   "--material-texture-control-blur": {
     "value": "6px",
     "darkValue": "",
@@ -2550,48 +2662,96 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-blur": {
-    "value": "20px",
+  "--material-texture-glass-absorption": {
+    "value": "0.08",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-edge": {
-    "value": "rgb(255 255 255 / 18%)",
-    "darkValue": "rgb(255 255 255 / 16%)",
+  "--material-texture-glass-ambient-color": {
+    "value": "currentColor",
+    "darkValue": "",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-highlight": {
-    "value": "rgb(255 255 255 / 6%)",
-    "darkValue": "rgb(255 255 255 / 4%)",
+  "--material-texture-glass-ambient-intensity": {
+    "value": "0.25",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-blur": {
+    "value": "1px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-edge-width": {
+    "value": "10px",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-ior": {
+    "value": "1.5",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-light-azimuth": {
+    "value": "315deg",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-light-intensity": {
+    "value": "0.65",
+    "darkValue": "",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
   "--material-texture-glass-opacity": {
-    "value": "60%",
-    "darkValue": "74%",
+    "value": "52%",
+    "darkValue": "68%",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-hybrid-blur": {
-    "value": "8px",
+  "--material-texture-glass-refraction": {
+    "value": "6px",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-hybrid-opacity": {
-    "value": "80%",
+  "--material-texture-glass-roughness": {
+    "value": "0.24",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "materials"
+  },
+  "--material-texture-glass-thickness": {
+    "value": "1",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},

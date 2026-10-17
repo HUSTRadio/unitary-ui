@@ -87,7 +87,7 @@ const tabsTriggerClasses = (variant: TabsVariant, compact?: boolean) =>
   cn(
     "outline-none focus-ring",
     variant === "secondary"
-      ? "flex h-6 items-center justify-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
+      ? "relative flex h-6 items-center justify-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
       : "relative flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
     // compact 垂直高度收半档：primary 上下 pad 14→8（tab 高 50→38）、secondary
     // pill 高 24→20（twMerge 覆盖上方基准 py/h）

@@ -95,3 +95,7 @@
 - 来源与许可记录：[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg)。
 - 许可：[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)，独立于仓库的 MIT 许可。
 - 使用范围：材质文档的演示背景，原图 4288×2704，仅随文档站打包；文件与校验记录见 [素材声明](docs/site/src/assets/materials-alpsee.LICENSE.md)。
+
+## Glass 光学设计参考
+
+Glass 的屏幕空间透镜与交互代码由本项目独立实现。数学及视觉参考：[shuding/liquid-glass](https://github.com/shuding/liquid-glass)（JavaScript，MIT）、[rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react)（TypeScript，MIT）、[Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass)（Kotlin/AGSL，Apache-2.0）、[heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass)（Flutter/GLSL，MIT）。参考内容包括轮廓法线、边缘位移、清晰前景分层与有界接触反馈；未打包上述项目的源码片段、运行时库或演示资产。

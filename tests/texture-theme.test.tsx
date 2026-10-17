@@ -16,7 +16,7 @@ import {
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
-const STORAGE_KEY = "unitary-texture-preference";
+const STORAGE_KEY = "unitary-texture-preference-v2";
 const FORCED_QUERY = "(forced-colors: active)";
 const REDUCED_QUERY = "(prefers-reduced-transparency: reduce)";
 
@@ -74,6 +74,9 @@ function mount(props: Omit<ThemeProviderProps, "children"> = {}, children: React
 }
 
 beforeEach(() => {
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    const meta = document.createElement('meta'); meta.name = 'theme-color'; document.head.append(meta);
+  }
   window.localStorage.clear();
   document.documentElement.removeAttribute("data-texture");
   document.documentElement.removeAttribute("data-texture-preference");
@@ -118,47 +121,47 @@ describe("global texture preference", () => {
   test("stored valid uncontrolled preference wins over default without an implicit storage write", () => {
     window.localStorage.setItem(STORAGE_KEY, "glass");
     const write = vi.spyOn(Storage.prototype, "setItem");
-    mount({ defaultTexture: "hybrid" });
+    mount({ defaultTexture: "acrylic" });
     expect(container.textContent).toBe("glass|glass");
     expect(write).not.toHaveBeenCalled();
     const callback = vi.fn();
     act(() => root!.render(<ThemeProvider defaultTexture="solid" onTextureChange={callback}><Probe /></ThemeProvider>));
     expect(currentTheme.texture).toBe("glass");
-    act(() => currentTheme.setTexture("hybrid"));
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("hybrid");
-    expect(callback).toHaveBeenCalledWith("hybrid");
+    act(() => currentTheme.setTexture("acrylic"));
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("acrylic");
+    expect(callback).toHaveBeenCalledWith("acrylic");
   });
 
   test("invalid stored preference falls back to the supplied default", () => {
     window.localStorage.setItem(STORAGE_KEY, "iridescent");
-    mount({ defaultTexture: "hybrid" });
-    expect(container.textContent).toBe("hybrid|hybrid");
+    mount({ defaultTexture: "acrylic" });
+    expect(container.textContent).toBe("acrylic|acrylic");
   });
 
   test("controlled requests call the owner without persisting or applying until props change", () => {
-    window.localStorage.setItem(STORAGE_KEY, "hybrid");
+    window.localStorage.setItem(STORAGE_KEY, "acrylic");
     const callback = vi.fn();
     mount({ texture: "solid", onTextureChange: callback });
     act(() => currentTheme.setTexture("glass"));
     expect(callback).toHaveBeenCalledWith("glass");
     expect(currentTheme.texture).toBe("solid");
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("hybrid");
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("acrylic");
     act(() => root!.render(<ThemeProvider texture="glass" onTextureChange={callback}><Probe /></ThemeProvider>));
     expect(container.textContent).toBe("glass|glass");
-    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("hybrid");
+    expect(window.localStorage.getItem(STORAGE_KEY)).toBe("acrylic");
   });
 
   test("nested providers inherit the root texture and route changes to the root owner", () => {
     const owner = vi.fn();
     const nested = vi.fn();
     mount({ texture: "glass", onTextureChange: owner },
-      <ThemeProvider texture="solid" defaultTexture="hybrid" onTextureChange={nested}><Probe /></ThemeProvider>,
+      <ThemeProvider texture="solid" defaultTexture="acrylic" onTextureChange={nested}><Probe /></ThemeProvider>,
     );
     expect(container.textContent).toBe("glass|glass");
     expect(getMedia(FORCED_QUERY).listeners.size).toBe(1);
     expect(getMedia(REDUCED_QUERY).listeners.size).toBe(1);
-    act(() => currentTheme.setTexture("hybrid"));
-    expect(owner).toHaveBeenCalledWith("hybrid");
+    act(() => currentTheme.setTexture("acrylic"));
+    expect(owner).toHaveBeenCalledWith("acrylic");
     expect(nested).not.toHaveBeenCalled();
     expect(document.documentElement.dataset.texture).toBe("glass");
   });
@@ -174,20 +177,20 @@ describe("global texture preference", () => {
   test("storage failure is non-fatal and in-memory texture still changes", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => { throw new Error("blocked"); });
     vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("blocked"); });
-    mount({ defaultTexture: "hybrid" });
-    expect(currentTheme.texture).toBe("hybrid");
+    mount({ defaultTexture: "acrylic" });
+    expect(currentTheme.texture).toBe("acrylic");
     act(() => currentTheme.setTexture("glass"));
     expect(container.textContent).toBe("glass|glass");
   });
 
   test("uncontrolled preferences synchronize storage changes and clear", () => {
-    mount({ defaultTexture: "hybrid" });
+    mount({ defaultTexture: "acrylic" });
     window.localStorage.setItem(STORAGE_KEY, "glass");
     act(() => window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY, newValue: "glass" })));
     expect(currentTheme.texture).toBe("glass");
     window.localStorage.clear();
     act(() => window.dispatchEvent(new StorageEvent("storage", { key: null })));
-    expect(currentTheme.texture).toBe("hybrid");
+    expect(currentTheme.texture).toBe("acrylic");
   });
 });
 
@@ -212,8 +215,8 @@ describe("texture environment resolution", () => {
 
   test("prefixed backdrop filtering can satisfy the capability boundary", () => {
     support.backdrop = false;
-    mount({ texture: "hybrid" });
-    expect(container.textContent).toBe("hybrid|hybrid");
+    mount({ texture: "acrylic" });
+    expect(container.textContent).toBe("acrylic|acrylic");
   });
 
   test("unmount removes accessibility and storage listeners", () => {
@@ -228,7 +231,7 @@ describe("texture environment resolution", () => {
 });
 
 describe("texture first paint and SSR", () => {
-  test.each(["solid", "hybrid", "glass"] as const)("initTheme applies the canonical %s preference", (texture) => {
+  test.each(["solid", "acrylic", "aero", "glass"] as const)("initTheme applies the canonical %s preference", (texture) => {
     window.localStorage.setItem(STORAGE_KEY, texture);
     initTheme();
     expect(document.documentElement.dataset.texturePreference).toBe(texture);
@@ -263,7 +266,7 @@ describe("texture first paint and SSR", () => {
   });
 
   test.each(["index.html", "docs/index.html"].flatMap(file =>
-    ["solid", "hybrid", "glass"].map(texture => [file, texture]),
+    ["solid", "acrylic", "aero", "glass"].map(texture => [file, texture]),
   ))("%s boots %s even when color storage reads fail", (file, texture) => {
     const html = readFileSync(path.join(process.cwd(), file), "utf8");
     const scripts = Array.from(html.matchAll(/<script>([\s\S]*?)<\/script>/g), (match) => match[1]);
@@ -278,5 +281,25 @@ describe("texture first paint and SSR", () => {
     }
     expect(document.documentElement.dataset.texture).toBe(texture);
     expect(document.documentElement.dataset.texturePreference).toBe(texture);
+  });
+});
+
+
+describe("texture v2 migration", () => {
+  test.each([["hybrid", "acrylic"], ["glass", "aero"], ["solid", "solid"]])("migrates legacy %s to %s", (legacy, expected) => {
+    localStorage.setItem("unitary-texture-preference", legacy);
+    mount();
+    expect(currentTheme.texture).toBe(expected);
+    expect(localStorage.getItem(STORAGE_KEY)).toBe(expected);
+  });
+  test("valid v2 Glass takes precedence over legacy Glass", () => {
+    localStorage.setItem("unitary-texture-preference", "glass");
+    localStorage.setItem(STORAGE_KEY, "glass"); mount();
+    expect(currentTheme.texture).toBe("glass");
+  });
+  test("a failed migration write still preserves the migrated session preference", () => {
+    localStorage.setItem("unitary-texture-preference", "glass");
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => { throw new Error("read only"); });
+    mount(); expect(currentTheme.texture).toBe("aero");
   });
 });
