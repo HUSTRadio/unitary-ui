@@ -64,7 +64,7 @@ const ModalOverlay = React.forwardRef<
       // 用合成色而非元素 opacity-*：本 Overlay 带着 Content 子节点，元素透明度会把
       // 内容一起降透明（sheet/side-panel 的 Overlay 无子节点才可用 color + opacity 两值式）
       "fixed inset-0 z-[var(--uni-z-modal)] flex flex-col items-center justify-center overflow-auto bg-[var(--uni-overlay-backdrop)]",
-      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none!",
+      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:duration-(--uni-duration-base) data-[state=closed]:duration-(--uni-duration-fast) ease-pop motion-reduce:animate-none!",
       className,
     )}
     {...props}
@@ -99,11 +99,11 @@ export type ModalPlacement = "center" | "top";
 const PLACEMENT_CLASS: Record<ModalPlacement, string> = {
   center: cn(
     "top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl",
-    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:zoom-out-95",
   ),
   top: cn(
     "top-0 left-1/2 -translate-x-1/2 rounded-t-none rounded-b-xl",
-    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-8 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-8",
+    "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:slide-in-from-top-8 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:slide-out-to-top-8",
   ),
 };
 
@@ -161,7 +161,7 @@ const ModalContent = React.forwardRef<
               "max-modal:max-w-[calc(100vw-20px)]",
               "shadow-[var(--uni-shadow-modal-elevated)]",
               PLACEMENT_CLASS[placement],
-              "transition-[opacity,transform] duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none! motion-reduce:transition-none",
+              "data-[state=open]:duration-(--uni-duration-base) data-[state=closed]:duration-(--uni-duration-fast) ease-pop motion-reduce:animate-none! motion-reduce:transition-none",
               "sm:overflow-hidden overflow-y-auto",
               className,
             )}

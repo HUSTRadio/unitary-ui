@@ -312,6 +312,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "进入 250ms、退出 150ms；内置 store 等待所有已挂载视口的实际退场完成后移除记录，外部 store 仍管理自己的快照。",
         "Toast 通过 useToasts() hook 编程式触发：message / success / warning / error 各自对应一种消息类型，可在任何组件上下文中弹出一条消息。",
         "默认情况下 toast 会自动消失；传入 preserve={true} 时可防止自动关闭，要求用户先阅读或采取行动后再手动关闭。",
         "不同类型的 toast（.success(), .warning(), .error()）提供对应的语义化和色彩区分。",
@@ -663,6 +664,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "Entrances take 250ms and exits 150ms. Built-in stores remove a record after all mounted viewports finish exiting; external stores retain ownership of their snapshots.",
         "Trigger toasts programmatically via the useToasts() hook—message / success / warning / error each map to a toast kind—available in any component context.",
         "Toasts auto-dismiss by default; pass preserve={true} to prevent auto-close, requiring the user to dismiss manually.",
         "Different toast types (.success(), .warning(), .error()) provide corresponding semantic styling and color differentiation.",

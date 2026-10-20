@@ -258,6 +258,7 @@ export const BROWSER_INPUT_GROUPS = [
   { specs: names("website-shell"), owners: names("site-navigation navbar footer back-to-top scroll-reveal"), inputs: ["src/lib/use-page-scroll.ts", "src/lib/scroll-animation.ts", "docs/site/src/templates/**", "docs/site/src/components/patterns/site-shell-demo.tsx"] },
   { specs: names("toggle-motion"), owners: names("toggle"), inputs: ["tests/e2e/fixtures/toggle-motion.tsx", "src/lib/motion-easing.ts"] },
   { specs: names("carousel-variants"), owners: names("carousel") },
+  { specs: names("fade-motion"), owners: names("carousel modal drawer bottom-sheet responsive-drawer side-panel expand-panel toast"), inputs: ["src/lib/exit-motion.ts", "docs/site/build/motion-regression-fixture.tsx", "docs/site/build/browser-fixtures.ts"] },
   {
     specs: names("chart-motion"),
     owners: names("area-chart bar-chart line-chart combo-chart"),

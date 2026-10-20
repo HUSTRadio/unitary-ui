@@ -194,6 +194,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "面板保持不透明并从底部滑入，遮罩同步淡入淡出；进入 250ms、退出 150ms，拖拽关闭从释放位置继续。",
         "open 状态由父组件完全控制，内部不自行管理打开与关闭。",
         "关闭时通过回调通知父组件以同步外部状态。",
         "打开时禁止页面滚动，关闭后恢复。",
@@ -384,6 +385,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "退场驻留由实际动画完成决定，局部时长覆盖与动态减少动画偏好不会留下额外等待。",
         "组件自行监听选区，调用方只需提供各操作回调；未提供回调的标准操作不会渲染。",
         "Cut 由组件复制文本后交给 onCut，删除动作由调用方执行；回调同时给出已 trim 文本与选区原文，删除请用原文（否则首尾空白会残留）。",
         "剪贴板写入失败时不触发 onCut / onCopy，改为 onError：可见反馈由调用方渲染，避免未复制成功就删除内容。",
@@ -841,6 +843,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "The opaque panel slides from the bottom while its backdrop fades in sync: 250ms to enter and 150ms to exit. Swipe dismissal continues from the release position.",
         "The open state is fully controlled by the parent — internals do not manage open/close independently.",
         "Close callbacks notify the parent to synchronize external state.",
         "Lock page scrolling while open and restore it on close.",
@@ -1041,6 +1044,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "Exit residency follows actual animation completion, including local duration overrides and live reduced-motion changes.",
         "The component watches the selection itself; callers only supply handlers, and standard actions without a handler are not rendered.",
         "Cut copies the text for you and then hands it to onCut, which performs the deletion; handlers receive both the trimmed text and the raw selection, and deletion must use the raw text to avoid leftover whitespace.",
         "When the clipboard write fails, onCut and onCopy are not fired — the failure goes to onError so the caller can show visible feedback instead of deleting content that was never copied.",

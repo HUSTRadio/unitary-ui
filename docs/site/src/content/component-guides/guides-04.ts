@@ -47,6 +47,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "桌面和移动端的面板与遮罩统一为 250ms 入场、150ms 退场，保留现有缩放和减少动画策略。",
         "CommandMenu 要求父级传入 open 和 setOpen 控制可见性；全局 ⌘K / Ctrl+K 监听也由应用层按需实现。",
         "命令项激活后执行调用方提供的动作；组件不把当前命令作为受控 value 暴露。",
       ],
@@ -344,6 +345,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "Desktop and mobile panels and backdrops use synchronized 250ms entrances and 150ms exits, retaining their scale effects and reduced-motion policy.",
         "CommandMenu requires the parent to provide open and setOpen; any global ⌘K / Ctrl+K listener is also implemented at the application layer.",
         "Activating a command runs the caller-provided action; the component does not expose the current command as a controlled value.",
       ],

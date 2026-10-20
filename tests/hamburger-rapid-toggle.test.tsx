@@ -9,6 +9,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 let host: HTMLDivElement;
 let root: Root;
 beforeEach(() => {
+  document.documentElement.style.setProperty("--uni-duration-fast", "150ms");
   host = document.createElement("div");
   document.body.append(host);
   root = createRoot(host);
@@ -16,6 +17,7 @@ beforeEach(() => {
 afterEach(() => {
   act(() => root.unmount());
   host.remove();
+  document.documentElement.style.removeProperty("--uni-duration-fast");
   vi.useRealTimers();
 });
 function render(node: React.ReactNode) {

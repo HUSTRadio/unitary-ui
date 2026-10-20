@@ -100,14 +100,14 @@ describe("SidePanel API contract（DD-001b）", () => {
     expect(withOverlay + without).not.toContain("bg-[var(--uni-overlay-scrim-color)]");
   });
 
-  it("动画：slide-in-from-right-5 / left 镜像 + motion-reduce:animate-none!", () => {
+  it("动画：slide-in-from-right-[calc(100%+var(--spacing)*4)] / left 镜像 + motion-reduce:animate-none!", () => {
     renderPanel(
       <SidePanel show>
         <span>content</span>
       </SidePanel>,
     );
     const panel = lastSlot("side-panel-content");
-    expect(panel.className).toContain("slide-in-from-right-5");
+    expect(panel.className).toContain("slide-in-from-right-[calc(100%+var(--spacing)*4)]");
     expect(panel.className).toContain("motion-reduce:animate-none!");
 
     renderPanel(
@@ -116,8 +116,8 @@ describe("SidePanel API contract（DD-001b）", () => {
       </SidePanel>,
     );
     const mirrored = lastSlot("side-panel-content");
-    expect(mirrored.className).toContain("slide-in-from-left-5");
-    expect(mirrored.className).not.toContain("slide-in-from-right-5");
+    expect(mirrored.className).toContain("slide-in-from-left-[calc(100%+var(--spacing)*4)]");
+    expect(mirrored.className).not.toContain("slide-in-from-right-[calc(100%+var(--spacing)*4)]");
   });
 
   it("SidePanelClose 渲染为 DialogPrimitive.Close，点击触发 onDismiss", () => {

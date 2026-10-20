@@ -60,6 +60,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "遮罩只执行一次淡入淡出，内容仅做缩放或位移；进入 250ms、退出 150ms，减少动画时立即完成。",
         "父组件通过 open 属性完全控制 Modal 的显示与隐藏；关闭应在 API 响应后或在错误时保持打开以便重试。",
         "支持设置初始焦点目标（如 focus-input-on-open），可以将焦点直接定位到模态框内的某个输入控件上。",
       ],
@@ -407,6 +408,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "The backdrop supplies a single fade while content only scales or translates: 250ms to enter and 150ms to exit; reduced motion completes immediately.",
         "The parent controls the Modal's open/close state entirely through the open prop; close should happen after the API settles or stay open on error for retry.",
         "Supports setting an initial focus target (e.g., focus-input-on-open) to direct focus into a specific input control inside the modal on open.",
       ],

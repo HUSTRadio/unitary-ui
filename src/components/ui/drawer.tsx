@@ -24,7 +24,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   已登记为该 token；HIG-AUD-010 把逐组件字面量收敛为族 token），overlay 与 panel
  *   同在 fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
- * - 出入场：slide-in-from-bottom / slide-out-to-bottom，expansive 档时长，
+ * - 出入场：slide-in-from-bottom / slide-out-to-bottom，进入 base、退出 fast，
  *   进入快速收尾、退出加速离场，松手复位走 ease-snap。官方在 Base UI 上走 transition 机制；
  *   本项目基于 Radix，Presence 只监听 animationend（不等待 transition），transition
  *   方案退出会被瞬时卸载，故改用等价的 tw-animate-css keyframe（与 Sheet /
@@ -68,8 +68,15 @@ interface DrawerProps {
 type DrawerTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
 type DrawerDescriptionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>;
 
-function DrawerPanel({
+const DrawerPanel = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, {
+  onDismiss?: () => void; height?: number; verticalScroll?: boolean; className?: string;
+  children?: React.ReactNode; ariaLabel?: string; ariaLabelledBy?: string; ariaDescribedBy?: string;
+  onBeforeOpen: () => void;
+  isOpen?: boolean;
+}>(({
   onDismiss,
+  onBeforeOpen,
+  isOpen,
   height,
   verticalScroll,
   className,
@@ -77,17 +84,14 @@ function DrawerPanel({
   ariaLabel,
   ariaLabelledBy,
   ariaDescribedBy,
-}: {
-  onDismiss?: () => void;
-  height?: number;
-  verticalScroll?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-  ariaLabel?: string;
-  ariaLabelledBy?: string;
-  ariaDescribedBy?: string;
-}) {
+}, ref) => {
   const [dragY, setDragY] = React.useState(0);
+  const openRef = React.useRef(isOpen);
+  openRef.current = isOpen;
+  const snapBackFrame = React.useRef<number | null>(null);
+  React.useEffect(() => () => {
+    if (snapBackFrame.current !== null) cancelAnimationFrame(snapBackFrame.current);
+  }, []);
   // P1-5：prefers-reduced-motion 下过渡归零（WCAG 2.3.3 Animation from Interactions）
   const [reducedMotion, setReducedMotion] = React.useState(
     () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false,
@@ -98,6 +102,7 @@ function DrawerPanel({
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+  // Forward the DOM ref through the Portal child so both Presence layers await exit.
   // 出入场由 tw-animate-css keyframe（slide-in-from-bottom / slide-out-to-bottom）驱动：
   // Radix Presence 只监听 animationend，用 transition 做退出会被瞬时卸载，故对齐
   // Sheet / ResponsiveDrawer 的 keyframe 方案。内联 transform 仅承载拖拽位移——
@@ -128,12 +133,21 @@ function DrawerPanel({
   const endDrag = () => {
     if (startY.current === null) return;
     startY.current = null;
-    if (dragY > 100) onDismiss?.();
+    if (dragY > 100 && onDismiss) {
+      onDismiss();
+      // Keep the release position as the underlying exit keyframe start.
+      // A controlled consumer may decline dismissal; then snap back normally.
+      snapBackFrame.current = requestAnimationFrame(() => {
+        if (openRef.current) setDragY(0);
+      });
+      return;
+    }
     setDragY(0);
   };
 
   return (
     <LayerDialogPrimitiveContent
+      ref={ref}
       data-material="floating"
       tabIndex={-1}
       data-slot="drawer"
@@ -144,7 +158,7 @@ function DrawerPanel({
         "max-h-[80dvh] overscroll-none",
         "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-        "duration-(--uni-motion-expansive) ease-snap motion-reduce:animate-none!",
+        "data-[state=open]:duration-(--uni-duration-base) data-[state=closed]:duration-(--uni-duration-fast) ease-snap motion-reduce:animate-none!",
         verticalScroll && "overflow-y-auto",
         dragging && "select-none",
         className,
@@ -159,7 +173,7 @@ function DrawerPanel({
             ? "none"
             : reducedMotion
               ? "none"
-              : "transform var(--uni-motion-expansive) var(--ease-snap)",
+              : "transform var(--uni-duration-base) var(--ease-snap)",
         } as React.CSSProperties
       }
       onPointerDown={handlePointerDown}
@@ -167,6 +181,7 @@ function DrawerPanel({
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
       onOpenAutoFocus={(event) => {
+        onBeforeOpen();
         // P0-3：打开时焦点显式移入面板首个可聚焦元素（搜索行/首链接）。
         // 走 Radix 同步 onOpenAutoFocus（而非 rAF），后台标签页 rAF 被节流时也可靠。
         event.preventDefault();
@@ -180,7 +195,8 @@ function DrawerPanel({
       {children}
     </LayerDialogPrimitiveContent>
   );
-}
+});
+DrawerPanel.displayName = "DrawerPanel";
 
 function Drawer({
   show,
@@ -198,14 +214,7 @@ function Drawer({
   const wasShownRef = React.useRef(false);
 
   React.useEffect(() => {
-    if (show && !wasShownRef.current) {
-      restoreFocusRef.current =
-        restoreFocusTo?.current instanceof HTMLElement
-          ? restoreFocusTo.current
-          : document.activeElement instanceof HTMLElement
-            ? document.activeElement
-            : null;
-    } else if (!show && wasShownRef.current) {
+    if (!show && wasShownRef.current) {
       const target = restoreFocusRef.current;
       // setTimeout 而非 rAF：后台标签页 rAF 会被挂起，setTimeout 仍会触发。
       window.setTimeout(() => {
@@ -223,8 +232,12 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" data-material="mask-scrim" />
+        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:duration-(--uni-duration-base) data-[state=closed]:duration-(--uni-duration-fast) data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" data-material="mask-scrim" />
         <DrawerPanel
+          isOpen={show}
+          onBeforeOpen={() => {
+            restoreFocusRef.current = restoreFocusTo?.current ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+          }}
           onDismiss={onDismiss}
           height={height}
           verticalScroll={verticalScroll}

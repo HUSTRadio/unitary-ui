@@ -32,6 +32,7 @@ A controlled desktop side panel with optional non-modal behavior.
 
 ## 受控行为
 
+- 面板保持不透明，沿同一边缘完整滑入滑出，遮罩同步淡化；进入 250ms、退出 150ms。
 - show 和 onDismiss 由调用方成对管理；noOverlay 时降为非模态，外点仍调用 onDismiss。
 
 ## 响应式行为

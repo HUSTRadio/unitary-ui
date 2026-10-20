@@ -74,7 +74,7 @@ export const RESPONSIVE_DRAWER_GUIDES_ZH: Record<string, ComponentGuide> = {
       content: [
         "面板使用 bg-background 与 border-border 语义 token，明暗双主题下与 Drawer / Sheet 同族外观。",
         "阴影走 --material-shadow-menu token（dark 主题内层近白环由 token 覆盖），不使用浅色字面量。",
-        "进出场动画使用 --uni-motion-expansive（500ms）+ ease-snap；拖拽跟手阶段零过渡，prefers-reduced-motion 下全部降级。",
+        "面板与遮罩进入 250ms、退出 150ms，分别使用 ease-out / ease-in；拖拽跟手阶段零过渡，prefers-reduced-motion 下全部降级。",
       ],
     },
   },
@@ -151,7 +151,7 @@ export const RESPONSIVE_DRAWER_GUIDES_EN: Record<string, ComponentGuide> = {
       content: [
         "The panel uses bg-background and border-border semantic tokens, matching the Drawer / Sheet family in both themes.",
         "Shadows come from the --material-shadow-menu token (the dark theme's inner light ring is overridden by the token), never from light-theme literals.",
-        "Open/close motion uses --uni-motion-expansive (500ms) with ease-snap; finger tracking has no transition, and everything degrades under prefers-reduced-motion.",
+        "Panel and backdrop enter in 250ms and exit in 150ms, using ease-out and ease-in respectively; finger tracking has no transition, and everything degrades under prefers-reduced-motion.",
       ],
     },
   },

@@ -1,5 +1,7 @@
 import { useLayerVariables } from "./layer";
 import * as React from "react";
+import { waitForExitMotion } from "@/lib/exit-motion";
+import { useMotionReduced } from "@/lib/motion-policy";
 import { createPortal } from "react-dom";
 
 import { copyTextToClipboard } from "@/lib/clipboard";
@@ -116,8 +118,7 @@ const DEFAULT_STANDARD_ACTIONS: readonly EditMenuStandardAction[] = [
 const DEFAULT_OFFSET = 8;
 /** 视口安全边距（胶囊不贴边） */
 const VIEWPORT_MARGIN = 8;
-/** 退场驻留时长：与胶囊 class 的 duration-(--uni-duration-fast)（150ms）保持一致 */
-const CAPSULE_EXIT_MS = 150;
+
 
 interface SelectionInfo {
   /** 选中文本（已 trim，供长度统计 / 查询使用） */
@@ -169,7 +170,7 @@ function EditMenu({
   // 直接条件渲染会在选区塌陷瞬间卸载节点，退场动画无从播放。
   const [displaySelection, setDisplaySelection] = React.useState<SelectionInfo | null>(null);
   const [exiting, setExiting] = React.useState(false);
-  const exitTimerRef = React.useRef<number | null>(null);
+  const reduced = useMotionReduced();
   const [position, setPosition] = React.useState<CapsulePosition | null>(null);
   // HIG-AUD-004：toolbar 的 roving tabindex —— 同一时刻只有一个项进入 Tab 序列。
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -321,13 +322,9 @@ function EditMenu({
   }, [readSelection]);
 
   // 选区出现即同步展示；选区塌陷则先播放退场动画，再于一个时长后卸载。
-  // 计时器存 ref 并在「选区重新出现」时清除，避免退场中途重新选中导致误卸载。
+  // Cancel completion when a new selection appears, keeping its toolbar mounted.
   React.useLayoutEffect(() => {
     if (selection) {
-      if (exitTimerRef.current !== null) {
-        window.clearTimeout(exitTimerRef.current);
-        exitTimerRef.current = null;
-      }
       dismissedSignatureRef.current = null;
       setDisplaySelection(selection);
       setExiting(false);
@@ -338,23 +335,20 @@ function EditMenu({
     // 回弹（归还焦点、浏览器重放）时把胶囊重新唤起。
     dismissedSignatureRef.current = selectionSignature(displaySelection);
     setExiting(true);
-    exitTimerRef.current = window.setTimeout(() => {
-      exitTimerRef.current = null;
-      setDisplaySelection(null);
-      setExiting(false);
-      // HIG-AUD-004：关闭后把焦点归还给打开胶囊前的元素（如产生选区的输入框）。
-      const target = focusReturnRef.current;
-      focusReturnRef.current = null;
-      if (target && target.isConnected) target.focus();
-    }, CAPSULE_EXIT_MS);
   }, [selection, displaySelection]);
 
-  React.useEffect(
-    () => () => {
-      if (exitTimerRef.current !== null) window.clearTimeout(exitTimerRef.current);
-    },
-    [],
-  );
+  React.useLayoutEffect(() => {
+    if (!exiting || selection || !capsuleRef.current) return;
+    const complete = () => {
+      setDisplaySelection(null);
+      setExiting(false);
+      const target = focusReturnRef.current;
+      focusReturnRef.current = null;
+      if (target?.isConnected) target.focus();
+    };
+    if (reduced) { complete(); return; }
+    return waitForExitMotion(capsuleRef.current, complete);
+  }, [exiting, selection, reduced]);
 
   // 定位：优先选区上方，空间不足翻转下方；水平居中于选区并 clamp 进视口。
   React.useLayoutEffect(() => {

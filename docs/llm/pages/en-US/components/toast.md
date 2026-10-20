@@ -45,6 +45,7 @@ Showcases the success-type toast (green indicator) indicating an operation compl
 
 ## Controlled behavior
 
+- Entrances take 250ms and exits 150ms. Built-in stores remove a record after all mounted viewports finish exiting; external stores retain ownership of their snapshots.
 - Trigger toasts programmatically via the useToasts() hook—message / success / warning / error each map to a toast kind—available in any component context.
 - Toasts auto-dismiss by default; pass preserve={true} to prevent auto-close, requiring the user to dismiss manually.
 - Different toast types (.success(), .warning(), .error()) provide corresponding semantic styling and color differentiation.

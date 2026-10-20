@@ -1,5 +1,7 @@
 import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
+import { waitForExitMotion } from "@/lib/exit-motion";
+import { useMotionReduced } from "@/lib/motion-policy";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
@@ -23,7 +25,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *            故该分支降为 rounded-none（贴合边的圆角只会留下缺口）
  *   right  → 镜像（right-0 rounded-l-overlay translate-x-full）
  *   bottom → 等价 Drawer 形态（inset-x-0 bottom-0 rounded-t-overlay）
- * - 动画使用 expansive 档时长 + ease-snap，motion-reduce:!transition-none。
+ * - 动画进入 base、退出 fast + ease-snap，motion-reduce:!transition-none。
  * - focus trap / Esc / 外点关闭由 Radix Dialog 自带。
  */
 
@@ -100,6 +102,7 @@ function ExpandPanel({
   triggerRef,
 }: ExpandPanelProps) {
   const contentRef = React.useRef<HTMLDivElement>(null);
+  const reduced = useMotionReduced();
   const [present, setPresent] = React.useState(Boolean(open));
   const [motionOpen, setMotionOpen] = React.useState(false);
   const openRef = React.useRef(open);
@@ -116,16 +119,12 @@ function ExpandPanel({
       return () => cancelAnimationFrame(frame);
     }
     setMotionOpen(false);
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    const durations = contentRef.current
-      ? getComputedStyle(contentRef.current)
-          .transitionDuration.split(",")
-          .map((value) => parseFloat(value) * (value.trim().endsWith("ms") ? 1 : 1000))
-      : [];
-    const duration = reduced ? 0 : Math.max(0, ...durations.filter(Number.isFinite)) || 500;
-    const timer = window.setTimeout(() => setPresent(false), duration);
-    return () => window.clearTimeout(timer);
   }, [open]);
+  React.useLayoutEffect(() => {
+    if (open || motionOpen || !present) return;
+    if (reduced || !contentRef.current) { setPresent(false); return; }
+    return waitForExitMotion(contentRef.current, () => setPresent(false));
+  }, [open, motionOpen, present, reduced]);
   // 未显式传 container 时继承最近的 SubFrame；显式传 null 表示回到视口定位
   const frameContainer = useSubFrame();
   const container = containerProp === undefined ? frameContainer : containerProp;
@@ -203,7 +202,7 @@ function ExpandPanel({
             data-below-topbar={belowTopbar || undefined}
             style={anchorVars as React.CSSProperties}
             className={cn(
-              "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] opacity-0 data-[motion-state=open]:opacity-100 transition-opacity duration-(--uni-duration-slower) ease-snap data-[motion-state=closed]:ease-in motion-reduce:transition-none",
+              "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] opacity-0 data-[motion-state=open]:opacity-100 transition-opacity duration-(--uni-duration-base) data-[motion-state=closed]:duration-(--uni-duration-fast) ease-snap data-[motion-state=closed]:ease-in motion-reduce:transition-none",
               container ? "absolute" : "fixed",
               boundedByTopbar
                 ? // 仅遮蔽正文区：遮罩顶边 = 锚点底边，topbar 保持可见可交互、不被压暗
@@ -230,9 +229,6 @@ function ExpandPanel({
               event.preventDefault();
               if (!openRef.current) triggerRef.current?.focus({ preventScroll: true });
             }}
-            onTransitionEnd={(event) => {
-              if (event.target === event.currentTarget && !openRef.current) setPresent(false);
-            }}
             data-side={side}
             data-below-topbar={belowTopbar || undefined}
             data-drop-from-anchor={anchoredDrop || undefined}
@@ -254,7 +250,7 @@ function ExpandPanel({
               // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
               // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
               "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto border-[color:var(--_uni-material-border,var(--border))] bg-background shadow-lg outline-none",
-              "transition-[translate,clip-path] duration-(--uni-duration-slower) ease-snap data-[motion-state=closed]:ease-in motion-reduce:!transition-none",
+              "transition-[translate,clip-path] duration-(--uni-duration-base) data-[motion-state=closed]:duration-(--uni-duration-fast) ease-snap data-[motion-state=closed]:ease-in motion-reduce:!transition-none",
               SIDE_CLASSES[side],
               container && "absolute",
               // 锚点落下：顶边固定在锚点底边、由 clip-path 向下展开（见 index.css

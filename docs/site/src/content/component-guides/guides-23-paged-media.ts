@@ -36,7 +36,7 @@ const content = {
           "index 是零起始索引；省略时使用 defaultIndex 和内部状态；onIndexChange 报告按钮、键盘和手势选择。",
           "loop 仅使方向按钮在首尾循环；手势会停在边界。没有自动播放。",
           "variant 默认为 slide；fade 使用透明度过渡，fade-scale 加入 1.04 到 1 的缩放；三种效果均使用 --ease-snap，快速响应并柔和收尾。",
-          "切换效果不会重置当前图片；快速反向翻页从当前透明度和缩放进度继续，过渡时长使用共享 slower token（500ms）。",
+          "切换效果不会重置当前图片；淡化及缩放淡化以同步权重合成避免透底，快速连续切换从当前透明度和缩放进度继续，时长使用 base token（250ms）；滑动模式仍为 500ms。",
         ],
       },
       responsiveBehavior: {
@@ -164,7 +164,7 @@ const content = {
           "index is zero-based; omit it to use defaultIndex and internal state. onIndexChange reports control, keyboard and gesture selection.",
           "loop wraps arrow controls only; gestures stop at the boundary. There is no autoplay.",
           "variant defaults to slide. fade animates opacity and fade-scale adds scaling from 1.04 to 1; all three effects use --ease-snap for a quick response and soft finish.",
-          "Changing the effect retains the current image. Rapid reversals continue from the current opacity and scale; transitions use the shared slower duration token (500ms).",
+          "Changing the effect retains the current image. Fade effects use synchronized compositing weights to avoid background bleed and continue interrupted opacity and scale from their current values, using the base token (250ms); slide remains 500ms.",
         ],
       },
       responsiveBehavior: {

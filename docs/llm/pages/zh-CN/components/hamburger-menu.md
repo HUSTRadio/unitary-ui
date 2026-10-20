@@ -34,6 +34,7 @@ An expandable navigation menu with grouped links and built-in search.
 
 ## 受控行为
 
+- 面板进入 250ms、退出 150ms；staggerIn 只编排视觉入场，不阻止已显示链接的交互。
 - 使用 open + onOpenChange 受控；不传 open 时由组件管理展开状态。
 - 调用方传入 loading 显示加载态，emptyMessage 可覆盖空数据及无匹配搜索的默认提示。
 - 菜单保持打开、常规列表显示且入场动画结束时，activeTo 在同一最基层列表内变化会让指示条平滑滑动，沿移动方向非线性伸长后再收回目标高度，保持厚度：有 subgroups 时以子分类为边界，否则以一级分组为边界；扁平 items 共用一个列表。首次显示、跨组或搜索状态切换时直接定位，快速切换从当前可见位置与长度继续。

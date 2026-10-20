@@ -175,7 +175,7 @@ describe("BottomSheet", () => {
     expect(resizable.getAttribute("data-resizable")).toBe("true");
   });
 
-  it("弹出/收起有真实动画：animate-in/out 触发器 + 底部位移 + overlay 档 snap 曲线", () => {
+  it("弹出/收起有真实动画：animate-in/out 触发器 + 底部位移 + 短促非对称时序", () => {
     const markup = renderSheet(
       <BottomSheet open>
         <div>content</div>
@@ -188,7 +188,7 @@ describe("BottomSheet", () => {
     // （HIG-AUD-012：原 300ms 字面量迁至 --uni-motion-overlay）
     expect(markup).toContain("data-[state=open]:slide-in-from-bottom");
     expect(markup).toContain("data-[state=closed]:slide-out-to-bottom");
-    expect(markup).toContain("duration-(--uni-motion-overlay)");
+    expect(markup).toContain("data-[state=open]:duration-(--uni-duration-base)");
     expect(markup).toContain("var(--ease-snap)");
     // reduced-motion 归零（WCAG 2.3.3）
     expect(markup).toContain("motion-reduce:animate-none!");

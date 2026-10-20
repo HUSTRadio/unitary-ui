@@ -37,6 +37,7 @@ Owns the sheet through open, onOpenChange, and detents while keeping an explicit
 
 ## Controlled behavior
 
+- Panel and backdrop enter and exit together: 250ms to enter and 150ms to exit. Height snapping takes 250ms; dragging remains immediate.
 - Passing open makes the caller own visibility; omitting open uses internal state. Both modes report changes through onOpenChange.
 - Drag release, click cycling, and keyboard adjustment report the target index through onDetentChange. A controlled detent must be fed back by the caller; uncontrolled usage updates the height immediately. Dragging below the lowest detent closes only when collapseDown permits it.
 

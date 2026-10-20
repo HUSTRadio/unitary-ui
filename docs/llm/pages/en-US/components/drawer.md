@@ -41,6 +41,7 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 
 ## Controlled behavior
 
+- The opaque panel slides from the bottom while its backdrop fades in sync: 250ms to enter and 150ms to exit. Swipe dismissal continues from the release position.
 - The open state is fully controlled by the parent — internals do not manage open/close independently.
 - Close callbacks notify the parent to synchronize external state.
 - Lock page scrolling while open and restore it on close.

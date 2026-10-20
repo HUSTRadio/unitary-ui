@@ -2868,17 +2868,19 @@ html[data-font-tier="system"],
    Stacked slides reuse paging and gestures, with reversible opacity transitions. */
 [data-slot="carousel"][data-variant^="fade"] {
   --uni-page-transform: none;
+  --_uni-page-duration: var(--uni-duration-base);
 }
 
 [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-track"] {
   display: grid;
+  isolation: isolate;
   transition: none;
 }
 
 [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"] {
   grid-area: 1 / 1;
   opacity: 0;
-  transition: opacity var(--uni-duration-slower) var(--ease-snap);
+  mix-blend-mode: plus-lighter;
 }
 
 [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"]:not([inert]) {
@@ -2887,7 +2889,7 @@ html[data-font-tier="system"],
 
 [data-slot="carousel"][data-variant="fade-scale"] [data-slot="full-page-section"] {
   transform: scale(1.04);
-  transition-property: opacity, transform;
+  /* Opacity and scale are coordinated by one reversible animation group. */
 }
 
 [data-slot="carousel"][data-variant="fade-scale"] [data-slot="full-page-section"]:not([inert]) {
@@ -3072,11 +3074,11 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   animation-fill-mode: both;
 
   &[data-state="open"] {
-    animation: command-menu-overlay-in var(--uni-motion-overlay) var(--ease-pop);
+    animation: command-menu-overlay-in var(--uni-duration-base) var(--ease-pop);
   }
 
   &[data-state="closed"] {
-    animation: command-menu-overlay-out var(--uni-motion-overlay) var(--ease-in);
+    animation: command-menu-overlay-out var(--uni-duration-fast) var(--ease-in);
   }
 }
 
@@ -3085,20 +3087,20 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   box-shadow: var(--_uni-material-shadow, var(--material-shadow-modal));
 
   &[data-state="open"] {
-    animation: command-menu-scale-in var(--uni-motion-overlay) var(--ease-pop);
+    animation: command-menu-scale-in var(--uni-duration-base) var(--ease-pop);
   }
 
   &[data-state="closed"] {
-    animation: command-menu-scale-out var(--uni-motion-overlay) var(--ease-in);
+    animation: command-menu-scale-out var(--uni-duration-fast) var(--ease-in);
   }
 }
 
 @media (max-width: theme(--breakpoint-grid-sm)) {
   .command-menu-mobile[data-state="open"] {
-    animation: command-menu-mobile-in var(--uni-motion-expansive) var(--ease-snap);
+    animation: command-menu-mobile-in var(--uni-duration-base) var(--ease-snap);
   }
   .command-menu-mobile[data-state="closed"] {
-    animation: command-menu-mobile-out var(--uni-motion-expansive) var(--ease-in);
+    animation: command-menu-mobile-out var(--uni-duration-fast) var(--ease-in);
   }
 }
 

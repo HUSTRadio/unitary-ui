@@ -36,6 +36,7 @@ Selecting text reveals a horizontal capsule toolbar with cut, copy, paste, selec
 
 ## Controlled behavior
 
+- Exit residency follows actual animation completion, including local duration overrides and live reduced-motion changes.
 - The component watches the selection itself; callers only supply handlers, and standard actions without a handler are not rendered.
 - Cut copies the text for you and then hands it to onCut, which performs the deletion; handlers receive both the trimmed text and the raw selection, and deletion must use the raw text to avoid leftover whitespace.
 - When the clipboard write fails, onCut and onCopy are not fired — the failure goes to onError so the caller can show visible feedback instead of deleting content that was never copied.

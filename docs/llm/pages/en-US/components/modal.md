@@ -50,6 +50,7 @@ Demonstrates disabling the primary action button within a Modal, typically used 
 
 ## Controlled behavior
 
+- The backdrop supplies a single fade while content only scales or translates: 250ms to enter and 150ms to exit; reduced motion completes immediately.
 - The parent controls the Modal's open/close state entirely through the open prop; close should happen after the API settles or stay open on error for retry.
 - Supports setting an initial focus target (e.g., focus-input-on-open) to direct focus into a specific input control inside the modal on open.
 

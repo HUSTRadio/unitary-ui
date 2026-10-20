@@ -154,7 +154,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
         .querySelector<HTMLButtonElement>('[data-slot="hamburger-trigger"]')!
         .click();
     });
-    // 动画期：仅前 8 项带 data-staggered，且列表禁点
+    // Visual stagger does not block navigation.
     const staggered = document.querySelectorAll<HTMLElement>("[data-staggered]");
     expect(staggered).toHaveLength(8);
     expect(staggered[0].style.animationDelay).toBe("0ms");
@@ -162,7 +162,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     expect(staggered[7].style.animationDelay).toBe("140ms");
     expect(
       document.querySelector('[data-slot="menu-list"]')!.className,
-    ).toContain("pointer-events-none");
+    ).not.toContain("pointer-events-none");
     // 第 9 项及以后不参与动画（滚动后直接呈现）
     expect(staggered[0].parentElement!.children[8].hasAttribute("data-staggered")).toBe(false);
     // 动画完结：恢复可点，data-staggered 全部移除（8*20+240=400ms 禁点解除）

@@ -41,7 +41,7 @@ Choose slide, fade or a subtle scale, then compare them with controls, keyboard 
 - index is zero-based; omit it to use defaultIndex and internal state. onIndexChange reports control, keyboard and gesture selection.
 - loop wraps arrow controls only; gestures stop at the boundary. There is no autoplay.
 - variant defaults to slide. fade animates opacity and fade-scale adds scaling from 1.04 to 1; all three effects use --ease-snap for a quick response and soft finish.
-- Changing the effect retains the current image. Rapid reversals continue from the current opacity and scale; transitions use the shared slower duration token (500ms).
+- Changing the effect retains the current image. Fade effects use synchronized compositing weights to avoid background bleed and continue interrupted opacity and scale from their current values, using the base token (250ms); slide remains 500ms.
 
 ## Responsive behavior
 

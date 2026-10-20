@@ -3,6 +3,9 @@ import { CircleAlert, CircleCheck, CircleX, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { waitForExitMotion } from "@/lib/exit-motion";
+import { useMotionReduced } from "@/lib/motion-policy";
+import { milliseconds } from "@/lib/motion-easing";
 
 export type ToastKind = "message" | "success" | "warning" | "error";
 
@@ -23,8 +26,6 @@ export interface ToastRecord extends ToastOptions {
   exiting?: boolean;
 }
 
-/** 退场驻留时长：与条目 class 的 transition-all duration-(--uni-duration-slow)（350ms）一致 */
-const TOAST_EXIT_MS = 350;
 /** 退场位移：与入场 slide-in-from-bottom-2（8px）镜像 */
 const TOAST_EXIT_SLIDE = 8;
 
@@ -44,6 +45,13 @@ export interface ToastStore extends UseToastsReturn {
   getSnapshot: () => ToastRecord[];
 }
 
+// External stores retain ownership of their snapshots. Only stores created here
+// participate in the private DOM completion protocol; no public method is added.
+const toastLifecycles = new WeakMap<ToastStore, {
+  register: (id: number, node: HTMLElement) => () => void;
+  complete: (id: number, node: HTMLElement) => void;
+}>();
+
 /**
  * 创建独立 store（HIG-AUD-018）。
  *
@@ -55,10 +63,13 @@ function createToastStore(): ToastStore {
   let nextId = 1;
   let records: ToastRecord[] = [];
   const listeners = new Set<() => void>();
+  const views = new Map<number, Set<HTMLElement>>();
+  const pending = new Map<number, Set<HTMLElement>>();
 
   const publish = () => listeners.forEach((listener) => listener());
 
   const removeToast = (id: number) => {
+    pending.delete(id);
     const next = records.filter((toast) => toast.id !== id);
     if (next.length === records.length) return;
     records = next;
@@ -76,11 +87,13 @@ function createToastStore(): ToastStore {
       removeToast(id);
       return;
     }
+    const waiting = new Set(views.get(id));
+    pending.set(id, waiting);
     records = records.map((toast) =>
       toast.id === id ? { ...toast, exiting: true } : toast,
     );
     publish();
-    window.setTimeout(() => removeToast(id), TOAST_EXIT_MS);
+    if (!waiting.size) queueMicrotask(() => removeToast(id));
   };
 
   const addToast = (kind: ToastKind, options: ToastOptions | React.ReactNode) => {
@@ -97,7 +110,7 @@ function createToastStore(): ToastStore {
     return id;
   };
 
-  return {
+  const store: ToastStore = {
     subscribe: (listener: () => void) => {
       listeners.add(listener);
       return () => {
@@ -111,6 +124,23 @@ function createToastStore(): ToastStore {
     error: (text: React.ReactNode) => addToast("error", text),
     dismiss,
   };
+  const complete = (id: number, node: HTMLElement) => {
+    const waiting = pending.get(id);
+    if (waiting?.delete(node) && waiting.size === 0) removeToast(id);
+  };
+  toastLifecycles.set(store, {
+    complete,
+    register: (id, node) => {
+      if (!views.has(id)) views.set(id, new Set());
+      views.get(id)!.add(node);
+      return () => {
+        views.get(id)?.delete(node);
+        if (!views.get(id)?.size) views.delete(id);
+        complete(id, node);
+      };
+    },
+  });
+  return store;
 }
 
 /** 默认全局 store：`useToasts()` / `<Toasts/>` 不传 `store` 时使用（保持既有行为）。 */
@@ -152,6 +182,59 @@ export interface ToastsProps extends React.ComponentProps<"ol"> {
  */
 const FLEX_GAP = 20; // 展开态 toast 间距（官方实测 20px）
 const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
+
+const ToastMotionItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li"> & {
+  store: ToastStore; toastId: number; exiting: boolean; hiddenStack: boolean;
+}>(({ store, toastId, exiting, hiddenStack, ...props }, ref) => {
+  const nodeRef = React.useRef<HTMLLIElement | null>(null);
+  const wasExiting = React.useRef(false);
+  const reduced = useMotionReduced();
+  React.useLayoutEffect(() => {
+    if (nodeRef.current) return toastLifecycles.get(store)?.register(toastId, nodeRef.current);
+  }, [store, toastId]);
+  React.useLayoutEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+    if (!exiting) {
+      if (wasExiting.current) {
+        node.style.animation = String(props.style?.animation ?? "");
+        node.style.transition = String(props.style?.transition ?? "");
+        node.style.opacity = props.style?.opacity === undefined ? "" : String(props.style.opacity);
+      }
+      wasExiting.current = false;
+      return;
+    }
+    wasExiting.current = true;
+    const complete = () => toastLifecycles.get(store)?.complete(toastId, node);
+    if (reduced || hiddenStack) { complete(); return; }
+    const style = getComputedStyle(node);
+    const from = { opacity: style.opacity, transform: style.transform };
+    const duration = milliseconds(style.transitionDuration.split(",")[0]);
+    const easing = style.transitionTimingFunction;
+    const transition = style.transition;
+    // An unfinished CSS entrance otherwise overrides opacity:0 during dismissal.
+    node.style.animation = "none";
+    node.style.transition = "none";
+    const to = { opacity: "0", transform: String(props.style?.transform ?? "none") };
+    const animation = duration > 0 && typeof node.animate === "function"
+      ? node.animate([from, to], { duration, easing }) : null;
+    if (duration > 0 && typeof node.animate !== "function") {
+      Object.assign(node.style, from);
+      node.getBoundingClientRect();
+      node.style.transition = transition;
+      node.style.transform = to.transform;
+    }
+    node.style.opacity = "0";
+    const stopWaiting = waitForExitMotion(node, complete);
+    return () => { stopWaiting(); animation?.cancel(); };
+  }, [store, toastId, exiting, reduced, hiddenStack]);
+  return <li {...props} ref={node => {
+    nodeRef.current = node;
+    if (typeof ref === "function") return ref(node);
+    if (ref) ref.current = node;
+  }} />;
+});
+ToastMotionItem.displayName = "ToastMotionItem";
 
 function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: ToastsProps) {
   const { t } = useI18n();
@@ -265,8 +348,12 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
         const actionLabel = toast.onUndoAction ? t("Undo") : toast.action;
         const action = toast.onUndoAction ?? toast.onAction;
         return (
-          <li
+          <ToastMotionItem
             key={toast.id}
+            store={store}
+            toastId={toast.id}
+            exiting={Boolean(toast.exiting)}
+            hiddenStack={hidden}
             ref={(el) => {
               if (el) itemRefs.current.set(toast.id, el);
               else itemRefs.current.delete(toast.id);
@@ -281,7 +368,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
             inert={hidden || undefined}
             className={cn(
               "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
-              "transition-all duration-(--uni-duration-slow) ease-toast data-[exiting]:ease-in",
+              "transition-[opacity,transform] duration-(--uni-duration-base) ease-toast data-[exiting]:duration-(--uni-duration-fast) data-[exiting]:ease-in motion-reduce:transition-none",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none!",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
               toast.exiting && "pointer-events-none opacity-0",
@@ -323,7 +410,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
             >
               <X aria-hidden className="size-4" />
             </button>
-          </li>
+          </ToastMotionItem>
         );
       })}
     </ol>

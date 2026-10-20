@@ -171,7 +171,7 @@ describe("ExpandPanel", () => {
     expect(panel.className).toContain("shadow-lg");
     expect(panel.className).toContain("transition-[translate,clip-path]");
     expect(panel.className).not.toContain("animate-in");
-    expect(panel.className).toContain("duration-(--uni-duration-slower)");
+    expect(panel.className).toContain("duration-(--uni-duration-base)");
     expect(panel.className).toContain("ease-snap");
     expect(panel.className).toContain("data-[motion-state=closed]:ease-in");
     expect(panel.className).toContain("motion-reduce:!transition-none");

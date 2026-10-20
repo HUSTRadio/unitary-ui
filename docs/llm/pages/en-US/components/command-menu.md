@@ -44,6 +44,7 @@ Adds suffix labels to command items to show auxiliary information such as keyboa
 
 ## Controlled behavior
 
+- Desktop and mobile panels and backdrops use synchronized 250ms entrances and 150ms exits, retaining their scale effects and reduced-motion policy.
 - CommandMenu requires the parent to provide open and setOpen; any global ⌘K / Ctrl+K listener is also implemented at the application layer.
 - Activating a command runs the caller-provided action; the component does not expose the current command as a controlled value.
 

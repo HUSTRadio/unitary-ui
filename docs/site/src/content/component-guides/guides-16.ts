@@ -35,6 +35,7 @@ export const GUIDES_16_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "面板与遮罩同步进入和退出：进入 250ms、退出 150ms；高度吸附使用 250ms，拖拽时仍然跟手。",
         "传入 open 时由外部完全控制开关状态；省略 open 时组件内部管理状态，两种模式都会调用 onOpenChange。",
         "松开拖拽、点击循环或键盘调档都会以目标下标调用 onDetentChange；detent 受控时必须由调用方更新，非受控时组件同步更新高度。向下拖过最低档会按 collapseDown 配置决定是否关闭。",
       ],
@@ -138,6 +139,7 @@ export const GUIDES_16_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
+        "Panel and backdrop enter and exit together: 250ms to enter and 150ms to exit. Height snapping takes 250ms; dragging remains immediate.",
         "Passing open makes the caller own visibility; omitting open uses internal state. Both modes report changes through onOpenChange.",
         "Drag release, click cycling, and keyboard adjustment report the target index through onDetentChange. A controlled detent must be fed back by the caller; uncontrolled usage updates the height immediately. Dragging below the lowest detent closes only when collapseDown permits it.",
       ],

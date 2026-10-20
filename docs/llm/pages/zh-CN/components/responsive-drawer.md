@@ -60,7 +60,7 @@ placement="bottom" + detents=\[0.4, 0.8, 1\]：指示条跟手拖动、松手吸
 
 - 面板使用 bg-background 与 border-border 语义 token，明暗双主题下与 Drawer / Sheet 同族外观。
 - 阴影走 --material-shadow-menu token（dark 主题内层近白环由 token 覆盖），不使用浅色字面量。
-- 进出场动画使用 --uni-motion-expansive（500ms）+ ease-snap；拖拽跟手阶段零过渡，prefers-reduced-motion 下全部降级。
+- 面板与遮罩进入 250ms、退出 150ms，分别使用 ease-out / ease-in；拖拽跟手阶段零过渡，prefers-reduced-motion 下全部降级。
 
 ## 实时示例
 

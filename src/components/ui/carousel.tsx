@@ -3,6 +3,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { getTokens, subscribeTokens } from "@/lib/tokens";
+import { milliseconds, parseEasing } from "@/lib/motion-easing";
+import { useMotionReduced } from "@/lib/motion-policy";
 import { FullPageScroller } from "./full-page-scroller";
 
 export interface CarouselImage {
@@ -32,14 +35,67 @@ function Carousel({
   onIndexChange,
   loop = false,
   className,
+  ref: forwardedRef,
   ...props
 }: CarouselProps) {
   const { t } = useI18n();
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  React.useImperativeHandle(forwardedRef, () => rootRef.current!, []);
+  const animations = React.useRef<Animation[]>([]);
+  const previous = React.useRef<{ nodes: HTMLElement[]; variant: CarouselVariant; index: number } | null>(null);
+  const reduced = useMotionReduced();
   const [internalIndex, setInternalIndex] = React.useState(defaultIndex);
   const current = Math.min(
     Math.max(0, Math.floor(index ?? internalIndex) || 0),
     Math.max(0, images.length - 1),
   );
+  const slideSources = JSON.stringify(images.map(image => image.src));
+  React.useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const nodes = [...root.querySelectorAll<HTMLElement>('[data-slot="full-page-section"]')];
+    const before = previous.current;
+    const sameSlides = before?.variant === variant && before.nodes.length === nodes.length
+      && before.nodes.every((node, index) => node === nodes[index]);
+    const styles = nodes.map(node => getComputedStyle(node));
+    const weights = styles.map(style => Math.max(0, Number(style.opacity) || 0));
+    const transforms = styles.map(style => style.transform);
+    animations.current.forEach(animation => animation.cancel());
+    animations.current = [];
+    previous.current = { nodes, variant, index: current };
+    if (variant === "slide") {
+      nodes.forEach(node => { node.style.removeProperty("opacity"); node.style.removeProperty("transform"); });
+      return;
+    }
+    const total = weights.reduce((sum, weight) => sum + weight, 0);
+    const tokens = getTokens(["--uni-duration-base", "--ease-snap"], { target: root });
+    const duration = milliseconds(tokens["--uni-duration-base"]);
+    const curve = parseEasing(tokens["--ease-snap"]);
+    const animate = sameSlides && before.index !== current && !reduced && duration > 0 && curve;
+    const startTime = root.ownerDocument.timeline?.currentTime ?? null;
+    nodes.forEach((node, index) => {
+      const opacity = index === current ? 1 : 0;
+      const transform = variant === "fade-scale" && index !== current ? "scale(1.04)" : "scale(1)";
+      node.style.opacity = String(opacity);
+      node.style.transform = transform;
+      if (!animate || typeof node.animate !== "function") return;
+      const animation = node.animate([
+        { opacity: total > 0 ? weights[index] / total : Number(index === before.index), transform: transforms[index] },
+        { opacity, transform },
+      ], { duration, easing: `cubic-bezier(${curve.join(",")})` });
+      // A shared start time preserves the sum of weights across all layers,
+      // including A -> B -> C interruptions and CSS reversal shortening.
+      if (startTime !== null) animation.startTime = startTime;
+      animations.current.push(animation);
+    });
+    const unsubscribe = subscribeTokens(() => {
+      // Live token edits settle the current group; the next selection reads them.
+      animations.current.forEach(animation => animation.cancel());
+      animations.current = [];
+    }, { target: root });
+    return unsubscribe;
+  }, [current, variant, slideSources, reduced]);
+  React.useLayoutEffect(() => () => animations.current.forEach(animation => animation.cancel()), []);
   const select = (value: number) => {
     if (!images.length) return;
     const next = loop
@@ -54,6 +110,7 @@ function Carousel({
   return (
     <div
       {...props}
+      ref={rootRef}
       data-slot="carousel"
       data-variant={variant}
       role={props.role ?? "region"}

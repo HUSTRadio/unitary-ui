@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { Toggle } from "@hustradio/unitary-ui";
 
 export { React };
+export { mountMotionRegressionFixture } from "./motion-regression-fixture";
 export * as ReactDOM from "react-dom/client";
 export { Button, ButtonLink, Toolbar, Radio, RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
 

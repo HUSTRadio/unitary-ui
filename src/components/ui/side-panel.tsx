@@ -21,8 +21,8 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   禁止组件内写死 px）；
  * - 表面：material-medium（12px radius + --material-shadow-medium + bg-surface，
  *   直接消费 @utility material-medium）；
- * - 动画：data-[state=open]:slide-in-from-right-5（left 对称镜像）+ fade-in-0；
- *   closed slide-out-to-*-10 + fade-out-0；duration-(--uni-duration-base)；
+ * - 动画：data-[state=open]:slide-in-from-right（left 对称镜像）+ fade-in-0；
+ *   closed slide-out-to-*；进入 base、退出 fast；
  *   motion-reduce:animate-none!（WCAG 2.3.3）；
  * - Overlay：bg-[var(--uni-overlay-backdrop-color)] @
  *   opacity-[var(--uni-overlay-backdrop-opacity)]（对齐 sheet 的 backdrop 族 token；
@@ -58,11 +58,11 @@ type SidePanelTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive
 type SidePanelDescriptionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>;
 type SidePanelCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>;
 
-/** side 定位 + 镜像滑入/滑出动画（slide-in 5% / slide-out 10%，对齐 sheet 语言）。 */
+/** side 定位 + 镜像滑入/滑出动画（完整滑入/滑出，与 sheet 保持一致）。 */
 const SIDE_STYLES: Record<"right" | "left", string> = {
   right:
-    "right-4 data-[state=open]:slide-in-from-right-5 data-[state=closed]:slide-out-to-right-10",
-  left: "left-4 data-[state=open]:slide-in-from-left-5 data-[state=closed]:slide-out-to-left-10",
+    "right-4 data-[state=open]:slide-in-from-right-[calc(100%+var(--spacing)*4)] data-[state=closed]:slide-out-to-right-[calc(100%+var(--spacing)*4)]",
+  left: "left-4 data-[state=open]:slide-in-from-left-[calc(100%+var(--spacing)*4)] data-[state=closed]:slide-out-to-left-[calc(100%+var(--spacing)*4)]",
 };
 
 const SidePanelOverlay = React.forwardRef<
@@ -75,7 +75,7 @@ const SidePanelOverlay = React.forwardRef<
     data-slot="side-panel-overlay"
     className={cn(
       "fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]",
-      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 motion-reduce:animate-none! motion-reduce:transition-none",
+      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:fade-out-0 data-[state=open]:duration-(--uni-duration-base) data-[state=closed]:duration-(--uni-duration-fast) motion-reduce:animate-none! motion-reduce:transition-none",
       className,
     )}
     {...props}
@@ -100,8 +100,8 @@ const SidePanelContent = React.forwardRef<
       className={cn(
         "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
         "shadow-[var(--_uni-material-shadow,var(--material-shadow-medium))]",
-        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
+        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base)",
+        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-fast)",
         "motion-reduce:animate-none! motion-reduce:transition-none",
         SIDE_STYLES[side],
         className,

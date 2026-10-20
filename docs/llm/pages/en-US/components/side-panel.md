@@ -32,6 +32,7 @@ Open and close a controlled panel with focus restored to its trigger.
 
 ## Controlled behavior
 
+- The opaque panel slides fully in and out along the same edge while the backdrop fades in sync: 250ms to enter and 150ms to exit.
 - Manage show with onDismiss; noOverlay switches to non-modal mode while outside presses still call onDismiss.
 
 ## Responsive behavior

@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { milliseconds } from "@/lib/motion-easing";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -58,7 +59,8 @@ function FullPageScroller({
     const duration = () =>
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
         ? 0
-        : parseFloat(getComputedStyle(element).getPropertyValue("--uni-duration-slower")) || 500;
+        : milliseconds(getComputedStyle(element).getPropertyValue("--_uni-page-duration").trim()
+          || getComputedStyle(element).getPropertyValue("--uni-duration-slower"));
     const canMove = (direction: number) =>
       direction > 0 ? currentRef.current < items.length - 1 : currentRef.current > 0;
     const nestedCanScroll = (target: EventTarget | null, delta: number) => {
@@ -234,7 +236,7 @@ function FullPageScroller({
       <div
         data-slot="full-page-track"
         className={cn(
-          "flex h-full w-full transition-transform duration-(--uni-duration-slower) ease-snap motion-reduce:transition-none",
+          "flex h-full w-full transition-transform duration-[var(--_uni-page-duration,var(--uni-duration-slower))] ease-snap motion-reduce:transition-none",
           vertical && "flex-col",
         )}
         style={{

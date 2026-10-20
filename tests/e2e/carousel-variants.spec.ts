@@ -64,12 +64,12 @@ for (const theme of ["light", "dark"] as const) {
         await page.getByRole("option", { name, exact: true }).click();
         await region.focus();
         await page.keyboard.press("Home");
-        await page.waitForTimeout(550);
+        await region.evaluate(element => element.getAnimations({ subtree: true }).forEach(animation => animation.finish()));
         await carousel.getByRole("button", { name: "Next image", exact: true }).click();
         const progress = await incoming.evaluate((element) => {
           const animation = element
             .getAnimations()
-            .find((item) => item instanceof CSSTransition && item.transitionProperty === "opacity");
+            .find((item) => item.effect instanceof KeyframeEffect && item.effect.getKeyframes().some(frame => frame.opacity !== undefined));
           if (!animation) throw new Error("Missing opacity transition");
           animation.pause();
           const duration = Number(animation.effect!.getTiming().duration);
@@ -90,7 +90,7 @@ for (const theme of ["light", "dark"] as const) {
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           const animation = element
             .getAnimations()
-            .find((item) => item instanceof CSSTransition && item.transitionProperty === "opacity");
+            .find((item) => item.effect instanceof KeyframeEffect && item.effect.getKeyframes().some(frame => frame.opacity !== undefined));
           return { before, from: Number(animation?.effect?.getKeyframes()[0].opacity) };
         });
         expect(reversal.from).toBeGreaterThan(0);

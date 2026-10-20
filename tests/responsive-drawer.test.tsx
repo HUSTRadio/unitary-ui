@@ -104,7 +104,7 @@ describe("ResponsiveDrawer family", () => {
     );
   });
 
-  test("defaults to the right panel and uses the expansive motion token", () => {
+  test("defaults to the right panel and uses asymmetric enter and exit timing", () => {
     render(
       <ResponsiveDrawer open>
         <ResponsiveDrawerContent>Panel</ResponsiveDrawerContent>
@@ -114,7 +114,7 @@ describe("ResponsiveDrawer family", () => {
     const panel = panelElement();
     expect(panel?.getAttribute("data-placement")).toBe("right");
     expect(panel?.className).toContain("slide-in-from-right");
-    expect(panel?.className).toContain("duration-(--uni-motion-expansive)");
+    expect(panel?.className).toContain("data-[state=open]:duration-(--uni-duration-base)");
     expect(panel?.className).toContain("ease-snap");
     expect(panel?.className).toContain("motion-reduce:animate-none!");
     // 桌面侧栏几何：留白 + 圆角 + 宽度档位

@@ -34,9 +34,10 @@ Open the menu, switch between items, empty and loading data, or search for an un
 
 ## Controlled behavior
 
+- The panel enters in 250ms and exits in 150ms; staggerIn only sequences visual entrances and does not block visible links.
 - Use open with onOpenChange for controlled state; omit open for internal state.
 - Set loading while data loads; emptyMessage optionally overrides both empty-navigation and unmatched-search messages.
-- While the menu stays open, its regular list is shown and entrance motion has finished, activeTo changes within the same leaf list slide the indicator smoothly, elongating nonlinearly in the direction of motion before contracting to the target height while retaining its thickness: a subgroup when present, otherwise a top-level group; flat items share one list. Initial display, cross-group changes and search-state changes position immediately; rapid changes continue from the current visible position and length.
+- While the menu stays open, its regular list is shown, activeTo changes within the same leaf list slide the indicator smoothly, elongating nonlinearly in the direction of motion before contracting to the target height while retaining its thickness: a subgroup when present, otherwise a top-level group; flat items share one list. Initial display, cross-group changes and search-state changes position immediately; rapid changes continue from the current visible position and length.
 
 ## Responsive behavior
 

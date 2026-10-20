@@ -60,7 +60,7 @@ placement="bottom" with detents=\[0.4, 0.8, 1\]: the indicator tracks your finge
 
 - The panel uses bg-background and border-border semantic tokens, matching the Drawer / Sheet family in both themes.
 - Shadows come from the --material-shadow-menu token (the dark theme's inner light ring is overridden by the token), never from light-theme literals.
-- Open/close motion uses --uni-motion-expansive (500ms) with ease-snap; finger tracking has no transition, and everything degrades under prefers-reduced-motion.
+- Panel and backdrop enter in 250ms and exit in 150ms, using ease-out and ease-in respectively; finger tracking has no transition, and everything degrades under prefers-reduced-motion.
 
 ## Live Demo
 

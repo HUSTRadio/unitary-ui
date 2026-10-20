@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { useI18n } from "@/lib/i18n";
+import { milliseconds } from "@/lib/motion-easing";
 import { cn } from "@/lib/utils";
 import { useSlidingIndicator } from "@/lib/selection-indicator";
 
@@ -109,7 +110,7 @@ interface HamburgerMenuProps {
   belowTopbar?: boolean;
   /**
    * 逐项浮现动画（stagger-in）：面板打开时前 staggerCount 个导航项依次淡入上移，
-   * 非线性缓动；动画期间列表禁点，完结后恢复。滚动后看到的后续项不参与动画。
+   * 非线性缓动；视觉编排不阻止已显示链接的交互。滚动后看到的后续项不参与动画。
    */
   staggerIn?: boolean;
   /** 参与 stagger 动画的首屏项数（默认 8） */
@@ -239,7 +240,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   }, [isOpen]);
 
   // stagger-in：首次及完成退出后打开时重播；快速反转保留当前内容。
-  // 动画进行中列表禁点，最后一项延迟结束后恢复。
+  // Stagger is visual only; visible links remain interactive during entry.
   // prefers-reduced-motion 下不启用（项直接呈现）。
   const [staggerActive, setStaggerActive] = React.useState(false);
   const lastCloseTime = React.useRef<number | null>(null);
@@ -253,8 +254,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     hasOpened.current = true;
     // A rapid reversal reuses the visible panel; don't restart item entrances.
-    const exitDuration = parseFloat(getComputedStyle(document.documentElement)
-      .getPropertyValue("--uni-duration-slower")) || 500;
+    const exitDuration = milliseconds(getComputedStyle(document.documentElement)
+      .getPropertyValue("--uni-duration-fast"));
     if (lastCloseTime.current !== null && Date.now() - lastCloseTime.current < exitDuration) return;
     setStaggerActive(true);
     const total = staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS;
@@ -316,7 +317,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   const groupIdPrefix = React.useId();
   useSlidingIndicator({
     rootRef: menuListRef, activeKey: activeTo,
-    enabled: isOpen && !searching && !loading && !staggerActive,
+    enabled: isOpen && !searching && !loading,
   });
   let navigationIndex = 0;
 
@@ -441,7 +442,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         ) : null}
 
         {/* 导航列表区：nav 是唯一滚动容器（min-h-0 flex-1 撑满剩余高度）；
-            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点。
+            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 只影响视觉编排。
             内容内缩与滚动条槽位走共享契约：与侧栏 aside 同一内缩（24/16px）+
             同一细滚动条 + stable both-edges 稳定槽位 → 两处导航文字列对齐。 */}
         <nav
@@ -472,7 +473,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 searching
                   ? "pointer-events-none opacity-0 h-0 overflow-hidden"
                   : "opacity-100",
-                staggerActive && "pointer-events-none",
+
               )}
             >
             {navigationGroups.map((group, groupIndex) => {
