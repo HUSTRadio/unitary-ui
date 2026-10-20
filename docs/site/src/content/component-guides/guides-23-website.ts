@@ -85,6 +85,9 @@ function guides(locale: GuideLocale): Record<string, ComponentGuide> {
           themeBehavior: {
             status: "covered",
             content: [
+              ...(navigation ? [chinese
+                ? "Glass 下，Navbar 背景与前景分层，使用 Regular 填充与 24px 模糊；桌面 hover 面板使用独立的 Dense 透射与 20px 均匀模糊（--material-texture-glass-overlay-blur），不会错误复用顶栏范围。操作控件提供克制追光与 hover 过渡，不改变位置。作者 panelClassName 的背景、滤镜及局部 blur token 覆盖优先。"
+                : "With Glass, Navbar separates its background and foreground using Regular fill and 24px blur. Desktop hover panels independently transmit with Dense fill and 20px uniform blur (--material-texture-glass-overlay-blur), rather than sharing the header's limited sampling area. Actions use restrained glints and hover transitions without moving. Authored panelClassName backgrounds, filters and local blur token overrides take precedence."] : []),
               chinese
                 ? "使用共享语义颜色和动效 token；双主题保持同一交互契约。"
                 : "Uses shared semantic colors and motion tokens with the same interaction contract in both themes.",

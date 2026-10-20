@@ -8,23 +8,17 @@
 
 ### Added
 
-- **清透 Glass**：新增沿圆角轮廓变化的屏幕空间折射、Fresnel 边缘光、吸收与环境色响应，采用均匀基材保持文字清晰；桌面 Chromium 151+ 在能力与贴图解码检查通过后启用 SVG 背景采样，其他环境使用 CSS Glass。功能控件保留清晰的按下、选中和焦点反馈，遵循减少动画偏好。
+- **CSS Glass 材质**：以半透明填充、背景模糊与饱和度、静态方向高光、细内描边及柔和投影重做 Glass，保留 Unitary 配色、尺寸与圆角。既有交互控件增加克制的指针追光和双向 hover 过渡，按钮与导航不位移；普通卡片通过材质 class 显式选择，仅提供静态高光。
 
 ### Changed
 
-- **Glass 用途预设**：新增 Clear / Regular / Dense CSS 类，导航及独立操作采用 Regular，文字浮层采用 Dense，Clear 显式配合独立媒体衬底。统一 CSS / SVG 参数，保留局部 token 覆盖，增加动态增强对比度 92% / 96%，移除指针追光、人工亮边和凝胶压缩。Regular 调整为折射 6px、边带 10px、粗糙度 0.24、主光 0.65、环境光 0.25。
-
-- **均匀 Glass 基材**：移除中心与边缘的填充过渡，统一材质参数；倒角法线、Snell 折射、Fresnel / GGX 反射和 Beer–Lambert 光程吸收产生光学差异。深色基础填充由 62% 调为 68%，保护反射下的文字对比度；浅色仍为 52%，模糊全表面保持 1px。
+- **Glass 预设与破坏性 token 迁移**：Clear 浅/深填充为 28%/36%、模糊 8px；Regular 为 56%/76%、10px；Dense 为 80%/86%、20px，导航模糊为 24px。Regular 填充针对中性色板及不受控背景的对比度需求调整。移除 SVG 折射引擎及 `--material-texture-glass-` 下的 `ior`、`roughness`、`thickness`、`absorption`、`light-azimuth`、`light-intensity`、`ambient-intensity`、`ambient-color`、`refraction`、`edge-width` 十个 token，请删除对应覆盖；继续使用 `blur`、`overlay-blur`、`opacity`。四档材质、v2 偏好、组件 props、局部覆盖/reset、Portal 与辅助设置契约保留。
 
 - **四档材质与迁移**：默认仍为 Solid；原 Hybrid 改名为 Acrylic，原 Glass 改名为 Aero，两者保留旧外观。`texture="glass"` 现在选择新 Glass；要保留旧 Glass 外观，请改用 `texture="aero"`。偏好键改为 `unitary-texture-preference-v2`，有效新值优先，旧存储值 `hybrid` / `glass` 分别迁移为 `acrylic` / `aero`；token、双语文档、官网和模板同步更新。
 
 ### Fixed
 
-- **Glass 运行时稳定性**：动态移除材质身份会取消待发布结果并释放观察器、颜料和滤镜引用；相同几何与光学参数共享构建中的贴图。位图生成分片、PNG 异步编码，就绪前保留 CSS 回退；合并同帧失效扫描，忽略自身 SVG 和私有样式更新，保留作者 CSS 联动。
-
-- **Glass 边缘过渡**：默认模糊由 4px 降至 1px；按实际最小圆角收窄折射区，并用连续导数积分限制采样变化，消除外沿纹理折叠和角部跳变。基材填充和模糊全表面一致，移除阅读膜渐变及人为边缘亮度权重，差异由法线、光向与光程产生，移除贴图的重复轮廓裁切，修正嵌套控件重复采样；尖角、退化轮廓和解码后异常贴图回退为 CSS Glass。
-
-- **Glass 边缘光学**：修正凸透镜的背景取样方向，避免最外侧位移落到采样区域之外；连续倒角法线与软限幅保留掠射角和折射变化。新增非偏振 Fresnel、GGX / Smith 高光、折射光程吸收与线性光混合，采用均匀基材和几何驱动的反射、吸收，背景滤镜保持单次模糊与位移。中心位移、文字、布局和其他三种材质保持原有契约。
+- **Glass hover 与导航采样**：次要按钮的进入和离开均有可插值状态过渡。Navbar 保留独立背景层，SiteNavigation 的 hover 面板独立使用 Dense 与 20px 模糊，内部控件共享外层采样。作者背景、滤镜、transform、焦点与减少动效策略保留，空闲时无持续动画循环。
 
 - **已发布文档产物恢复**：独立 registry consumer 仅为经回执和 integrity 核验的本库精确版本豁免发布时间等待，外部依赖继续遵循原有政策；新增 `--release-root`，允许当前干净工具链从原发布提交的干净 checkout 恢复文档产物，继续核对源码、冻结锁、完整浏览器和双语语料。这些发布后的工具链修复不在 beta.1 压缩包内。
 

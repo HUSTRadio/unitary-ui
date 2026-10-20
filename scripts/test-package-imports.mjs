@@ -82,7 +82,7 @@ function consume(mode) {
     assert.equal(render(h(api.ThemeProvider, null, h(TextureState))), '<output>solid/solid</output>');
     assert.equal(render(h(api.ThemeProvider, {defaultTexture: 'glass'}, h(TextureState))), '<output>glass/solid</output>');
     assert.equal(render(h(api.ThemeProvider, {texture: 'glass'},
-      h(api.ThemeProvider, {texture: 'hybrid'}, h(TextureState)))), '<output>glass/solid</output>');
+      h(api.ThemeProvider, {texture: 'acrylic'}, h(TextureState)))), '<output>glass/solid</output>');
     assert.match(render(h(api.Flex, {direction: 'row'}, 'Flex content')), /data-slot="flex"/);
     assert.match(render(h(api.LayerScope, {levels: {popover: 71}}, h(api.Layer, {level: 'popover'}))), /--uni-z-popover:71/);
     assert.equal(render(h(api.LayerPortal, null, 'Client portal')), '');

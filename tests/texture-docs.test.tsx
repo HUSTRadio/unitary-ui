@@ -53,34 +53,39 @@ function textureOption(scope: ParentNode, value: string) {
 }
 
 describe("global texture documentation", () => {
-  test.each(["en-US", "zh-CN"] as const)("documents optical inputs and their approximation limits in %s", async (language) => {
+  test.each(["en-US", "zh-CN"] as const)("documents CSS Glass, purpose presets and the removed-token migration in %s", async (language) => {
     await renderPage(language);
     const contract = container.querySelector('[data-glass-lighting-contract]')!;
-    expect(contract.textContent).toContain("315°");
-    expect(contract.textContent).toContain("Snell");
-    expect(contract.textContent).toContain("GGX / Smith");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "默认模糊 1px" : "Blur defaults to 1px");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "材质本体没有位置渐变" : "The material has no positional gradient");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "不附加边缘权重" : "without an edge weight");
-    expect(container.textContent).toContain(language === "zh-CN" ? "新 Glass 默认 1px" : "New Glass defaults to 1px");
-    expect(container.textContent).toContain(language === "zh-CN" ? "新 Glass 为 1px" : "New Glass uses 1px");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "向内采样" : "samples inward");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "线性光空间" : "linear light");
-    expect(contract.textContent).toContain("0.24");
-    const variants=container.querySelector('[data-glass-variants-contract]')!;
-    for(const variant of ['clear','regular','dense'])expect(variants.textContent).toContain('material-glass-'+variant);
+    expect(contract.textContent).toContain("CSS backdrop-filter");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "前景文字不参与滤镜" : "leaving foreground text unfiltered");
+    expect(contract.textContent).toContain(language === "zh-CN" ? "不改变基材 alpha" : "without changing body alpha");
+    expect(contract.textContent).not.toMatch(/Snell|GGX|Smith|Schlick/);
+    const chrome = container.querySelector("[data-glass-chrome-contract]")!;
+    expect(chrome.textContent).toContain("--material-texture-glass-overlay-blur");
+    expect(chrome.textContent).toContain("24px");
+    expect(chrome.textContent).toContain("20px");
+    const feedback = container.querySelector("[data-glass-feedback-contract]")!;
+    expect(feedback.textContent).toContain(language === "zh-CN" ? "指针追光" : "pointer glints");
+    expect(feedback.textContent).toContain(language === "zh-CN" ? "不位移" : "stay in place");
+    const variants = container.querySelector('[data-glass-variants-contract]')!;
+    for (const variant of ["clear", "regular", "dense"]) expect(variants.textContent).toContain(`material-glass-${variant}`);
+    for (const value of ["28% / 36%", "56% / 76%", "80% / 86%", "8px", "10px", "20px", "160%", "150%"])
+      expect(variants.textContent).toContain(value);
     expect(container.querySelectorAll('[data-glass-variant-example]')).toHaveLength(3);
-    expect(container.textContent).toContain('prefers-contrast: more');
-    expect(contract.textContent).toContain(language === "zh-CN" ? "不自动读取场景环境贴图" : "without automatic environment-map capture");
-    expect(contract.textContent).toContain(language === "zh-CN" ? "屏幕空间近似" : "screen-space approximation");
+    expect(container.textContent).toContain("prefers-contrast: more");
     const summary = [...container.querySelectorAll('[data-texture-summary] li')];
     expect(summary).toHaveLength(4);
     expect(summary.map(item => item.textContent?.split(" ")[0])).toEqual(["Solid", "Acrylic", "Aero", "Glass"]);
-    expect(summary[3].textContent).toContain(language === "zh-CN" ? "背景折射" : "backdrop refraction");
-    for (const suffix of ["ior", "roughness", "thickness", "absorption", "light-azimuth", "light-intensity", "ambient-color", "ambient-intensity"]) {
-      expect(container.textContent).toContain(`--material-texture-glass-${suffix}`);
-    }
-    expect(container.querySelector('a[href="https://developer.apple.com/videos/play/wwdc2025/219/"]')).not.toBeNull();
+    expect(summary[3].textContent).toContain(language === "zh-CN" ? "CSS 模糊" : "CSS blur");
+    const migration = container.querySelector('[data-glass-token-migration]')!;
+    for (const suffix of ["ior", "roughness", "thickness", "absorption", "light-azimuth", "light-intensity", "ambient-color", "ambient-intensity", "refraction", "edge-width"])
+      expect(migration.textContent).toContain(suffix);
+    for (const name of ["setTokens", "resetTokens", "RuntimeTokenName", "blur", "overlay-blur", "opacity"])
+      expect(migration.textContent).toContain(name);
+    expect(container.querySelector('a[href="https://www.whu.sb/"]')).not.toBeNull();
+    const card = container.querySelector('[data-slot="glass-surface-opt-in-example"] .material-medium')!;
+    expect(card.classList.contains("material-glass-regular")).toBe(true);
+    expect(card.hasAttribute("data-uni-glass-interaction")).toBe(false);
   });
 
   test.each(["en-US", "zh-CN"] as const)("renders bilingual material groups and the actual menu radius in %s", async (language) => {

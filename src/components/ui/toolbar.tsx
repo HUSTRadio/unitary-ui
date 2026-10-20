@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useGlassInteraction } from "@/lib/glass-interaction";
 
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 import { cn } from "@/lib/utils";
@@ -150,6 +151,7 @@ function collectCollapsedItems(children: React.ReactNode): CollapsedItem[] {
 }
 
 function Toolbar({ className, children, collapse = true, ...props }: ToolbarProps) {
+  const glass = useGlassInteraction();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const requiredWidthRef = React.useRef(0);
   const [collapsed, setCollapsed] = React.useState(false);
@@ -201,12 +203,13 @@ function Toolbar({ className, children, collapse = true, ...props }: ToolbarProp
         ref={containerRef}
         data-slot="toolbar"
       data-material="navigation"
+        data-uni-glass-interaction={glass.marker}
         data-collapsed={collapsed || undefined}
         className={cn(
           "flex w-full items-center gap-1 overflow-hidden rounded-lg bg-background p-1 shadow-[0_0_0_1px_var(--gray-alpha-400)]",
           className,
         )}
-        {...props}
+        {...glass.compose(props)}
       >
         {children}
         {collapsed && collapsedItems.length > 0 ? (

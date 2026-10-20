@@ -195,6 +195,23 @@ describe("global texture preference", () => {
 });
 
 describe("texture environment resolution", () => {
+  test("Glass selection uses CSS without creating optical observers, maps, or SVG resources", () => {
+    const resize = vi.fn();
+    const createImage = vi.fn();
+    const frame = vi.fn();
+    const canvas = vi.spyOn(HTMLCanvasElement.prototype, "getContext");
+    vi.stubGlobal("ResizeObserver", class { constructor() { resize(); } observe() {} disconnect() {} });
+    vi.stubGlobal("Image", class { constructor() { createImage(); } });
+    vi.stubGlobal("requestAnimationFrame", frame);
+    mount({ defaultTexture: "glass" }, <><Probe /><div data-uni-glass-surface="" className="material-medium material-glass-regular">Reading surface</div></>);
+    expect(currentTheme.resolvedTexture).toBe("glass");
+    expect(document.querySelector("filter, feDisplacementMap, canvas")).toBeNull();
+    expect(canvas).not.toHaveBeenCalled();
+    expect(resize).not.toHaveBeenCalled();
+    expect(createImage).not.toHaveBeenCalled();
+    expect(frame).not.toHaveBeenCalled();
+  });
+
   test.each([FORCED_QUERY, REDUCED_QUERY])("%s falls back globally and restores the retained request", (query) => {
     mount({ defaultTexture: "glass" });
     changeMedia(query, true);

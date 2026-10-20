@@ -40,6 +40,7 @@ Grouped website links with desktop panels and a modal mobile disclosure navigati
 
 ## 主题行为
 
+- Glass 下，Navbar 背景与前景分层，使用 Regular 填充与 24px 模糊；桌面 hover 面板使用独立的 Dense 透射与 20px 均匀模糊（--material-texture-glass-overlay-blur），不会错误复用顶栏范围。操作控件提供克制追光与 hover 过渡，不改变位置。作者 panelClassName 的背景、滤镜及局部 blur token 覆盖优先。
 - 使用共享语义颜色和动效 token；双主题保持同一交互契约。
 
 ## 实时示例

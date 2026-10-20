@@ -1,8 +1,9 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { ChevronDown, Menu as MenuIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMediaMatch } from "@/lib/use-page-scroll";
 import { useI18n } from "@/lib/i18n";
+import { hasGlassBackgroundOverride, hasGlassFilterOverride, useGlassInteraction } from "@/lib/glass-interaction";
 import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetClose } from "./sheet";
 
@@ -48,6 +49,8 @@ export function SiteNavigation({
   className,
   onOpenChange,
 }: SiteNavigationProps) {
+  const glassButton = useGlassInteraction();
+  const glassLink = useGlassInteraction({ keys: "link" });
   const { t } = useI18n();
   const name = label ?? t("Menu");
   const root = useRef<HTMLElement>(null);
@@ -127,7 +130,7 @@ export function SiteNavigation({
       target={link.target}
       rel={link.rel ?? (link.target === "_blank" ? "noopener noreferrer" : undefined)}
       aria-current={link.href === activeHref ? "page" : undefined}
-      className="block min-h-11 rounded-md px-3 py-3 text-copy-14 hover:bg-gray-alpha-100 focus-ring"
+      className="block min-h-11 rounded-md px-3 py-3 text-copy-14 hover:bg-gray-alpha-100 transition-colors focus-ring"
       onClick={(event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)
           return;
@@ -222,18 +225,19 @@ export function SiteNavigation({
                   id={`${prefix}-${item.id}-trigger`}
                   aria-expanded={current === item.id}
                   aria-controls={`${prefix}-${item.id}-panel`}
-                  className="flex min-h-11 items-center gap-2 rounded-md px-3 text-copy-14 hover:bg-gray-alpha-100 focus-ring"
-                  onPointerEnter={() => {
+                  data-uni-glass-interaction={glassButton.marker}
+                  className="flex min-h-11 items-center gap-2 rounded-md px-3 text-copy-14 hover:bg-gray-alpha-100 transition-colors focus-ring"
+                  {...glassButton.compose({ onPointerEnter: () => {
                     if (hover) {
                       clearTimer();
                       timer.current = setTimeout(() => setCurrent(item.id), 120);
                     }
-                  }}
-                  onClick={() => {
+                  },
+                  onClick: () => {
                     clearTimer();
                     setCurrent(current === item.id ? null : item.id);
-                  }}
-                  onKeyDown={(event) => {
+                  },
+                  onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => {
                     if (event.key === "ArrowDown") {
                       event.preventDefault();
                       clearTimer();
@@ -242,7 +246,7 @@ export function SiteNavigation({
                         panel.current?.querySelector<HTMLElement>("a,button")?.focus(),
                       );
                     }
-                  }}
+                  } })}
                   data-slot="site-navigation-top-item"
                 >
                   {item.label}
@@ -252,8 +256,10 @@ export function SiteNavigation({
                 <a
                   href={item.href}
                   data-slot="site-navigation-top-item"
+                  data-uni-glass-interaction={glassLink.marker}
+                  {...glassLink.compose({})}
                   aria-current={item.href === activeHref ? "page" : undefined}
-                  className="inline-flex min-h-11 items-center rounded-md px-3 text-copy-14 hover:bg-gray-alpha-100 focus-ring"
+                  className="inline-flex min-h-11 items-center rounded-md px-3 text-copy-14 hover:bg-gray-alpha-100 transition-colors focus-ring"
                 >
                   {item.label}
                 </a>
@@ -267,6 +273,7 @@ export function SiteNavigation({
             id={`${prefix}-${selected.id}-panel`}
             aria-labelledby={`${prefix}-${selected.id}-trigger`}
             data-slot="site-navigation-panel"
+            data-uni-glass-independent={!hasGlassBackgroundOverride(panelClassName) && !hasGlassFilterOverride(panelClassName) ? "" : undefined}
             style={{ maxHeight: availableHeight ?? "calc(100dvh - 5rem)" }}
             className={cn(
               "absolute inset-x-0 top-full z-[var(--uni-z-header,40)] overflow-y-auto overscroll-contain border-b border-gray-alpha-400 bg-background-100 p-6 shadow-lg",

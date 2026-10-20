@@ -96,6 +96,8 @@
 - 许可：[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)，独立于仓库的 MIT 许可。
 - 使用范围：材质文档的演示背景，原图 4288×2704，仅随文档站打包；文件与校验记录见 [素材声明](docs/site/src/assets/materials-alpsee.LICENSE.md)。
 
-## Glass 光学设计参考
+## Glass 材质视觉参考
 
-Glass 的屏幕空间透镜与交互代码由本项目独立实现。数学及视觉参考：[shuding/liquid-glass](https://github.com/shuding/liquid-glass)（JavaScript，MIT）、[rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react)（TypeScript，MIT）、[Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass)（Kotlin/AGSL，Apache-2.0）、[heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass)（Flutter/GLSL，MIT）。参考内容包括轮廓法线、边缘位移、清晰前景分层与有界接触反馈；未打包上述项目的源码片段、运行时库或演示资产。
+当前 CSS Glass 的视觉参考为 [whu.sb](https://www.whu.sb/) / [ClosedWHU/Luotopia](https://github.com/ClosedWHU/Luotopia/tree/b734870ae8ebdfd0e4649eaad7484858b6b3485b)，研究版本为 `b734870ae8ebdfd0e4649eaad7484858b6b3485b`。本项目仅研究其背景模糊、半透明填充、方向高光、细边及克制交互的渲染机制，并以自身配色、尺寸和圆角独立实现；未复制或分发其源码、素材，也未新增第三方运行时依赖。
+
+历史参考：[shuding/liquid-glass](https://github.com/shuding/liquid-glass)（MIT）、[rdev/liquid-glass-react](https://github.com/rdev/liquid-glass-react)（MIT）、[Kyant0/AndroidLiquidGlass](https://github.com/Kyant0/AndroidLiquidGlass)（Apache-2.0）、[heyarny/oc_liquid_glass](https://github.com/heyarny/oc_liquid_glass)（MIT）。这些项目曾用于已弃用的 Glass 透镜方案设计研究；旧 SVG 折射与位移实现已移除，当前 CSS Glass 不再采用该方案。本项目未打包上述项目的源码片段、运行时库或演示资产。

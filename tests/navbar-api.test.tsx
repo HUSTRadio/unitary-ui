@@ -65,6 +65,16 @@ afterEach(() => {
 });
 
 describe("(a) 默认渲染与 pinned 定位", () => {
+  test("Glass background layering yields to author fills, filters and pseudo-elements", () => {
+    for(const className of ["bg-red-500","backdrop-blur-none","before:content-['custom']","static"]){
+      const markup=renderToStaticMarkup(<Navbar className={className} />);
+      expect(markup).not.toContain("data-uni-glass-chrome");
+      if(className==="bg-red-500")expect(markup).not.toContain("bg-background-100");
+      if(className==="backdrop-blur-none")expect(markup).not.toContain("data-material=");
+    }
+    expect(renderToStaticMarkup(<Navbar />)).toContain('data-uni-glass-chrome=""');
+    expect(renderToStaticMarkup(<Navbar variant="transparent" />)).not.toContain("data-uni-glass-chrome");
+  });
   test("默认输出 header[data-slot=navbar] 且 sticky top-0（pinned）", () => {
     const markup = renderToStaticMarkup(
       <Navbar>

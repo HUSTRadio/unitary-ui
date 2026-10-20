@@ -1892,7 +1892,7 @@ export const GLOBAL_TOKENS = {
   "--color-warning": {
     "value": "var(--warning)",
     "darkValue": "",
-    "kind": "mapping",
+    "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "colors"
@@ -2662,39 +2662,7 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-absorption": {
-    "value": "0.08",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-ambient-color": {
-    "value": "currentColor",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-ambient-intensity": {
-    "value": "0.25",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
   "--material-texture-glass-blur": {
-    "value": "1px",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-edge-width": {
     "value": "10px",
     "darkValue": "",
     "kind": "runtime",
@@ -2702,56 +2670,16 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-ior": {
-    "value": "1.5",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-light-azimuth": {
-    "value": "315deg",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-light-intensity": {
-    "value": "0.65",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
   "--material-texture-glass-opacity": {
-    "value": "52%",
-    "darkValue": "68%",
+    "value": "56%",
+    "darkValue": "76%",
     "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "materials"
   },
-  "--material-texture-glass-refraction": {
-    "value": "6px",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-roughness": {
-    "value": "0.24",
-    "darkValue": "",
-    "kind": "runtime",
-    "variants": {},
-    "status": "active",
-    "group": "materials"
-  },
-  "--material-texture-glass-thickness": {
-    "value": "1",
+  "--material-texture-glass-overlay-blur": {
+    "value": "20px",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
@@ -3163,7 +3091,7 @@ export const GLOBAL_TOKENS = {
   "--radius-md": {
     "value": "var(--radius)",
     "darkValue": "",
-    "kind": "mapping",
+    "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "shape"
@@ -3196,7 +3124,7 @@ export const GLOBAL_TOKENS = {
   "--radius-sm": {
     "value": "calc(var(--radius) - 2px)",
     "darkValue": "",
-    "kind": "mapping",
+    "kind": "runtime",
     "variants": {},
     "status": "active",
     "group": "shape"

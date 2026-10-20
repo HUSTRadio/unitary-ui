@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useGlassInteraction } from "@/lib/glass-interaction";
 
 import { cn } from "@/lib/utils";
 import { useScrollTracking, type ScrollTrackingMode } from "@/lib/scroll-tracking";
@@ -123,6 +124,7 @@ function OfficialTabs({
     ),
   );
   const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const glass = useGlassInteraction({ enabled: variant === "secondary" && !disabled });
   const listRef = React.useRef<HTMLDivElement>(null);
   useSlidingIndicator({ rootRef: listRef, activeKey: selected, enabled: variant === "primary" });
   useScrollTracking({
@@ -199,6 +201,9 @@ function OfficialTabs({
             }}
             type="button"
             role="tab"
+            data-uni-glass-surface={variant === "secondary" && !isDisabled ? "" : undefined}
+            data-uni-glass-interaction={!isDisabled ? glass.marker : undefined}
+            {...glass.compose({})}
             data-state={isSelected ? "active" : "inactive"}
             aria-selected={isSelected}
             aria-disabled={isDisabled || undefined}

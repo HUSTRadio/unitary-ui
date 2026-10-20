@@ -7,7 +7,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { acquireGlassRuntime } from "./glass-runtime";
 
 /**
  * OA Workspace — Theme preference system
@@ -255,10 +254,6 @@ export function ThemeProvider({
   useEffect(() => {
     if (ownsTexture && textureReady) applyTexture(requestedTexture, resolvedTexture);
   }, [ownsTexture, textureReady, requestedTexture, resolvedTexture]);
-
-  useEffect(() => {
-    if (ownsTexture && textureReady && resolvedTexture === "glass") return acquireGlassRuntime(document);
-  }, [ownsTexture, textureReady, resolvedTexture]);
 
   useEffect(() => {
     if (!ownsTexture || controlledTexture !== undefined) return;

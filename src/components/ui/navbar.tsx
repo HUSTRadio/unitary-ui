@@ -1,6 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 
 import { usePageScroll } from "@/lib/use-page-scroll";
+import { cn } from "@/lib/utils";
+import { hasGlassBackgroundOverride, hasGlassFilterOverride } from "@/lib/glass-interaction";
 
 export interface NavbarProps {
   /**
@@ -59,6 +61,7 @@ export function Navbar({
 
   // solid 常驻底色；transparent + solidOnScroll 在滚动后才补底色。
   const filled = variant === "solid" || (solidOnScroll && scrolled);
+  const authoredFilter = hasGlassFilterOverride(className);
   const surfaceClass = filled
     ? "bg-background-100 border-b border-gray-alpha-400"
     : "";
@@ -73,10 +76,11 @@ export function Navbar({
   return (
     <header
       data-slot="navbar"
-      data-material={filled ? "navigation" : undefined}
+      data-material={filled && !authoredFilter ? "navigation" : undefined}
+      data-uni-glass-chrome={filled && !hasGlassBackgroundOverride(className) && !authoredFilter && !className?.includes("before:") && !/(?:^|\s)(?:[^\s]+:)*!?static!?(?:\s|$)/.test(className ?? "") ? "" : undefined}
       data-behavior={scrollBehavior}
       data-solid-on-scroll={solidOnScroll ? "true" : undefined}
-      className={`${positionClass} ${heightClass} ${hidden ? "-translate-y-full focus-within:translate-y-0 " : ""}${surfaceClass}${className ? ` ${className}` : ""}`}
+      className={cn(positionClass, heightClass, hidden && "-translate-y-full focus-within:translate-y-0", surfaceClass, className)}
       style={style}
     >
       {children}

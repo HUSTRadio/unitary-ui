@@ -7,6 +7,7 @@ export { React };
 export { mountMotionRegressionFixture } from "./motion-regression-fixture";
 export * as ReactDOM from "react-dom/client";
 export { Button, ButtonLink, Toolbar, Radio, RadioGroup, RadioGroupItem } from "@hustradio/unitary-ui";
+export { setTokens, resetTokens } from "@hustradio/unitary-ui";
 
 function ToggleMotionFixture() {
   const [values, setValues] = React.useState({ small: false, medium: false, large: false });

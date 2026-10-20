@@ -40,6 +40,7 @@ Grouped website navigation sharing links between desktop panels and a modal mobi
 
 ## Theme behavior
 
+- With Glass, Navbar separates its background and foreground using Regular fill and 24px blur. Desktop hover panels independently transmit with Dense fill and 20px uniform blur (--material-texture-glass-overlay-blur), rather than sharing the header's limited sampling area. Actions use restrained glints and hover transitions without moving. Authored panelClassName backgrounds, filters and local blur token overrides take precedence.
 - Uses shared semantic colors and motion tokens with the same interaction contract in both themes.
 
 ## Live Demo

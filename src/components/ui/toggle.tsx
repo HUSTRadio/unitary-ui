@@ -1,4 +1,5 @@
 import * as React from "react";
+import { hasGlassBackgroundOverride, useGlassInteraction } from "@/lib/glass-interaction";
 
 import { cn } from "@/lib/utils";
 import { getTokens } from "@/lib/tokens";
@@ -202,6 +203,8 @@ function Toggle({
   ref,
   ...props
 }: ToggleProps) {
+  const authoredBackground = hasGlassBackgroundOverride(className);
+  const glass = useGlassInteraction({ enabled: !disabled && !authoredBackground, keys: "choice", target: host => host.querySelector<HTMLElement>('[data-slot="toggle-track"]') });
   const inputRef = React.useRef<HTMLInputElement>(null);
   const thumbRef = React.useRef<HTMLSpanElement>(null);
   const mergedRef = React.useCallback((input: HTMLInputElement | null) => {
@@ -228,6 +231,9 @@ function Toggle({
       {/* 轨道 */}
       <span
         data-slot="toggle-track"
+        data-uni-glass-surface={authoredBackground || disabled ? undefined : ""}
+        data-uni-glass-interaction={glass.marker}
+        data-glass-toggle-color={color}
         aria-hidden
         className={cn(
           "relative block cursor-pointer rounded-[14px] transition-[background,border-color] duration-(--uni-duration-base) ease-in-out",
@@ -274,6 +280,7 @@ function Toggle({
     return (
       <span
         data-slot="toggle-line"
+        {...glass.compose({})}
         className={cn(
           "flex items-center",
           size === "small" ? "h-5" : size === "medium" ? "h-[26px]" : "h-[30px]",
@@ -286,6 +293,7 @@ function Toggle({
 
   return (
     <label
+      {...glass.compose({})}
       className={cn(
         "text-toggle-label inline-flex cursor-pointer items-center gap-3 whitespace-nowrap py-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
         direction === "rtl" && "flex-row-reverse",

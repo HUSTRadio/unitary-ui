@@ -10,12 +10,12 @@ Surface 用于页面内的容器，Floating 用于浮层。材质预设定义圆
 
 ## Texture · 全局材质外观
 
-材质用来表达功能层与内容之间的关系。借鉴 Apple HIG 对层级、上下文和可读性的重视，保持中性、温和的透光与边缘反射；正文、表格和表单内容保持清晰。
+材质用来表达功能层与内容之间的关系。Glass 以半透明填充、背景模糊、柔和高光和细边表达层次，保留 Unitary 的配色、尺寸和圆角；正文、表格和表单内容保持清晰。
 
 - Solid 是默认值，保留现有填充、描边、阴影及少量既有遮罩模糊。
 - Acrylic 在导航、浮层和遮罩增加轻微背景散射，内部控件保持平面。
 - Aero 保留原 Glass 的背景散射、方向性照明和厚度吸收近似，用于功能层、次要按钮与卡片式 Radio。
-- Glass 使用均匀基材，沿轮廓的结构变化产生背景折射、反射及环境光响应；控件保留清晰的按下、选中和焦点反馈。
+- Glass 使用均匀半透明基材与 CSS 模糊，叠加静态方向高光、细内描边及柔和投影；既有交互控件提供克制的指针追光和 hover 过渡。
 
 全局材质外观
 
@@ -37,17 +37,15 @@ SolidAcrylicAeroGlass
 
 Photograph by [mirobo](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg) · Alpsee · [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
-Clear · 24% / 36%
-
-00:42
+Clear · 28% / 36% · 8px
 
 媒体上的短标签；独立的均匀 70% 衬底。
 
-Regular · 52% / 68%
+Regular · 56% / 76% · 10px
 
 导航、工具栏和独立次要操作。
 
-Dense · 82% / 90%
+Dense · 80% / 86% · 20px
 
 最近的文件
 
@@ -56,11 +54,15 @@ Dense · 82% / 90%
 
 菜单、列表、抽屉和文字浮层。
 
-Glass 按用途提供 material-glass-clear、material-glass-regular 和 material-glass-dense 三个 className 预设，应用到实际材质表面。导航、Toolbar 和独立次要操作默认 Regular；菜单、选择列表、抽屉及对话框类浮层默认 Dense。Clear 仅显式用于媒体上的少量图标或短标签，由场景提供独立衬底并实测对比度。三档共享 1px 模糊，填充为 Clear 24% / 36%、Regular 52% / 68%、Dense 82% / 90%；折射参数分别为 6px / 6px / 3px，边带上限 8px / 10px / 8px，粗糙度 0.18 / 0.24 / 0.32。正文和普通内容卡片保持 Solid 或 Acrylic。
+Glass 按用途提供 material-glass-clear、material-glass-regular 和 material-glass-dense 三个 className 预设，应用到实际材质表面。Clear 填充浅/深 28% / 36%、模糊 8px；Regular 为 56% / 76%、10px；Dense 为 80% / 86%、20px。导航、Toolbar 和独立次要操作默认 Regular；菜单、选择列表、抽屉及对话框类浮层默认 Dense。Clear 仅显式用于媒体上的少量图标或短标签，由场景提供独立均匀衬底并实测对比度。三档背景饱和度均为浅色 160%、深色 150%。Regular 的填充针对中性色板及不受控背景的对比度需求调整；仍需检查文字、状态和高光叠加后的实际对比度。
+
+固定或吸顶 Navbar 使用 Regular 填充与 24px 背景模糊，由独立背景层采样，文字与交互仍在前景。SiteNavigation 的 hover 面板超出顶栏采样范围，因此独立采用 Dense 与 20px 模糊；浮层模糊由 --material-texture-glass-overlay-blur 控制。内部按钮共享所在功能层的采样。作者提供的背景、滤镜、局部 blur token 或顶栏 before 伪元素保留优先级。
+
+次要按钮、卡片 Radio、Toolbar、secondary Tabs、Switch、Toggle 和导航操作使用轻量 CSS 指针追光及可插值的 hover 状态，进入和离开均遵循现有动效 token。精细指针移动时高光按帧更新，按压固定接触点，键盘使用中心反馈，触摸仅表达按压。按钮、导航、文字和点击区域不位移；Toggle 原有滑块动画保留。内部控件不增加背景采样；减少动效关闭追光与新增过渡。
 
 根 token 是 Regular 基准，Clear / Dense 采用局部预设；同一表面上的作者 token 优先。setTokens(values, { target: surface }) 修改当前表面，resetTokens(names, { target: surface }) 恢复该档；显式 Regular 恢复根基准。Portal 必须在实际浮层上应用 className，不继承触发器预设。Select.className 只作用于触发器，选择列表本轮采用自动 Dense。
 
-增强对比度 prefers-contrast: more 使用 92% / 96% 填充和 Dense 光学参数，中性轮廓使用前景色 65% 混合；系统设置变化会同步 SVG 与 CSS。它只改变私有有效参数，公共 token 保留作者请求值。减少透明度和强制颜色优先回退 Solid。普通文字至少 4.5:1，大文字及必要控件标识至少 3:1，以实际合成背景验证。
+增强对比度 prefers-contrast: more 使用 92% / 96% 填充、Dense 模糊及前景色 65% 混合的中性轮廓。它只改变私有有效参数，公共 token 保留作者请求值。减少透明度和强制颜色优先回退 Solid。普通文字至少 4.5:1，大文字及必要控件标识至少 3:1，以实际合成背景验证；复杂背景使用独立均匀衬底或 Dense。
 
 global-texture.tsx
 
@@ -109,43 +111,60 @@ export function App() {
 
 仅使用 CSS 时，可在文档根节点声明 `<html data-texture="glass">`，一次应用于整个界面；局部元素上的 data-texture 不创建材质主题。挂载根 ThemeProvider 后，它负责维护该属性并处理能力与辅助功能降级。
 
-Acrylic 采用 8px 背景散射与 80% 填充；Aero 保留原 Glass 的 20px 散射、浅色 60% 和深色 74% 填充。新 Glass 默认 1px 模糊，Regular 基础填充浅色 52%、深色 68%，文字浮层自动采用 Dense 的 82% / 90%；基材填充、模糊、粗糙度与吸收系数全表面一致，视觉差异来自结构改变后的光学响应。浮层次级文字适度增强对比度，正文和内部控件保持清晰。相关 --material-texture-\* token 可统一调整。连续曲率阴影容器形成背景采样边界时，内部表面使用不透明填充，保持裁切与阴影完整。
+Acrylic 采用 8px 背景散射与 80% 填充；Aero 保留原 Glass 的 20px 散射、浅色 60% 和深色 74% 填充。Glass 的基材 alpha 与模糊全表面均匀，静态方向渐变仅负责表面高光，不声称物理折射或空间可变模糊。浮层次级文字适度增强对比度，正文和内部控件保持清晰。连续曲率阴影容器形成背景采样边界时，内部表面使用不透明填充，保持裁切与阴影完整。
 
 功能层按用途选择材质厚度。Acrylic、Aero 与 Glass 使用柔和投影和透光细边；导航栏与工具栏只保留描边。带箭头的默认 Tooltip 与 ContextCard 使用稳定的不透明表面，避免箭头接缝；默认 Tooltip 关闭箭头后可以透光。状态色 Tooltip、Toast 和反色图表提示保持不透明填充，保护原有对比度。
 
-Aero 保留原次要按钮和卡片 Radio 的 72% / 80% 填充、6px 模糊及静态光学效果。新 Glass 移除指针追光、人工亮边和凝胶压缩；次要操作、Tabs、Toolbar、Toggle 和 Switch 使用既有状态反馈。状态色、文字、点击区域和焦点环保持稳定，内部控件共享外层的背景采样。
+Aero 保留原次要按钮和卡片 Radio 的 72% / 80% 填充、6px 模糊及静态光学效果。Glass 控件以高光、状态填充与细边表达悬停、按压和选中，不使用折射姿态或凝胶压缩。选中语义色是独立均匀状态层，必要时覆盖透射以保护状态辨识；作者事件取消、无滚动聚焦及键盘行为保持不变。
 
-Glass 使用均匀基材，根据实际轮廓和连续倒角法线，按 Snell 折射方向向内采样，限制位移变化率以避免纹理折叠，并在中心归零。非偏振 Fresnel 决定视角相关的环境反射，GGX / Smith 高光只依赖法线、光向与统一粗糙度；默认模糊 1px，基础填充全表面一致，内部控件共享外层采样。材质本体没有位置渐变，不使用空间可变模糊或额外边缘亮度蒙版。同一背景滤镜仅做一次模糊和位移，CSS 圆角完成唯一的轮廓裁切。透射与反射在线性光空间按能量权重混合，Beer–Lambert T = exp(−μd) 使用统一吸收系数和实际折射光程，不附加边缘权重。Regular 默认 IOR 1.5、粗糙度 0.24、厚度 1、吸收 0.08，主光 315° / 0.65，环境光 0.25 / currentColor。setTokens 和 resetTokens 可局部调整环境色与参数。环境光是屏幕空间近似，不自动读取场景环境贴图。
+Glass 使用 CSS backdrop-filter 进行一次背景模糊与饱和度调整，前景文字不参与滤镜。静态斜向高光、薄内描边与阴影形成层次；控件追光作为独立装饰，不改变基材 alpha，也不重复模糊。没有 SVG 位移滤镜、贴图编码、几何缓存或浏览器版本白名单。
 
-Regular 折射强度默认 6px，结构倒角区最大 10px，受短边 20% 和最小圆角共同约束；位移由变化率限制决定。尖角、退化轮廓和解码后采样折叠使用均匀的 CSS Glass 回退。refraction 设为 0px 可关闭增强。桌面 Chromium 151+ 在能力与贴图解码检查通过后增强；其他浏览器、仅 CSS 使用、受限 CSP、异常轮廓和背景采样边界保留 CSS Glass。减少透明度和强制颜色使用 Solid；状态过渡继续遵循各组件的减少动效策略，Glass 不附加追光或形变。
+仅使用 CSS 的页面与支持背景滤镜的浏览器使用同一套静态 Glass。指针更新只在输入时请求一帧，离开、取消、禁用和卸载时清理，空闲时不维持动画循环。减少透明度、强制颜色或缺少基础能力时回退 Solid；减少动效关闭新增追光与过渡。
 
-相同几何和光学参数的表面共享构建结果，增强准备过程中保留 CSS Glass。动态移除材质 class 或改变材质身份时，会取消旧结果并释放资源；Portal 卸载、StrictMode 重挂载和多个根 Provider 共享页面时，不需要手动维护 SVG 定义。
+正文和普通内容卡片不自动玻璃化。需要时将 material-glass-clear、material-glass-regular 或 material-glass-dense 与 material-base、material-small、material-medium、material-large 之一组合。普通 DOM 卡片只有静态高光，不自动绑定指针事件，也不改变布局、圆角或作者 transform。
 
-迁移：原 Hybrid 改名 Acrylic（hybrid → acrylic），原 Glass 改名 Aero（glass → aero）。旧存储自动迁移到 unitary-texture-preference-v2；有效新值优先。程序中 texture=glass 现在选择新 Glass，保持旧外观请改用 aero，并将旧 glass token 前缀改为 aero。旧 hybrid token 前缀改为 acrylic。
+命名迁移保持不变：原 Hybrid 改名 Acrylic（hybrid → acrylic），最早的 Glass 改名 Aero（glass → aero）。旧存储自动迁移到 unitary-texture-preference-v2；有效 v2 值优先，已保存的 v2 glass 继续选择 Glass 并应用新外观。最早 Glass 的 token 前缀改为 aero，旧 hybrid 前缀改为 acrylic。
 
-环境光、几何高光与可读性参考 [Apple · Meet Liquid Glass](https://developer.apple.com/videos/play/wwdc2025/219/)；上述公式与参数由 Unitary UI 自行选择，并非 HIG 规定。
+本次替换删除 --material-texture-glass- 下的 ior、roughness、thickness、absorption、light-azimuth、light-intensity、ambient-intensity、ambient-color、refraction 和 edge-width 十个光学 token。请从 setTokens、resetTokens 及 CSS 覆盖中移除这些名称；它们不再是有效 RuntimeTokenName，setTokens 会拒绝未知名称，不提供无效果兼容映射。继续使用 blur、overlay-blur、opacity 三个外观 token 调整模糊与基材填充。
 
-glass-lighting.tsx
+材质组织参考 [Luotopia · whu.sb](https://www.whu.sb/) 的模糊、半透明填充、方向高光与细边机制，由 Unitary UI 独立实现；不移植站点源码、素材或布局。
+
+glass-appearance.tsx
 
 ```tsx
 import { setTokens, resetTokens } from "@hustradio/unitary-ui";
 
-setTokens({
-  "--material-texture-glass-refraction": "6px",
-  "--material-texture-glass-edge-width": "10px",
-  "--material-texture-glass-ior": "1.5",
-  "--material-texture-glass-roughness": "0.24",
-  "--material-texture-glass-thickness": "1",
-  "--material-texture-glass-absorption": "0.08",
-  "--material-texture-glass-light-azimuth": "315deg",
-  "--material-texture-glass-light-intensity": "0.65",
-  "--material-texture-glass-ambient-intensity": "0.25",
-  "--material-texture-glass-ambient-color": "currentColor",
-});
+const surface = document.querySelector<HTMLElement>(".my-glass-surface");
+if (surface) {
+  setTokens(
+    {
+      "--material-texture-glass-blur": "10px",
+      "--material-texture-glass-overlay-blur": "20px",
+      "--material-texture-glass-opacity": "56%",
+    },
+    { target: surface },
+  );
 
-// A local environment color; the default is neutral within the surface palette.
-// setTokens({ "--material-texture-glass-ambient-color": "#8eb8c5" }, { target: surface });
-// resetTokens(["--material-texture-glass-ambient-color"], { target: surface });
+  // Restore this surface's Clear, Regular or Dense preset.
+  resetTokens(
+    [
+      "--material-texture-glass-blur",
+      "--material-texture-glass-overlay-blur",
+      "--material-texture-glass-opacity",
+    ],
+    { target: surface },
+  );
+}
+
+// Ordinary content cards opt in explicitly; their sheen is static.
+export function PreviewCard() {
+  return (
+    <div className="my-glass-surface material-medium material-glass-regular p-5">
+      <h3>Project preview</h3>
+      <p>Keep text and controls clear.</p>
+    </div>
+  );
+}
 ```
 
 集中表达状态、数量或类别的小型控件保留稳定的实色前景和语义色，必要时使用局部填充突出信息。文字或图标补足颜色表达，不要求整块玻璃化。
@@ -155,6 +174,12 @@ Acrylic、Aero 与 Glass 的功能性分隔线及控件已有边框，使用所�
 ## 表面
 
 用于页面内的容器。用较轻的阴影区分层次，避免过度突出。
+
+普通表面保持原样。显式组合 material-medium 与 material-glass-regular 可选择 Glass，保留现有圆角、尺寸和层级，仅增加静态材质高光。
+
+显式选择的内容卡片
+
+material-medium material-glass-regular
 
 material-base
 
@@ -314,6 +339,6 @@ export function Scrim() {
 
 - 使用 CSS 背景模糊、颜色混合和渐变，无需实验开关；缺少所需能力时，全局回退为 Solid。
 - 尊重强制颜色、减少透明度与减少动态效果偏好；减少透明度检测作为渐进增强，Solid 始终可手动选择。
-- 功能层默认模糊不超过 20px，遮罩为 8px，独立次要按钮和卡片选项为 6px；新 Glass 为 1px；贴图仅在几何或参数改变时重建，指针更新按帧合并且空闲时停止，避免重复采样。
+- Acrylic / Aero 的功能层默认模糊不超过 20px、独立控件为 6px；Glass 的 Clear / Regular / Dense 分别为 8px / 10px / 20px，固定顶栏为 24px，hover 面板为 20px，遮罩为 8px。内部控件共享外层采样，指针更新按帧合并且空闲时停止。
 
 [Apple HIG · Materials](https://developer.apple.com/design/human-interface-guidelines/materials) · [MDN · backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/backdrop-filter) · [MDN · prefers-reduced-transparency](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-transparency)

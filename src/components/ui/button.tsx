@@ -3,6 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
 import { LoadingIcon } from "@/components/ui/loading-icon";
 import { cn } from "@/lib/utils";
+import { useGlassInteraction } from "@/lib/glass-interaction";
 
 /**
  * Button - Geist 官方 Button 单轨 API 实现。
@@ -116,6 +117,7 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
+  const glass = useGlassInteraction({ enabled: type === "secondary" && !disabled && !loading });
   const Comp = asChild ? Slot.Root : "button";
 
   const shadowClass = shadow ? "shadow-lg" : "";
@@ -126,6 +128,7 @@ function Button({
     <Comp
       data-slot="button"
       data-uni-button=""
+      data-uni-glass-interaction={glass.marker}
       data-type={type}
       data-size={resolvedSize}
       data-shape={shape}
@@ -136,7 +139,7 @@ function Button({
         svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
         shadowClass,
       )}
-      {...props}
+      {...glass.compose(props)}
     >
       {loading ? (
         <LoadingIcon className="mr-2" />
@@ -189,11 +192,13 @@ function ButtonLink({
   children,
   ...props
 }: ButtonLinkProps) {
+  const glass = useGlassInteraction({ enabled: type === "secondary" && !disabled && !loading, keys: "link" });
   const resolvedSize = size;
   return (
     <a
       data-slot="button"
       data-uni-button=""
+      data-uni-glass-interaction={glass.marker}
       data-type={type}
       data-size={resolvedSize}
       data-shape={shape}
@@ -204,7 +209,7 @@ function ButtonLink({
         svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
         shadow && "shadow-lg",
       )}
-      {...props}
+      {...glass.compose(props)}
     >
       {loading ? (
         <LoadingIcon className="mr-2" />

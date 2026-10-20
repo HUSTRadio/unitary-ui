@@ -10,12 +10,12 @@ Surface is for containers within the page; Floating is for overlays. Material pr
 
 ## Texture · Global appearance
 
-Materials express the relationship between functional layers and content. Following Apple HIG principles of hierarchy, context and readability, transmission and edge reflections stay neutral and gentle; body text, tables and form content remain clear.
+Materials express the relationship between functional layers and content. Glass combines translucent fill, backdrop blur, soft sheen and fine edges, retaining Unitary palettes, dimensions and corner radii. Body text, tables and forms remain clear.
 
 - Solid is the default and preserves existing fills, strokes, shadows and the few existing blurred masks.
 - Acrylic adds gentle background diffusion to navigation, floating layers and masks; inner controls stay flat.
 - Aero retains the former Glass diffusion, directional lighting and thickness-absorption approximation on functional layers, secondary buttons and card-style Radio.
-- Glass uses a uniform body, with contour geometry producing backdrop refraction, reflection and ambient lighting. Controls retain clear pressed, selected and focus states.
+- Glass uses a uniform translucent body and CSS blur, layered with directional sheen, fine inset edges and soft shadows. Existing interactive controls add restrained pointer glints and hover transitions.
 
 Global texture
 
@@ -37,17 +37,15 @@ Saved 3 tasks
 
 Photograph by [mirobo](https://commons.wikimedia.org/wiki/File:View_of_lake_in_forest.jpg) · Alpsee · [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
-Clear · 24% / 36%
-
-00:42
+Clear · 28% / 36% · 8px
 
 Short media labels with a separate uniform 70% backing.
 
-Regular · 52% / 68%
+Regular · 56% / 76% · 10px
 
 Navigation, toolbars and standalone secondary actions.
 
-Dense · 82% / 90%
+Dense · 80% / 86% · 20px
 
 Recent files
 
@@ -56,11 +54,15 @@ Recent files
 
 Menus, lists, drawers and text-rich floating surfaces.
 
-Glass provides material-glass-clear, material-glass-regular and material-glass-dense className presets on actual material surfaces. Navigation, Toolbar and standalone secondary actions default to Regular; menus, selection lists, drawers and dialog surfaces default to Dense. Clear is explicit for a few media icons or short labels, with separate scene backing and measured contrast. All use 1px blur: Clear fill is 24% / 36%, Regular 52% / 68%, and Dense 82% / 90%. Refraction inputs are 6px / 6px / 3px, bevel caps 8px / 10px / 8px and roughness 0.18 / 0.24 / 0.32. Body text and ordinary content cards retain Solid or Acrylic.
+Glass provides material-glass-clear, material-glass-regular and material-glass-dense className presets on actual material surfaces. Clear uses 28% / 36% light/dark fill with 8px blur; Regular uses 56% / 76% with 10px; Dense uses 80% / 86% with 20px. Navigation, Toolbar and standalone secondary actions default to Regular; menus, selection lists, drawers and dialog surfaces default to Dense. Clear is explicit for a few media icons or short labels, with separate uniform scene backing and measured contrast. All three use 160% light and 150% dark backdrop saturation. Regular fill is tuned for neutral palettes and uncontrolled backgrounds; still check actual contrast after text, states and sheen are composited.
+
+A fixed or sticky Navbar uses Regular fill and 24px backdrop blur on a separate background layer, keeping text and interaction in the foreground. SiteNavigation hover panels extend beyond that sampler and independently use Dense with 20px blur, controlled by --material-texture-glass-overlay-blur. Inner buttons share their functional surface sampler. Authored backgrounds, filters, local blur tokens and header before pseudo-elements retain priority.
+
+Secondary buttons, card radios, Toolbar, secondary Tabs, Switch, Toggle and navigation actions use lightweight CSS pointer glints and interpolated hover states, with existing motion tokens on entry and exit. Fine-pointer glints update once per frame; pressing fixes the contact point, keyboard feedback uses the center, and touch expresses only pressed state. Buttons, navigation, text and hit areas stay in place; Toggle retains its thumb animation. Inner controls add no backdrop sampler. Reduced motion disables tracking and added transitions.
 
 Root tokens provide the Regular baseline; Clear / Dense use local presets, with author tokens on the same surface taking precedence. setTokens(values, { target: surface }) customizes that surface; resetTokens(names, { target: surface }) restores its preset. Explicit Regular restores the root baseline. Put className on actual portal content, rather than its trigger. Select.className styles only the trigger; its list uses automatic Dense.
 
-prefers-contrast: more uses 92% / 96% fill with Dense optics and neutral outlines mixed from 65% foreground color. SVG and CSS update with system changes. Only private effective inputs change; public tokens retain requested values. Reduced transparency and forced colors take precedence and resolve to Solid. Test actual composited backgrounds for at least 4.5:1 normal text and 3:1 large text and necessary control indicators.
+prefers-contrast: more uses 92% / 96% fill, Dense blur and neutral outlines mixed from 65% foreground color. Only private effective inputs change; public tokens retain requested values. Reduced transparency and forced colors take precedence and resolve to Solid. Test actual composited backgrounds for at least 4.5:1 normal text and 3:1 large text and necessary control indicators; use separate uniform backing or Dense for difficult backgrounds.
 
 global-texture.tsx
 
@@ -109,43 +111,60 @@ The root ThemeProvider accepts texture (controlled), defaultTexture (uncontrolle
 
 For CSS-only use, declare `<html data-texture="glass">` on the document root to apply the appearance globally; descendant data-texture attributes do not create a texture theme. Once mounted, the root ThemeProvider owns this attribute and handles capability and accessibility fallbacks.
 
-Acrylic uses 8px diffusion and 80% fill. Aero preserves the former Glass: 20px diffusion, 60% light fill and 74% dark fill. New Glass defaults to 1px blur: Regular uses 52% light and 68% dark base fill, while text-rich floating surfaces automatically use Dense at 82% / 90%. Base fill, blur, roughness and absorption coefficients are uniform across the surface; geometry produces the optical variation. Secondary copy gains contrast on floating surfaces; reading content and inner controls remain clear. The --material-texture-\* tokens allow shared adjustments. When a continuous-corner shadow container creates a backdrop sampling boundary, its inner surface uses an opaque fill to preserve clipping and shadows.
+Acrylic uses 8px diffusion and 80% fill. Aero preserves the former Glass: 20px diffusion, 60% light fill and 74% dark fill. Glass keeps body alpha and blur uniform across the surface; a static directional gradient adds sheen without claiming physical refraction or spatially variable blur. Secondary copy gains contrast on floating surfaces; reading content and inner controls remain clear. When a continuous-corner shadow container creates a backdrop sampling boundary, its inner surface uses an opaque fill to preserve clipping and shadows.
 
 Functional layers choose material thickness by purpose. Acrylic, Aero and Glass use soft projections and translucent hairlines; navigation bars and toolbars retain strokes only. Default tooltips with stems and ContextCard use stable opaque surfaces to avoid stem seams; default tooltips without stems can transmit the backdrop. Status-colored tooltips, toasts and inverted chart hints retain opaque fills to preserve contrast.
 
-Aero retains the former secondary-button and card-radio treatment: 72% / 80% fill, 6px blur and static optics. New Glass removes pointer-tracking glare, artificial rims and gel compression. Secondary actions, Tabs, Toolbar, Toggle and Switch use their existing state feedback. State colors, text, hit areas and focus rings stay stable; inner controls share the outer backdrop sampler.
+Aero retains the former secondary-button and card-radio treatment: 72% / 80% fill, 6px blur and static optics. Glass controls express hover, press and selection through sheen, state fills and fine edges, without refraction poses or gel compression. Selected semantic colors form a separate uniform state layer that can occlude transmission to protect state recognition; author event cancellation, no-scroll focus and keyboard behavior are preserved.
 
-Glass uses a uniform body and samples inward along Snell refraction using the actual contour and continuous bevel normals, limiting displacement derivatives to prevent texture folds and returning to zero in the center. Unpolarized Fresnel determines view-dependent environment reflection; GGX / Smith highlights depend only on normals, light direction and uniform roughness. Blur defaults to 1px, base fill is uniform across the surface, and inner controls share the outer sampler. The material has no positional gradient, spatially variable blur or extra rim-brightness mask. One backdrop pipeline applies blur and displacement, with CSS corners providing the only silhouette clip. Transmission and reflection mix with energy weights in linear light. Beer–Lambert T = exp(−μd) uses the uniform absorption coefficient and actual refracted optical path, without an edge weight. Regular defaults: IOR 1.5, roughness 0.24, thickness 1, absorption 0.08, key light 315° / 0.65 and ambient 0.25 / currentColor. Use setTokens and resetTokens for local environment color and optical inputs. Environment lighting is a screen-space approximation without automatic environment-map capture.
+Glass applies one CSS backdrop-filter for blur and saturation, leaving foreground text unfiltered. Static diagonal sheen, thin inset edges and shadows establish depth; control glints are separate decoration without changing body alpha or adding blur. There are no SVG displacement filters, map encoding, geometry caches or browser-version allowlists.
 
-Regular refraction strength defaults to 6px. The structural bevel region is at most 10px, bounded by 20% of the shorter dimension and the smallest corner radius; derivative limits determine displacement. Sharp or degenerate contours and decoded maps with source folds retain a uniform CSS Glass fallback. Set refraction to 0px to disable enhancement. Desktop Chromium 151+ enhances after capability and image-decode checks. Other engines, CSS-only use, restrictive CSP, unsupported outlines and backdrop boundaries retain CSS Glass. Reduced transparency and forced colors resolve to Solid; state transitions retain each component’s reduced-motion policy; Glass adds no pointer-tracking light or deformation.
+CSS-only pages and browsers supporting backdrop filters use the same static Glass. Pointer updates request a frame only after input and clean up on exit, cancellation, disable and unmount, with no idle animation loop. Reduced transparency, forced colors or missing basic capabilities resolve to Solid; reduced motion disables added tracking and transitions.
 
-Surfaces with equal geometry and optical inputs share construction results, retaining CSS Glass while enhancement is prepared. Removing a material class or changing material identity cancels stale results and releases resources. Portal teardown, StrictMode remounts and multiple root providers do not require manual SVG management.
+Body content and ordinary cards do not become glass automatically. Opt in by combining material-glass-clear, material-glass-regular or material-glass-dense with material-base, material-small, material-medium or material-large. Plain DOM cards use static sheen without automatic pointer listeners, layout changes, new corner radii or changes to author transforms.
 
-Migration: Hybrid becomes Acrylic (hybrid → acrylic), and the former Glass becomes Aero (glass → aero). Legacy storage migrates to unitary-texture-preference-v2; valid new values win. In code, texture=glass now selects new Glass. Use aero and rename former glass token prefixes to aero to retain the old appearance; rename hybrid token prefixes to acrylic.
+The naming migration is unchanged: Hybrid becomes Acrylic (hybrid → acrylic), and the original Glass becomes Aero (glass → aero). Legacy storage migrates to unitary-texture-preference-v2; valid v2 values win, and saved v2 glass continues to select Glass with its new appearance. Rename the original Glass token prefix to aero and the hybrid prefix to acrylic.
 
-Environment lighting, geometric highlights and readability draw on [Apple · Meet Liquid Glass](https://developer.apple.com/videos/play/wwdc2025/219/); these formulas and parameters are Unitary UI choices, not HIG requirements.
+This replacement removes ten optical tokens under --material-texture-glass-: ior, roughness, thickness, absorption, light-azimuth, light-intensity, ambient-intensity, ambient-color, refraction and edge-width. Remove these names from setTokens, resetTokens and CSS overrides. They are no longer valid RuntimeTokenName values; setTokens rejects unknown names, with no no-op compatibility mapping. Continue using blur, overlay-blur and opacity to adjust blur and body fill.
 
-glass-lighting.tsx
+Material organization draws on [Luotopia · whu.sb](https://www.whu.sb/) for its blur, translucent fill, directional sheen and fine-edge mechanisms, independently implemented for Unitary UI without porting site code, assets or layout.
+
+glass-appearance.tsx
 
 ```tsx
 import { setTokens, resetTokens } from "@hustradio/unitary-ui";
 
-setTokens({
-  "--material-texture-glass-refraction": "6px",
-  "--material-texture-glass-edge-width": "10px",
-  "--material-texture-glass-ior": "1.5",
-  "--material-texture-glass-roughness": "0.24",
-  "--material-texture-glass-thickness": "1",
-  "--material-texture-glass-absorption": "0.08",
-  "--material-texture-glass-light-azimuth": "315deg",
-  "--material-texture-glass-light-intensity": "0.65",
-  "--material-texture-glass-ambient-intensity": "0.25",
-  "--material-texture-glass-ambient-color": "currentColor",
-});
+const surface = document.querySelector<HTMLElement>(".my-glass-surface");
+if (surface) {
+  setTokens(
+    {
+      "--material-texture-glass-blur": "10px",
+      "--material-texture-glass-overlay-blur": "20px",
+      "--material-texture-glass-opacity": "56%",
+    },
+    { target: surface },
+  );
 
-// A local environment color; the default is neutral within the surface palette.
-// setTokens({ "--material-texture-glass-ambient-color": "#8eb8c5" }, { target: surface });
-// resetTokens(["--material-texture-glass-ambient-color"], { target: surface });
+  // Restore this surface's Clear, Regular or Dense preset.
+  resetTokens(
+    [
+      "--material-texture-glass-blur",
+      "--material-texture-glass-overlay-blur",
+      "--material-texture-glass-opacity",
+    ],
+    { target: surface },
+  );
+}
+
+// Ordinary content cards opt in explicitly; their sheen is static.
+export function PreviewCard() {
+  return (
+    <div className="my-glass-surface material-medium material-glass-regular p-5">
+      <h3>Project preview</h3>
+      <p>Keep text and controls clear.</p>
+    </div>
+  );
+}
 ```
 
 Compact controls that communicate a state, count or category keep stable solid foregrounds and semantic colors, using a local fill when emphasis is needed. Text or icons supplement color; the whole control does not need a glass treatment.
@@ -155,6 +174,12 @@ In Acrylic, Aero and Glass, functional dividers and existing control borders use
 ## Surface
 
 For containers within the page. Use a light shadow to distinguish layers without drawing too much attention.
+
+Ordinary surfaces retain their appearance. Explicitly combine material-medium and material-glass-regular to opt into Glass, preserving existing radii, dimensions and elevation with static material sheen.
+
+An explicitly selected content card
+
+material-medium material-glass-regular
 
 material-base
 
@@ -314,6 +339,6 @@ export function Scrim() {
 
 - CSS backdrop blur, color mixing and gradients need no experimental flags. Missing capabilities fall back globally to Solid.
 - Respect forced colors, reduced transparency and reduced motion. Transparency detection is a progressive enhancement; Solid is always available manually.
-- Default blur stays within 20px for functional layers, 8px for masks and 6px for standalone secondary buttons and surface-styled options. New Glass uses 1px. Maps rebuild only for geometry or parameter changes; pointer updates coalesce per frame and stop when idle, avoiding repeated sampling.
+- Acrylic / Aero functional layers default to at most 20px blur and standalone controls to 6px. Glass Clear / Regular / Dense use 8px / 10px / 20px, fixed headers use 24px, hover panels use 20px and masks use 8px. Inner controls share their outer sampler; pointer updates coalesce per frame and stop when idle.
 
 [Apple HIG · Materials](https://developer.apple.com/design/human-interface-guidelines/materials) · [MDN · backdrop-filter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/backdrop-filter) · [MDN · prefers-reduced-transparency](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-transparency)

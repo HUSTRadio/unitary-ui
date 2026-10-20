@@ -229,9 +229,9 @@ export const BROWSER_DISPATCH_INPUTS = [
 // Broad probes keep their complete assertions. Narrow probes declare their component owners.
 export const BROWSER_INPUT_GROUPS = [
   {
-    specs: names("glass-stability"),
+    specs: names("glass-stability glass-feedback glass-structure-response"),
     inputs: ["src/lib/glass-*", "src/lib/theme.tsx", "src/styles/**", "docs/site/build/glass-regression*"],
-    owners: names("button toolbar select menu modal drawer"),
+    owners: names("button toolbar tabs switch toggle navbar site-navigation select menu modal drawer"),
   },
   {
     specs: names(

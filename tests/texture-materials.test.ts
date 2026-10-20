@@ -40,7 +40,8 @@ describe("global functional texture materials", () => {
     for (const [name, expected, maximum] of [
       ["--material-texture-acrylic-blur", "8px", 12],
       ["--material-texture-aero-blur", "20px", 20],
-      ["--material-texture-glass-blur", "1px", 1],
+      ["--material-texture-glass-blur", "10px", 10],
+      ["--material-texture-glass-overlay-blur", "20px", 20],
       ["--material-texture-mask-blur", "8px", 8],
       ["--material-texture-control-blur", "6px", 8],
     ] as const) {
@@ -53,10 +54,10 @@ describe("global functional texture materials", () => {
       value: "60%",
       darkValue: "74%",
     });
-    expect(tokens["--material-texture-glass-opacity"]).toMatchObject({ value: "52%", darkValue: "68%" });
-    expect(tokens["--material-texture-glass-refraction"].value).toBe("6px");
-    expect(tokens["--material-texture-glass-edge-width"].value).toBe("10px");
-    expect(tokens["--material-texture-glass-roughness"].value).toBe("0.24");
+    expect(tokens["--material-texture-glass-opacity"]).toMatchObject({ value: "56%", darkValue: "76%" });
+    expect(Object.keys(tokens).filter(name => name.startsWith("--material-texture-glass-")).sort()).toEqual([
+      "--material-texture-glass-blur", "--material-texture-glass-opacity", "--material-texture-glass-overlay-blur",
+    ]);
     expect(Object.keys(tokens).some(name=>name.startsWith('--_uni-glass-'))).toBe(false);
     for (const name of Object.keys(tokens)) {
       if (name.startsWith("--material-texture-")) expect(tokens[name].group).toBe("materials");
@@ -143,7 +144,7 @@ describe("global functional texture materials", () => {
       if (decl.parent?.type !== "rule") return;
       expect(decl.parent.selector).toMatch(/data-material="(?:floating|navigation)"/);
       expect(decl.parent.selector).toMatch(/shadow-/);
-      expect(decl.value).toContain("var(--_uni-material-shadow,");
+      expect(decl.value).toMatch(/var\(--_uni-material-shadow(?:,|\))/);
       consumers.push(decl.parent.selector);
     });
     expect(consumers.some(selector => selector.includes("--uni-shadow-menu"))).toBe(true);

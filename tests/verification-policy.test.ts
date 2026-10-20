@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -19,10 +19,10 @@ import {
   INDIRECT_INPUT_GROUPS,
 } from "../scripts/lib/verification-policy.mjs";
 
-it("associates the optional Glass fixture with its browser contracts", () => {
-  const spec="tests/e2e/glass-stability.spec.ts";
-  expect(selectBrowserSpecs(["docs/site/build/glass-regression-fixture.tsx"],[spec],[])).toEqual({selected:[spec],missing:[]});
-  expect(selectBrowserSpecs(["src/lib/glass-runtime.ts"],[spec],[]).selected).toEqual([spec]);
+it("associates the optional Glass fixture and local input with CSS browser contracts", () => {
+  const specs=["tests/e2e/glass-feedback.spec.ts", "tests/e2e/glass-stability.spec.ts", "tests/e2e/glass-structure-response.spec.ts"];
+  expect(selectBrowserSpecs(["docs/site/build/glass-regression-fixture.tsx"],specs,[])).toEqual({selected:specs,missing:[]});
+  expect(selectBrowserSpecs(["src/lib/glass-interaction.ts"],specs,[]).selected).toEqual(specs);
 });
 import {
   createVerificationPlan,
@@ -437,7 +437,9 @@ describe("verification selection", () => {
 
   it("declares every current indirect consumer and every ordinary browser spec", () => {
     const root = process.cwd();
-    const files = verificationFiles(root);
+    // Git also lists tracked tests deleted in the working tree. They have no
+    // current import closure or indirect consumers to inspect.
+    const files = verificationFiles(root).filter(file => existsSync(path.join(root, file)));
     expect(missingIndirectInputs(root, files.filter(isUnitTest), files)).toEqual([]);
     expect(selectBrowserSpecs([], files, []).missing).toEqual([]);
     expect(INDIRECT_INPUT_GROUPS.every(({ inputs }) => inputs.length > 0)).toBe(true);

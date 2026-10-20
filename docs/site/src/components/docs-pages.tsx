@@ -737,6 +737,17 @@ export function MaterialsPage() {
         <DocsParagraph className="max-w-xl">
           {demoText(language, "On the page, in normal document flow. Choose the lowest elevation that reads clearly.")}
         </DocsParagraph>
+        <DocsParagraph>
+          {language === "zh-CN"
+            ? "普通表面保持原样。显式组合 material-medium 与 material-glass-regular 可选择 Glass，保留现有圆角、尺寸和层级，仅增加静态材质高光。"
+            : "Ordinary surfaces retain their appearance. Explicitly combine material-medium and material-glass-regular to opt into Glass, preserving existing radii, dimensions and elevation with static material sheen."}
+        </DocsParagraph>
+        <div className="materials-texture-stage relative mt-6 rounded-lg p-5" data-slot="glass-surface-opt-in-example">
+          <div className="material-medium material-glass-regular relative p-5">
+            <p className="text-label-14 font-medium text-foreground">{language === "zh-CN" ? "显式选择的内容卡片" : "An explicitly selected content card"}</p>
+            <p className="mt-2 font-mono text-copy-13 text-foreground">material-medium material-glass-regular</p>
+          </div>
+        </div>
         <div
           data-material-group="surface"
           className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { hasGlassBackgroundOverride, useGlassInteraction } from "@/lib/glass-interaction";
 
 import { cn } from "@/lib/utils";
 
@@ -75,6 +76,9 @@ function SwitchControl({
   ...props
 }: SwitchControlProps) {
   const context = React.useContext(SwitchContext);
+  const authoredBackground = hasGlassBackgroundOverride(className);
+  const authoredCorners = /(?:^|\s)(?:[^\s]+:)*!?rounded(?:-|\s|$)/.test(className ?? "");
+  const glass = useGlassInteraction({ enabled: !disabled && !authoredBackground, keys: "choice", target: host => host.querySelector<HTMLElement>('[data-slot="switch-control"]') });
   if (!context) throw new Error("SwitchControl must be used within Switch");
   const size = sizeProp ?? context.size;
   const stringValue = String(value ?? "");
@@ -123,6 +127,7 @@ function SwitchControl({
 
   return (
     <label
+      {...glass.compose({})}
       className={cn("flex self-stretch flex-1", disabled && "cursor-not-allowed")}
       data-disabled={disabled ? "true" : "false"}
     >
@@ -143,6 +148,10 @@ function SwitchControl({
       />
       <div
         data-slot="switch-control"
+        data-uni-glass-surface={authoredBackground || disabled ? undefined : ""}
+        data-uni-glass-canonical-corners={!authoredCorners ? "" : undefined}
+        data-uni-glass-interaction={glass.marker}
+        data-disabled={disabled || undefined}
         className={cn(
           "relative flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-all duration-(--uni-duration-base) ease-in-out",
           "hover:text-gray-1000 peer-focus-visible:shadow-focus-ring",

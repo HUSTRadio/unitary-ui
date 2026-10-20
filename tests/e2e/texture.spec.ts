@@ -1,6 +1,7 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { PNG } from "pngjs";
+import { artifactMode, artifactModule } from "./docs-artifact";
 
 type Texture = "solid" | "acrylic" | "aero" | "glass";
 const SECONDARY_TEXT_CLASSES = [
@@ -60,6 +61,115 @@ async function select(page: Page, owner: Locator, texture: Texture) {
 }
 
 const filter = (owner: Locator) => owner.evaluate(el => getComputedStyle(el).backdropFilter);
+
+for (const theme of ["light", "dark"]) test(`Glass preserves authored image utilities on secondary controls and navigation: ${theme}`, async ({ page }) => {
+    const materials = await open(page, theme);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await select(page, materials, "glass");
+    const owners = [
+      materials.locator('[data-slot="texture-demo-menu-trigger"]'),
+      materials.locator('[data-glass-variant-example="regular"] [data-slot="toolbar"]'),
+    ];
+    const images = [
+      { className: "bg-linear-[90deg,red,blue]", value: "linear-gradient(90deg,red,blue)" },
+      { className: "bg-radial-[circle,red,blue]", value: "radial-gradient(circle,red,blue)" },
+      { className: "bg-conic-[from_90deg,red,blue]", value: "conic-gradient(from 90deg,red,blue)" },
+      { className: "bg-[linear-gradient(red,blue)]", value: "linear-gradient(red,blue)" },
+      { className: "bg-none", value: "none" },
+    ];
+    // Put author utilities before the library so this exercises ownership,
+    // rather than succeeding solely because a later stylesheet wins the tie.
+    const expected = await page.evaluate(images => {
+      const style = document.createElement("style");
+      style.dataset.textureAuthorImages = "";
+      style.textContent = `@layer utilities { ${images.map(image => `.${CSS.escape(image.className)} { background-image: ${image.value}; }`).join("\n")} }`;
+      document.head.prepend(style);
+      return images.map(image => {
+        const probe = document.createElement("div");
+        probe.style.backgroundImage = image.value;
+        document.body.append(probe);
+        const value = getComputedStyle(probe).backgroundImage;
+        probe.remove();
+        return value;
+      });
+    }, images);
+    try {
+      for (let index = 0; index < images.length; index++) {
+        const image = images[index];
+        for (const owner of owners) {
+          await owner.evaluate((el, name) => el.classList.add(name), image.className);
+          await expect(owner).toHaveCSS("background-image", expected[index]);
+          await owner.hover();
+          await expect(owner).toHaveCSS("background-image", expected[index]);
+          await owner.evaluate((el, name) => el.classList.remove(name), image.className);
+        }
+      }
+    } finally {
+      await page.locator("style[data-texture-author-images]").evaluateAll(nodes => nodes.forEach(node => node.remove()));
+    }
+});
+
+for (const theme of ["light", "dark"]) test(`Glass preserves nested authored filters and gives an inline Navbar filter one sampler: ${theme}`, async ({ page }) => {
+    const materials = await open(page, theme);
+    await select(page, materials, "glass");
+    const button = materials.locator('[data-slot="texture-demo-menu-trigger"]');
+    await expect(button).toHaveCSS("backdrop-filter", "none");
+    // An early author utility must survive the single-sampler default rule.
+    await page.evaluate(() => {
+      const style = document.createElement("style");
+      style.dataset.textureAuthorFilter = "";
+      style.textContent = "@layer utilities { .backdrop-blur-\\[13px\\] { backdrop-filter: blur(13px); -webkit-backdrop-filter: blur(13px); } }";
+      document.head.prepend(style);
+    });
+    await button.evaluate(el => el.classList.add("backdrop-blur-[13px]"));
+    await expect(button).toHaveCSS("backdrop-filter", "blur(13px)");
+    await button.evaluate(el => el.classList.remove("backdrop-blur-[13px]"));
+    await expect(button).toHaveCSS("backdrop-filter", "none");
+    await button.evaluate(el => { (el as HTMLElement).style.backdropFilter = "blur(7px)"; });
+    await expect(button).toHaveCSS("backdrop-filter", "blur(7px)");
+
+    const header = page.locator('[data-slot="navbar"][data-uni-glass-chrome]').first();
+    await expect(header).toHaveCSS("backdrop-filter", "none");
+    expect(await header.evaluate(el => getComputedStyle(el, "::before").backdropFilter)).toContain("blur(24px)");
+    await header.evaluate(el => { (el as HTMLElement).style.backdropFilter = "blur(5px)"; });
+    await expect(header).toHaveCSS("backdrop-filter", "blur(5px)");
+    expect(await header.evaluate(el => ({ content: getComputedStyle(el, "::before").content, filter: getComputedStyle(el, "::before").backdropFilter })))
+      .toEqual({ content: "none", filter: "none" });
+    await header.evaluate(el => (el as HTMLElement).style.removeProperty("backdrop-filter"));
+    await expect(header).toHaveCSS("backdrop-filter", "none");
+    expect(await header.evaluate(el => getComputedStyle(el, "::before").backdropFilter)).toContain("blur(24px)");
+});
+
+for (const theme of ["light", "dark"]) test(`Glass preserves author transition utilities on real secondary Buttons: ${theme}`, async ({ page }) => {
+  const materials = await open(page, theme);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.evaluate(async url => {
+    const fixtures = await import(url);
+    const React = fixtures.React.default ?? fixtures.React;
+    const ReactDOM = fixtures.ReactDOM.default ?? fixtures.ReactDOM;
+    const { Button } = fixtures;
+    const host = document.createElement("div");
+    host.dataset.textureAuthorTransitions = "";
+    host.style.cssText = "position:fixed;right:20px;top:80px;z-index:99999;display:grid;gap:12px";
+    document.body.append(host);
+    ReactDOM.createRoot(host).render(React.createElement(React.Fragment, null,
+      React.createElement(Button, { type: "secondary", className: "transition-none" }, "Author no transition"),
+      React.createElement(Button, { type: "secondary", className: "duration-(--uni-duration-slow)" }, "Author slow transition"),
+      React.createElement(Button, { type: "secondary" }, "Default Glass transition"),
+    ));
+  }, artifactMode ? artifactModule("site/build/browser-fixtures.ts") : "/site/build/browser-fixtures.ts");
+  const none = page.getByRole("button", { name: "Author no transition", exact: true });
+  const slow = page.getByRole("button", { name: "Author slow transition", exact: true });
+  const standard = page.getByRole("button", { name: "Default Glass transition", exact: true });
+  await expect(none).toHaveCSS("transition-property", "none");
+  await expect(slow).toHaveCSS("transition-duration", "0.35s");
+  await select(page, materials, "glass");
+  await expect(none).toHaveCSS("transition-property", "none");
+  await expect(slow).toHaveCSS("transition-duration", "0.35s");
+  await expect(standard).toHaveCSS("transition-duration", "0.15s");
+  await expect(materials.locator('[data-glass-variant-example="regular"] [data-slot="toolbar"]'))
+    .toHaveCSS("transition-duration", "0.15s");
+});
 
 for (const theme of ["light", "dark"] as const) {
   for (const fixture of [
@@ -685,6 +795,8 @@ test("command mask animation keeps enhanced alpha separate and accessible masks 
   await expect(mask).toHaveCSS("animation-name", "material-mask-in");
   await expect(mask).toHaveCSS("opacity", "1");
   await expect.poll(() => filter(mask)).toMatch(/blur\(|url\(/);
+  // The scrim owns the sample even though the dialog is its Portal sibling.
+  await expect(page.locator('[data-slot="command-menu-content"]')).toHaveCSS("backdrop-filter", "none");
   const materialPlaceholder = await input.evaluate(el => {
     const probe = document.createElement("span");
     probe.style.color = "var(--material-texture-muted)";
