@@ -29,6 +29,29 @@ after their registered child processes also exit. Failure and normal exit releas
 ownership. Unknown or corrupt metadata fails closed; inspect the reported lock
 directory and stop its related processes before removing damaged metadata.
 
+## Motion browsers / 动画跨浏览器回归
+
+`pnpm run test:motion` checks browser-test types, builds the docs with optional
+fixtures, and runs the focused Chromium, Firefox and WebKit projects against the
+same artifact. Install browsers once with
+`pnpm exec playwright install chromium firefox webkit`. The command participates
+in the existing `workspace-checks` lock. Evidence is written to a unique
+`.scratch/motion-browsers/run-*` directory, including native discovery/execution
+JSON, a completeness summary, an isolated artifact with its manifest hash, and failure traces/screenshots. A retry pass is
+reported as flaky and fails acceptance. Missing browsers or reports also fail.
+
+`pnpm run test:motion` 依次检查浏览器测试类型、构建带可选夹具的文档，
+并针对同一产物运行 Chromium、Firefox、WebKit 定向场景。首次使用前执行
+`pnpm exec playwright install chromium firefox webkit`。命令复用 `workspace-checks`
+锁；原生发现和执行 JSON、完整性摘要、失败 trace 与截图保存在独立的
+`.scratch/motion-browsers/run-*` 目录。重试通过标为 flaky，不能通过验收；
+浏览器缺失或报告缺失同样失败。夜间及手动 workflow 执行完整三引擎矩阵。
+每轮构建会复制为独立产物并记录 manifest 指纹，后续构建不会替换正在检查的页面。
+
+See [the bilingual device checklist](../docs/audits/fade-motion-device-checklist.md)
+for manual access and physical-device evidence. 浏览器仿真与真实触屏验收分别记录，
+人工入口和待验项目见[双语设备清单](../docs/audits/fade-motion-device-checklist.md)。
+
 ## LLM 语料 / LLM corpus
 
 语料从真实文档页面的语义 HTML 生成。提取时使用 MiddleTruncate 已有的完整 `data-value`，

@@ -1,49 +1,31 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { PNG } from "pngjs";
-import { expect, test, type Page, type Locator } from "@playwright/test";
-import { artifactMode, artifactModule } from "./docs-artifact";
+import { expect, test } from "@playwright/test";
+import { openMotionFixture as open, finishMotion as finish, pauseCSS, sampleMotion } from "./helpers/motion";
 
-const fixtureUrl = artifactMode ? artifactModule("site/build/browser-fixtures.ts")
-  : `/@fs/${path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../docs/site/build/browser-fixtures.ts").replace(/\\/g, "/")}`;
 test.setTimeout(60_000);
 
-async function open(page: Page, theme: string, width: number) {
-  await page.setViewportSize({ width, height: 900 });
+test("standalone device fixture plays normally and exposes theme controls", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.addInitScript(theme => {
-    localStorage.setItem("unitary-theme-preference", theme);
-    localStorage.setItem("unitary-docs-language", "en-US");
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest("[data-motion-regression]")) { animation.pause(); animation.currentTime = 0; }
-      return animation;
-    };
-  }, theme);
-  await page.goto("/#/components/motion");
-  await expect(page.locator("[data-motion-demo]")).toBeVisible();
-  await page.evaluate(async url => { (await import(/* @vite-ignore */ url)).mountMotionRegressionFixture(); }, fixtureUrl);
-  await expect(page.locator("[data-add-toast]")).toBeVisible();
-}
-
-async function finish(node: Locator) {
-  await node.evaluate(element => element.getAnimations({ subtree: true }).forEach(animation => animation.finish()));
-}
-
-async function pauseCSS(page: Page) {
-  await page.evaluate(() => {
-    const seen = new WeakSet<Animation>();
-    new MutationObserver(() => {
-      document.querySelectorAll('[data-material="floating"], [data-material^="mask-"]').forEach(node => {
-        node.getAnimations().forEach(animation => {
-          if (!(animation instanceof CSSAnimation) || seen.has(animation)) return;
-          seen.add(animation); animation.pause(); animation.currentTime = 0;
-        });
-      });
-    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-state"] });
-  });
-}
+  await page.goto("/site/build/motion-regression.html", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { name: "Motion device verification / 动画真机验收" })).toBeVisible();
+  await page.getByRole("button", { name: "Dark", exact: true }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.getByRole("button", { name: "Light", exact: true }).click();
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+  await page.locator('[data-open="modal"]').click();
+  await expect(page.locator('[data-slot="modal-content"]')).toBeVisible();
+  await expect(page.locator('[data-slot="modal-content"]')).toHaveCSS("animation-play-state", "running");
+  await page.getByRole("button", { name: "Close", exact: true }).click();
+  await expect(page.locator('[data-slot="modal-content"]')).toHaveCount(0);
+  await page.locator('[data-open="expand-panel"]').click();
+  const panel = page.locator('[data-slot="expand-panel"]');
+  await expect(panel).toHaveAttribute("data-motion-state", "open");
+  await panel.evaluate(element => element.setAttribute("data-device-identity", "retained"));
+  await page.getByRole("button", { name: "Close and reopen", exact: true }).click();
+  await expect(panel).toHaveAttribute("data-motion-state", "open");
+  await panel.evaluate(element => Promise.allSettled(element.getAnimations().map(animation => animation.finished)));
+  await expect(panel).toHaveAttribute("data-device-identity", "retained");
+});
 
 for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
   test(`modal and drawer timelines stay coherent (${theme}, ${width})`, async ({ page }) => {
@@ -51,36 +33,32 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
     await pauseCSS(page);
     for (const name of ["modal", "drawer", "bottom-sheet", "responsive-drawer", "side-panel", "side-panel-left"]) {
       const trigger = page.locator(`[data-open="${name}"]`);
-      await trigger.click();
+      await trigger.focus();
+      await expect(trigger).toBeFocused();
+      // Keyboard activation preserves the return target on Safari, where a
+      // pointer click intentionally does not focus buttons.
+      await trigger.press("Enter");
       const slot = name.startsWith("side-panel") ? "side-panel-content" : name === "modal" || name === "responsive-drawer" ? name + "-content" : name;
       const panel = page.locator(`[data-slot="${slot}"]`);
       await expect(panel).toBeAttached();
+      await expect(page.locator("body")).toHaveAttribute("data-scroll-locked");
       if (name.startsWith("side-panel")) {
-        const outside = await panel.evaluate((element, left) => {
-          element.getAnimations()[0].currentTime = 0;
-          const box = element.getBoundingClientRect();
-          return left ? box.right <= 0 : box.left >= innerWidth;
-        }, name.endsWith("left"));
+        const box = await sampleMotion(panel, ["transform"], 0);
+        const outside = name.endsWith("left") ? box.right <= 0 : box.left >= width;
         expect(outside).toBe(true);
       }
-      const entry = await panel.evaluate(element => {
-        const animation = element.getAnimations()[0];
-        animation.currentTime = 50;
-        const mask = element.parentElement?.getAttribute("data-material") === "mask-backdrop"
-          ? element.parentElement! : [...document.querySelectorAll('[data-material^="mask-"]')].at(-1)!;
-        const overlay = mask.getAnimations()[0];
-        overlay.currentTime = 50;
-        return { panel: Number(animation.effect!.getTiming().duration), mask: Number(overlay.effect!.getTiming().duration), opacity: getComputedStyle(element).opacity };
-      });
-      expect(entry).toEqual({ panel: 250, mask: 250, opacity: "1" });
-      await page.locator('[role="dialog"]').evaluateAll(nodes => nodes.forEach(node => node.getAnimations({ subtree: true }).forEach(animation => animation.finish())));
-      await page.locator('[data-material^="mask-"]').evaluateAll(nodes => nodes.forEach(node => node.getAnimations().forEach(animation => animation.finish())));
+      const entry = await sampleMotion(panel, ["transform"], 50);
+      const overlay = await sampleMotion(page.locator('[data-material^="mask-"]').last(), ["opacity"], 50);
+      expect({ panel: entry.duration, mask: overlay.duration, opacity: entry.opacity }).toEqual({ panel: 250, mask: 250, opacity: "1" });
+      await finish(page.locator('[role="dialog"], [data-material^="mask-"]'));
       await page.keyboard.press("Escape");
       await expect(panel).toHaveAttribute("data-state", "closed");
-      expect(await panel.evaluate(element => Number(element.getAnimations()[0].effect!.getTiming().duration))).toBe(150);
-      await page.locator('[data-material^="mask-"], [role="dialog"]').evaluateAll(nodes => nodes.forEach(node => node.getAnimations().forEach(animation => animation.finish())));
+      expect((await sampleMotion(panel, ["transform"])).duration).toBe(150);
+      expect((await sampleMotion(page.locator('[data-material^="mask-"]').last(), ["opacity"])).duration).toBe(150);
+      await finish(page.locator('[data-material^="mask-"], [role="dialog"]'));
       await expect(panel).toHaveCount(0);
       await expect(page.locator('[data-material^="mask-"]')).toHaveCount(0);
+      await expect(page.locator("body")).not.toHaveAttribute("data-scroll-locked");
       await expect(trigger).toBeFocused();
     }
   });
@@ -93,7 +71,8 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
     for (const target of [2, 3, 1, 3]) {
       await carousel.getByRole("button", { name: `Go to image ${target}`, exact: true }).click();
       for (const progress of [0, 0.2, 0.5]) {
-        const sum = await sections.evaluateAll((nodes, progress) => {
+        const sum = await sections.evaluateAll(async (nodes, progress) => {
+          await Promise.all(nodes.flatMap(node => node.getAnimations().map(animation => animation.ready)));
           nodes.forEach(node => node.getAnimations().forEach(animation => { animation.pause(); animation.currentTime = Number(animation.effect!.getTiming().duration) * progress; }));
           return nodes.reduce((sum, node) => sum + Number(getComputedStyle(node).opacity), 0);
         }, progress);
@@ -116,15 +95,16 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
 
   test(`toast waits for every viewport and releases cancelled exits (${theme}, ${width})`, async ({ page }) => {
     await open(page, theme, width);
+    await pauseCSS(page);
     await page.locator("[data-add-toast]").click();
     const fast = page.locator('[data-toast-view="fast"] li'), slow = page.locator('[data-toast-view="slow"] li');
     await expect(fast).toBeVisible();
     // Dismiss before the entrance finishes; opacity must continue from its current value.
-    await fast.evaluate(element => element.getAnimations().forEach(animation => { animation.pause(); animation.currentTime = 50; }));
+    await sampleMotion(fast, ["opacity"], 50);
     await page.locator("[data-dismiss-toast]").click();
     await expect(fast).toHaveAttribute("data-exiting", "");
-    expect(await fast.evaluate(element => Number(element.getAnimations()[0].effect!.getTiming().duration))).toBe(150);
-    expect(await slow.evaluate(element => Number(element.getAnimations()[0].effect!.getTiming().duration))).toBe(400);
+    expect((await sampleMotion(fast, ["opacity"])).duration).toBe(150);
+    expect((await sampleMotion(slow, ["opacity"])).duration).toBe(400);
     await finish(fast);
     await expect(slow).toBeAttached();
     await expect(fast).toBeAttached();
@@ -149,12 +129,10 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
     const released = await drawer.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42);
     await page.mouse.up();
     await expect(drawer).toHaveAttribute("data-state", "closed");
-    const start = await drawer.evaluate(element => {
-      element.getAnimations()[0].currentTime = 0;
-      return new DOMMatrixReadOnly(getComputedStyle(element).transform).m42;
-    });
+    await sampleMotion(drawer, ["transform"], 0);
+    const start = await drawer.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element).transform).m42);
     expect(start).toBeCloseTo(released, 1);
-    await page.locator('[role="dialog"], [data-material^="mask-"]').evaluateAll(nodes => nodes.forEach(node => node.getAnimations().forEach(animation => animation.finish())));
+    await finish(page.locator('[role="dialog"], [data-material^="mask-"]'));
     await expect(drawer).toHaveCount(0);
     // A controlled consumer may reject dismissal; the panel must snap back.
     await page.locator('[data-open="drawer-reject"]').click();
@@ -173,7 +151,7 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
     await expect(panel).toHaveAttribute("data-motion-state", "open");
     await finish(panel);
     await page.keyboard.press("Escape");
-    await panel.evaluate(element => element.getAnimations().forEach(animation => { animation.pause(); animation.currentTime = 30; }));
+    await sampleMotion(panel, ["translate", "clipPath"], 30);
     await page.locator('[data-open="expand-panel"]').evaluate(element => (element as HTMLButtonElement).click());
     await expect(panel).toHaveAttribute("data-motion-state", "open");
     await finish(panel);
@@ -195,13 +173,6 @@ for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
       await page.keyboard.press("Escape");
       await expect(panel).toHaveCount(0);
     }
-    const cdp = await page.context().newCDPSession(page);
-    await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-transparency", value: "reduce" }] });
-    await page.locator('[data-open="modal"]').click();
-    const mask = page.locator('[data-material="mask-backdrop"]');
-    await expect(mask).toHaveCSS("backdrop-filter", "none");
-    await expect(mask).toHaveCSS("opacity", "1");
-    await page.keyboard.press("Escape");
-    await expect(mask).toHaveCount(0);
+
   });
 }

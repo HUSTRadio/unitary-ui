@@ -39,6 +39,7 @@ export const LOCKED_PACKAGE_SCRIPTS = {
   "test:docs-layout": checks(
     bin("@playwright/test", "playwright", "test", "-c", "playwright.config.ts"),
   ),
+  "test:motion": checks(node("scripts/test-motion-browsers.mjs")),
   "docs:readme:screenshots": checks(node("scripts/capture-readme-screenshots.mjs")),
   "docs:readme:screenshots:check": checks(
     node("scripts/capture-readme-screenshots.mjs", "--check"),

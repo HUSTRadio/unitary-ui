@@ -74,6 +74,7 @@
     "prepack": "node scripts/run-locked-script.mjs prepack",
     "prepublishOnly": "node scripts/run-locked-script.mjs prepublishOnly",
     "test:docs-layout": "node scripts/run-locked-script.mjs test:docs-layout",
+    "test:motion": "node scripts/run-locked-script.mjs test:motion",
     "hooks:install": "node scripts/install-git-hooks.mjs",
     "docs:readme:screenshots": "node scripts/run-locked-script.mjs docs:readme:screenshots",
     "docs:readme:screenshots:check": "node scripts/run-locked-script.mjs docs:readme:screenshots:check",

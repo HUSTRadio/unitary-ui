@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.tests.json",
+  "compilerOptions": { "strict": true },
+  "include": [
+    "playwright.motion.config.ts",
+    "tests/e2e/fade-motion.spec.ts",
+    "tests/e2e/carousel-variants.spec.ts",
+    "tests/e2e/motion-chromium.spec.ts",
+    "tests/e2e/helpers/motion.ts",
+    "tests/motion-browser-tooling.test.ts",
+    "tests/playwright-discovery.test.ts",
+    "docs/site/build/motion-regression-fixture.tsx",
+    "docs/site/build/motion-regression-page.tsx"
+  ],
+  "exclude": ["node_modules"]
+}

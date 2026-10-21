@@ -7,6 +7,10 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: unitFiles("motion-browser-tooling.test.ts playwright-discovery.test.ts"),
+    inputs: ["playwright.motion.config.ts", "playwright.config.ts", "tsconfig.motion-tests.json", "scripts/test-motion-browsers.mjs", "scripts/lib/motion-browsers.mjs", "scripts/lib/locked-package-scripts.mjs", "scripts/lib/package-command.mjs", ".github/workflows/motion-browsers.yml", "tests/e2e/fade-motion.spec.ts", "tests/e2e/carousel-variants.spec.ts", "tests/e2e/motion-chromium.spec.ts", "tests/e2e/helpers/motion.ts", "docs/site/build/motion-regression*", "docs/vite.config.ts", "package.json"],
+  },
+  {
     tests: unitFiles("glass-performance.test.ts"),
     inputs: ["scripts/audit-glass-performance.mjs", "scripts/lib/docs-preview.mjs", "docs/site/build/glass-regression*"],
   },
@@ -257,8 +261,8 @@ export const BROWSER_INPUT_GROUPS = [
   },
   { specs: names("website-shell"), owners: names("site-navigation navbar footer back-to-top scroll-reveal"), inputs: ["src/lib/use-page-scroll.ts", "src/lib/scroll-animation.ts", "docs/site/src/templates/**", "docs/site/src/components/patterns/site-shell-demo.tsx"] },
   { specs: names("toggle-motion"), owners: names("toggle"), inputs: ["tests/e2e/fixtures/toggle-motion.tsx", "src/lib/motion-easing.ts"] },
-  { specs: names("carousel-variants"), owners: names("carousel") },
-  { specs: names("fade-motion"), owners: names("carousel modal drawer bottom-sheet responsive-drawer side-panel expand-panel toast"), inputs: ["src/lib/exit-motion.ts", "docs/site/build/motion-regression-fixture.tsx", "docs/site/build/browser-fixtures.ts"] },
+  { specs: names("carousel-variants"), owners: names("carousel"), inputs: ["tests/e2e/helpers/motion.ts"] },
+  { specs: names("fade-motion motion-chromium"), owners: names("carousel modal drawer bottom-sheet responsive-drawer side-panel expand-panel toast"), inputs: ["src/lib/exit-motion.ts", "docs/site/build/motion-regression*", "docs/site/build/browser-fixtures.ts", "tests/e2e/helpers/motion.ts", "playwright.motion.config.ts", "tsconfig.motion-tests.json"] },
   {
     specs: names("chart-motion"),
     owners: names("area-chart bar-chart line-chart combo-chart"),

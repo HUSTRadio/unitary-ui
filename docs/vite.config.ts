@@ -38,6 +38,7 @@ export default defineConfig({
           index: path.join(import.meta.dirname, "index.html"),
           "browser-fixtures": path.join(import.meta.dirname, "site/build/browser-fixtures.ts"),
           "glass-regression": path.join(import.meta.dirname, "site/build/glass-regression.html"),
+          "motion-regression": path.join(import.meta.dirname, "site/build/motion-regression.html"),
         },
         preserveEntrySignatures: "strict" as const,
       },
