@@ -11,6 +11,8 @@ import {
   DocsSectionTitle,
 } from "./docs-typography";
 import { Button } from "@hustradio/unitary-ui";
+import { Snippet } from "@hustradio/unitary-ui";
+import { INSTALL_COMMAND, QUICK_START_CODE } from "../content/getting-started";
 import { Link } from "@hustradio/unitary-ui";
 import {
   Table,
@@ -66,6 +68,12 @@ export function IntroductionPage() {
         </Link>
       </div>
       <DocsCardGrid className="mt-10" />
+      <DocsSection id="getting-started">
+        <DocsSectionTitle>{language === "zh-CN" ? "开始使用" : "Get Started"}</DocsSectionTitle>
+        <DocsParagraph>{language === "zh-CN" ? "安装组件库，在浏览器应用入口引入样式，然后开始使用组件。" : "Install the library, import the stylesheet in your browser application, and start using components."}</DocsParagraph>
+        <div className="my-6"><Snippet text={INSTALL_COMMAND} /></div>
+        <Snippet text={QUICK_START_CODE.split("\n")} prompt={false} className="[&_code]:whitespace-pre-wrap [&_code]:break-words" />
+      </DocsSection>
       <DocsSection data-motion-intro>
         <DocsSectionTitle>{demoText(language, "Motion and Illustrations")}</DocsSectionTitle>
         <DocsParagraph>{demoText(language, "Compose local interaction motion and a controllable SVG illustration.")}</DocsParagraph>

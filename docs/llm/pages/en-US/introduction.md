@@ -54,6 +54,14 @@ Building blocks for React applications.
 
 ](#/components)
 
+## Get Started
+
+Install the library, import the stylesheet in your browser application, and start using components.
+
+`$ pnpm add @hustradio/unitary-ui@beta`
+
+`import { Button } from "@hustradio/unitary-ui";``import "@hustradio/unitary-ui/styles.css";``export function App() {` `return <Button>Create the One.</Button>;``}`
+
 ## Motion and Illustrations
 
 Compose local interaction motion and a controllable SVG illustration.

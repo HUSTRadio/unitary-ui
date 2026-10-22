@@ -74,6 +74,24 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
 
+      - name: Verify website viewport and interaction coverage
+        if: ${{ matrix.shard == 1 }}
+        run: pnpm run test:website -- --reporter=list,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: .scratch/playwright-report/website.json
+
+      - name: Upload website browser evidence
+        if: ${{ !cancelled() && matrix.shard == 1 }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: website-nightly-evidence
+          path: |
+            .scratch/playwright-report/website.json
+            .scratch/website-playwright-results
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: warn
+
   readme-screenshots:
     name: README screenshots
     runs-on: windows-2025

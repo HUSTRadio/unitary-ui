@@ -1,0 +1,12 @@
+{
+  "extends": "../docs/site/tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@hustradio/unitary-ui": ["../src/lib/index.ts"],
+      "@/*": ["../src/*"]
+    }
+  },
+  "include": ["src", "*.config.ts", "tests"],
+  "exclude": []
+}

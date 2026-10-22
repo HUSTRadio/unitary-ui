@@ -23,6 +23,10 @@ export const INDIRECT_INPUT_GROUPS = [
     inputs: ["scripts/lib/native-*.mjs", "scripts/capture-x11.py", "scripts/serve-docs-artifact.mjs", "playwright.glass-native.config.ts", "tests/native-glass/**", "tests/e2e/helpers/layout-matrix.ts", ".github/workflows/glass-native.yml"],
   },
   {
+    tests: unitFiles("website-language.test.tsx website-tooling.test.ts website-verification.test.ts"),
+    inputs: ["website/**", "scripts/dev-website.mjs", "scripts/lib/locked-package-scripts.mjs", "scripts/lib/verification*.mjs", "docs/vite.config.ts", "package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml", "brand/**", ".github/workflows/**"],
+  },
+  {
     tests: unitFiles("templates-contract.test.ts templates-tooling.test.ts templates-markdown.test.tsx"),
     inputs: ["templates/**", "scripts/*template*", "scripts/lib/templates.mjs", "package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml", "playwright*config*", ".github/workflows/**", "AGENTS.md", "README*.md"],
   },
@@ -119,6 +123,7 @@ export const INDIRECT_INPUT_GROUPS = [
       "CREDITS*.md",
       "public/**",
       "scripts/generate-token-catalog.mjs",
+      "index.html", "docs/index.html", "website/index.html", "templates/*/index.html",
     ],
   },
   {
@@ -200,15 +205,17 @@ export const INDIRECT_INPUT_GROUPS = [
 export const matches = (file, patterns) =>
   patterns.some((pattern) => path.posix.matchesGlob(file.replaceAll("\\", "/"), pattern));
 const isTestFile = (file) => /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(file);
-export const isUnitTest = (file) => isTestFile(file) && !file.startsWith("tests/e2e/");
-export const isBrowserTest = (file) => file.startsWith("tests/e2e/") && isTestFile(file);
+export const isUnitTest = (file) => isTestFile(file) && !isBrowserTest(file);
+export const isBrowserTest = (file) => (file.startsWith("tests/e2e/") || file.startsWith("website/tests/e2e/")) && isTestFile(file);
 export const isBrowserSpec = (file) =>
-  isBrowserTest(file) &&
+  file.startsWith("tests/e2e/") && isBrowserTest(file) &&
   !file.startsWith("tests/e2e/templates/") &&
   !file.split("/").some((part) => part.startsWith(".")) &&
   !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
 const browserSpecFile = (name) => `tests/e2e/${isTestFile(name) ? name : `${name}.spec.ts`}`;
-
+export const isWebsiteBrowserSpec = (file) =>
+  file.startsWith("website/tests/e2e/") && isTestFile(file) &&
+  !file.split("/").some(part => part.startsWith(".")) && !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
 export const isTemplateBrowserSpec = (file) =>
   file.startsWith("tests/e2e/templates/") && isTestFile(file) &&
   !file.split("/").some(part => part.startsWith(".")) && !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
@@ -418,6 +425,7 @@ export function classifyVerification(context, full = false) {
     fullBrowser: full,
     appBuild: full,
     docsBuild: full,
+    website: full,
     corpus: full,
     screenshots: full,
     package: full,
@@ -444,6 +452,8 @@ export function classifyVerification(context, full = false) {
       ])
     ) {
       reasons.push(`Shared input: ${file}`);
+    } else if (file.startsWith("website/") || file === "scripts/dev-website.mjs" || file.startsWith("brand/")) {
+      Object.assign(scope, { unit: true, lint: true, website: true });
     } else if (file.startsWith("templates/") || file.startsWith("tests/e2e/templates/") || matches(file, ["scripts/*template*", "scripts/lib/templates.mjs"])) {
       Object.assign(scope, { unit: true, lint: true, templates: true });
     } else if (file.startsWith("src/components/ui/")) {
@@ -458,6 +468,7 @@ export function classifyVerification(context, full = false) {
         browser: true,
         lint: true,
         templates: true,
+        website: true,
       });
       localSources.push(file);
     } else if (matches(file, ["src/App.tsx", "src/examples/**", "src/main.tsx", "index.html"])) {
@@ -475,6 +486,7 @@ export function classifyVerification(context, full = false) {
       Object.assign(scope, {
         unit: true,
         docsBuild: true,
+        website: true,
         typecheck: true,
         corpus: true,
         browser: true,

@@ -282,7 +282,7 @@ describe("texture first paint and SSR", () => {
     expect(document.documentElement.dataset.texture).toBe("solid");
   });
 
-  test.each(["index.html", "docs/index.html"].flatMap(file =>
+  test.each(["index.html", "docs/index.html", "website/index.html", "templates/docs/index.html", "templates/dashboard/index.html", "templates/homepage/index.html"].flatMap(file =>
     ["solid", "acrylic", "aero", "glass"].map(texture => [file, texture]),
   ))("%s boots %s even when color storage reads fail", (file, texture) => {
     const html = readFileSync(path.join(process.cwd(), file), "utf8");

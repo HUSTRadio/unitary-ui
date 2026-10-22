@@ -36,6 +36,7 @@ export default {
       // Playwright 浏览器审计（由 `pnpm run test:docs-layout` 独立驱动，
       // 依赖 @playwright/test 的 test 函数，vitest 收集会直接报错）
       "tests/e2e/**",
+      "website/tests/e2e/**",
     ],
   },
 };

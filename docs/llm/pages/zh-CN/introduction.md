@@ -54,6 +54,14 @@ unitary-docs
 
 ](#/components)
 
+## 开始使用
+
+安装组件库，在浏览器应用入口引入样式，然后开始使用组件。
+
+`$ pnpm add @hustradio/unitary-ui@beta`
+
+`import { Button } from "@hustradio/unitary-ui";``import "@hustradio/unitary-ui/styles.css";``export function App() {` `return <Button>Create the One.</Button>;``}`
+
 ## 动效与插画
 
 组合局部交互动效与可控制的 SVG 插画。

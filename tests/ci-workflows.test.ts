@@ -147,6 +147,7 @@ describe("GitHub Actions CI contracts", () => {
     expect(uploads.map(step => step.with?.name)).toEqual([
       "playwright-report-${{ matrix.shard }}",
       "playwright-results-${{ matrix.shard }}",
+      "website-nightly-evidence",
     ]);
     const screenshots = nightly.jobs["readme-screenshots"];
     const check = screenshots.steps.findIndex((step) =>
@@ -189,7 +190,7 @@ describe("GitHub Actions CI contracts", () => {
   it("retains nightly reports and failure evidence from specific scratch directories", () => {
     const nightly = workflow("e2e-nightly");
     for (const [id, directories] of [
-      ["e2e", ["playwright-report", "playwright-results"]],
+      ["e2e", ["playwright-report", "playwright-results", "website-playwright-results"]],
       ["readme-screenshots", ["readme-screenshots"]],
     ] as const) {
       const job = nightly.jobs[id];

@@ -56,6 +56,11 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:website": "node scripts/dev-website.mjs",
+    "build:website": "node scripts/run-locked-script.mjs build:website",
+    "typecheck:website": "node scripts/run-locked-script.mjs typecheck:website",
+    "test:website": "node scripts/run-locked-script.mjs test:website",
+    "preview:website": "vite preview --config website/vite.config.ts",
     "build": "node scripts/run-locked-script.mjs build",
     "build:lib": "node scripts/run-locked-script.mjs build:lib",
     "build:docs": "node scripts/run-locked-script.mjs build:docs",

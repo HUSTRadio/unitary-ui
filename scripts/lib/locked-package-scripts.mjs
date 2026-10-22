@@ -24,6 +24,18 @@ export const LOCKED_PACKAGE_SCRIPTS = {
     bin("vite", "vite", "build", "--config", "docs/vite.config.ts"),
   ),
   "test:docs:package": checks(script("test:package")),
+  "typecheck:website": checks(bin("typescript", "tsc", "-p", "website/tsconfig.json")),
+  "build:website": checks(
+    script("tokens:check"),
+    script("typecheck:website"),
+    script("typecheck:docs"),
+    bin("vite", "vite", "build", "--config", "website/vite.config.ts"),
+    bin("vite", "vite", "build", "--config", "website/docs.vite.config.ts"),
+  ),
+  "test:website": checks(
+    script("build:website"),
+    bin("@playwright/test", "playwright", "test", "-c", "website/playwright.config.ts"),
+  ),
   "build:docs:registry": checks(node("scripts/build-docs-registry.mjs")),
   lint: checks(bin("oxlint", "oxlint")),
   test: checks(bin("vitest", "vitest", "run")),
