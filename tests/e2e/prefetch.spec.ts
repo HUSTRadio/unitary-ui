@@ -1,11 +1,15 @@
 import { expect, test } from "@playwright/test";
-import { artifactMode, artifactModule, artifactModules, requestsModule } from "./docs-artifact";
+import { artifactMode, artifactModule, artifactModules, moduleRequest, requestsModule } from "./docs-artifact";
 
 const carouselModule = "site/src/examples/registry.ts?example-component=carousel";
 // Shared demos retain their .example filename when Vite removes the source path.
 const exampleChunks = artifactModules(/\/examples\/|\.example(?:[-.]|$)/);
 const componentChunks = artifactModules(/example-component=/);
 const carouselChunks = artifactModules(/example-component=carousel$|\/examples\/carousel\//);
+const carouselExamplePaths = artifactMode ? carouselChunks : ["default", "variants"].flatMap((name) => [
+  `/site/src/examples/carousel/${name}.example.tsx`,
+  `/site/src/examples/carousel/${name}.example.tsx?example-source`,
+]);
 
 function expectCarouselExamples(requests: readonly string[]) {
   const examples = artifactMode
@@ -91,34 +95,54 @@ for (const theme of ["light", "dark"] as const) {
     await expect(demo.getByRole("status")).toHaveText("Status: ready; Requests: 2");
   });
 
-  test(`docs link intent warms only its page and examples and click reuses them (${theme})`, async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.addInitScript((value) => {
-      localStorage.setItem("unitary-docs-language", "en-US");
-      localStorage.setItem("unitary-theme-preference", value);
-    }, theme);
-    const requests: string[] = [];
-    page.on("request", (request) => requests.push(request.url()));
-    await page.goto("/");
-    await expect(page.locator("#main-content h1")).toHaveText("Unitary");
-    await page.waitForLoadState("networkidle");
-    const carouselRequest = (url: string) => requestsModule(url, carouselModule, "registry.ts?example-component=carousel");
-    expect(requests.some(carouselRequest)).toBe(false);
-    const link = page.locator('[data-slot="docs-sidebar"] a[href="/components/carousel"]');
-    await link.hover();
-    await expect.poll(() => requests.filter(carouselRequest).length).toBe(1);
-    await page.waitForLoadState("networkidle");
-    expect(requests.filter(carouselRequest)).toHaveLength(1);
-    expectCarouselExamples(requests);
-    await expect(page.locator("#main-content h1")).toHaveText("Unitary");
-    await link.click();
-    await expect(page.locator("#main-content h1")).toHaveText("Carousel");
-    await expect(page.locator('[data-demo-card="default"] [data-slot="carousel"]')).toBeVisible();
-    expect(requests.filter(carouselRequest)).toHaveLength(1);
-    expect(requests.filter((url) => requestsModule(url, "components/docs-components-page.tsx", "/components/docs-components-page.tsx"))).toHaveLength(1);
-    expectCarouselExamples(requests);
-    if (artifactMode) expect(requests.every((url) => !url.includes("/site/src/"))).toBe(true);
-  });
+  for (const delayedRegistry of [false, true]) {
+    test(`docs link intent warms only its page and examples and click reuses them (${theme}${delayedRegistry ? ", delayed registry" : ""})`, async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await page.addInitScript((value) => {
+        localStorage.setItem("unitary-docs-language", "en-US");
+        localStorage.setItem("unitary-theme-preference", value);
+      }, theme);
+      const requests: string[] = [];
+      page.on("request", (request) => requests.push(request.url()));
+      if (delayedRegistry) {
+        await page.route(moduleRequest(carouselModule, "**/registry.ts?example-component=carousel"), async (route) => {
+          const response = await route.fetch();
+          // Keep the parent import pending beyond the document's previous idle
+          // window. Its child examples cannot be requested until it is released.
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await route.fulfill({ response });
+        });
+      }
+      await page.goto("/");
+      await expect(page.locator("#main-content h1")).toHaveText("Unitary");
+      await page.waitForLoadState("networkidle");
+      const carouselRequest = (url: string) => requestsModule(url, carouselModule, "registry.ts?example-component=carousel");
+      expect(requests.some(carouselRequest)).toBe(false);
+      const link = page.locator('[data-slot="docs-sidebar"] a[href="/components/carousel"]');
+      // A request for the registry only starts its import graph. The document's
+      // networkidle state may already be satisfied before its children start.
+      // Observe every demo/source response before hovering, and wait for bodies
+      // to finish before asserting prefetch scope or activating the link.
+      const examplesLoaded = carouselExamplePaths.map((expectedPath) => page.waitForResponse((response) => {
+        const url = new URL(response.url());
+        return (artifactMode ? url.pathname : url.pathname + url.search) === expectedPath;
+      }, { timeout: 10_000 }).then(async (response) => {
+        expect(response.ok(), response.url()).toBe(true);
+        expect(await response.finished(), response.url()).toBeNull();
+      }));
+      await Promise.all([link.hover(), ...examplesLoaded]);
+      expect(requests.filter(carouselRequest)).toHaveLength(1);
+      expectCarouselExamples(requests);
+      await expect(page.locator("#main-content h1")).toHaveText("Unitary");
+      await link.click();
+      await expect(page.locator("#main-content h1")).toHaveText("Carousel");
+      await expect(page.locator('[data-demo-card="default"] [data-slot="carousel"]')).toBeVisible();
+      expect(requests.filter(carouselRequest)).toHaveLength(1);
+      expect(requests.filter((url) => requestsModule(url, "components/docs-components-page.tsx", "/components/docs-components-page.tsx"))).toHaveLength(1);
+      expectCarouselExamples(requests);
+      if (artifactMode) expect(requests.every((url) => !url.includes("/site/src/"))).toBe(true);
+    });
+  }
 }
 
 test.describe("touch intent", () => {
