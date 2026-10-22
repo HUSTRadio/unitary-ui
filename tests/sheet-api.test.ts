@@ -50,18 +50,6 @@ describe("Sheet official API contract", () => {
     expect(src).not.toContain("h-24");
   });
 
-  test("side animations: slide-in -5 / slide-out -10 per official", async () => {
-    const src = await read("src/components/ui/sheet.tsx");
-    expect(src).toContain("slide-in-from-top-5");
-    expect(src).toContain("slide-out-to-top-10");
-    expect(src).toContain("slide-in-from-right-5");
-    expect(src).toContain("slide-out-to-right-10");
-    expect(src).toContain("slide-in-from-bottom-5");
-    expect(src).toContain("slide-out-to-bottom-10");
-    expect(src).toContain("slide-in-from-left-5");
-    expect(src).toContain("slide-out-to-left-10");
-  });
-
   test("SheetContent does not embed a built-in close button (official: consumer adds SheetClose)", async () => {
     const src = await read("src/components/ui/sheet.tsx");
     const contentFn = src.slice(src.indexOf("const SheetContent"));

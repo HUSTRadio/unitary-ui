@@ -303,6 +303,7 @@ export const BROWSER_INPUT_GROUPS = [
     inputs: ["docs/site/src/content/**", "docs/site/src/components/docs-prose*"],
   },
   { specs: names("edit-menu"), owners: names("edit-menu") },
+  { specs: names("sheet-motion"), owners: names("sheet") },
   {
     specs: names("motion-hitu"),
     owners: names("motion hitu-player empty-state"),

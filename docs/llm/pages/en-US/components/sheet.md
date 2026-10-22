@@ -40,6 +40,7 @@ Variants showing the sheet sliding from the left or the right, matching the trig
 ## Controlled behavior
 
 - Open and close are managed through external state (e.g., an isOpen variable) or callback functions, supporting complex interaction patterns.
+- The panel stays opaque and slides fully in and out along the same edge selected by side: 250ms to enter and 150ms to exit. The modal backdrop fades separately. Animations are skipped with reduced motion enabled.
 
 ## Responsive behavior
 

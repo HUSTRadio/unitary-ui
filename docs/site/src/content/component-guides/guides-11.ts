@@ -237,6 +237,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "支持通过外部状态（如 isOpen 变量）或回调函数控制面板的打开与关闭，适合构建复杂的交互模式。",
+        "面板保持不透明，沿 side 指定的同一边缘完整滑入和滑出：入场 250ms，退场 150ms；模态遮罩单独淡入淡出。启用减少动态效果时跳过动画。",
       ],
     },
     responsiveBehavior: {
@@ -514,6 +515,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Open and close are managed through external state (e.g., an isOpen variable) or callback functions, supporting complex interaction patterns.",
+        "The panel stays opaque and slides fully in and out along the same edge selected by side: 250ms to enter and 150ms to exit. The modal backdrop fades separately. Animations are skipped with reduced motion enabled.",
       ],
     },
     responsiveBehavior: {

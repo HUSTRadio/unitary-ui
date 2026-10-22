@@ -23,7 +23,7 @@ const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
  *   top/bottom：inset-x-0 全宽，无圆角无 margin
  *   right/left：inset-y-0 w-3/4 sm:max-w-sm h-full，无圆角无 margin
  * - 官方不内置关闭按钮；消费者用 <SheetClose asChild> 显式提供
- * - 动画：data-[state=open]:slide-in-from-<side>-5 / closed:slide-out-to-<side>-10
+ * - 动画为项目选择：面板保持不透明，沿同一边缘完整滑入/滑出；入场 base，退场 fast
  */
 export type SheetSide = "top" | "right" | "bottom" | "left";
 export type SheetProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
@@ -58,6 +58,8 @@ const SheetOverlay = React.forwardRef<
     data-slot="sheet-overlay"
     className={cn(
       "fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]",
+      "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
+      "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-fast) data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
       className,
     )}
     {...props}
@@ -65,14 +67,14 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-/** 官方 side 默认定位 + 动画（slide-in 5% / slide-out 10%）。 */
+/** 官方 side 默认定位；出入场沿同一边缘移动完整面板尺寸。 */
 const SIDE_STYLES: Record<SheetSide, string> = {
-  top: "inset-x-0 top-0 data-[state=open]:slide-in-from-top-5 data-[state=closed]:slide-out-to-top-10",
+  top: "inset-x-0 top-0 data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
   right:
-    "inset-y-0 right-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-right-5 data-[state=closed]:slide-out-to-right-10",
+    "inset-y-0 right-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
   bottom:
-    "inset-x-0 bottom-0 data-[state=open]:slide-in-from-bottom-5 data-[state=closed]:slide-out-to-bottom-10",
-  left: "inset-y-0 left-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-left-5 data-[state=closed]:slide-out-to-left-10",
+    "inset-x-0 bottom-0 data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+  left: "inset-y-0 left-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
 };
 
 export interface SheetContentProps extends React.ComponentPropsWithoutRef<
@@ -95,8 +97,8 @@ const SheetContent = React.forwardRef<
       data-slot="sheet-content"
       className={cn(
         "fixed z-[var(--uni-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--uni-shadow-modal-elevated)] transition ease-in-out focus:outline-none motion-reduce:transition-none",
-        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
+        "data-[state=open]:animate-in data-[state=open]:ease-out data-[state=open]:duration-(--uni-duration-base)",
+        "data-[state=closed]:animate-out data-[state=closed]:ease-in data-[state=closed]:duration-(--uni-duration-fast) motion-reduce:animate-none!",
         SIDE_STYLES[side],
         className,
       )}
