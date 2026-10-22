@@ -173,7 +173,7 @@ generation command, review its changes, and rerun its check. Existing full CI an
 
 ## Glass performance audit / Glass 性能定向测量
 
-Build an optional production fixture, then measure it without running a development server:
+Build the optional production fixture and measure its CSS material without a development server:
 
 ```powershell
 $env:UNITARY_DOCS_TEST_FIXTURES = "1"
@@ -182,49 +182,49 @@ Remove-Item Env:UNITARY_DOCS_TEST_FIXTURES
 node scripts/audit-glass-performance.mjs --artifact .scratch/glass-performance-artifact --output .scratch/glass-performance
 ```
 
-The default matrix runs Clear media controls, a Regular Toolbar and a Dense Select against Solid,
-Aero and Glass: four desktop theme/DPR profiles and two mobile CSS fallback profiles, with three
-independent browser runs per condition. Optional `--profiles`, `--usages` and `--textures` accept
-comma-separated subsets; `--repetitions` must be a positive integer. Mobile profiles emulate an
-Android touch browser and assert CSS rendering; they are not physical-device or mobile SVG evidence.
+The default matrix compares Clear media controls, a Regular Toolbar, a Dense Select, secondary
+Tabs, Switch and Toggle with Solid, Aero and Glass. It uses four desktop theme/DPR profiles and
+two mobile profiles, with three independent browser runs per condition. Optional `--profiles`,
+`--usages` and `--textures` accept comma-separated subsets; `--repetitions` is a positive integer.
+Mobile profiles emulate an Android touch browser; they do not establish physical-device results.
 
-Each unique run directory retains the artifact digest, browser configuration, raw RAF timestamps,
-trusted input events, React commits, canvas construction intervals, encodes and long tasks.
-Initial scene loading is recorded separately: after fonts and image decoding, wait for the exact
+Both desktop and mobile Glass use CSS backdrop sampling. The audit rejects raster-map builds,
+PNG encodes and SVG filter resources. Tabs and Switch require two independent samplers; other
+fixtures require one. Nested controls share their owner's sampling. Encoding hooks detect
+accidental work; they do not recreate the removed raster renderer.
+
+Scene loading remains separate: after fonts and photo decoding, the audit waits for the exact
 background photo's [LCP paint record](https://www.w3.org/TR/largest-contentful-paint/) while still
-Solid. Chromium can separately decode a JPEG for its GPU image cache after `image.decode()` returns;
-two RAF callbacks alone do not establish scene readiness. No screenshot, fixed wait or Glass
-prewarming is used. Initial costs remain in the evidence. A mismatched photo/element, missing paint,
-non-Solid scene, existing map builds/encodes or SVG samplers fails readiness.
-Both HTML and Offscreen canvas encoding are counted; construction ends after the displacement PNG
-decodes. Desktop Glass without construction/decode evidence, its PNG pair or exactly one SVG
-sampler fails evidence validation. Scene-capture experiments are diagnostic warm GPU evidence
-and cannot replace cold activation runs. The LCP record establishes the scene boundary; it is not
-a measurement of GPU presentation duration. Raw frames and their median/P95 retain the observed
-page scheduling cadence so changes in the host's cadence are not attributed to library speedups.
-Activation, first input and Portal reopening are separate from explicitly warmed interaction and
-scrolling windows of at least five seconds. Cold long tasks overlapping raster construction are
-flagged separately; all other cold long tasks remain in the raw evidence. Stable phases require
-P95 ≤20ms, no task >50ms and no map rebuilds; idle sampling requires no continuing application RAF.
-RAF spacing describes page scheduling, not GPU presentation or standard INP. A failed Solid control
-marks its measurement condition unstable. Failures remain saved and produce exit code 1.
+Solid. Two RAF callbacks alone cannot prove background presentation. No screenshot, fixed wait
+or Glass prewarming establishes this initial boundary. Activation, first input and Portal
+reopening remain separate from explicitly warmed interaction and scrolling windows of at least
+five seconds. Stable windows require P95 ≤20ms and no task >50ms; idle sampling requires no
+continuing application RAF. Frame intervals describe page scheduling, not GPU presentation or INP.
 
-默认矩阵覆盖三档实际用途及 Solid／Aero 对照，四种桌面主题/DPR 条件与两种移动 CSS
-回退条件，每条件独立运行三次。移动条件使用 Android 触摸浏览器模拟并断言 CSS renderer，
-不能作为实体移动设备或移动 SVG 证据。可用上述参数缩小诊断范围，空条件、重复条件及无效
-次数会被拒绝，不能生成空跑通过结果。
+Each unique run retains the artifact digest, browser configuration, raw RAF timestamps, trusted
+input, state/React commits, Portal events, long tasks and accidental encoding/build observations.
+A failed Solid control marks its condition unstable. Failures retain their stack and elapsed time,
+are never replaced by later successes, and produce exit code 1. For Dense reopening acceptance,
+add `--usages dense --reopening-budget 1`; this also rejects >50ms tasks in the reopening and
+selection-lifecycle phases and requires attribution events. CPU profiles from
+`scripts/diagnose-select-reopening.mjs` are diagnostic overhead, not budget evidence.
 
-初始场景加载单独记录：字体和照片解码后，保持 Solid，等待背景照片本身的 LCP 呈现记录。
-Chromium 可能在 `image.decode()` 返回后仍为 GPU 图像缓存解码 JPEG，两个 RAF 不能证明场景
-就绪。不使用截图、固定等待或 Glass 预热，保留初始耗时；照片 URL／元素不匹配、没有呈现
-记录、已启用非 Solid、已经构建／编码贴图或已有 SVG 采样器的样本均失败。
-同时计数 HTML 与 Offscreen 两种编码路径，构建区间延伸至位移 PNG 解码完成。桌面 Glass
-缺少构建／解码、一对 PNG 或单个 SVG 采样器的证据即失败。场景截图实验属于 GPU 已初始化
-的诊断，不能替代冷测。LCP 仅用于划分场景就绪，不代表 GPU 呈现耗时；保留原始帧及中位数／
-P95，避免把宿主帧调度节奏变化称作组件库提速。
+默认矩阵比较 Clear 媒体控件、Regular Toolbar、Dense Select、secondary Tabs、Switch 和 Toggle
+在 Solid、Aero、Glass 下的表现，包含四种桌面主题／DPR 条件和两种移动条件，每条件独立
+运行三次。可用上述参数缩小诊断范围；空条件、重复条件和无效次数会被拒绝。移动条件
+模拟 Android 触摸浏览器，不能作为实体设备的验收结论。
 
-工具逐次保留产物摘要、浏览器配置、原始帧时间、真实输入、状态提交、画布构建区间、编码及
-长任务。材质启用、首次输入、Portal 重开分别计量；稳定交互和滚动明确预热后各采集至少
-五秒，要求 P95≤20ms、无超过 50ms 长任务、无贴图重建，空闲时无持续应用 RAF。
-冷阶段只将与构建区间重叠的长任务标记为构建异常，其余冷任务仍完整保留。RAF 间隔仅表示
-页面调度节奏；Solid 对照失败时标记测量条件不稳定。失败数据不会被后续成功覆盖。
+桌面和移动 Glass 均使用 CSS 背景采样。工具要求没有位移贴图构建、PNG 编码或 SVG
+滤镜资源；Tabs／Switch 使用两个独立采样器，其他 fixture 使用一个，内部控件共享外层
+采样。编码拦截仅用于发现意外工作，不再重建已移除的光栅渲染流程。
+
+场景加载单独记录：字体和照片解码后，保持 Solid，等待背景照片本身的 LCP 呈现记录，
+不以两个 RAF、截图、固定等待或 Glass 预热代替。材质启用、首次输入和 Portal 重开分别
+计量；稳定交互及滚动在明确预热后各采集至少五秒，要求 P95≤20ms、无超过 50ms 长任务，
+空闲时无持续应用 RAF。帧间隔只表示页面调度节奏，不代表 GPU 呈现时间或标准 INP。
+
+每次独立留存产物摘要、浏览器配置、原始帧时间、真实输入、状态／React 提交、Portal 事件、
+长任务和意外编码／构建记录。Solid 对照失败时标记条件不稳定；失败保留堆栈和实际耗时，
+不被后续成功覆盖，并返回退出码 1。Dense 重开验收增加
+`--usages dense --reopening-budget 1`，同时拒绝重开及选值生命周期内超过 50ms 的任务并检查
+归因事件。`scripts/diagnose-select-reopening.mjs` 的 CPU profile 带有诊断开销，不作为预算证据。
