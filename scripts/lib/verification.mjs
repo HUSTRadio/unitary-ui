@@ -15,6 +15,7 @@ import {
   indirectTests,
   isBrowserSpec,
   isBrowserTest,
+  isTemplateBrowserSpec,
   browserFileFilters,
   isUnitTest,
   selectBrowserSpecs,
@@ -96,6 +97,7 @@ export async function createVerificationPlan(root, options, services = {}) {
       reasons: [],
       selectedTests: [],
       browserSpecs: [],
+      templateBrowserSpecs: [],
       routes: [],
       checks: [],
       skipped: ["无待验证改动"],
@@ -153,7 +155,7 @@ export async function createVerificationPlan(root, options, services = {}) {
   }
   const browser = selectBrowserSpecs(context.paths, files, discovery.routes);
   const excludedBrowserTests = context.paths.filter(
-    (file) => isBrowserTest(file) && files.includes(file) && !isBrowserSpec(file),
+    (file) => isBrowserTest(file) && files.includes(file) && !isBrowserSpec(file) && !isTemplateBrowserSpec(file),
   );
   if (excludedBrowserTests.length)
     throw new Error(
@@ -178,6 +180,7 @@ export async function createVerificationPlan(root, options, services = {}) {
     reasons.push("No reliable route association; full browser coverage required");
   }
   const browserSpecs = scope.fullBrowser ? files.filter(isBrowserSpec) : browser.selected;
+  const templateBrowserSpecs = files.filter(isTemplateBrowserSpec);
   const routes = scope.fullBrowser ? [] : discovery.routes;
   const checks = [];
   const skipped = [];
@@ -200,6 +203,9 @@ export async function createVerificationPlan(root, options, services = {}) {
   );
   add(scope.appBuild, "build", "Application/build contract");
   add(scope.docsBuild, "build:docs", "Canonical docs application");
+  add(scope.templates, "typecheck:templates", "Current library consumer types");
+  add(scope.templates, "build:templates", "Portable template package builds");
+  add(scope.templates, "test:templates:package", "Independent tarball consumers");
   add(scope.package, "test:package", "Shared inputs or package boundary");
   add(scope.corpus, "docs:llm:check", "Complete deterministic bilingual corpus");
   add(
@@ -223,12 +229,14 @@ export async function createVerificationPlan(root, options, services = {}) {
       PW_REUSE_SERVER: undefined,
     },
   );
+  add(scope.templates, "test:templates", "Complete template viewport/theme/language coverage", ["--max-failures=1", "--reporter=list,json"], { UNITARY_TEMPLATE_ARTIFACTS: undefined });
   return {
     context,
     scope,
     reasons,
     selectedTests,
     browserSpecs,
+    templateBrowserSpecs,
     routes,
     checks,
     skipped,
@@ -329,6 +337,7 @@ export async function verifyWorkspace(root, options, services = {}) {
       skipped: plan.skipped,
       selectedTests: plan.selectedTests,
       browserSpecs: plan.browserSpecs,
+      templateBrowserSpecs: plan.templateBrowserSpecs,
       routes: plan.routes,
       discoveryMs: plan.discoveryMs ?? 0,
       status: "RUNNING",
@@ -337,8 +346,8 @@ export async function verifyWorkspace(root, options, services = {}) {
       durationMs: 0,
       steps: plan.steps.map((step) => ({
         ...step,
-        environment: step.checks.includes("test:docs-layout")
-          ? { ...step.environment, PLAYWRIGHT_JSON_OUTPUT_FILE: browserReportPath }
+        environment: step.checks.includes("test:docs-layout") || step.checks.includes("test:templates")
+          ? { ...step.environment, PLAYWRIGHT_JSON_OUTPUT_FILE: step.checks.includes("test:templates") ? path.join(directory, "template-browser.json") : browserReportPath }
           : step.environment,
         status: "NOT_RUN",
         durationMs: 0,
@@ -361,13 +370,16 @@ export async function verifyWorkspace(root, options, services = {}) {
           step.exitCode = await run(root, step.command, [], step.environment);
           if (!Number.isInteger(step.exitCode) || step.exitCode < 0)
             throw new Error("Invalid check exit code");
-          if (step.checks.includes("test:docs-layout")) {
+          if (step.checks.includes("test:docs-layout") || step.checks.includes("test:templates")) {
             try {
-              step.browserReportPath = browserReportPath;
+              const templateBrowser = step.checks.includes("test:templates");
+              const evidencePath = templateBrowser ? path.join(directory, "template-browser.json") : browserReportPath;
+              step.browserReportPath = evidencePath;
+              if (templateBrowser && !plan.templateBrowserSpecs.length) throw new Error("No template browser specs discovered");
               step.browserEvidence = verificationBrowserEvidence(
                 root,
-                JSON.parse(readFileSync(browserReportPath, "utf8")),
-                plan.browserSpecs,
+                JSON.parse(readFileSync(evidencePath, "utf8")),
+                templateBrowser ? plan.templateBrowserSpecs : plan.browserSpecs,
               );
               const evidence = step.browserEvidence;
               if (
@@ -380,7 +392,7 @@ export async function verifyWorkspace(root, options, services = {}) {
                 throw new Error("Browser coverage is incomplete or contains failures");
               if (evidence.notCompleted.length || evidence.missingFiles.length)
                 log(
-                  `[verify] Browser not completed: ${evidence.notCompleted.length} cases; ${evidence.missingFiles.length} undiscovered files. Details: ${browserReportPath}`,
+                  `[verify] Browser not completed: ${evidence.notCompleted.length} cases; ${evidence.missingFiles.length} undiscovered files. Details: ${evidencePath}`,
                 );
             } catch (error) {
               step.browserEvidenceError = error.message;

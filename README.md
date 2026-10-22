@@ -53,6 +53,9 @@ Node 可直接用 ESM `import` 或 CommonJS `require` 导入组件，无需 CSS 
 
 ## 文档
 
+- 独立、双语的 SaaS 首页、项目后台和 Markdown 文档模板：
+  [`templates`](./templates/README.md)。模板持续跟随本库当前用法更新。
+
 - 文档站：`vp dev docs`
 - 动效与插画接入：[`Hitu + Motion 指南`](./docs/guides/hitu-motion.md)
 - 非线性动效与迁移：[`曲线规范`](./docs/design/apple-motion-curves.md)

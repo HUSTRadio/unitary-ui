@@ -23,6 +23,10 @@ export const INDIRECT_INPUT_GROUPS = [
     inputs: ["scripts/lib/native-*.mjs", "scripts/capture-x11.py", "scripts/serve-docs-artifact.mjs", "playwright.glass-native.config.ts", "tests/native-glass/**", "tests/e2e/helpers/layout-matrix.ts", ".github/workflows/glass-native.yml"],
   },
   {
+    tests: unitFiles("templates-contract.test.ts templates-tooling.test.ts templates-markdown.test.tsx"),
+    inputs: ["templates/**", "scripts/*template*", "scripts/lib/templates.mjs", "package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml", "playwright*config*", ".github/workflows/**", "AGENTS.md", "README*.md"],
+  },
+  {
     tests: unitFiles("docs-public-imports.test.ts docs-preview.test.ts docs-package-consumer.test.ts docs-package-boundary.test.ts library-build-boundary.test.ts"),
     inputs: ["docs/**", "src/**", "scripts/**", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "*config*", ".github/workflows/**"],
   },
@@ -200,9 +204,14 @@ export const isUnitTest = (file) => isTestFile(file) && !file.startsWith("tests/
 export const isBrowserTest = (file) => file.startsWith("tests/e2e/") && isTestFile(file);
 export const isBrowserSpec = (file) =>
   isBrowserTest(file) &&
+  !file.startsWith("tests/e2e/templates/") &&
   !file.split("/").some((part) => part.startsWith(".")) &&
   !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
 const browserSpecFile = (name) => `tests/e2e/${isTestFile(name) ? name : `${name}.spec.ts`}`;
+
+export const isTemplateBrowserSpec = (file) =>
+  file.startsWith("tests/e2e/templates/") && isTestFile(file) &&
+  !file.split("/").some(part => part.startsWith(".")) && !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
 
 /** Playwright file arguments are regular expressions; preserve literal Git filenames. */
 export const browserFileFilters = (files) =>
@@ -413,6 +422,7 @@ export function classifyVerification(context, full = false) {
     package: full,
     lint: full,
     typecheck: full,
+    templates: full,
   };
   const localSources = [];
   for (const change of context.changes) {
@@ -433,6 +443,8 @@ export function classifyVerification(context, full = false) {
       ])
     ) {
       reasons.push(`Shared input: ${file}`);
+    } else if (file.startsWith("templates/") || file.startsWith("tests/e2e/templates/") || matches(file, ["scripts/*template*", "scripts/lib/templates.mjs"])) {
+      Object.assign(scope, { unit: true, lint: true, templates: true });
     } else if (file.startsWith("src/components/ui/")) {
       if (!/^src\/components\/ui\/[^/]+\.[cm]?[jt]sx?$/.test(file))
         reasons.push(`Unknown component input: ${file}`);
@@ -444,6 +456,7 @@ export function classifyVerification(context, full = false) {
         screenshots: true,
         browser: true,
         lint: true,
+        templates: true,
       });
       localSources.push(file);
     } else if (matches(file, ["src/App.tsx", "src/examples/**", "src/main.tsx", "index.html"])) {

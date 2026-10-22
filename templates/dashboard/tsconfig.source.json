@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@hustradio/unitary-ui": ["../../src/lib/index.ts"],
+      "@/*": ["../../src/*"]
+    }
+  }
+}

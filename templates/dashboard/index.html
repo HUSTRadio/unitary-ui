@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
+    <title>Unitary dashboard template</title>
+    <script>
+      // 首帧前应用主题偏好，避免 FOUC（与 src/lib/theme.tsx 的 initTheme 一致）
+      (function () {
+        try {
+          var key = "unitary-theme-preference";
+          var pref = localStorage.getItem(key);
+          if (pref === null) {
+            // 迁移旧键（Geist 命名）保存的偏好，避免首帧与运行时不一致
+            var legacy = localStorage.getItem("geist-theme-preference");
+            if (legacy !== null) {
+              pref = legacy;
+              localStorage.setItem(key, legacy);
+              localStorage.removeItem("geist-theme-preference");
+            }
+          }
+          var dark =
+            pref === "dark" ||
+            ((pref === null || pref === "system") &&
+              matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Texture is independent of color preference, including storage failures.
+      (function () {
+        var texture = "solid";
+        try {
+          var stored = localStorage.getItem("unitary-texture-preference-v2");
+          if (stored === "solid" || stored === "acrylic" || stored === "aero" || stored === "glass") texture = stored;
+          else {
+            var legacy = localStorage.getItem("unitary-texture-preference");
+            var migrated = legacy === "hybrid" ? "acrylic" : legacy === "glass" ? "aero" : legacy === "solid" ? "solid" : null;
+            if (migrated) {
+              texture = migrated;
+              try { localStorage.setItem("unitary-texture-preference-v2", migrated); } catch (e) {}
+            }
+          }
+        } catch (e) {}
+        var supported = false;
+        try {
+          supported =
+            (CSS.supports("backdrop-filter", "blur(1px)") ||
+              CSS.supports("-webkit-backdrop-filter", "blur(1px)")) &&
+            CSS.supports("color", "color-mix(in srgb, white 50%, transparent)") &&
+            !matchMedia("(forced-colors: active)").matches &&
+            !matchMedia("(prefers-reduced-transparency: reduce)").matches;
+        } catch (e) {}
+        document.documentElement.dataset.texturePreference = texture;
+        document.documentElement.dataset.texture = supported ? texture : "solid";
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

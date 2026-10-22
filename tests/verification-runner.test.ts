@@ -51,6 +51,32 @@ function lockPath(root: string) {
 }
 
 describe("fresh verification evidence", () => {
+  it("keeps template evidence separate and rejects absent, partial or skipped browser coverage", async () => {
+    const root = fixture();
+    mkdirSync(path.join(root, "tests/e2e/templates"), { recursive: true });
+    const file = "tests/e2e/templates/homepage.spec.ts";
+    writeFileSync(path.join(root, file), "export {};");
+    for (const scenario of ["complete", "absent", "partial", "skipped"]) {
+      const dependencies = services([file]);
+      dependencies.files.push(file);
+      dependencies.run.mockImplementation(async (_root, command, _args, environment) => {
+        if (command.includes("playwright") && scenario !== "absent") {
+          writeFileSync((environment as Record<string, string>).PLAYWRIGHT_JSON_OUTPUT_FILE, JSON.stringify({
+            config: { rootDir: path.join(root, "tests/e2e/templates") },
+            suites: [{ specs: [{ file: scenario === "partial" ? "other.spec.ts" : "homepage.spec.ts", title: "coverage", tests: [{ expectedStatus: "passed", status: scenario === "skipped" ? "skipped" : "expected", results: scenario === "skipped" ? [] : [{ status: "passed" }] }] }] }],
+            errors: [], stats: { expected: scenario === "skipped" ? 0 : 1, skipped: scenario === "skipped" ? 1 : 0, unexpected: 0, flaky: 0 },
+          }));
+        }
+        return 0;
+      });
+      const result = await verifyWorkspace(root, { full: false }, dependencies);
+      expect(result.code).toBe(scenario === "complete" ? 0 : 1);
+      const browser = result.report?.steps.find((step: { checks: string[] }) => step.checks.includes("test:templates"));
+      expect(browser?.environment.PLAYWRIGHT_JSON_OUTPUT_FILE).toBe(path.join(path.dirname(result.reportPath!), "template-browser.json"));
+      expect(result.plan.checks.some((check: { name: string }) => check.name === "test:docs-layout")).toBe(false);
+    }
+  });
+
   it("requires native coverage of selected browser files and rejects unexecuted cases", async () => {
     const root = fixture();
     mkdirSync(path.join(root, "tests/e2e"));

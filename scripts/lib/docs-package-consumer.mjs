@@ -14,10 +14,10 @@ export const DOCS_PUBLIC_ASSETS = ["demo-poster.png", "demo.mp4", "gallery-coast
 const dependencyKinds = ["dependencies", "devDependencies", "optionalDependencies"];
 const hash = value => createHash("sha256").update(value).digest("hex");
 
-export function docsApplicationLock(lockText) {
+export function docsApplicationLock(lockText, importer = "docs") {
   const documents = parseAllDocuments(lockText);
   assert.ok(documents.every(document => document.errors.length === 0), "Invalid workspace lockfile");
-  const matches = documents.map(document => document.toJS()).filter(lock => lock?.importers?.docs);
+  const matches = documents.map(document => document.toJS()).filter(lock => lock?.importers?.[importer]);
   assert.equal(matches.length, 1, "Workspace lockfile must contain exactly one docs importer");
   const lock = matches[0];
   assert.equal(String(lock.lockfileVersion), "9.0", "Unsupported docs lockfile version");
@@ -34,14 +34,14 @@ function checkManifestLock(manifest, importer) {
 }
 
 /** Preserve every locked external dependency; replace only the library's artifact identity. */
-export function createDocsConsumerLock(lockText, docsManifest, libraryManifest, integrity, mode = "tarball") {
+export function createDocsConsumerLock(lockText, docsManifest, libraryManifest, integrity, mode = "tarball", application = { name: DOCS_WORKSPACE_NAME, importer: "docs" }) {
   assert.ok(["tarball", "registry"].includes(mode), "Unknown docs package mode");
-  assert.equal(docsManifest.name, DOCS_WORKSPACE_NAME);
+  assert.equal(docsManifest.name, application.name);
   assert.equal(docsManifest.private, true, "Docs workspace must remain private");
   assert.equal(libraryManifest.name, PACKAGE_NAME);
   assert.match(libraryManifest.version, /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
-  const lock = structuredClone(docsApplicationLock(lockText));
-  const importer = lock.importers.docs;
+  const lock = structuredClone(docsApplicationLock(lockText, application.importer));
+  const importer = lock.importers[application.importer];
   checkManifestLock(docsManifest, importer);
   const declared = importer.dependencies?.[PACKAGE_NAME];
   assert.ok(declared, "Docs must declare the library as a direct dependency");

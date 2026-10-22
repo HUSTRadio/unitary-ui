@@ -53,6 +53,9 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 
 ## Documentation
 
+- Independent, bilingual SaaS homepage, project dashboard, and Markdown docs starters:
+  [`templates`](./templates/README.en.md). These are dynamic consumers of the current library.
+
 - Documentation site: `vp dev docs`
 - Motion and illustrations: [`Hitu + Motion guide`](./docs/guides/hitu-motion.en.md)
 - Nonlinear motion and migration: [`Curve specification`](./docs/design/apple-motion-curves.en.md)

@@ -28,6 +28,11 @@ inventing behavior to match stale prose.
 - Prefer the smallest maintainable change that fixes the verified root cause.
 - Reuse existing components, tokens, and patterns instead of adding parallel abstractions.
 - Keep public APIs, demos, component guides, and generated LLM pages consistent.
+- Maintain `templates/*` as dynamic consumers of the current public API and recommended usage.
+  Update affected templates in the same change when component contracts or usage evolve. Keep them
+  private, independently copyable, and dependent on `workspace:*`; use public imports and library
+  styling. Verify affected templates; verify all templates when public APIs, entry points, shared
+  styling, or dependencies affect every consumer.
 - Do not fabricate props, defaults, events, accessibility behavior, or demo identifiers.
 - Never commit credentials, tokens, private keys, local paths, or machine-specific configuration.
 - Do not commit generated scratch output or local agent state.

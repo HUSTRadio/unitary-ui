@@ -54,6 +54,14 @@ const ciJobs = [
 ];
 
 describe("GitHub Actions CI contracts", () => {
+  it("checks source templates and portable package/browser consumers", () => {
+    const ci = workflow("ci");
+    expect(runIndex(ci.jobs.checks, "pnpm install --frozen-lockfile")).toBeLessThan(runIndex(ci.jobs.checks, "pnpm run typecheck:templates"));
+    const job = ci.jobs["build-package"];
+    for (const command of ["build:templates", "test:templates:package", "test:templates"])
+      expect(runIndex(job, browserInstall)).toBeLessThan(runIndex(job, `pnpm run ${command}`));
+  });
+
   it("checks master pushes, pull requests and manual runs with read-only permissions", () => {
     const ci = workflow("ci");
     expect(ci.on.push).toEqual({ branches: ["master"] });

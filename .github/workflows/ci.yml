@@ -50,6 +50,9 @@ jobs:
       - name: Typecheck tests and docs
         run: pnpm run typecheck:tests
 
+      - name: Typecheck dynamic templates
+        run: pnpm run typecheck:templates
+
       - name: Setup Python for audit tests
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
@@ -96,6 +99,27 @@ jobs:
       # test:package rebuilds the library and checks SSR/imports and published CSS in Chromium.
       - name: Verify package contracts
         run: pnpm run test:package
+
+      - name: Build template consumers
+        run: pnpm run build:templates
+
+      - name: Verify copied template package consumers
+        run: pnpm run test:templates:package
+
+      - name: Verify template layouts and interactions
+        run: pnpm run test:templates
+
+      - name: Upload template browser evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: template-browser-evidence
+          path: |
+            .scratch/template-browser.json
+            .scratch/template-playwright-results
+            .scratch/template-package
+          retention-days: 7
+          include-hidden-files: true
 
   docs:
     name: Documentation build / Corpus consistency

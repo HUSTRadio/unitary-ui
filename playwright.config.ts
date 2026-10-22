@@ -9,7 +9,7 @@ const artifactMode = Boolean(process.env.UNITARY_DOCS_ARTIFACT);
  */
 export default defineConfig({
   testDir: "./tests/e2e",
-  testIgnore: ["**/_tmp-*", "**/*.tmp.*", "**/.*.spec.ts"],
+  testIgnore: ["**/_tmp-*", "**/*.tmp.*", "**/.*.spec.ts", "**/templates/**"],
   timeout: 15 * 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
