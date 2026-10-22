@@ -24,6 +24,8 @@ inventing behavior to match stale prose.
 ## Working rules
 
 - Inspect the current branch, diff, and nearby tests before editing.
+- Record the starting changes and track this task's files, including edits to already-dirty files.
+  Preserve unrelated changes; their presence alone must not expand this task's verification.
 - Preserve public component behavior unless the task explicitly requires a runtime change.
 - Prefer the smallest maintainable change that fixes the verified root cause.
 - Reuse existing components, tokens, and patterns instead of adding parallel abstractions.
@@ -98,8 +100,9 @@ page from the top navigation through `data-styleguide-page` metadata; do not mai
 list in the script. Every discovered page must have both light and dark screenshots under
 `images/styleguide`.
 
-Use these commands when components, examples, themes, navigation, or README screenshot metadata
-change:
+Use these commands when rendered styleguide screenshots or README screenshot metadata can change
+(for example, component appearance, examples, themes, or navigation). Motion-only changes that leave
+the captured states unchanged do not require regenerating the screenshot set:
 
 ```sh
 pnpm run docs:readme:screenshots
@@ -120,23 +123,40 @@ steps; follow those steps, commit generated changes when requested, then run `gi
 
 ## Validation
 
-Run the narrowest relevant test first, then expand verification before completion.
-Use the unified entrypoint for routine task completion:
+Run the narrowest relevant test first. Expand only for a concrete affected contract or unresolved
+failure. Before executing the unified entrypoint, inspect its dry-run using this task's changed files:
 
 ```sh
-pnpm run verify -- --dry-run
-pnpm run verify
+pnpm run verify -- --dry-run --path src/components/ui/sheet.tsx --path tests/sheet-api.test.ts
+pnpm run verify -- --path src/components/ui/sheet.tsx --path tests/sheet-api.test.ts
 ```
 
-It includes staged, unstaged and untracked changes relative to HEAD. Use `--base <ref>` to include
-committed changes since the merge-base with a ref, or `--full` for complete verification. Do not
-discard pre-existing changes when determining the scope. A clean checkout reports no pending changes;
-it is not proof that a committed task was tested. Use its starting ref or `--full` in that case.
+Replace the example paths with every file changed by the current task. Repeat `--path` for exact
+repository-relative files; the planner retains rename/copy pairs and analyzes dependencies against
+the entire repository. Excluded dirty paths are reported and receive no coverage claim. With no
+`--path`, all staged, unstaged and untracked changes participate; use this only when that set belongs
+to the task or whole-workspace verification was requested. Use `--base <ref>` for committed task
+changes. A clean checkout alone is not testing evidence.
+
+Check the planned tests, routes, builds, package consumers, and fallback reasons before execution.
+Do not launch a full suite merely because unrelated files are dirty, association discovery failed,
+or the completion checklist mentions verification. The runner returns `BLOCKED_SCOPE` (exit 2,
+no checks executed) if it automatically selects full unit tests, full documentation browser coverage,
+or package acceptance. First correct the task paths or missing associations. If the planner still
+over-selects, run the existing focused commands that cover the task and report the planner limitation;
+this satisfies task validation when every affected contract has fresh evidence. Do not mechanically
+retry with `--full` or `--allow-broad` to clear this guard.
+
+Use `--allow-broad <reason>` only after explaining the concrete affected shared contract and why
+focused checks cannot cover it; this executes the reviewed plan without expanding it. Reserve
+`--full` for deliberate whole-repository work, releases, CI, or a demonstrated cross-cutting change.
+This is a scope decision, not a routine user approval requirement.
 
 The planner unions native Vitest import associations with declared indirect inputs. Unknown paths,
 deletions, renames, shared source/configuration and unreliable associations fall back conservatively.
 New file-reading or subprocess tests require indirect input declarations in the verification policy;
-unmapped browser specs require full browser coverage. Scope may be wider than the changed component.
+unmapped browser specs can require full browser coverage. These fallbacks are visible in the plan
+and must not silently trigger expensive execution.
 
 The runner stops at the first failure, reports unexecuted checks, deduplicates prerequisites only
 within that invocation, and rejects evidence if repository inputs change during verification.
@@ -145,7 +165,9 @@ Its unified browser invocation keeps configured retries, stops after the first f
 records remaining cases in the run's `browser.json`. Missing browser evidence cannot pass the gate.
 It preserves complete corpus/screenshot checks and every viewport/theme of selected layout routes.
 Generation remains an explicit step when those checks detect drift; do not treat a failed or partial
-verification as completion. CI retains its full unit suite and nightly browser suite.
+verification as completion. Avoid repeating successful checks on unchanged inputs within the same
+task. Run package installation/browser acceptance for package-boundary changes, not every leaf
+component edit. CI retains its full unit suite and nightly browser suite.
 
 Independent checks remain available for investigation and recovery:
 
@@ -199,7 +221,7 @@ Before reporting completion:
 
 1. Confirm the intended files changed and unrelated files did not.
 2. Run focused regression tests.
-3. Run `pnpm run verify` with the appropriate base (or `--full`); source/tooling changes include type checking and relevant builds.
+3. Review the task-scoped verification plan and run its relevant checks, or equivalent focused commands when the planner over-selects. Include type checking and builds only for affected contracts; record any omitted planned checks and why they are unrelated.
 4. Run deterministic LLM corpus verification when canonical docs or their component inputs change.
 5. Run browser coverage for affected layout or interaction routes, retaining both themes and all applicable viewports.
 6. Inspect package contents for release-boundary changes.

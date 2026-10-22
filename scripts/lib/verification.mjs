@@ -8,6 +8,7 @@ import {
   verificationContext,
   verificationFiles,
   verificationFingerprint,
+  selectVerificationContext,
 } from "./verification-context.mjs";
 import { discoverVerification } from "./verification-discovery.mjs";
 import {
@@ -22,19 +23,25 @@ import {
 } from "./verification-policy.mjs";
 
 export function verificationOptions(args) {
-  const options = { full: false, dryRun: false, base: undefined };
+  const options = { full: false, dryRun: false, base: undefined, paths: [], allowBroad: undefined };
   const seen = new Set();
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];
     if (arg === "--" && index === 0) continue;
-    if (seen.has(arg)) throw new Error(`Repeated verification option: ${arg}`);
+    if (arg !== "--path" && seen.has(arg)) throw new Error(`Repeated verification option: ${arg}`);
     seen.add(arg);
     if (arg === "--full") options.full = true;
     else if (arg === "--dry-run") options.dryRun = true;
     else if (arg === "--base" && args[index + 1] && !args[index + 1].startsWith("--"))
       options.base = args[++index];
+    else if (arg === "--path" && args[index + 1] && !args[index + 1].startsWith("--"))
+      options.paths.push(args[++index]);
+    else if (arg === "--allow-broad" && args[index + 1]?.trim() && !args[index + 1].startsWith("--"))
+      options.allowBroad = args[++index].trim();
     else throw new Error(`Unknown or incomplete verification option: ${arg}`);
   }
+  if (options.full && options.paths.length)
+    throw new Error("--full cannot be combined with --path; choose full or task-scoped verification");
   return options;
 }
 
@@ -89,7 +96,12 @@ const forceFull = (scope) =>
 
 export async function createVerificationPlan(root, options, services = {}) {
   const started = performance.now();
-  const context = services.context ?? verificationContext(root, options.base);
+  if (options.full && options.paths?.length)
+    throw new Error("--full cannot be combined with --path; choose full or task-scoped verification");
+  const context = selectVerificationContext(
+    services.context ?? verificationContext(root, options.base),
+    options.paths,
+  );
   if (!context.paths.length && !options.full)
     return {
       context,
@@ -100,6 +112,7 @@ export async function createVerificationPlan(root, options, services = {}) {
       templateBrowserSpecs: [],
       routes: [],
       checks: [],
+      broadChecks: [],
       skipped: ["无待验证改动"],
       steps: [],
     };
@@ -239,6 +252,11 @@ export async function createVerificationPlan(root, options, services = {}) {
     templateBrowserSpecs,
     routes,
     checks,
+    broadChecks: checks.filter(({ name }) =>
+      (name === "test" && scope.fullUnit) ||
+      (name === "test:docs-layout" && scope.fullBrowser) ||
+      name === "test:package",
+    ).map(({ name }) => name),
     skipped,
     steps: verificationSteps(checks),
     discoveryMs: Math.round(performance.now() - started),
@@ -248,6 +266,10 @@ export async function createVerificationPlan(root, options, services = {}) {
 export function printVerificationPlan(plan, log = console.log) {
   log(`[verify] Changed paths: ${plan.context.paths.length}`);
   for (const file of plan.context.paths) log(`  ${JSON.stringify(file)}`);
+  if (plan.context.excludedPaths.length) {
+    log(`[verify] Outside task scope: ${plan.context.excludedPaths.length} changed paths (not verified by this run)`);
+    for (const file of plan.context.excludedPaths) log(`  ${JSON.stringify(file)}`);
+  }
   for (const reason of plan.reasons) log(`[verify] Fallback: ${reason}`);
   log(
     `[verify] Unit files: ${plan.selectedTests.length}; browser specs: ${plan.browserSpecs.length}; layout routes: ${plan.routes.length || (plan.scope.browser ? "all" : "none")}`,
@@ -255,6 +277,8 @@ export function printVerificationPlan(plan, log = console.log) {
   for (const check of plan.checks) log(`[verify] ${check.name}: ${check.reason}`);
   for (const skipped of plan.skipped) log(`[verify] Skip: ${skipped}`);
   log(`[verify] ${plan.steps.length} unique execution steps; discovery ${plan.discoveryMs ?? 0}ms`);
+  if (plan.broadChecks.length)
+    log(`[verify] Broad checks require an explicit scope decision: ${plan.broadChecks.join(", ")}`);
 }
 
 /** Read native Playwright outcomes, including cases left unexecuted after fail-fast. */
@@ -331,9 +355,12 @@ export async function verifyWorkspace(root, options, services = {}) {
       head: plan.context.head,
       comparison: plan.context.comparison,
       paths: plan.context.paths,
+      excludedPaths: plan.context.excludedPaths,
       scope: plan.scope,
       reasons: plan.reasons,
       checks: plan.checks,
+      broadChecks: plan.broadChecks,
+      scopeDecision: options.full ? "Explicit --full" : options.allowBroad?.trim() || null,
       skipped: plan.skipped,
       selectedTests: plan.selectedTests,
       browserSpecs: plan.browserSpecs,
@@ -357,6 +384,15 @@ export async function verifyWorkspace(root, options, services = {}) {
     const reportPath = path.join(directory, "summary.json");
     const save = () => writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
     save();
+    if (plan.broadChecks.length && !options.full && !options.allowBroad?.trim()) {
+      report.status = "BLOCKED_SCOPE";
+      report.exitCode = 2;
+      report.durationMs = Math.round(performance.now() - started);
+      save();
+      log(`[verify] BLOCKED_SCOPE: no checks executed; report: ${reportPath}`);
+      log("[verify] Review --dry-run and narrow task-owned changes with repeated --path <file>, or repair missing associations. If broad checks are necessary, use --allow-broad <reason> for this plan; reserve --full for deliberate whole-repository verification.");
+      return { code: report.exitCode, plan, report, reportPath };
+    }
     const run = services.run ?? runPackageStep;
     try {
       if (before !== fingerprint(root))

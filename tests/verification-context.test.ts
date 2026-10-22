@@ -8,6 +8,7 @@ import {
   parseChangedPaths,
   verificationContext,
   verificationFingerprint,
+  selectVerificationContext,
 } from "../scripts/lib/verification-context.mjs";
 
 const roots: string[] = [];
@@ -65,6 +66,25 @@ describe("verification Git inputs", () => {
     expect(() => verificationContext(root, "--help")).toThrow("git rev-parse failed");
   });
 
+  it("selects task-owned changes and keeps excluded inputs in the evidence fingerprint", () => {
+    const root = repo();
+    writeFileSync(path.join(root, "src/one.ts"), "task change\n");
+    git(root, "add", "src/one.ts");
+    writeFileSync(path.join(root, "src/two.ts"), "unrelated change\n");
+    const context = verificationContext(root);
+    const selected = selectVerificationContext(context, ["src\\one.ts"]);
+    expect(selected.paths).toEqual(["src/one.ts"]);
+    expect(selected.changes).toEqual([{ status: "M", file: "src/one.ts" }]);
+    expect(selected.excludedPaths).toEqual(["src/two.ts"]);
+    expect(context.paths).toEqual(["src/one.ts", "src/two.ts"]);
+    const before = verificationFingerprint(root);
+    writeFileSync(path.join(root, "src/two.ts"), "another unrelated change\n");
+    expect(verificationFingerprint(root)).not.toBe(before);
+    expect(() => selectVerificationContext(context, ["src/missing.ts"])).toThrow("not changed");
+    expect(() => selectVerificationContext(context, ["../src/one.ts"])).toThrow("not changed");
+    expect(() => selectVerificationContext(context, ["src/one.ts", "src\\one.ts"])).toThrow("Repeated");
+  });
+
   it("retains both rename paths and distinguishes deletion from a clean checkout", () => {
     const root = repo();
     expect(verificationContext(root).paths).toEqual([]);
@@ -78,6 +98,10 @@ describe("verification Git inputs", () => {
       next: "src/renamed.ts",
     });
     expect(context.changes).toContainEqual({ status: "D", file: "src/two.ts" });
+    const selected = selectVerificationContext(context, ["src/renamed.ts"]);
+    expect(selected.paths).toEqual(["src/one.ts", "src/renamed.ts"]);
+    expect(selected.changes).toEqual([{ status: "R", file: "src/one.ts", next: "src/renamed.ts" }]);
+    expect(selected.excludedPaths).toEqual(["src/two.ts"]);
   });
 
   it("fails on invalid Git state and malformed NUL records instead of reporting no changes", () => {

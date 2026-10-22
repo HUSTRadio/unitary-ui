@@ -511,7 +511,14 @@ describe("verification command planning", () => {
       full: false,
       dryRun: true,
       base: "HEAD~1",
+      paths: [],
+      allowBroad: undefined,
     });
+    expect(verificationOptions(["--path", "src/components/ui/sheet.tsx", "--path", "tests/sheet-api.test.ts", "--allow-broad", "shared contract changed"]))
+      .toMatchObject({ paths: ["src/components/ui/sheet.tsx", "tests/sheet-api.test.ts"], allowBroad: "shared contract changed" });
+    expect(() => verificationOptions(["--path"])).toThrow("incomplete");
+    expect(() => verificationOptions(["--allow-broad", "  "])).toThrow("incomplete");
+    expect(() => verificationOptions(["--full", "--path", "tests/one.test.ts"])).toThrow("cannot be combined");
     expect(() => verificationOptions(["--base"])).toThrow("incomplete");
     expect(() => verificationOptions(["--full", "--full"])).toThrow("Repeated");
     expect(() => verificationOptions(["--update"])).toThrow("Unknown");

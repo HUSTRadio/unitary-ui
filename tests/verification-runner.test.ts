@@ -51,6 +51,52 @@ function lockPath(root: string) {
 }
 
 describe("fresh verification evidence", () => {
+  it("keeps unrelated dirty paths out of task selection and records them without claiming coverage", async () => {
+    const root = fixture();
+    const dependencies = services(["tests/one.test.ts", "package.json"]);
+    const discover = vi.fn(dependencies.discover);
+    const result = await verifyWorkspace(root, { full: false, paths: ["tests/one.test.ts"] }, { ...dependencies, discover });
+    expect(result.code).toBe(0);
+    expect(result.report?.paths).toEqual(["tests/one.test.ts"]);
+    expect(result.report?.excludedPaths).toEqual(["package.json"]);
+    expect(result.report?.broadChecks).toEqual([]);
+    expect(discover).toHaveBeenCalledWith(root, dependencies.files, ["tests/one.test.ts"], true);
+    expect(dependencies.log.mock.calls.flat().join("\n")).toContain("not verified by this run");
+  });
+
+  it.each(["shared-input", "unmapped-browser", "discovery-failure", "package-check"])("stops automatic broad checks before any command: %s", async (scenario) => {
+    const root = fixture();
+    const changed = scenario === "shared-input" ? "package.json" : scenario === "unmapped-browser" ? "tests/e2e/new.spec.ts" : scenario === "package-check" ? "scripts/test-packed-package.mjs" : "tests/one.test.ts";
+    const dependencies = services([changed]);
+    if (scenario === "discovery-failure") dependencies.discover = async () => { throw new Error("unavailable association"); };
+    const result = await verifyWorkspace(root, { full: false }, dependencies);
+    expect(result.code).toBe(2);
+    expect(result.report?.status).toBe("BLOCKED_SCOPE");
+    expect(result.report?.steps.every((step: { status: string }) => step.status === "NOT_RUN")).toBe(true);
+    expect(JSON.parse(readFileSync(result.reportPath!, "utf8")).status).toBe("BLOCKED_SCOPE");
+    expect(dependencies.run).not.toHaveBeenCalled();
+    expect(existsSync(lockPath(root))).toBe(false);
+  });
+
+  it("permits broad dry-runs and records a reason for deliberate execution without expanding the plan", async () => {
+    const root = fixture();
+    const dependencies = services(["scripts/lib/verification.mjs"]);
+    const dry = await verifyWorkspace(root, { full: false, dryRun: true }, dependencies);
+    expect(dry.code).toBe(0);
+    expect(dry.plan.broadChecks).toEqual(["test"]);
+    expect(dependencies.run).not.toHaveBeenCalled();
+    const result = await verifyWorkspace(root, { full: false, allowBroad: "Verification runner affects all test execution" }, dependencies);
+    expect(result.code).toBe(0);
+    expect(result.report?.scopeDecision).toBe("Verification runner affects all test execution");
+    expect(result.report?.scope.fullBrowser).toBe(false);
+    expect(dependencies.run).toHaveBeenCalled();
+    dependencies.run.mockClear().mockResolvedValue(7);
+    const full = await verifyWorkspace(root, { full: true }, dependencies);
+    expect(full.code).toBe(7);
+    expect(full.report?.scopeDecision).toBe("Explicit --full");
+    expect(dependencies.run).toHaveBeenCalledTimes(1);
+  });
+
   it("keeps template evidence separate and rejects absent, partial or skipped browser coverage", async () => {
     const root = fixture();
     mkdirSync(path.join(root, "tests/e2e/templates"), { recursive: true });
@@ -120,7 +166,7 @@ describe("fresh verification evidence", () => {
         }
         return 0;
       });
-      const result = await verifyWorkspace(root, { full: false }, dependencies);
+      const result = await verifyWorkspace(root, { full: false, allowBroad: "Exercise unmapped browser evidence" }, dependencies);
       expect(result.code).toBe(scenario === "complete" ? 0 : 1);
       const browser = result.report?.steps.find((step: { checks: string[] }) =>
         step.checks.includes("test:docs-layout"),
@@ -135,7 +181,7 @@ describe("fresh verification evidence", () => {
   it("rejects a successful browser exit without fresh native evidence and preserves real failure codes", async () => {
     const root = fixture();
     const dependencies = services(["tests/e2e/new.spec.ts"]);
-    const result = await verifyWorkspace(root, { full: false }, dependencies);
+    const result = await verifyWorkspace(root, { full: false, allowBroad: "Exercise unmapped browser evidence" }, dependencies);
     const browser = result.report?.steps.find((step: { checks: string[] }) =>
       step.checks.includes("test:docs-layout"),
     );
@@ -148,7 +194,7 @@ describe("fresh verification evidence", () => {
     dependencies.run.mockImplementation(async (_root, command) =>
       command.includes("playwright") ? 7 : 0,
     );
-    const failed = await verifyWorkspace(root, { full: false }, dependencies);
+    const failed = await verifyWorkspace(root, { full: false, allowBroad: "Exercise unmapped browser evidence" }, dependencies);
     expect(failed.code).toBe(7);
     expect(existsSync(lockPath(root))).toBe(false);
   });

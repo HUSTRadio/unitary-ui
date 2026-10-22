@@ -36,7 +36,21 @@ A blocker is not Definition of Done. Report the exact missing evidence, affected
 
 ## Verification
 
-Run the narrowest behavior checks first, then every repository gate required by the changed contract. For package-boundary changes, inspect the built package through the existing package test. Report actual commands, exit codes, protected contracts, and unresolved risks; never substitute test counts, source-string matches, or an agent's answer for observed behavior.
+Record the starting dirty files and this task's edits. Run the narrowest behavior checks first, then
+the gates required by the changed contract. Inspect `pnpm run verify -- --dry-run` with repeated
+`--path <file>` for all task-owned changes before execution. Unrelated dirty files must not broaden
+the task's checks. Preserve them and report their exclusion.
+
+If the plan selects full suites or package acceptance, explain the affected shared contract before
+running it. `BLOCKED_SCOPE` is a signal to correct scope/associations or use equivalent focused
+commands, not to mechanically retry with `--full` or `--allow-broad`. Reserve full verification for
+deliberate repository-wide work; avoid repeating passed checks while their inputs remain unchanged.
+Leaf motion changes need affected interaction coverage; they do not alone justify package acceptance
+or screenshot regeneration when the captured states are unchanged.
+
+For package-boundary changes, inspect the built package through the existing package test. Report
+actual commands, exit codes, protected contracts, omitted planned checks with reasons, and unresolved
+risks; never substitute test counts, source-string matches, or an agent's answer for observed behavior.
 
 ## Red flags
 

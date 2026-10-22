@@ -91,6 +91,35 @@ export function verificationContext(root, base) {
   };
 }
 
+/** Select task-owned changes; preserve rename/copy pairs and report every excluded path. */
+export function selectVerificationContext(context, requestedPaths = []) {
+  if (!requestedPaths.length) return { ...context, excludedPaths: [] };
+  const selected = new Set();
+  for (const requested of requestedPaths) {
+    const file = path.posix.normalize(requested.replaceAll("\\", "/"));
+    if (!context.paths.includes(file))
+      throw new Error(`Verification path is not changed in the selected comparison: ${JSON.stringify(requested)}`);
+    if (selected.has(file)) throw new Error(`Repeated verification path: ${JSON.stringify(file)}`);
+    selected.add(file);
+  }
+  let previousSize;
+  do {
+    previousSize = selected.size;
+    for (const { file, next } of context.changes) {
+      if (next && (selected.has(file) || selected.has(next))) {
+        selected.add(file);
+        selected.add(next);
+      }
+    }
+  } while (selected.size !== previousSize);
+  return {
+    ...context,
+    changes: context.changes.filter(({ file, next }) => selected.has(file) || selected.has(next)),
+    paths: context.paths.filter((file) => selected.has(file)),
+    excludedPaths: context.paths.filter((file) => !selected.has(file)),
+  };
+}
+
 /** Hash contents, file identities and HEAD; ignored reports/caches never invalidate evidence. */
 export function verificationFingerprint(root) {
   const hash = createHash("sha256");
