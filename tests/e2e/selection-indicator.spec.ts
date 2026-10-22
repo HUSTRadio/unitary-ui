@@ -5,6 +5,9 @@ type Theme = "light" | "dark";
 type Box = { x: number; y: number; width: number; height: number };
 const markerSelector = "[data-selection-indicator]";
 test.setTimeout(60_000);
+// Native scrollbar gutters expose subpixel overflow that integer scrollHeight
+// measurements and Chromium's default hidden headless scrollbars can miss.
+test.use({ launchOptions: { ignoreDefaultArgs: ["--hide-scrollbars"] } });
 
 async function open(page: Page, route: string, theme: Theme, reducedMotion = false) {
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -156,6 +159,42 @@ async function activate(item: Locator, kind: "link" | "tab") {
   await item.evaluate((node) => (node as HTMLElement).click());
   await expect(item).toHaveAttribute(kind === "link" ? "aria-current" : "aria-selected", kind === "link" ? "page" : "true");
 }
+
+test.describe("Tabs vertical overflow", () => {
+  for (const theme of ["light", "dark"] as const) {
+    test(`Tabs avoid a vertical scrollbar at fractional zoom and retain horizontal scrolling (${theme})`, async ({ page }, testInfo) => {
+      await open(page, getComponentDocsPath("tabs"), theme, true);
+      const tabs = page.getByRole("tablist", { name: "Component documentation", exact: true });
+      await tabs.scrollIntoViewIfNeeded();
+      for (const zoom of [1, 1.25, 1.5]) {
+        await tabs.evaluate((node, zoom) => {
+          node.style.zoom = String(zoom);
+          node.style.width = "500px";
+          node.style.maxWidth = "100%";
+          node.scrollLeft = 0;
+        }, zoom);
+        await expect.poll(() => tabs.evaluate(node => node.offsetWidth - node.clientWidth), `vertical scrollbar at ${zoom * 100}%`).toBe(0);
+        const visibleUnderline = await tabs.evaluate(node => {
+          const marker = node.querySelector('[data-slot="tabs-indicator"]')!.getBoundingClientRect();
+          const list = node.getBoundingClientRect();
+          return (Math.min(marker.bottom, list.bottom) - Math.max(marker.top, list.top)) / Number(getComputedStyle(node).zoom);
+        });
+        expect(visibleUnderline).toBeGreaterThanOrEqual(1);
+      }
+      await page.screenshot({ path: testInfo.outputPath("tabs-fractional-zoom.png") });
+      await tabs.evaluate(node => { node.style.width = "120px"; });
+      await expect.poll(() => tabs.evaluate(node => node.scrollWidth - node.clientWidth)).toBeGreaterThan(0);
+      const overview = tabs.getByRole("tab", { name: "Overview", exact: true });
+      const api = tabs.getByRole("tab", { name: "API", exact: true });
+      await overview.focus();
+      await page.keyboard.press("End");
+      await expect(api).toBeFocused();
+      await expect(api).toHaveAttribute("aria-selected", "true");
+      await expect.poll(() => tabs.evaluate(node => node.scrollLeft)).toBeGreaterThan(0);
+      expect(await tabs.evaluate(node => node.offsetWidth - node.clientWidth)).toBe(0);
+    });
+  }
+});
 
 for (const theme of ["light", "dark"] as const) {
   test(`docs blue indicator stretches nonlinearly and continues interrupted motion (${theme})`, async ({ page }) => {

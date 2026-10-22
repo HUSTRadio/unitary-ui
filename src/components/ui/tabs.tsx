@@ -78,7 +78,9 @@ function Tabs({
 
 const tabsListClasses = (variant: TabsVariant, compact?: boolean) =>
   cn(
-    "group flex flex-nowrap items-center gap-6 overflow-x-auto pb-px shadow-[0_-1px_0_var(--gray-200)_inset]",
+    // Horizontal scrolling otherwise makes overflow-y auto; fractional zoom can
+    // put the underline just outside the row and create a vertical scrollbar.
+    "group flex flex-nowrap items-center gap-6 overflow-x-auto overflow-y-hidden pb-px shadow-[0_-1px_0_var(--gray-200)_inset]",
     variant === "secondary" && "gap-2 shadow-none",
     // compact 间距收半档：primary 24→12、secondary 8→4（twMerge 覆盖上方基准 gap）
     compact && (variant === "secondary" ? "gap-1" : "gap-3"),
