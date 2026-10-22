@@ -1,6 +1,67 @@
 // @vitest-environment node
-import { describe, expect, test } from "vitest";
-import { evaluateSample, geometriesMatch, measureGeometries, orderedCases, percentile } from "../scripts/audit-glass-performance.mjs";
+import { afterEach, describe, expect, test, vi } from "vitest";
+import { chromium, type Browser } from "@playwright/test";
+import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { evaluateSample, geometriesMatch, measure, measureGeometries, orderedCases, percentile, runAudit } from "../scripts/audit-glass-performance.mjs";
+
+describe("audit browser lifetime", () => {
+  afterEach(() => { vi.restoreAllMocks(); vi.useRealTimers(); });
+  test("does not await a hung context close after sample setup fails", async () => {
+    const context = {
+      addInitScript: vi.fn().mockResolvedValue(undefined),
+      newPage: vi.fn().mockRejectedValue(new Error("sample setup failed")),
+      close: vi.fn(() => new Promise<void>(() => {})),
+    };
+    const browser = { newContext: vi.fn().mockResolvedValue(context), close: vi.fn().mockResolvedValue(undefined) };
+    vi.spyOn(chromium, "launch").mockResolvedValue(browser as unknown as Browser);
+    await expect(measure("http://fixture", { profile: "desktop-light-1", texture: "glass", usage: "dense", repetition: 0 }, "artifact", true)).rejects.toThrow("sample setup failed");
+    expect(browser.close).toHaveBeenCalled();
+  }, 1000);
+  test("the watchdog interrupts a pending sample through its browser", async () => {
+    vi.useFakeTimers();
+    let rejectPage!: (error: Error) => void;
+    const context = {
+      addInitScript: vi.fn().mockResolvedValue(undefined),
+      newPage: vi.fn(() => new Promise((_, reject) => { rejectPage = reject; })),
+      close: vi.fn(() => new Promise<void>(() => {})),
+    };
+    const browser = {
+      newContext: vi.fn().mockResolvedValue(context),
+      close: vi.fn(async () => { rejectPage(new Error("browser watchdog interrupted setup")); }),
+    };
+    vi.spyOn(chromium, "launch").mockResolvedValue(browser as unknown as Browser);
+    const rejected = expect(measure("http://fixture", { profile: "desktop-light-1", texture: "glass", usage: "dense", repetition: 0 }, "artifact", true)).rejects.toThrow("browser watchdog interrupted setup");
+    await vi.advanceTimersByTimeAsync(45_001);
+    await rejected;
+    expect(browser.close).toHaveBeenCalledWith({ reason: "Glass audit sample timed out" });
+  }, 1000);
+  test("failed records retain their stack and actual elapsed time", async () => {
+    const context = { addInitScript: vi.fn().mockResolvedValue(undefined), newPage: vi.fn().mockRejectedValue(new Error("sample setup failed")) };
+    const browser = { newContext: vi.fn().mockResolvedValue(context), close: vi.fn().mockResolvedValue(undefined) };
+    vi.spyOn(chromium, "launch").mockResolvedValue(browser as unknown as Browser);
+    const parent = realpathSync(os.tmpdir());
+    const directory = mkdtempSync(path.join(parent, "unitary-glass-audit-"));
+    try {
+      const artifact = path.join(directory, "artifact");
+      mkdirSync(path.join(artifact, "site/build"), { recursive: true });
+      writeFileSync(path.join(artifact, "index.html"), "<!doctype html>");
+      writeFileSync(path.join(artifact, "site/build/glass-regression.html"), "<!doctype html>");
+      const summary = await runAudit({ artifact, output: path.join(directory, "output"), profiles: ["desktop-light-1"], textures: ["glass"], usages: ["dense"], repetitions: 1 });
+      expect(summary.complete).toBe(false);
+      expect(summary.failed).toBe(1);
+      const failure = JSON.parse(readFileSync(path.join(summary.run, "000.json"), "utf8"));
+      expect(failure.wallTimeMs).toBeGreaterThanOrEqual(0);
+      expect(failure.failureDetail).toMatchObject({ name: "Error", message: "sample setup failed" });
+      expect(failure.failureDetail.stack).toContain("sample setup failed");
+    } finally {
+      expect(path.dirname(directory)).toBe(parent);
+      expect(path.basename(directory).startsWith("unitary-glass-audit-")).toBe(true);
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+});
 
 const phase=(name:string)=>{
   const start=34+["scene-load","activation","first-input","selection-lifecycle","interaction","scroll"].indexOf(name)*6000;
@@ -15,6 +76,16 @@ const denseSample=()=>({...sample(),usage:"dense",mobile:false,stateChanged:fals
   events:[{type:"keydown",trusted:true,at:18039},{type:"keydown",trusted:true,at:24039},{type:"wheel",trusted:true,at:30039}],
 });
 describe("Glass performance evidence",()=>{
+  test("reopening budgets reject lifecycle long tasks while retaining the v9 stable-only contract",()=>{
+    const value={...denseSample(),reopeningBudget:true,
+      reopening:{renderers:[{version:"19"}],events:["attached","positioned","focus","react-commit","value-commit"].map(kind=>({kind,at:18040}))}};
+    value.phases.push({...phase("first-input"),name:"portal-reopen"});
+    expect(evaluateSample(value)).toEqual([]);
+    value.phases.find(entry=>entry.name==="selection-lifecycle")!.longTasks=[{startTime:18060,duration:65}] as never[];
+    expect(evaluateSample(value)).toContain("selection-lifecycle:reopening-long-task");
+    expect(evaluateSample({...value,reopeningBudget:false})).toEqual([]);
+    expect(evaluateSample({...value,reopening:{renderers:[],events:[]}})).toContain("reopening:missing-attribution");
+  });
   test("geometry evidence detects translated surfaces and unchanged labels",()=>{
     const rect={x:20,y:40,width:240,height:48};
     const before=[{...rect,label:{...rect,text:"Pin"}}];

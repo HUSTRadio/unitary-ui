@@ -1,4 +1,4 @@
-import { expect, test, firefox, webkit, type Page, type Locator } from "@playwright/test";
+import { expect, test, type Page, type Locator } from "@playwright/test";
 import { PNG } from "pngjs";
 import { LAYOUT_VIEWPORTS, LAYOUT_THEMES } from "./helpers/layout-matrix";
 
@@ -17,21 +17,6 @@ async function prepare(page: Page, theme: string, route = "/?lang=en-US#/materia
 }
 async function settled(surface: Locator) {
   await expect.poll(() => surface.evaluate(el => el.getAnimations().some(a => a.playState === "running"))).toBe(false);
-}
-async function requireNativeBackdropPaint(page: Page, engine: string) {
-  // 独立对照区分平台合成器缺失和产品采样错误；缺失时明确保留未完成证据。
-  // A CSS syntax check cannot prove native compositor support on every platform.
-  await page.setContent('<body style="margin:0"><div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,black 0 2px,white 2px 4px)"></div><div id="native-blur-control" style="position:absolute;left:20px;top:20px;width:160px;height:80px;background:rgb(255 255 255 / .5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)"></div>');
-  const control=page.locator('#native-blur-control');
-  const before=await control.screenshot();
-  await control.evaluate(el=>{(el as HTMLElement).style.setProperty('backdrop-filter','none','important');(el as HTMLElement).style.setProperty('-webkit-backdrop-filter','none','important');});
-  const after=await control.screenshot();
-  const supported=!PNG.sync.read(before).data.equals(PNG.sync.read(after).data);
-  await test.info().attach('native-backdrop-control',{body:Buffer.from(JSON.stringify({engine,supported})),contentType:'application/json'});
-  if(!supported) {
-    await test.info().attach('native-blur-unavailable',{body:before,contentType:'image/png'});
-    test.skip(true, `${engine} on this host declares backdrop-filter but cannot paint even the isolated blur control; native blur pixel acceptance remains incomplete.`);
-  }
 }
 async function directionalPixels(page: Page, surface: Locator) {
   await surface.scrollIntoViewIfNeeded();
@@ -87,20 +72,6 @@ for (const theme of LAYOUT_THEMES) {
   });
 }
 
-for (const [name, engine] of [["Firefox", firefox], ["WebKit", webkit]] as const) for (const theme of LAYOUT_THEMES) {
-  test(`real ${name} CSS Glass keeps visible local input: ${theme}`, async () => {
-    test.setTimeout(180_000);
-    const browser = await engine.launch({channel:undefined});
-    try {
-      const page = await browser.newPage({viewport:{width:1280,height:900},permissions:[]});
-      await prepare(page, theme);
-      await directionalPixels(page, page.locator('[data-slot="texture-demo-menu-trigger"]'));
-      await page.emulateMedia({reducedMotion:"reduce"});
-      await expect(page.locator('[data-slot="texture-demo-menu-trigger"]')).not.toHaveAttribute("data-uni-glass-interaction");
-    } finally { await browser.close(); }
-  });
-}
-
 for (const viewport of LAYOUT_VIEWPORTS) for (const theme of LAYOUT_THEMES) {
   test(`fixed Glass topbar and flyout transmit their actual background: ${theme} ${viewport.width}`, async ({ page }) => {
     await page.setViewportSize(viewport);
@@ -120,9 +91,10 @@ for (const viewport of LAYOUT_VIEWPORTS) for (const theme of LAYOUT_THEMES) {
       const panel=page.locator('[data-slot="site-navigation-panel"]'); await expect(panel).toBeVisible();
       const values=await panel.evaluate(el=>{const s=getComputedStyle(el);return {fill:s.backgroundColor,filter:s.backdropFilter,root:el.closest('[data-slot="navbar"]')!==null};});
       expect(values.root).toBe(true); expect(values.filter).toBe(`blur(20px) saturate(${theme === "dark" ? 1.5 : 1.6})`); expect(values.fill).toMatch(/\/\s*0\./);
+      await settled(panel);
       const filtered=PNG.sync.read(await panel.screenshot());
       if(viewport.width === 1440) await test.info().attach(`topbar-${theme}`, { body: await page.screenshot(), contentType:"image/png" });
-      await panel.evaluate(el=>{(el as HTMLElement).style.setProperty("backdrop-filter","none","important");(el as HTMLElement).style.setProperty("-webkit-backdrop-filter","none","important");});
+      await panel.evaluate(el=>{const filter=getComputedStyle(el).backdropFilter.replace(/blur\([^)]*\)/g,"blur(0px)");(el as HTMLElement).style.setProperty("backdrop-filter",filter,"important");(el as HTMLElement).style.setProperty("-webkit-backdrop-filter",filter,"important");});
       const unfiltered=PNG.sync.read(await panel.screenshot());
       let blurredPixels=0; for(let i=0;i<filtered.data.length;i+=4) if(Math.max(...[0,1,2].map(c=>Math.abs(filtered.data[i+c]-unfiltered.data[i+c])))>2)blurredPixels++;
       expect(blurredPixels,"the flyout must blur the scene, not only declare a filter").toBeGreaterThan(viewport.width);
@@ -131,27 +103,6 @@ for (const viewport of LAYOUT_VIEWPORTS) for (const theme of LAYOUT_THEMES) {
       await page.keyboard.press("ArrowDown"); await expect(page.getByRole("link",{name:"Photo collection",exact:false})).toBeFocused();
       await page.keyboard.press("Escape"); await expect(panel).not.toBeVisible(); await expect(page.getByRole("button",{name:"Browse",exact:true})).toBeFocused();
     }
-  });
-}
-
-for (const [name, engine] of [["Firefox", firefox], ["WebKit", webkit]] as const) for (const theme of LAYOUT_THEMES) {
-  test(`real ${name} fixed header and hover panel retain blur: ${theme}`, async () => {
-    test.setTimeout(180_000);
-    const browser = await engine.launch({channel:undefined});
-    try {
-      const page = await browser.newPage({viewport:{width:1280,height:900},permissions:[]});
-      await requireNativeBackdropPaint(page, name);
-      await prepare(page, theme, "/site/build/glass-regression.html?usage=navigation");
-      await page.getByRole("button",{name:"Glass",exact:true}).click();
-      expect(await page.locator('[data-slot="navbar"]').evaluate(el=>getComputedStyle(el,"::before").backdropFilter)).toBe(`blur(24px) saturate(${theme === "dark" ? 1.5 : 1.6})`);
-      await page.getByRole("button",{name:"Browse",exact:true}).hover();
-      const panel = page.locator('[data-slot="site-navigation-panel"]');
-      await expect(panel).toBeVisible(); await expect(panel).toHaveCSS("backdrop-filter",`blur(20px) saturate(${theme === "dark" ? 1.5 : 1.6})`);
-      const before = await panel.screenshot();
-      await panel.evaluate(el=>(el as HTMLElement).style.setProperty("backdrop-filter","none","important"));
-      expect((await panel.screenshot()).equals(before), "actual fallback panel must blur the background").toBe(false);
-      await expect(panel).not.toHaveAttribute("data-uni-glass-renderer");
-    } finally { await browser.close(); }
   });
 }
 

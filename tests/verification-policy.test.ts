@@ -19,6 +19,18 @@ import {
   INDIRECT_INPUT_GROUPS,
 } from "../scripts/lib/verification-policy.mjs";
 
+it("declares native paint and Select attribution inputs without claiming dedicated native execution", () => {
+  const unit = ["tests/native-blur.test.ts", "tests/native-capture.test.ts", "tests/glass-native-tooling.test.ts", "tests/select-reopening.test.ts"];
+  expect(indirectTests(["scripts/capture-x11.py"], unit).sort()).toEqual(unit.slice(0, 3).sort());
+  expect(indirectTests(["tests/native-glass/paint.e2e.ts"], unit)).toContain("tests/glass-native-tooling.test.ts");
+  expect(indirectTests(["scripts/diagnose-select-reopening.mjs"], unit)).toEqual(["tests/select-reopening.test.ts"]);
+  for (const input of ["src/lib/layer-bridge.tsx", "docs/site/build/select-lifecycle-fixture.tsx"]) {
+    expect(selectBrowserSpecs([input], ["tests/e2e/select-lifecycle.spec.ts"], []).selected).toContain("tests/e2e/select-lifecycle.spec.ts");
+  }
+  expect(selectBrowserSpecs(["tests/e2e/helpers/motion.ts"], ["tests/e2e/docs-mobile-navigation.spec.ts"], []).selected)
+    .toContain("tests/e2e/docs-mobile-navigation.spec.ts");
+});
+
 it("associates the optional Glass fixture and local input with CSS browser contracts", () => {
   const specs=["tests/e2e/glass-feedback.spec.ts", "tests/e2e/glass-stability.spec.ts", "tests/e2e/glass-structure-response.spec.ts"];
   expect(selectBrowserSpecs(["docs/site/build/glass-regression-fixture.tsx"],specs,[])).toEqual({selected:specs,missing:[]});

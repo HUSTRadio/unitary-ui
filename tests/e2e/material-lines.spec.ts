@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { PNG } from "pngjs";
+import { LAYOUT_VIEWPORTS } from "./helpers/layout-matrix";
 
 type Theme = "light" | "dark";
 type Texture = "solid" | "acrylic" | "glass";
@@ -12,13 +13,13 @@ async function frames(page: Page) {
   ));
 }
 
-async function openDrawer(page: Page, theme: Theme, width = 1280) {
+async function openDrawer(page: Page, theme: Theme, width = 1280, height = 900) {
   await page.addInitScript(({ theme }) => {
     localStorage.setItem("unitary-theme-preference", theme);
     localStorage.removeItem("unitary-texture-preference-v2");
   }, { theme });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.setViewportSize({ width, height: 900 });
+  await page.setViewportSize({ width, height });
   await page.goto("/?lang=en-US#/materials");
   const materials = page.locator('[data-slot="materials-page"]');
   await expect(materials).toBeVisible();
@@ -97,10 +98,10 @@ async function paintedLine(png: PNG, line: ReturnType<typeof drawerLines>[number
 }
 
 for (const theme of ["light", "dark"] as const) {
-  for (const width of [390, 1280]) {
+  for (const { width, height } of [...LAYOUT_VIEWPORTS, { width: 1280, height: 900 }]) {
     for (const texture of ["acrylic", "glass"] as const) {
       test(`Material structural lines remain painted: ${theme}, ${width}, ${texture}`, async ({ page }, testInfo) => {
-        const drawer = await openDrawer(page, theme, width);
+        const drawer = await openDrawer(page, theme, width, height);
         const solid = await computedLines(drawer);
         await select(page, drawer, texture);
         const buffer = await page.screenshot({ animations: "disabled", caret: "hide", scale: "css" });
@@ -178,6 +179,25 @@ async function fixtureColors(fixture: Locator) {
 }
 
 for (const theme of ["light", "dark"] as const) {
+  test(`Glass structural line opacity follows its material scope: ${theme}`, async ({ page }) => {
+    const drawer = await openDrawer(page, theme);
+    const { inside, outside } = await installLineFixtures(page, drawer);
+    const solid = await fixtureColors(inside), ordinary = await fixtureColors(outside);
+    await select(page, drawer, "glass");
+    const glass = await fixtureColors(inside);
+    expect(glass["default-border"].border, "Glass must override the opaque utility line").not.toBe(solid["default-border"].border);
+    await drawer.evaluate(el => (el as HTMLElement).style.setProperty("--material-texture-line-opacity", "32%"));
+    await expect.poll(async () => (await fixtureColors(inside))["default-border"].border).not.toBe(glass["default-border"].border);
+    const scoped = await fixtureColors(inside);
+    for (const name of ["separator", "alpha-separator", "border-separator"]) expect(scoped[name].background).toBe(scoped["default-border"].border);
+    for (const name of ["author-border", "author-separator", "inline-border", "inline-separator"]) expect(scoped[name], name).toEqual(solid[name]);
+    expect(await fixtureColors(outside)).toEqual(ordinary);
+    await drawer.evaluate(el => (el as HTMLElement).style.removeProperty("--material-texture-line-opacity"));
+    await expect.poll(() => fixtureColors(inside)).toEqual(glass);
+    await select(page, drawer, "solid");
+    expect(await fixtureColors(inside)).toEqual(solid);
+  });
+
   test(`Material line contracts preserve author colors, scoped palettes and ordinary document lines: ${theme}`, async ({ page }) => {
     const drawer = await openDrawer(page, theme);
     const { inside, outside } = await installLineFixtures(page, drawer);

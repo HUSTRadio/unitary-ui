@@ -1,9 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import { startDocsPreview } from "./lib/docs-preview.mjs";
+import { installSelectReopeningProbe, attributeReopeningTasks } from "./lib/select-reopening.mjs";
+import { withPackageLock } from "./lib/package-script-lock.mjs";
 
 const MEASUREMENT_VERSION=9;
 
@@ -93,6 +95,14 @@ export function evaluateSample(sample) {
       ? entry.kind==="scroll" && entry.from!==entry.to : entry.kind==="focus" && typeof entry.value==="string"));
     if(!changedState)failures.push("interaction:no-stable-state-change");
     if(!sample.stablePortal || sample.stablePortal.before!==sample.stablePortal.after || (sample.portals??[]).some(entry=>during(entry,interaction)))failures.push("interaction:portal-recreated");
+    if(sample.reopeningBudget) {
+      for(const name of ["portal-reopen","selection-lifecycle"]) {
+        const phase=sample.phases?.find(phase=>phase.name===name);
+        if(!phase)failures.push(`${name}:missing-reopening-budget`);
+        else if(phase.longTasks.some(task=>task.duration>50))failures.push(`${name}:reopening-long-task`);
+      }
+      if(!sample.reopening?.renderers?.length || ["attached","positioned","focus","react-commit","value-commit"].some(kind=>!sample.reopening?.events?.some(event=>event.kind===kind)))failures.push("reopening:missing-attribution");
+    }
   } else if(!sample.stateChanged || !sample.commits?.some(entry=>during(entry,interaction)))failures.push("interaction:no-state-commit");
   const interactionInputs=sample.usage==="dense"?[sample.mobile?"touchmove":"keydown"]:["pointerdown","touchstart","keydown"];
   if(!sample.events?.some(entry=>entry.trusted && during(entry,interaction) && interactionInputs.includes(entry.type)))failures.push("interaction:no-trusted-input");
@@ -122,7 +132,7 @@ export function orderedCases(profiles, repetitions=3, usages=["clear","regular",
 function installProbe() {
   const audit={events:[],commits:[],states:[],portals:[],tasks:[],encodes:[],builds:[],phases:[],active:null,raf:0,last:0,scrollTops:new WeakMap()};
   const portalIds=new WeakMap();let nextPortal=0;
-  audit.portalId=node=>{if(!portalIds.has(node))portalIds.set(node,++nextPortal);return portalIds.get(node);};
+  audit.portalId=node=>{if(window.__selectReopening)return window.__selectReopening.id(node);if(!portalIds.has(node))portalIds.set(node,++nextPortal);return portalIds.get(node);};
   audit.recordPortal=(kind,detail)=>{const entry={kind,...detail,at:performance.now(),phase:audit.active?.name??null};audit.portals.push(entry);return entry;};
   // CSS Glass must not allocate raster maps. Observe accidental work without
   // reproducing the removed encoder/decode pipeline in the test harness.
@@ -207,16 +217,16 @@ async function touchScroll(session,box,direction) {
   await session.send("Input.dispatchTouchEvent",{type:"touchEnd",touchPoints:[]});
 }
 
-async function measure(origin,condition,artifactHash) {
+export async function measure(origin,condition,artifactHash,reopeningBudget=false) {
   const started=Date.now(),[device,theme,dprString]=condition.profile.split("-");
   const mobile=device==="mobile",dpr=Number(dprString),viewport=mobile?{width:390,height:844}:{width:1280,height:900};
   const browser=await chromium.launch({channel:"chromium"});let context,timeout;
   try {
     context=await browser.newContext({viewport,deviceScaleFactor:dpr,hasTouch:mobile,isMobile:mobile,
       ...(mobile?{userAgent:`Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browser.version()} Mobile Safari/537.36`}:{})});
-    timeout=setTimeout(()=>void context.close(),45000);
+    timeout=setTimeout(()=>void browser.close({reason:"Glass audit sample timed out"}).catch(()=>{}),45000);
     await context.addInitScript(({theme})=>{localStorage.setItem("unitary-theme-preference",theme);localStorage.setItem("unitary-texture-preference-v2","solid");},{theme});
-    await context.addInitScript(installProbe);
+    await context.addInitScript({content:`(${installSelectReopeningProbe.toString()})({});(${installProbe.toString()})();`});
     const page=await context.newPage();page.setDefaultTimeout(10000);
     const errors=[];page.on("pageerror",error=>errors.push(error.message));
     await page.goto(`${origin}/site/build/glass-regression.html?usage=${condition.usage}`);
@@ -358,7 +368,7 @@ async function measure(origin,condition,artifactHash) {
         interactiveSurfaces:document.querySelectorAll("[data-uni-glass-interaction]").length};
     });
     const idleRafRequests=await page.evaluate(async()=>{let count=0;const original=requestAnimationFrame;window.requestAnimationFrame=callback=>{count++;return original.call(window,callback);};await new Promise(resolve=>setTimeout(resolve,1000));window.requestAnimationFrame=original;return count;});
-    const raw=await page.evaluate(()=>window.__glassAudit.finish());
+    const raw=await page.evaluate(()=>({...window.__glassAudit.finish(),reopening:window.__selectReopening.finish()}));
     const phases=raw.phases.map(phase=>{
       const gaps=phase.frames.slice(1).map((timestamp,index)=>timestamp-phase.frames[index]);
       const portals=raw.portals.filter(entry=>entry.at>=phase.start&&entry.at<=phase.end);
@@ -368,17 +378,23 @@ async function measure(origin,condition,artifactHash) {
     });
     const interaction=phases.find(phase=>phase.name==="interaction");
     const stateChanged=(dense?raw.states:raw.commits).some(entry=>entry.at>=interaction.start&&entry.at<=interaction.end);
-    const result={measurementVersion:MEASUREMENT_VERSION,...condition,startedAt:new Date(started).toISOString(),wallTimeMs:Date.now()-started,artifactHash,browser:browser.version(),userAgent:await page.evaluate(()=>navigator.userAgent),viewport,dpr,mobile,theme,...snapshot,sceneReadiness,materialReadiness,
+    const result={measurementVersion:MEASUREMENT_VERSION,reopeningBudget,reopening:raw.reopening,reopeningTasks:attributeReopeningTasks(raw.tasks,raw.reopening.events),...condition,startedAt:new Date(started).toISOString(),wallTimeMs:Date.now()-started,artifactHash,browser:browser.version(),userAgent:await page.evaluate(()=>navigator.userAgent),viewport,dpr,mobile,theme,...snapshot,sceneReadiness,materialReadiness,
       interactionMode:dense?(mobile?"open-list-touch-scroll":"open-list-keyboard-navigation"):"control-activation",stablePortal,
       phases,events:raw.events,commits:raw.commits,states:raw.states,portals:raw.portals,
       portalCounts:{opened:raw.portals.filter(entry=>entry.kind==="opened").length,closed:raw.portals.filter(entry=>entry.kind==="closed").length,mounted:new Set(raw.portals.filter(entry=>entry.kind==="opened").map(entry=>entry.id)).size},
       longTasks:raw.tasks,encodes:raw.encodes,builds:raw.builds,idleRafRequests,stateChanged,
       geometry:{before:geometry,after:afterGeometry,textCoordinates:dense?"native scroll content coordinates; raw viewportRect retained":"viewport coordinates"},geometryStable:geometriesMatch(geometry,afterGeometry),errors};
     result.failures=[...evaluateSample(result),...errors.map(error=>`page:${error}`)];return result;
-  }finally{clearTimeout(timeout);await context?.close();await browser.close();}
+  }finally{
+    clearTimeout(timeout);
+    // There are no HAR/video files to flush. Close the browser even when its
+    // context transport has stalled, including failures before the page opens.
+    await browser.close();
+  }
 }
 
 export async function runAudit(options) {
+  if(options.reopeningBudget!==undefined && typeof options.reopeningBudget!=="boolean")throw Error("reopeningBudget must be boolean");
   const artifact=path.resolve(options.artifact),output=path.resolve(options.output??".scratch/glass-performance");
   const cases=orderedCases(options.profiles??["desktop-light-1","desktop-dark-1","desktop-light-2","desktop-dark-2","mobile-light-2","mobile-dark-2"],options.repetitions??3,options.usages,options.textures);
   await fs.access(path.join(artifact,"site/build/glass-regression.html"));
@@ -386,34 +402,39 @@ export async function runAudit(options) {
   const hash=await digest(artifact),preview=await startDocsPreview(artifact),results=[];
   const sourceCSSHash=crypto.createHash("sha256").update(await fs.readFile(new URL("../src/styles/index.css",import.meta.url))).digest("hex");
   const harnessHash=crypto.createHash("sha256").update(await fs.readFile(new URL(import.meta.url))).digest("hex");
-  await fs.writeFile(path.join(run,"manifest.json"),JSON.stringify({startedAt:new Date().toISOString(),artifactHash:hash,sourceCSSHash,harnessHash,measurementVersion:MEASUREMENT_VERSION,sceneBoundary:"fonts + image decode + matching background photo LCP while Solid; zero CSS samplers/raster work before activation; no screenshots or material prewarming; first input has no warm-up",samplerContract:"all visible fixture and portal nodes including rendered pseudo-elements",
+  const attributionHash=crypto.createHash("sha256").update(await fs.readFile(new URL("./lib/select-reopening.mjs",import.meta.url))).digest("hex");
+  await fs.writeFile(path.join(run,"manifest.json"),JSON.stringify({startedAt:new Date().toISOString(),artifactHash:hash,sourceCSSHash,harnessHash,attributionHash,measurementVersion:MEASUREMENT_VERSION,attributionVersion:1,sceneBoundary:"fonts + image decode + matching background photo LCP while Solid; zero CSS samplers/raster work before activation; no screenshots or material prewarming; first input has no warm-up",samplerContract:"all visible fixture and portal nodes including rendered pseudo-elements",
     interactionContract:"5 s trusted stable input after animations and explicit 500 ms warm-up; non-Dense controls require React state commits; Dense keeps one Portal open and requires actual focus changes on desktop or native touch scroll changes on mobile",
-    selectionLifecycleContract:"Dense normal value selection, close and Portal reopen measured separately for 5 s with real React value commits, visible-node IDs, open/close timestamps and all long tasks retained; lifecycle costs are reported separately and are not steady-budget passes",
+    selectionLifecycleContract:"Dense normal value selection, close and Portal reopen measured separately for 5 s with real React value commits, visible-node IDs, open/close timestamps and all long tasks retained; the explicit reopening budget optionally rejects >50ms lifecycle tasks independently of steady budgets",
     historicalEvidence:"Version 7/8 raw runs and failures remain unchanged; only fresh version 9 evidence is evaluated against these distinct lifecycle and steady contracts",
-    host:{platform:process.platform,arch:process.arch,node:process.version},seed:20261017,cases,phase:options.phase??"verification",budget:{stableWindowMs:5000,p95Ms:20,longTaskMs:50,appliesTo:["interaction","scroll"]}},null,2));
+    reopeningAttribution:"trusted trigger input, actual React commits, portal attachment, first resolved positioning-style publication and focus; no layout polling or style-call instrumentation",
+    host:{platform:process.platform,arch:process.arch,node:process.version},seed:20261017,cases,phase:options.phase??"verification",budget:{stableWindowMs:5000,p95Ms:20,longTaskMs:50,appliesTo:["interaction","scroll"],reopeningAppliesTo:options.reopeningBudget?["portal-reopen","selection-lifecycle"]:[]}},null,2));
   try {
     for(const [index,condition] of cases.entries()) {
-      let result;try{result=await measure(preview.url,condition,hash);}catch(error){result={...condition,failures:[String(error)],wallTimeMs:null};}
+      const sampleStarted=Date.now();
+      let result;try{result=await measure(preview.url,condition,hash,options.reopeningBudget??false);}catch(error){result={...condition,failures:[String(error)],failureDetail:{name:error.name,message:error.message,stack:error.stack},wallTimeMs:Date.now()-sampleStarted};}
       results.push(result);await fs.writeFile(path.join(run,`${String(index).padStart(3,"0")}.json`),JSON.stringify(result,null,2));
       const lifecycle=result.phases?.find(phase=>phase.name==="selection-lifecycle");
       console.log(JSON.stringify({index:index+1,total:cases.length,...condition,p95:result.phases?.filter(p=>["interaction","scroll"].includes(p.name)).map(p=>({phase:p.name,p95:p.p95})),
-        selectionLifecycle:lifecycle?{duration:lifecycle.duration,p95:lifecycle.p95,max:lifecycle.max,longTasks:lifecycle.longTasks,portalCounts:lifecycle.portalCounts,budgetApplied:false}:null,failures:result.failures}));
+        selectionLifecycle:lifecycle?{duration:lifecycle.duration,p95:lifecycle.p95,max:lifecycle.max,longTasks:lifecycle.longTasks,portalCounts:lifecycle.portalCounts,budgetApplied:options.reopeningBudget??false}:null,failures:result.failures}));
     }
   }finally{await preview.close();}
-  const unstableControls=results.filter(result=>result.texture==="solid"&&result.failures.length).map(({profile,usage,repetition})=>({profile,usage,repetition}));
+  const unstableControls=results.filter(result=>result.texture==="solid"&&result.failures.some(failure=>!failure.endsWith(":reopening-long-task"))).map(({profile,usage,repetition})=>({profile,usage,repetition}));
+  const reopeningControlFailures=results.filter(result=>result.texture==="solid"&&result.failures.some(failure=>failure.endsWith(":reopening-long-task"))).map(({profile,usage,repetition})=>({profile,usage,repetition}));
   const lifecycleCosts=results.filter(result=>result.usage==="dense").map(result=>{
     const phase=result.phases?.find(phase=>phase.name==="selection-lifecycle");
     return {profile:result.profile,texture:result.texture,repetition:result.repetition,
       phase:phase?{name:phase.name,duration:phase.duration,median:phase.median,p95:phase.p95,max:phase.max,longTasks:phase.longTasks}:null,
-      portalCounts:phase?.portalCounts??null,budgetApplied:false};
+      portalCounts:phase?.portalCounts??null,budgetApplied:options.reopeningBudget??false};
   });
-  const summary={run,measurementVersion:MEASUREMENT_VERSION,artifactHash:hash,results:results.length,failed:results.filter(result=>result.failures.length).length,unstableControls,lifecycleCosts,complete:results.length===cases.length&&results.every(result=>!result.failures.length)};
+  const summary={run,measurementVersion:MEASUREMENT_VERSION,reopeningBudget:options.reopeningBudget??false,artifactHash:hash,results:results.length,failed:results.filter(result=>result.failures.length).length,unstableControls,reopeningControlFailures,lifecycleCosts,complete:results.length===cases.length&&results.every(result=>!result.failures.length)};
   await fs.writeFile(path.join(run,"summary.json"),JSON.stringify(summary,null,2));console.log(JSON.stringify(summary));return summary;
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
-  const values={};for(let index=2;index<process.argv.length;index+=2){const key=process.argv[index]?.replace(/^--/,"");if(!["artifact","output","phase","profiles","repetitions","usages","textures"].includes(key)||!process.argv[index+1])throw Error("Expected a known --key and value");values[key]=process.argv[index+1];}
+  const values={};for(let index=2;index<process.argv.length;index+=2){const key=process.argv[index]?.replace(/^--/,"");if(!["artifact","output","phase","profiles","repetitions","usages","textures","reopening-budget"].includes(key)||!process.argv[index+1])throw Error("Expected a known --key and value");values[key]=process.argv[index+1];}
   if(!values.artifact)throw Error("--artifact must name a production docs build with UNITARY_DOCS_TEST_FIXTURES=1");
-  const summary=await runAudit({artifact:values.artifact,output:values.output,phase:values.phase,repetitions:values.repetitions?Number(values.repetitions):3,profiles:values.profiles?.split(","),usages:values.usages?.split(","),textures:values.textures?.split(",")});
+  if(values["reopening-budget"]!==undefined && !["0","1"].includes(values["reopening-budget"]))throw Error("--reopening-budget must be 0 or 1");
+  const summary=await withPackageLock(path.resolve(path.dirname(fileURLToPath(import.meta.url)),".."),"workspace-checks",()=>runAudit({artifact:values.artifact,output:values.output,phase:values.phase,reopeningBudget:values["reopening-budget"]==="1",repetitions:values.repetitions?Number(values.repetitions):3,profiles:values.profiles?.split(","),usages:values.usages?.split(","),textures:values.textures?.split(",")}));
   process.exitCode=summary.complete?0:1;
 }

@@ -12,7 +12,15 @@ export const INDIRECT_INPUT_GROUPS = [
   },
   {
     tests: unitFiles("glass-performance.test.ts"),
-    inputs: ["scripts/audit-glass-performance.mjs", "scripts/lib/docs-preview.mjs", "docs/site/build/glass-regression*"],
+    inputs: ["scripts/audit-glass-performance.mjs", "scripts/lib/select-reopening.mjs", "scripts/lib/docs-preview.mjs", "src/styles/index.css", "docs/site/build/glass-regression*"],
+  },
+  {
+    tests: unitFiles("select-reopening.test.ts"),
+    inputs: ["scripts/diagnose-select-reopening.mjs", "scripts/lib/select-reopening.mjs", "docs/site/build/glass-regression*"],
+  },
+  {
+    tests: unitFiles("native-blur.test.ts native-capture.test.ts glass-native-tooling.test.ts"),
+    inputs: ["scripts/lib/native-*.mjs", "scripts/capture-x11.py", "scripts/serve-docs-artifact.mjs", "playwright.glass-native.config.ts", "tests/native-glass/**", "tests/e2e/helpers/layout-matrix.ts", ".github/workflows/glass-native.yml"],
   },
   {
     tests: unitFiles("docs-public-imports.test.ts docs-preview.test.ts docs-package-consumer.test.ts docs-package-boundary.test.ts library-build-boundary.test.ts"),
@@ -250,6 +258,7 @@ export const BROWSER_INPUT_GROUPS = [
     inputs: ["docs/site/**"],
     owners: names("hamburger-menu navbar toolbar command-menu sidebar-nav paged-media prefetch"),
   },
+  { specs: names("docs-mobile-navigation"), inputs: ["tests/e2e/helpers/motion.ts"] },
   {
     specs: names("activity-view-scroll-edges activity-view-detents"),
     owners: names("activity-view drawer sheet responsive-drawer"),
@@ -261,6 +270,7 @@ export const BROWSER_INPUT_GROUPS = [
   },
   { specs: names("website-shell"), owners: names("site-navigation navbar footer back-to-top scroll-reveal"), inputs: ["src/lib/use-page-scroll.ts", "src/lib/scroll-animation.ts", "docs/site/src/templates/**", "docs/site/src/components/patterns/site-shell-demo.tsx"] },
   { specs: names("toggle-motion"), owners: names("toggle"), inputs: ["tests/e2e/fixtures/toggle-motion.tsx", "src/lib/motion-easing.ts"] },
+  { specs: names("select-lifecycle"), owners: names("select"), inputs: ["src/lib/layer-bridge.tsx", "docs/site/build/select-lifecycle-fixture.tsx", "docs/site/build/browser-fixtures.ts"] },
   { specs: names("carousel-variants"), owners: names("carousel"), inputs: ["tests/e2e/helpers/motion.ts"] },
   { specs: names("fade-motion motion-chromium"), owners: names("carousel modal drawer bottom-sheet responsive-drawer side-panel expand-panel toast"), inputs: ["src/lib/exit-motion.ts", "docs/site/build/motion-regression*", "docs/site/build/browser-fixtures.ts", "tests/e2e/helpers/motion.ts", "playwright.motion.config.ts", "tsconfig.motion-tests.json"] },
   {

@@ -1,6 +1,19 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
+import { finishMotion, pauseCSS } from "./helpers/motion";
 
 test.setTimeout(120_000);
+
+async function holdPanelMidpoint(panel: Locator) {
+  await expect.poll(() => panel.evaluate(element => element.getAnimations().some(animation =>
+    animation instanceof CSSTransition && animation.transitionProperty === "translate"))).toBe(true);
+  await panel.evaluate(async element => {
+    const animation = element.getAnimations().find(animation =>
+      animation instanceof CSSTransition && animation.transitionProperty === "translate")!;
+    animation.pause();
+    await animation.ready;
+    animation.currentTime = Number(animation.effect!.getComputedTiming().duration) / 2;
+  });
+}
 
 for (const theme of ["light", "dark"] as const) {
   test.describe(`Paged media and mobile navigation (${theme})`, () => {
@@ -56,7 +69,10 @@ for (const theme of ["light", "dark"] as const) {
     }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto("/#/components/hamburger-menu");
+      await pauseCSS(page);
       const trigger = page.locator('[data-slot="navbar"] [data-slot="hamburger-trigger"]').first();
+      const panel = page.locator('[data-slot="expand-panel"]');
+      const surfaces = page.locator('[data-slot="expand-panel"], [data-material="mask-scrim"]');
       const box = await trigger.boundingBox();
       expect(box).not.toBeNull();
       const click = () => page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
@@ -66,7 +82,9 @@ for (const theme of ["light", "dark"] as const) {
         (element as HTMLElement).dataset.continuity = "retained";
       });
       for (let i = 0; i < 10; i++) {
-        await page.waitForTimeout(35);
+        // 在实际过渡中点发出真实点击，避免协议延迟越过退出终点。
+        // Keep real pointer input inside the transition despite protocol latency.
+        await holdPanelMidpoint(panel);
         await click();
         await expect(trigger).toHaveAttribute("aria-expanded", i % 2 === 0 ? "false" : "true");
         await expect(page.locator('[data-slot="expand-panel"]')).toHaveAttribute(
@@ -78,10 +96,11 @@ for (const theme of ["light", "dark"] as const) {
       // fresh opening and sample its timeline explicitly for the continuity check.
       await click();
       await expect(trigger).toHaveAttribute("aria-expanded", "false");
+      await finishMotion(surfaces);
       await expect(page.locator('[data-slot="expand-panel"]')).toHaveCount(0);
       await click();
-      const panel = page.locator('[data-slot="expand-panel"]');
       await expect(panel).toHaveAttribute("data-motion-state", "open");
+      await holdPanelMidpoint(panel);
       const continuity = await panel.evaluate(async (element) => {
         const opening = element.getAnimations().find((animation) =>
           animation instanceof CSSTransition && animation.transitionProperty === "translate");
@@ -104,11 +123,13 @@ for (const theme of ["light", "dark"] as const) {
       ).toBeLessThan(8);
       expect(parseFloat(String(continuity.from))).toBeLessThan(0);
       await expect(trigger).toHaveAttribute("aria-expanded", "false");
+      await finishMotion(surfaces);
       await expect(panel).toHaveCount(0);
       expect(await page.evaluate(() => document.body.style.pointerEvents)).not.toBe("none");
       await click();
       await expect(trigger).toHaveAttribute("aria-expanded", "true");
       await page.keyboard.press("Escape");
+      await finishMotion(surfaces);
       await expect(panel).toHaveCount(0);
       await expect(trigger).toBeFocused();
     });

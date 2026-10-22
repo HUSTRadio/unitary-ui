@@ -18,6 +18,10 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Glass structural-line cascade**: fixes ordinary utilities overriding inner borders and separators, restoring scoped material line opacity and nested palettes. Authored colors, ordinary document lines and Solid fallbacks for reduced transparency/forced colors remain intact; glass fill, blur and highlight parameters are unchanged.
+
+- **Layer mounting and documentation package boundary**: LayerBridge subscribes refs without an extra component render, coalesces initial stacking reads with later invalidations before paint, and retains pending synchronization across same-node ref replacements, preserving authored levels, live tokens and ref cleanup. The motion fixture exercises its internal expanding panel through public HamburgerMenu, avoiding repository-source imports in independently installed consumers. Native Glass paint and Select reopening attribution tools report performance results and missing browser evidence separately.
+
 - **Glass hover and navigation sampling**: secondary button states interpolate on entry and exit. Navbar retains its independent background layer; SiteNavigation hover panels independently use Dense with 20px blur, while inner controls share the outer sampler. Authored backgrounds, filters, transforms, focus and reduced-motion behavior retain priority, with no continuous idle animation loop.
 
 - **Published documentation artifact recovery**: exempts only the receipt- and integrity-verified exact library version from the registry consumer's release-age wait; external dependencies retain the existing policy. Adds `--release-root` so current clean tooling can recover docs from a clean checkout of the original release commit, retaining source, frozen-lock, complete browser and bilingual corpus checks. These post-publication tooling fixes are not included in the beta.1 tarball.

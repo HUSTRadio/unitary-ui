@@ -5,7 +5,8 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { COMPONENT_API } from "../docs/site/src/data/component-api";
 
-const docsRoot = path.resolve("docs/site/src");
+const docsRoot = path.resolve("docs/site");
+const docsSourceRoot = path.join(docsRoot, "src");
 const packageName = "@hustradio/unitary-ui";
 const publicStyles = new Set([`${packageName}/styles.css`, `${packageName}/tailwind-reference.css`]);
 const interpolation = "__docs_interpolated_value__";
@@ -115,7 +116,7 @@ function fileImportViolations(file: string, text: string, exports: Set<string>):
         const expression = span.expression;
         let values = [stringValue(expression, constants) ?? interpolation];
         // The API renderer interpolates canonical metadata; inspect every path it can render.
-        if (file === path.join(docsRoot, "components/docs-api-reference.tsx")
+        if (file === path.join(docsRoot, "src/components/docs-api-reference.tsx")
           && ts.isBinaryExpression(expression) && expression.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken
           && ts.isPropertyAccessExpression(expression.left) && ts.isIdentifier(expression.left.expression)
           && expression.left.expression.text === "api" && expression.left.name.text === "importPath"
@@ -139,7 +140,11 @@ describe("docs public library imports", () => {
     const exports = publicExports();
     const violations = filesIn(docsRoot).flatMap((file) => {
       const text = readFileSync(file, "utf8");
-      const found = fileImportViolations(file, text, exports);
+      // Source strings include displayed examples. Build plugins also generate
+      // module text; audit their executable imports rather than template bodies.
+      const found = file.startsWith(docsSourceRoot + path.sep)
+        ? fileImportViolations(file, text, exports)
+        : importViolations(file, text, exports);
       return found.map((issue) => `${path.relative(docsRoot, file)}: ${issue}`);
     });
     expect(violations).toEqual([]);
@@ -157,6 +162,17 @@ describe("docs public library imports", () => {
       `${packageName}/internal: is not a public docs entry point`,
       "@/lib/private: imports repository internals",
       "../../../../src/lib/private: imports repository internals",
+    ]);
+  });
+
+  it("audits portable client fixtures while allowing local documentation styles", () => {
+    const file = path.join(docsRoot, "build/fixture.tsx");
+    expect(importViolations(file, `
+      import "../src/index.css";
+      import { HamburgerMenu } from "${packageName}";
+      import { ExpandPanel } from "../../../src/components/ui/expand-panel";
+    `, new Set(["HamburgerMenu"]))).toEqual([
+      "../../../src/components/ui/expand-panel: imports repository internals",
     ]);
   });
 

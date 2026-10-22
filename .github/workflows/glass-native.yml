@@ -1,0 +1,91 @@
+name: Glass native paint
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "docs/site/**"
+      - "docs/vite.config.ts"
+      - "tests/native-glass/**"
+      - "tests/native-blur.test.ts"
+      - "tests/native-capture.test.ts"
+      - "tests/glass-native-tooling.test.ts"
+      - "tests/e2e/helpers/layout-matrix.ts"
+      - "scripts/lib/native-blur.mjs"
+      - "scripts/lib/native-capture.mjs"
+      - "scripts/capture-x11.py"
+      - "scripts/lib/docs-preview.mjs"
+      - "scripts/serve-docs-artifact.mjs"
+      - "playwright.glass-native.config.ts"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/glass-native.yml"
+  schedule:
+    - cron: "30 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: glass-native-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  paint:
+    name: Native blur (${{ matrix.browser }}, DPR${{ matrix.dpr }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+        dpr: [1, 2]
+    env:
+      UNITARY_DOCS_ARTIFACT: docs/dist
+      UNITARY_NATIVE_GLASS_XVFB: "1"
+      GDK_BACKEND: x11
+      MOZ_ENABLE_WAYLAND: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Install native browser
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+      - name: Build production fixtures
+        run: pnpm exec vite build --config docs/vite.config.ts
+        env:
+          UNITARY_DOCS_TEST_FIXTURES: "1"
+      - name: Require isolated native paint
+        id: probe
+        run: xvfb-run -a -s "-screen 0 3200x2400x24" pnpm exec playwright test -c playwright.glass-native.config.ts --project=${{ matrix.browser }}-dpr${{ matrix.dpr }} --grep "native blur control"
+      - name: Preserve probe report
+        if: ${{ !cancelled() && steps.probe.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: glass-native-probe-${{ matrix.browser }}-dpr${{ matrix.dpr }}
+          path: .scratch/glass-native
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+      - name: Verify viewport and material matrix
+        id: matrix
+        run: xvfb-run -a -s "-screen 0 3200x2400x24" pnpm exec playwright test -c playwright.glass-native.config.ts --project=${{ matrix.browser }}-dpr${{ matrix.dpr }} --grep "material matrix|local optical input"
+      - name: Preserve matrix evidence
+        if: ${{ !cancelled() && steps.matrix.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: glass-native-matrix-${{ matrix.browser }}-dpr${{ matrix.dpr }}
+          path: .scratch/glass-native
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
