@@ -36,6 +36,28 @@ export const LOCKED_PACKAGE_SCRIPTS = {
     script("build:website"),
     bin("@playwright/test", "playwright", "test", "-c", "website/playwright.config.ts"),
   ),
+  "typecheck:dev-shell": checks(
+    bin("typescript", "tsc", "-p", "packages/dev-shell-contract/tsconfig.json"),
+    bin("typescript", "tsc", "-p", "packages/dev-shell-server/tsconfig.json"),
+    bin("typescript", "tsc", "-p", "packages/dev-shell/tsconfig.json"),
+  ),
+  "test:dev-shell": checks(
+    bin("vitest", "vitest", "run", "-c", "packages/dev-shell-server/vitest.config.ts"),
+    bin("vitest", "vitest", "run", "-c", "packages/dev-shell/vitest.config.ts"),
+  ),
+  "build:dev-shell": checks(
+    script("typecheck:dev-shell"),
+    bin("vite", "vite", "build", "-c", "packages/dev-shell/vite.config.ts"),
+  ),
+  "test:dev-shell:e2e": checks(
+    script("build:dev-shell"),
+    bin("@playwright/test", "playwright", "test", "-c", "packages/dev-shell/playwright.config.ts"),
+  ),
+  "verify:dev-shell": checks(
+    script("typecheck:dev-shell"),
+    script("test:dev-shell"),
+    script("test:dev-shell:e2e"),
+  ),
   "build:docs:registry": checks(node("scripts/build-docs-registry.mjs")),
   lint: checks(bin("oxlint", "oxlint")),
   test: checks(bin("vitest", "vitest", "run")),

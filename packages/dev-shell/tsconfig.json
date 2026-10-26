@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
+    "allowArbitraryExtensions": true,
+    "types": ["vite/client", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@hustradio/dev-shell-contract": ["../dev-shell-contract/src/index.ts"],
+      "@hustradio/unitary-ui": ["../../src/lib/index.ts"],
+      "@hustradio/unitary-ui/styles.css": ["../../src/styles/index.css"],
+      "@hustradio/unitary-ui/tailwind-reference.css": ["../../docs/site/build/source-reference.css"],
+      "@/*": ["../../src/*"],
+      "@shell/*": ["src/*"]
+    }
+  },
+  "include": ["src", "tests", "*.config.ts"]
+}

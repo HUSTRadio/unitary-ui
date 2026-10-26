@@ -7,6 +7,29 @@ const unitFiles = (text) => names(text).map((name) => `tests/${name}`);
 /** Explicit non-import inputs. Exact test identities make new opaque consumers fail closed. */
 export const INDIRECT_INPUT_GROUPS = [
   {
+    tests: [
+      "packages/dev-shell-server/tests/unit/agent-executable.test.ts",
+      "packages/dev-shell-server/tests/unit/agent-backends.test.ts",
+      "packages/dev-shell-server/tests/unit/agent-process-tree.test.ts",
+      "packages/dev-shell-server/tests/unit/agent-ndjson.test.ts",
+      "packages/dev-shell-server/tests/unit/agent-supervisor.test.ts",
+      "packages/dev-shell-server/tests/unit/db-core.test.ts",
+      "packages/dev-shell-server/tests/unit/domain-core.test.ts",
+      "packages/dev-shell-server/tests/integration/http-core.test.ts",
+      "packages/dev-shell-server/tests/integration/ws-core.test.ts",
+      "packages/dev-shell-server/tests/integration/proxy-manager.test.ts",
+      "packages/dev-shell-server/tests/integration/mcp-workbench.test.ts",
+      "packages/dev-shell-server/tests/integration/server-lifecycle.test.ts",
+      "packages/dev-shell/tests/e2e/workbench.spec.ts",
+    ],
+    inputs: [
+      "packages/dev-shell-server/src/**", "packages/dev-shell-contract/src/**",
+      "packages/dev-shell-server/tests/fixtures/**", "packages/dev-shell/tests/e2e/**",
+      "packages/dev-shell-server/vitest.config.ts", "packages/dev-shell/playwright.config.ts",
+      "packages/dev-shell-server/package.json", "packages/dev-shell-contract/package.json",
+    ],
+  },
+  {
     tests: unitFiles("motion-browser-tooling.test.ts playwright-discovery.test.ts"),
     inputs: ["playwright.motion.config.ts", "playwright.config.ts", "tsconfig.motion-tests.json", "scripts/test-motion-browsers.mjs", "scripts/lib/motion-browsers.mjs", "scripts/lib/locked-package-scripts.mjs", "scripts/lib/package-command.mjs", ".github/workflows/motion-browsers.yml", "tests/e2e/fade-motion.spec.ts", "tests/e2e/carousel-variants.spec.ts", "tests/e2e/motion-chromium.spec.ts", "tests/e2e/helpers/motion.ts", "docs/site/build/motion-regression*", "docs/vite.config.ts", "package.json"],
   },
@@ -68,7 +91,8 @@ export const INDIRECT_INPUT_GROUPS = [
       unitFiles(`ai-docs-pre-push.test.ts ai-docs-prompt-contract.test.ts llm-task-contract.test.ts
       llm-task-runner.test.ts llm-task-docs-contract.test.ts pre-push-context.test.ts
       pre-push-orchestrator.test.ts pre-push-classifier.test.ts package-script-lock.test.ts
-      verification-context.test.ts verification-policy.test.ts verification-runner.test.ts verification-discovery.test.ts`),
+      verification-context.test.ts verification-policy.test.ts verification-runner.test.ts verification-discovery.test.ts
+      verify-cli-contract.test.ts`),
     inputs: [
       "scripts/**",
       ".agents/**",
@@ -205,7 +229,16 @@ export const INDIRECT_INPUT_GROUPS = [
 export const matches = (file, patterns) =>
   patterns.some((pattern) => path.posix.matchesGlob(file.replaceAll("\\", "/"), pattern));
 const isTestFile = (file) => /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(file);
-export const isUnitTest = (file) => isTestFile(file) && !isBrowserTest(file);
+export const isDevShellPath = (file) => /^packages\/dev-shell(?:-server|-contract)?\//.test(file);
+export const isDevShellBrowserTest = (file) =>
+  file.startsWith("packages/dev-shell/tests/e2e/") && isTestFile(file);
+export const isDevShellBrowserSpec = (file) =>
+  isDevShellBrowserTest(file) &&
+  !file.split("/").some((part) => part.startsWith(".")) &&
+  !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
+export const isDevShellUnitTest = (file) =>
+  isDevShellPath(file) && isTestFile(file) && !isDevShellBrowserTest(file);
+export const isUnitTest = (file) => isTestFile(file) && !isBrowserTest(file) && !isDevShellPath(file);
 export const isBrowserTest = (file) => (file.startsWith("tests/e2e/") || file.startsWith("website/tests/e2e/")) && isTestFile(file);
 export const isBrowserSpec = (file) =>
   file.startsWith("tests/e2e/") && isBrowserTest(file) &&
@@ -432,12 +465,25 @@ export function classifyVerification(context, full = false) {
     lint: full,
     typecheck: full,
     templates: full,
+    devShellUnit: full,
+    devShellTypecheck: full,
+    devShellBuild: full,
+    devShellBrowser: full,
   };
   const localSources = [];
   for (const change of context.changes) {
     const { file, status } = change;
     if (["D", "R", "C", "T", "U", "X", "B"].includes(status)) reasons.push(`${status}: ${file}`);
-    if (
+    if (isDevShellPath(file)) {
+      scope.devShellTypecheck = true;
+      if (isDevShellBrowserTest(file)) scope.devShellBrowser = true;
+      else if (isDevShellUnitTest(file)) scope.devShellUnit = true;
+      else Object.assign(scope, {
+        devShellUnit: true,
+        devShellBuild: true,
+        devShellBrowser: true,
+      });
+    } else if (
       matches(file, [
         "src/styles/**",
         "src/lib/**",

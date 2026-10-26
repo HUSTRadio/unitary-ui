@@ -2,6 +2,7 @@ packages:
   - docs
   - website
   - templates/*
+  - packages/*
 
 allowBuilds:
   esbuild: true

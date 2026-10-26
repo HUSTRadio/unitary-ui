@@ -37,6 +37,8 @@ export default {
       // 依赖 @playwright/test 的 test 函数，vitest 收集会直接报错）
       "tests/e2e/**",
       "website/tests/e2e/**",
+      // devShell 三包使用各自独立的 Vitest / Playwright harness。
+      "packages/dev-shell*/**",
     ],
   },
 };
