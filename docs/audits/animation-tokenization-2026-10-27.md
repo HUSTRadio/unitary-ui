@@ -2,9 +2,9 @@
 
 审计日期：2026-10-27（Asia/Shanghai）。基线：`master`，HEAD `b4dd4c98`，**包含审计开始时的未提交及未跟踪工作区文件**。本报告评估当前工作区，不代表该提交或已发布包的状态。
 
-结论：**共享 token 主干、CSS/JS 消费桥接和测试体系已经建立；仍有产品动效绕过 token，语义别名消费尚未全面收敛，治理检查也存在漏检。不能宣称全仓 animation 已完成 token 化。**
+首次审计结论：**共享 token 主干、CSS/JS 消费桥接和测试体系已经建立；仍有产品动效绕过 token，语义别名消费尚未全面收敛，治理检查也存在漏检。** 下列主体保留整改前的证据；最新收敛结果和验证边界见文末各阶段记录，不以源码引用比例宣称全仓覆盖率。
 
-以下主体保留首次审计时的发现和行号。首次审计仅新增报告；后续已完成 Avatar、Calendar 和治理漏检的首批整改，见文末“首批整改结果”。其余历史字面量仍按原有例外保留。
+以下主体保留首次审计时的发现和行号。首次审计仅新增报告；后续按阶段修复了列出的运行时旁路和检测缺口。保留的 literal 均有明确用途和边界，见文末记录。
 
 ## 审计范围与口径
 
@@ -218,3 +218,27 @@ node node_modules/vite/bin/vite.js build --config packages/dev-shell/vite.config
 浏览器 **8 passed，exit 0**，涵盖 1280/1024/1023/390px × light/dark；通过真实 WebSocket 中断验证重连状态，检查公共周期、中点 keyframe、局部 token/easing 覆盖、动态减少动画及恢复。生产构建 **exit 0**，实际发射公共 pulse token；仅剩库内 50% opacity=.5 的定义。测试主动中断连接产生的 proxy reset 日志及构建 chunk 大小提示不影响成功退出码。分工实现后由主代理重新运行上述命令复核。
 
 第二阶段后 `typecheck:tests` 也已 exit 0。各阶段的 dry-run 均审阅实际任务路径，保留已说明的本地归档/广泛回退限制，使用聚焦证据覆盖受影响契约。
+
+## 第四阶段：运行消费者治理收尾
+
+第三阶段已签名提交为 `87c0c8db`。
+
+- duration/easing 扫描覆盖核心 `src`、完整 docs shell/page/CSS、website、动态发现的模板 `src` 和 dev-shell UI；排除测试、生成镜像及纯文案/代码展示的字面值，运行配置仍接受 AST 检查。
+- JS duration 检查 Motion transition、属性级/default 嵌套配置、类型标记配置、导入的 animate 调用及原生 WAAPI timing。按 seconds/ms 归一化；零时长、delay/dwell、toast 自动消失和媒体 duration 保留独立语义。
+- JS/CSS 固定 Bezier、数值 curve tuple 和固定缓动关键词不能绕过共享来源。CSS 标准关键词坐标仅豁免 parser 的指定 declaration；Hitu 带 frame 的作者片段保留非线性数值曲线（含 shorthand frame），生成表仍由原有确定性检查保护。
+- 剩余历史 Grid debug 2s 基线同时冻结 literal、文件和 6 次实例上限，不能借同 literal 扩展文件或在原文件增加实例；已迁移的历史 literal 不能以旧基线身份返回。
+- reduced-motion 明确登记库与 dev-shell 两处兜底。最终账本为 **5 个 literal、6 个 literal-file 配对、4 个文件**：3 个 token 编辑演示值、2 处极短减少动画兜底及 Grid debug。没有为新的产品固定时长添加例外。
+- 新增源码输入关联，网站、模板和 dev-shell UI 修改会选择对应治理测试。
+
+最终治理聚焦验证：
+
+```sh
+pnpm run test -- tests/motion-duration-governance.test.ts tests/motion-easing-governance.test.ts tests/verification-policy.test.ts --exclude '**/.workbuddy/**'
+pnpm run typecheck:tests
+```
+
+结果：**3 文件、96 用例通过，exit 0；typecheck:tests exit 0**。前述 20 项组件浏览器与 8 项 dev-shell 浏览器、token catalog、完整 248 页语料确定性证据均保留；本阶段只改治理和报告，没有 runtime/文档应用输入变化，因此没有重复运行已通过的运行检查。
+
+边界：此处是直接语法与约定上下文检查，不是完整 TypeScript 符号/数据流证明；作者资产、帧数、delay/dwell 继续遵循各自契约。reduced-motion 的新增节点仍需维护合同并做运行验收，不能仅由文件名单推断全覆盖。首次审计已确认的运行硬编码及本报告列出的治理缺口已收敛，不由此推导任意未来代码都无法绕过规范。
+
+提交前按各阶段精确路径再次审阅 dry-run；广泛回退不执行。对审计记录的 162 个起始文件做哈希核对，任务范围外没有意外修改；共享文件按差异块暂存，原有 Hitu、四档提速和其他工作保留在工作区。自动阶段提交使用仓库现有签名配置，不修改 Git 配置，也不推送远端。

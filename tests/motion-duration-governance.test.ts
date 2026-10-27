@@ -1,6 +1,7 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 import { describe, expect, test } from "vitest";
 
 /*
@@ -17,14 +18,24 @@ import { describe, expect, test } from "vitest";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
+const templateRoots = readdirSync(path.join(root, "templates"), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && existsSync(path.join(root, "templates", entry.name, "src")))
+  .map((entry) => `templates/${entry.name}/src`);
 const SCAN_ROOTS = [
-  "src/components",
-  "src/lib",
-  "src/styles",
+  "src",
   // 文档站代码目录；content/i18n/data 为指南散文（含中文时长叙述），不在扫描范围
-  "docs/site/src/components",
-  "docs/site/src/examples",
+  "docs/site/src",
+  "website/src",
+  "packages/dev-shell/src",
+  ...templateRoots,
 ];
+
+// Registries contain prose and displayed snippets. Their executable motion options
+// still receive AST checks; units in their text do not represent rendered styles.
+function proseRegistry(file: string): boolean {
+  return /^docs\/site\/src\/(?:content|i18n|data)\//.test(file)
+    || /^(?:website\/src|templates\/[^/]+\/src)\/(?:content|data|documents)\.ts$/.test(file);
+}
 
 // token 真源定义行不算字面量（值即 token 本体）
 const TOKEN_DEF = /^\s*--(?:uni-duration|uni-motion|uni-loop|animate|default-transition-duration)[\w-]*\s*:/;
@@ -34,9 +45,9 @@ function walk(dir: string, files: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     const full = path.join(dir, entry);
     if (statSync(full).isDirectory()) {
-      if (entry === "node_modules" || entry === "dist") continue;
+      if (["node_modules", "dist", "__tests__"].includes(entry)) continue;
       walk(full, files);
-    } else if (/\.(ts|tsx|css)$/.test(entry)) {
+    } else if (/\.(ts|tsx|css)$/.test(entry) && !/\.(?:test|spec)\.tsx?$/.test(entry)) {
       files.push(path.relative(root, full).replace(/\\/g, "/"));
     }
   }
@@ -80,6 +91,77 @@ function lineDurationLiterals(line: string): string[] {
   return literals;
 }
 
+/** Numeric Motion durations use seconds; native Animation timing uses milliseconds. */
+function sourceDurationLiterals(file: string, text: string): string[] {
+  const literals: string[] = [];
+  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true,
+    file.endsWith(".tsx") ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
+  const motionAnimate = new Set<string>();
+  for (const statement of source.statements) {
+    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)
+      || !["motion", "motion/react", "motion/mini", "motion/react-mini"].includes(statement.moduleSpecifier.text)) continue;
+    const bindings = statement.importClause?.namedBindings;
+    if (bindings && ts.isNamedImports(bindings)) {
+      for (const item of bindings.elements) {
+        if ((item.propertyName ?? item.name).text === "animate") motionAnimate.add(item.name.text);
+      }
+    }
+  }
+  const unwrap = (node: ts.Expression): ts.Expression => {
+    while (ts.isParenthesizedExpression(node) || ts.isAsExpression(node)
+      || ts.isSatisfiesExpression(node) || ts.isTypeAssertionExpression(node) || ts.isNonNullExpression(node)) node = node.expression;
+    return node;
+  };
+  const duration = (node: ts.Expression, seconds: boolean) => {
+    node = unwrap(node);
+    if (ts.isNumericLiteral(node)) {
+      const value = Number(node.text);
+      if (value > 0) literals.push(`${value * (seconds ? 1000 : 1)}ms`);
+    } else if (ts.isConditionalExpression(node)) {
+      duration(node.whenTrue, seconds);
+      duration(node.whenFalse, seconds);
+    }
+  };
+  const options = (node: ts.Expression, seconds: boolean) => {
+    node = unwrap(node);
+    if (ts.isConditionalExpression(node)) {
+      options(node.whenTrue, seconds);
+      options(node.whenFalse, seconds);
+    } else if (ts.isObjectLiteralExpression(node)) {
+      for (const property of node.properties) {
+        if (ts.isPropertyAssignment(property) && property.name.getText(source).replace(/["']/g, "") === "duration") {
+          duration(property.initializer, seconds);
+        } else if (seconds && ts.isPropertyAssignment(property)) {
+          // Motion also accepts per-property and default transition objects.
+          options(property.initializer, true);
+        }
+      }
+    } else if (!seconds) duration(node, false); // Element.animate(keyframes, 200)
+  };
+  const visit = (node: ts.Node) => {
+    if (ts.isPropertyAssignment(node) && node.name.getText(source).replace(/["']/g, "") === "transition") options(node.initializer, true);
+    if (ts.isJsxAttribute(node) && node.name.getText(source) === "transition"
+      && node.initializer && ts.isJsxExpression(node.initializer) && node.initializer.expression) {
+      options(node.initializer.expression, true);
+    }
+    if (ts.isVariableDeclaration(node) && node.initializer) {
+      const type = node.type?.getText(source);
+      if (type === "Transition" || /transition/i.test(node.name.getText(source))) options(node.initializer, true);
+      else if (["KeyframeAnimationOptions", "KeyframeEffectOptions"].includes(type ?? "")) options(node.initializer, false);
+    }
+    if (ts.isCallExpression(node)) {
+      if (ts.isPropertyAccessExpression(node.expression) && node.expression.name.text === "animate" && node.arguments[1]) {
+        options(node.arguments[1], false);
+      } else if (ts.isIdentifier(node.expression) && motionAnimate.has(node.expression.text) && node.arguments[2]) {
+        options(node.arguments[2], true);
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return [...new Set(literals)];
+}
+
 function findDurationLiterals(): Map<string, Set<string>> {
   const byLiteral = new Map<string, Set<string>>();
   for (const scanRoot of SCAN_ROOTS) {
@@ -88,13 +170,14 @@ function findDurationLiterals(): Map<string, Set<string>> {
       // The generated catalog mirrors CSS definitions, checked by the catalog test.
       if (relative === "src/lib/token-catalog.ts") continue;
       const isCss = relative.endsWith(".css");
-      const text = codeOnly(readFileSync(path.join(root, relative), "utf8"), isCss);
-      for (const line of text.split("\n")) {
-        for (const literal of lineDurationLiterals(line)) {
-          const files = byLiteral.get(literal) ?? new Set<string>();
-          files.add(relative);
-          byLiteral.set(literal, files);
-        }
+      const original = readFileSync(path.join(root, relative), "utf8");
+      const text = codeOnly(original, isCss);
+      const literals = proseRegistry(relative) ? [] : text.split("\n").flatMap(lineDurationLiterals);
+      if (!isCss) literals.push(...sourceDurationLiterals(relative, original));
+      for (const literal of literals) {
+        const files = byLiteral.get(literal) ?? new Set<string>();
+        files.add(relative);
+        byLiteral.set(literal, files);
       }
     }
   }
@@ -115,7 +198,58 @@ function readAllowlist(): AllowlistEntry[] {
   return raw.entries;
 }
 
+// The remaining historical baseline can shrink, including within a file.
+const frozenBaseline: Record<string, Record<string, number>> = {
+  "2s": { "src/components/ui/grid.module.css": 6 },
+};
+function baselineViolations(entries: AllowlistEntry[], read = (file: string) => readFileSync(path.join(root, file), "utf8")) {
+  const violations: string[] = [];
+  for (const entry of entries.filter(item => item.source === "motion-baseline-2026-09-20")) {
+    const files = frozenBaseline[entry.literal];
+    if (!files) { violations.push(`${entry.literal}: migrated baseline literal cannot return`); continue; }
+    for (const file of entry.files) {
+      const limit = files[file];
+      if (limit === undefined) { violations.push(`${entry.literal} @ ${file}: new baseline file`); continue; }
+      const count = codeOnly(read(file), file.endsWith(".css")).split("\n")
+        .flatMap(lineDurationLiterals).filter(literal => literal === entry.literal).length;
+      if (count > limit) violations.push(`${entry.literal} @ ${file}: ${count} occurrences exceed frozen ${limit}`);
+    }
+  }
+  return violations;
+}
+
 describe("motion duration literal governance", () => {
+  test("covers documentation shells, website styles and every copyable template", () => {
+    const files = SCAN_ROOTS.flatMap((directory) => walk(path.join(root, directory)));
+    for (const file of ["docs/site/src/App.tsx", "docs/site/src/pages/tokens.tsx", "docs/site/src/index.css", "website/src/index.css", "packages/dev-shell/src/styles.css"]) {
+      expect(files).toContain(file);
+    }
+    for (const directory of templateRoots) expect(files).toContain(`${directory}/App.tsx`);
+    expect(files.some((file) => file.includes("/__tests__/"))).toBe(false);
+    expect(proseRegistry("docs/site/src/content/component-guides/guides-26-motion.ts")).toBe(true);
+    expect(proseRegistry("docs/site/src/pages/tokens.tsx")).toBe(false);
+  });
+
+  test.each([
+    ['<motion.div transition={{ duration: .2 }} />', ["200ms"]],
+    ['const variants = { open: { transition: { duration: .2 } } };', ["200ms"]],
+    ['<motion.div transition={{ opacity: { duration: .2 }, default: { duration: .3 } }} />', ["200ms", "300ms"]],
+    ['const transition = { opacity: condition ? { duration: .2 } : { duration: 0 }, repeat: 3, delay: .4 };', ["200ms"]],
+    ['const transition = { duration: condition ? .2 : 0 } as const;', ["200ms"]],
+    ['const timing: Transition = { duration: (.2 as number) };', ["200ms"]],
+    ['element.animate(frames, { duration: 240, delay: 100 });', ["240ms"]],
+    ['element.animate(frames, condition ? 240 : 0);', ["240ms"]],
+    ['const timing: KeyframeAnimationOptions = { duration: 240 };', ["240ms"]],
+    ['import { animate as run } from "motion"; run(element, { opacity: 1 }, { duration: .2 });', ["200ms"]],
+    ['const transition = { duration: 0, delay: .2 };', []],
+    ['const transition = { ...tokens, duration: tokens.duration };', []],
+    ['toast({ duration: 3500 }); const media = { duration: 120 };', []],
+    ['const source = "transition: { duration: .2 }"; const scene = { frames: 72 };', []],
+    ['const animation = { dwell: 1000, delay: 200 };', []],
+  ] as const)("detects numeric motion timing without treating dwell or media as animation: %s", (source, expected) => {
+    expect(sourceDurationLiterals("fixture.tsx", source)).toEqual(expected);
+  });
+
   test.each([
     ["before:animate-[loading_1.4s_var(--ease-in-out)_infinite]", ["1.4s"]],
     ["animate-[loading_120ms_var(--ease-in-out)_infinite]", ["120ms"]],
@@ -187,7 +321,7 @@ describe("motion duration literal governance", () => {
       expect(entry.files.length, `literal ${entry.literal} 缺少 files`).toBeGreaterThan(0);
       for (const file of entry.files) {
         expect(
-          file.startsWith("src/") || file.startsWith("docs/site/src/"),
+          SCAN_ROOTS.some((directory) => file.startsWith(`${directory}/`)),
           `literal ${entry.literal} 的 scope 必须指向扫描范围内的文件: ${file}`,
         ).toBe(true);
       }
@@ -197,20 +331,18 @@ describe("motion duration literal governance", () => {
   });
 
   test("the frozen baseline can only shrink, never grow", () => {
-    // 2026-09-20 动效审核冻结基线（docs/audits/motion-duration-audit-2026-09-20.md）：
-    // 迁移一个字面量 = 从账本删除；新 legacy 字面量不可能出现；新例外必须以
-    // 非 motion-baseline-2026-09-20 的 source 附真实理由登记。
-    const FROZEN_BASELINE = new Set([
-      "0s", "0.01ms", "0.15s", "0.2s", "0.3s", "0.4s",
-      "150ms", "200ms", "250ms", "300ms", "500ms", "2s",
-    ]);
-    const baselineLiterals = readAllowlist()
-      .filter((entry) => entry.source === "motion-baseline-2026-09-20")
-      .map((entry) => entry.literal);
-    const outsideBaseline = baselineLiterals.filter((literal) => !FROZEN_BASELINE.has(literal));
-    expect(
-      outsideBaseline,
-      `以下字面量自称 2026-09-20 冻结基线，但不在审核清点中: ${outsideBaseline.join(", ")}`,
-    ).toEqual([]);
+    expect(baselineViolations(readAllowlist())).toEqual([]);
+  });
+
+  test.each([
+    ["2s", "src/components/ui/grid.module.css", 1, true],
+    ["2s", "src/components/ui/grid.module.css", 6, true],
+    ["2s", "src/components/ui/grid.module.css", 7, false],
+    ["2s", "src/components/ui/new-widget.css", 1, false],
+    ["0.3s", "src/components/ui/grid.module.css", 1, false],
+  ] as const)("freezes baseline literal, file and occurrence count: %s %s x%s", (literal, file, count, allowed) => {
+    const entries = [{ literal, source: "motion-baseline-2026-09-20", reason: "fixture", files: [file] }];
+    const source = Array.from({ length: count }, () => `animation: fixture ${literal};`).join("\n");
+    expect(baselineViolations(entries, () => source).length === 0).toBe(allowed);
   });
 });

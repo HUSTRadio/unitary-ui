@@ -1,6 +1,16 @@
 {
   "schemaVersion": 1,
-  "policy": "Constant-speed temporal motion is limited to continuous loading rotation. Static gradients, chart geometry, instantaneous updates and direct user input are outside this policy.",
+  "policy": "UI motion curves come from shared tokens. Constant-speed temporal motion is limited to continuous loading rotation. CSS keyword parsing coordinates and authored nonlinear Hitu keyframe data retain their independent contracts; static gradients, chart geometry, instantaneous updates and direct user input are outside this policy.",
+  "keywordDefinition": {
+    "file": "src/lib/motion-easing.ts",
+    "declaration": "cssKeywords",
+    "reason": "These coordinates parse standard CSS keyword semantics; replacing them with project token defaults would change the meaning of authored CSS. The exception is limited to this declaration, not its entire file."
+  },
+  "authoredCurve": {
+    "property": "cubic",
+    "frameProperty": "frame",
+    "reason": "HituFrame.cubic is a public numeric tuple for an authored outgoing keyframe segment. A sibling frame property identifies the keyframe data; valid nonlinear curves remain supported instead of being replaced by UI transition tokens."
+  },
   "rotationFiles": [
     "src/components/ui/destructive-action-modal.tsx",
     "src/components/ui/gauge.tsx",

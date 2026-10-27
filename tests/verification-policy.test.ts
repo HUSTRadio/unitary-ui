@@ -32,6 +32,13 @@ it("maps leaf motion CSS and component owners to their token consumer browser co
   }
 });
 
+it("associates motion governance with every runtime UI consumer surface", () => {
+  const tests = ["tests/motion-duration-governance.test.ts", "tests/motion-easing-governance.test.ts"];
+  for (const input of ["website/src/App.tsx", "templates/docs/src/App.tsx", "packages/dev-shell/src/styles.css"]) {
+    expect(indirectTests([input], tests).sort()).toEqual([...tests].sort());
+  }
+});
+
 it("declares native paint and Select attribution inputs without claiming dedicated native execution", () => {
   const unit = ["tests/native-blur.test.ts", "tests/native-capture.test.ts", "tests/glass-native-tooling.test.ts", "tests/select-reopening.test.ts"];
   expect(indirectTests(["scripts/capture-x11.py"], unit).sort()).toEqual(unit.slice(0, 3).sort());

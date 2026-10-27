@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/site/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
+  "policy": "Literal-level ledger for runtime UI code in src, docs/site/src, website/src, templates/*/src and packages/dev-shell/src. Every detected animation/transition duration literal must appear here and every entry must still exist. Migration replaces a duration with a --uni-duration-* / --uni-motion-* tier (or --uni-loop-* period), then removes its file pairing. Prose and displayed snippets, delay/dwell/auto-dismiss timing and --animate-* definition-internal literals have separate contracts. The remaining historical baseline is frozen by literal, file and occurrence count.",
   "entries": [
     {
       "literal": "100ms",
@@ -16,9 +16,9 @@
     },
     {
       "literal": "0.01ms",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "prefers-reduced-motion 全局兜底（近乎禁用动画），刻意极小",
-      "files": ["src/styles/index.css"]
+      "source": "reduced-motion-fallback",
+      "reason": "Explicit reduced-motion clamps in the library and independent dev-shell; these deliberately tiny durations complete effects immediately and are not transition tiers.",
+      "files": ["src/styles/index.css", "packages/dev-shell/src/styles.css"]
     },
     {
       "literal": "250ms",

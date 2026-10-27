@@ -63,11 +63,11 @@ export const INDIRECT_INPUT_GROUPS = [
   },
   {
     tests: unitFiles("motion-easing-governance.test.ts"),
-    inputs: ["src/**", "docs/site/**", "tests/audit/motion-easing-allowlist.json"],
+    inputs: ["src/**", "docs/site/**", "website/src/**", "templates/*/src/**", "packages/dev-shell/src/**", "tests/audit/motion-easing-allowlist.json"],
   },
   {
     tests: unitFiles("motion-duration-governance.test.ts"),
-    inputs: ["src/**", "docs/site/**", "tests/audit/motion-duration-allowlist.json"],
+    inputs: ["src/**", "docs/site/**", "website/src/**", "templates/*/src/**", "packages/dev-shell/src/**", "tests/audit/motion-duration-allowlist.json"],
   },
   {
     tests: unitFiles("ci-workflows.test.ts"),
