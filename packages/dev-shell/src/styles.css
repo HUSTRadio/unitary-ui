@@ -48,7 +48,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--shell-ac
 .connection { display: flex; align-items: center; gap: 7px; margin: 16px 0 12px; color: var(--shell-muted); font-size: 11px; }
 .connection__dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--warning); }
 .connection--online > .connection__dot { background: var(--shell-accent); box-shadow: 0 0 8px color-mix(in srgb, var(--shell-accent) 50%, transparent); }
-.connection--reconnecting > .connection__dot { background: var(--shell-danger); animation: pulse 1s infinite alternate; }
+.connection--reconnecting > .connection__dot { background: var(--shell-danger); animation: var(--animate-pulse); }
 .connection__backend { margin-left: auto; }
 .control-rail__content { flex: 1; min-height: 0; margin: 0 -6px; padding: 16px 6px 28px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--color-border-strong) transparent; }
 .control-rail [role="tablist"] { flex: none; }
@@ -175,7 +175,6 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--shell-ac
 .auth-card form button { width: 100%; margin-top: 4px; }
 .auth-card__foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--color-border-subtle); color: var(--shell-subtle); font-size: 9px; }
 
-@keyframes pulse { to { opacity: .35; } }
 @media (max-width: 1023px) {
   .workspace__rail, .rail-resizer { display: none; }
   .floating-dock { display: grid; }

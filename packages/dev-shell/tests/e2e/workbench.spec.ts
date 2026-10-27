@@ -1,4 +1,4 @@
-import { expect, test, type Page, type TestInfo } from "@playwright/test";
+import { expect, test, type Page, type TestInfo, type WebSocketRoute } from "@playwright/test";
 
 const fixture = "http://127.0.0.1:5275";
 const shell = "http://127.0.0.1:5273";
@@ -27,6 +27,64 @@ test.beforeEach(async ({page, request}, info) => {
   await page.getByRole("button", {name: "初始化工作台"}).click();
   await expect(page.locator(".workspace")).toBeVisible();
   await expect(target(page).getByRole("button", {name: "Choose target A"})).toBeVisible();
+});
+
+test("reconnecting feedback consumes the shared pulse without replacing its keyframes", async ({page}, info) => {
+  let interrupted = false;
+  const sockets = new Set<WebSocketRoute>();
+  await page.routeWebSocket("**/api/events", socket => {
+    if (interrupted) { socket.close({code: 1012}); return; }
+    sockets.add(socket);
+    socket.connectToServer();
+  });
+  await page.reload();
+  await controls(page, info);
+  await expect(page.locator(".connection--online")).toBeVisible();
+  interrupted = true;
+  for (const socket of sockets) socket.close({code: 1012});
+
+  const dot = page.locator(".connection--reconnecting > .connection__dot");
+  await expect(dot).toBeVisible();
+  const original = await dot.evaluate(element => {
+    const style = getComputedStyle(element);
+    const animation = element.getAnimations()[0];
+    return {
+      token: style.getPropertyValue("--animate-pulse").trim(),
+      name: style.animationName,
+      duration: style.animationDuration,
+      easing: style.animationTimingFunction,
+      curve: style.getPropertyValue("--ease-in-out").trim(),
+      direction: style.animationDirection,
+      iterations: style.animationIterationCount,
+      frames: animation?.effect instanceof KeyframeEffect ? animation.effect.getKeyframes() : [],
+    };
+  });
+  await info.attach("reconnecting-motion", {body: JSON.stringify(original, null, 2), contentType: "application/json"});
+  expect(original.token).toMatch(/^pulse 2s /);
+  expect(original.name).toBe("pulse");
+  expect(original.duration).toBe("2s");
+  expect(original.easing).toBe(original.curve);
+  expect(original.direction).toBe("normal");
+  expect(original.iterations).toBe("infinite");
+  expect(original.frames.find(frame => frame.computedOffset === 0.5)?.opacity).toBe("0.5");
+
+  // Runtime token writes must affect the real reconnecting indicator.
+  await dot.evaluate(element => {
+    const parent = element.parentElement!;
+    parent.style.setProperty("--animate-pulse", "pulse 3s var(--ease-in-out) infinite");
+    parent.style.setProperty("--ease-in-out", "cubic-bezier(0.3, 0, 0.7, 1)");
+  });
+  await expect(dot).toHaveCSS("animation-duration", "3s");
+  await expect(dot).toHaveCSS("animation-timing-function", "cubic-bezier(0.3, 0, 0.7, 1)");
+
+  await page.emulateMedia({reducedMotion: "reduce"});
+  await expect(dot).toHaveCSS("animation-iteration-count", "1");
+  expect(await dot.evaluate(element => parseFloat(getComputedStyle(element).animationDuration))).toBeLessThanOrEqual(0.00001);
+  await expect.poll(() => dot.evaluate(element => element.getAnimations().filter(animation => animation.playState === "running").length)).toBe(0);
+
+  await page.emulateMedia({reducedMotion: "no-preference"});
+  await expect(dot).toHaveCSS("animation-duration", "3s");
+  await expect(dot).toHaveCSS("animation-iteration-count", "infinite");
 });
 
 test("真实代理、主题、响应式边界和 frame 生命周期", async ({page}, info) => {

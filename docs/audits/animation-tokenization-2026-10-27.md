@@ -201,3 +201,20 @@ pnpm run docs:llm:check
 `tokens:check` 和完整 `docs:llm:check` 均 exit 0。canonical guides/API 未声明被替换的固定时长，源码检查未见矛盾；语料无漂移，不需要再次生成。没有改变截图捕获状态或包边界，未扩大至 package acceptance 或全站布局矩阵。
 
 新增 policy 回归首次将 owner 名当作 route 参数传入而失败，已改为真实 `/components/<owner>` 路径，并补源码路径匹配后取得 51/51。验证 dry-run 首次包含尚未修改的报告路径，被正确拒绝；本节写入后按实际任务路径重新审阅计划。
+
+## 第三阶段：dev-shell 复用公共循环动画
+
+第二阶段已签名提交为 `2530fdea`。
+
+重连指示器改为消费 `--animate-pulse`，并删除本地同名 `@keyframes pulse`。旧 `1s alternate` 的完整往返周期为 2s；共享 pulse 同为 2s，使用 `--ease-in-out`，最低 opacity 从本地 .35 收敛到公共 .5。移除本地定义同时修复了应用样式覆盖库内 pulse 的命名污染。原有 reduced-motion 兜底保留。
+
+独立复核命令与结果：
+
+```sh
+node node_modules/@playwright/test/cli.js test --config packages/dev-shell/playwright.config.ts --grep "reconnecting feedback"
+node node_modules/vite/bin/vite.js build --config packages/dev-shell/vite.config.ts
+```
+
+浏览器 **8 passed，exit 0**，涵盖 1280/1024/1023/390px × light/dark；通过真实 WebSocket 中断验证重连状态，检查公共周期、中点 keyframe、局部 token/easing 覆盖、动态减少动画及恢复。生产构建 **exit 0**，实际发射公共 pulse token；仅剩库内 50% opacity=.5 的定义。测试主动中断连接产生的 proxy reset 日志及构建 chunk 大小提示不影响成功退出码。分工实现后由主代理重新运行上述命令复核。
+
+第二阶段后 `typecheck:tests` 也已 exit 0。各阶段的 dry-run 均审阅实际任务路径，保留已说明的本地归档/广泛回退限制，使用聚焦证据覆盖受影响契约。
