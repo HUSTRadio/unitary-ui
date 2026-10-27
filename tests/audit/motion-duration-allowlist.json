@@ -23,25 +23,25 @@
     {
       "literal": "0.15s",
       "source": "motion-baseline-2026-09-20",
-      "reason": "input-focus-ring 焦点环过渡；与 fast(150ms) 同值，迁移时替换",
+      "reason": "input-focus-ring 焦点环保留原 150ms 节奏；fast 档位可独立调整，迁移前需核对实际时长，不能假定同值。",
       "files": ["src/styles/index.css"]
     },
     {
       "literal": "0.2s",
       "source": "motion-baseline-2026-09-20",
-      "reason": "phone-frame transform 过渡；对应旧 base 200ms，迁移时归并档位",
+      "reason": "phone-frame transform 过渡保留原 200ms；迁移到 state/base 后应跟随共享档位，不能将固定字面量当作档位别名。",
       "files": ["src/styles/index.css"]
     },
     {
       "literal": "150ms",
       "source": "motion-baseline-2026-09-20",
-      "reason": "search-input 输入框缩放与 multi-select-trigger 过渡；与 fast 同值，迁移时替换",
+      "reason": "multi-select-trigger 保留原 150ms 过渡，迁移前需核对实际 fast 档位；search-input 设置的是 animation-duration，需澄清其与 transition 的用途。",
       "files": ["src/components/ui/search-input.tsx", "src/styles/index.css"]
     },
     {
       "literal": "250ms",
       "source": "motion-baseline-2026-09-20",
-      "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换。Token editor fixture demonstrates public writes and retains its literal value.",
+      "reason": "book.module.css 翻页 transform 保留原 250ms 节奏；迁移前需核对实际 state/base 档位，不能假定同值。Token editor fixture demonstrates public writes and retains its literal value.",
       "files": ["src/components/ui/book.module.css", "docs/site/src/examples/tokens/TokensExample.tsx"]
     },
     {

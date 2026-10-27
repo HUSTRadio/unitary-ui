@@ -356,6 +356,7 @@ export const BROWSER_INPUT_GROUPS = [
   {
     specs: names("global-tokens"),
     inputs: ["src/lib/token*", "src/styles/**", "docs/site/src/pages/localized/tokens*"],
+    owners: names("avatar calendar"),
   },
   {
     specs: names("hamburger-menu-states"),

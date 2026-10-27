@@ -62,6 +62,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar 的边框和加载状态跟随主题变量，支持暗色/亮色模式自动适配。",
+        "占位加载动画使用 --uni-loop-standard（默认 1400ms）与 --ease-in-out，遵循库内的减少动画策略。",
         "首字母回退使用固定的中性色表面；GitHub、GitLab、Bitbucket 头像根据 username 构造对应服务的图片 URL。",
       ],
     },
@@ -377,6 +378,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar borders and loading states follow theme variables and adapt between dark and light modes.",
+        "The placeholder loading animation uses --uni-loop-standard (1400ms by default) and --ease-in-out, following the library's reduced-motion policy.",
         "Initial fallbacks use a fixed neutral surface; GitHub, GitLab, and Bitbucket avatars derive service image URLs from username.",
       ],
     },

@@ -497,8 +497,8 @@
         "en-US": "pages/en-US/components/calendar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9521ade8568aff3190e75a9641d993694e7a352119aa8f34b78074e218633b95",
-        "en-US": "sha256:3a63e26fa333c167431343ef2b2c404c068649e7b7210ab4b8c04d918e376633"
+        "zh-CN": "sha256:2246abab4a45505df12a94e37cfbb98f7af826c18787efb981f15b190aed286a",
+        "en-US": "sha256:675c57e5c7c2920bb22ea1e733263f8aa6d504d5e3bae2b95968660c723719a0"
       }
     },
     {
@@ -929,8 +929,8 @@
         "en-US": "pages/en-US/components/avatar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:931f39229e5aeb938c3c3cdf1314a674e83c86bc8be33db32c2a4edb9a5090fd",
-        "en-US": "sha256:dd88b29b76c668e9ffe8c0bbaddea07650a17257326250cb2908141d114398f7"
+        "zh-CN": "sha256:d82ea345b3a31ab46d386b9bac4f0c6a25b358f37867c9fccc8d566ea375b533",
+        "en-US": "sha256:f7f675993f9162fbd97005b56cc34d2d87b1fc439542b0c4c95f41b6ca9766dc"
       }
     },
     {

@@ -60,6 +60,7 @@ Pins the calendar to a specific timezone to avoid cross-timezone ambiguity.
 
 - Today highlight, selection, and disabled-day colors all follow theme variables.
 - Selected dates keep sufficient contrast in dark mode.
+- Popover entrance and exit share --uni-motion-feedback, with duration determined by the shared feedback tier; --ease-out is used to enter and --ease-in to exit, and reduced motion skips the animations.
 
 ## Live Demo
 

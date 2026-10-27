@@ -56,6 +56,7 @@ avatar
 ## 主题行为
 
 - Avatar 的边框和加载状态跟随主题变量，支持暗色/亮色模式自动适配。
+- 占位加载动画使用 --uni-loop-standard（默认 1400ms）与 --ease-in-out，遵循库内的减少动画策略。
 - 首字母回退使用固定的中性色表面；GitHub、GitLab、Bitbucket 头像根据 username 构造对应服务的图片 URL。
 
 ## 实时示例

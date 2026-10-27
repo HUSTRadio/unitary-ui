@@ -56,6 +56,7 @@ Not applicable: Avatar is a passive display component with no interactive state 
 ## Theme behavior
 
 - Avatar borders and loading states follow theme variables and adapt between dark and light modes.
+- The placeholder loading animation uses --uni-loop-standard (1400ms by default) and --ease-in-out, following the library's reduced-motion policy.
 - Initial fallbacks use a fixed neutral surface; GitHub, GitLab, and Bitbucket avatars derive service image URLs from username.
 
 ## Live Demo

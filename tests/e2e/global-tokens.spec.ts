@@ -2,6 +2,64 @@ import { test, expect } from "@playwright/test";
 test.setTimeout(60_000);
 
 for (const theme of ["light", "dark"] as const) {
+  for (const width of [320, 1280]) {
+    test(`avatar loading cycle follows scoped tokens (${theme}, ${width}px)`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.addInitScript((value) => {
+        localStorage.setItem("unitary-docs-language", "en-US");
+        localStorage.setItem("unitary-theme-preference", value);
+      }, theme);
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/#/components/avatar");
+      const avatar = page.getByRole("img", { name: "Placeholder Avatar", exact: true }).first();
+      await expect(avatar).toBeVisible();
+      const duration = () => avatar.evaluate(node => getComputedStyle(node, "::before").animationDuration);
+      await expect.poll(duration).toBe("1.4s");
+
+      await avatar.evaluate(node => node.style.setProperty("--uni-loop-standard", "2100ms"));
+      await expect.poll(duration).toBe("2.1s");
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect.poll(async () => Number.parseFloat(await duration())).toBeLessThanOrEqual(0.00001);
+    });
+
+    test(`calendar feedback timing follows scoped tokens (${theme}, ${width}px)`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.addInitScript((value) => {
+        localStorage.setItem("unitary-docs-language", "en-US");
+        localStorage.setItem("unitary-theme-preference", value);
+      }, theme);
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/#/components/calendar");
+      const trigger = page.locator('[data-testid="calendar/trigger/button"]').first();
+      const content = page.locator('[data-slot="calendar-popover"]');
+      await trigger.click();
+      await expect(content).toBeVisible();
+      const feedback = await content.evaluate(node => {
+        const value = getComputedStyle(node).getPropertyValue("--uni-motion-feedback").trim();
+        return `${Number.parseFloat(value) / (value.endsWith("ms") ? 1000 : 1)}s`;
+      });
+      await expect(content).toHaveCSS("animation-duration", feedback);
+
+      await content.evaluate(node => node.style.setProperty("--uni-motion-feedback", "640ms"));
+      await expect(content).toHaveCSS("animation-duration", "0.64s");
+      await page.keyboard.press("Escape");
+      await expect(content).toHaveAttribute("data-state", "closed");
+      await expect(content).toHaveCSS("animation-duration", "0.64s");
+      await expect(content).toHaveCount(0);
+      await expect(trigger).toBeFocused();
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await trigger.click();
+      await expect(content).toBeVisible();
+      await expect(content).toHaveCSS("animation-name", "none");
+      await page.keyboard.press("Escape");
+      await expect(content).toHaveCount(0);
+      await expect(trigger).toBeFocused();
+    });
+  }
+}
+
+for (const theme of ["light", "dark"] as const) {
   test(`global token editor and catalog (${theme})`, async ({ page }) => {
     await page.addInitScript((theme) => {
       localStorage.setItem("unitary-docs-language", "en-US");

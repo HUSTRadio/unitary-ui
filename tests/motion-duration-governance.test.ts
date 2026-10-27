@@ -62,17 +62,21 @@ function codeOnly(text: string, isCss: boolean): string {
     .join("\n");
 }
 
-/** 行内时长字面量（归一化为 "<数字><ms|s>"）。delay 族与时序常量整行排除。 */
+/** 行内时长字面量（归一化为 "<数字><ms|s>"）。仅剔除 delay 值，保留同行时长。 */
 function lineDurationLiterals(line: string): string[] {
   if (TOKEN_DEF.test(line)) return [];
   // delay 族：delay-[60ms]、animation-delay/transition-delay —— 时序值非时长档位
-  if (/\bdelay-\[|(?:animation|transition)-delay\s*:/.test(line)) return [];
+  const timing = line
+    .replace(/\bdelay-\[[^\]]*\]/g, "")
+    .replace(/(?:animation|transition)-delay\s*:\s*[^;}"'\]]+/g, "");
   const literals: string[] = [];
-  for (const m of line.matchAll(/\bduration-\[?(\d+(?:\.\d+)?)(m?s)?\]?/g)) {
+  for (const m of timing.matchAll(/\bduration-\[?(\d+(?:\.\d+)?)(m?s)?\]?/g)) {
     literals.push(m[1] + (m[2] ?? "ms"));
   }
-  for (const m of line.matchAll(/(?<![\w-])(\d+(?:\.\d+)?)ms\b/g)) literals.push(m[1] + "ms");
-  for (const m of line.matchAll(/(?<![\w.#%/-])(\d+(?:\.\d+)?)s\b/g)) literals.push(m[1] + "s");
+  // Tailwind arbitrary animation 用下划线分隔值；它在这里与空格一样是合法边界。
+  for (const m of timing.matchAll(/(?<![a-zA-Z0-9.#%/-])(\d+(?:\.\d+)?|\.\d+)(ms|s)(?![a-zA-Z0-9])/g)) {
+    literals.push(Number(m[1]) + m[2]);
+  }
   return literals;
 }
 
@@ -112,6 +116,24 @@ function readAllowlist(): AllowlistEntry[] {
 }
 
 describe("motion duration literal governance", () => {
+  test.each([
+    ["before:animate-[loading_1.4s_var(--ease-in-out)_infinite]", ["1.4s"]],
+    ["animate-[loading_120ms_var(--ease-in-out)_infinite]", ["120ms"]],
+    ["duration-150", ["150ms"]],
+    ["transition: opacity .15s var(--ease-snap);", ["0.15s"]],
+    ["delay-[60ms] duration-[240ms]", ["240ms"]],
+    ["animate-[loading_1.4s_var(--ease-in-out)_infinite] delay-[60ms]", ["1.4s"]],
+    ["transition-delay: 60ms; transition-duration: 240ms;", ["240ms"]],
+    ["animation-delay: .1s, 200ms; animation-duration: .4s;", ["0.4s"]],
+    ['const classes = "[animation-delay:60ms] duration-300";', ["300ms"]],
+    ["--animate-blink: blink 1.4s var(--ease-in-out) infinite;", []],
+    ["delay-[60ms] duration-(--uni-duration-base)", []],
+    ["animation-delay: 60ms, .1s;", []],
+    ['const source = "/capture-1.4s";', []],
+  ] as const)("detects duration values without treating delay as duration: %s", (source, expected) => {
+    expect([...new Set(lineDurationLiterals(source))]).toEqual(expected);
+  });
+
   test("every duration literal occurrence is allowlisted with provenance", () => {
     const actual = findDurationLiterals();
     const ledger = new Map(readAllowlist().map((entry) => [entry.literal, new Set(entry.files)]));
