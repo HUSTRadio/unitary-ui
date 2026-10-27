@@ -877,7 +877,7 @@ html[data-font-tier="system"],
   /* 焦点环（官方 --uni-focus-ring 实测：2px 背景色描边 + 4px 主题焦点蓝） */
   --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
-  /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
+  /* 表单控件 focus：边框加深 + 同色系柔光；过渡时长由 feedback 档位统一。 */
   --input-focus-border: rgba(0, 0, 0, 0.34);
 
   /* banner CTA 焦点色（原尾部 :root 块合并至此，值不变） */
@@ -1998,7 +1998,7 @@ html[data-font-tier="system"],
   line-height: 1.3125rem;
   font-weight: 400;
   letter-spacing: normal;
-  transition: 150ms var(--ease-snap);
+  transition: var(--uni-motion-feedback) var(--ease-snap);
 
   &:focus {
     box-shadow: var(--focus-ring-outline);
@@ -3143,12 +3143,12 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
 /*
  * 表单控件焦点态（官方 Input/Select/Textarea 实测）
  * 与 focus-ring（蓝色双环）不同：输入类控件官方用「边框加深 + 同色系
- * 4px 柔光 + 150ms 过渡」，而非蓝色 ring。仅用于输入型控件。
+ * 4px 柔光」，而非蓝色 ring。过渡使用共享 feedback 档位；仅用于输入型控件。
  */
 @utility input-focus-ring {
   transition:
-    border-color 0.15s var(--ease-snap),
-    box-shadow 0.15s var(--ease-snap);
+    border-color var(--uni-motion-feedback) var(--ease-snap),
+    box-shadow var(--uni-motion-feedback) var(--ease-snap);
   &:focus-visible,
   &:focus {
     border-color: var(--input-focus-border);
@@ -3168,7 +3168,7 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
 }
 
 .phone-frame-animated.mockframe {
-  transition: transform 0.2s var(--ease-out) !important;
+  transition: transform var(--uni-motion-state) var(--ease-out) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

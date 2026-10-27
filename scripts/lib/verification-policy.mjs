@@ -364,6 +364,11 @@ export const BROWSER_INPUT_GROUPS = [
   },
   { specs: names("input-rounded-capsule"), owners: names("input clearable-input search-input") },
   {
+    specs: names("motion-token-consumers"),
+    owners: names("book multi-select search-input device"),
+    inputs: ["src/styles/**", "src/components/ui/book.module.css"],
+  },
+  {
     specs: names("menu-token-contract menu-bar-overlay menu-bar-content-height"),
     owners: names("menu menu-bar menu-surface dropdown-menu"),
   },

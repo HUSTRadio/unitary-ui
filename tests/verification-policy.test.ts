@@ -21,6 +21,17 @@ import {
   INDIRECT_INPUT_GROUPS,
 } from "../scripts/lib/verification-policy.mjs";
 
+it("maps leaf motion CSS and component owners to their token consumer browser contract", () => {
+  const spec = "tests/e2e/motion-token-consumers.spec.ts";
+  for (const input of ["src/styles/index.css", "src/components/ui/book.module.css"]) {
+    expect(selectBrowserSpecs([input], [spec], []).selected).toEqual([spec]);
+  }
+  for (const owner of ["book", "multi-select", "search-input", "device"]) {
+    expect(selectBrowserSpecs([], [spec], [`/components/${owner}`]).selected).toEqual([spec]);
+    expect(selectBrowserSpecs([`src/components/ui/${owner}.tsx`], [spec], []).selected).toEqual([spec]);
+  }
+});
+
 it("declares native paint and Select attribution inputs without claiming dedicated native execution", () => {
   const unit = ["tests/native-blur.test.ts", "tests/native-capture.test.ts", "tests/glass-native-tooling.test.ts", "tests/select-reopening.test.ts"];
   expect(indirectTests(["scripts/capture-x11.py"], unit).sort()).toEqual(unit.slice(0, 3).sort());

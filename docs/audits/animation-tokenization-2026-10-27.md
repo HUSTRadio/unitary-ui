@@ -186,3 +186,18 @@ pnpm run docs:llm:check
 浏览器命令首次在沙箱中因 Vite 读取已安装依赖的 `package.json` 被拒绝而返回 exit 1，未进入用例执行；在沙箱外运行同一命令后 8 项全部首过。相关单测另有既有 jsdom Canvas 提示，不影响成功退出码。
 
 统一计划排除 147 个其他已改路径，但当前 `.workbuddy` 归档发现问题及共享文档 owner 回退仍选出 341 个 unit 文件、61 个 browser specs、全部 layout routes，共 32 步。依仓库范围规则改用上面的等价聚焦检查，没有执行 `--full` 或 `--allow-broad`。本轮无类型签名、共享 token 数值、打包入口或依赖变化；实际浏览器已验证新增工具类的生成和消费，因此未为这些未受影响的契约运行整库 typecheck/build、package acceptance、全站布局、模板/网站/dev-shell 全套检查。Motion-only 修改保持截图捕获状态，未重新生成 README 截图。此处对这些遗漏均不作通过声明。
+
+## 第二阶段：历史过渡时长收敛
+
+第一阶段已签名提交为 `574461fa`。各阶段只提交本任务差异；原有 Hitu、全局四档提速及其他工作区改动仍保持未提交。
+
+- Book 翻转与 Phone/Device animated 变体消费 `--uni-motion-state`。
+- MultiSelect trigger、公开 `input-focus-ring` utility 与 SearchInput wrapper 消费 `--uni-motion-feedback`；SearchInput 移除了不能控制 transition 的 animation-duration。
+- 共享 easing、变换幅度、输入和键盘行为、Device 默认静态状态以及 reduced-motion 逻辑保留。时长随现有共享档位变化，不新增平行数值。
+- 清理三个已迁移的字面量条目及 Book 的旧文件配对。账本剩 5 个合法 literal：token 编辑器 100/250/500ms、reduced-motion 0.01ms、Grid debug 2s。
+
+验证：相关组件/治理单测 7 文件、119 用例通过；新增浏览器关联回归所在 policy 文件 51 用例通过；`motion-token-consumers.spec.ts` 在 light/dark × 320/1280px 下 **20 项全部通过**，覆盖默认档位、作用域覆盖、hover/focus/输入与减少动画。未有现成消费者的 focus utility 使用其真实 CSS 定义经 Tailwind 编译后验证，没有拿普通 Input 的独立过渡冒充该 utility 的覆盖。Device CSS 变体通过真实设备节点验证，React 的 animated class 选择另由既有单测保护。
+
+`tokens:check` 和完整 `docs:llm:check` 均 exit 0。canonical guides/API 未声明被替换的固定时长，源码检查未见矛盾；语料无漂移，不需要再次生成。没有改变截图捕获状态或包边界，未扩大至 package acceptance 或全站布局矩阵。
+
+新增 policy 回归首次将 owner 名当作 route 参数传入而失败，已改为真实 `/components/<owner>` 路径，并补源码路径匹配后取得 51/51。验证 dry-run 首次包含尚未修改的报告路径，被正确拒绝；本节写入后按实际任务路径重新审阅计划。

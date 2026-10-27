@@ -81,7 +81,8 @@ describe("SearchInput official API contract (G09 audit fixes)", () => {
     // The Input element must render type="search" — not plain text
     expect(src).toMatch(/type="search"/);
     expect(src).toContain("[&_[data-uni-input-wrapper]]:text-label-14");
-    expect(src).toContain("[animation-duration:150ms]");
+    expect(src).toContain("[&_[data-uni-input-wrapper]]:duration-(--uni-motion-feedback)");
+    expect(src).not.toContain("[animation-duration:");
     expect(src).toContain("[&:has(input:disabled)_input::placeholder]:!text-gray-500");
     // type="search" must be enforced after the props spread so callers cannot
     // downgrade it back to type="text" and lose the native Escape-to-clear contract
