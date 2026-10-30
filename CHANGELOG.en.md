@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **DataTable controlled sorting**: columns gain `sortable`, and the table gains `sort`, `onSortChange` and `multiSort`. Activating a header cycles asc → desc → off and only reports the next full sort array, so the rows order stays with the caller; `multiSort` appends columns and exposes their priority through the sort index.
 - **Data table `DataTable`**: renders caller-owned `rows` through typed `columns` with a stable `getRowKey`, and treats `loading`, `empty` and `error` as explicit, exclusive states (loading > error > empty). It never sorts, filters, paginates or fetches, and forwards appearance props to Table.
 - **Log viewer `LogView`**: renders caller-owned entries with minimum-severity filtering, copy and export, follows the newest line while pinned to the bottom, and pauses following with a Jump to latest control once the reader scrolls up. It never sorts, merges, fetches, or virtualises in this version.
 - **Task data adapters `usePolling` / `useEventStream`**: two minimal adapters sharing `nextBackoffDelay` exponential backoff (1s start, 2x growth, 30s cap). Polling keeps one request in flight and stops on `isDone`; the event stream reconnects with backoff and keeps the connection on parse failures; unmount, `stop()`, `close()` and option changes clear timers and abort or close the connection. Neither caches, shares state, or acts as a general async store.

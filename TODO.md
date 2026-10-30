@@ -16,7 +16,7 @@
 
 ## 当前进行
 
-- 下一步入口：**M3-02（DataTable 受控排序，PR-51，依赖 M3-01）**，方案见计划书 §7：受控 sort state（`sort` + `onSortChange`）、多列/方向切换、与 rows 解耦（组件只报告，不排序）。
+- 下一步入口：**M3-03（DataTable 受控选择，PR-52，依赖 M3-01）**，方案见计划书 §7：受控 `selectedKeys` + `onSelectionChange`、全选/半选（复用 Checkbox）、`getRowKey` 对齐。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -178,7 +178,13 @@
   - PR: PR-50
   - Evidence (2026-10-30)：`data-table-api` **9 passed**（列→表头/单元格映射、列宽与 class、骨架行数、空态跨列、错误优先于空态、loading 高于 error、行点击回调、外观透传且 `headerRow` 产出 `scope=col`、源码级无 fetch/sort/pagination）；`data-table-controlled` **6 passed**（rows 变更即重渲染且不留副本、同 key 行节点保持同一 DOM、冻结数组不被修改、`getRowKey` 逐行调用、无排序/选择 affordance、三种状态仅由 props 切换）；`rsc-boundaries` 3 passed（179 模块）；文档契约 `docs-coverage + completeness + api-registry + docs-i18n + changelog` 通过；`docs:llm` 129 路由 × 2 = 258 页无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
   - **示例更名**：旧 `table/virtualized.example.tsx` 实为「展开更多行」（ShowMore 9→48 行），并非虚拟化，已重命名为 `table/show-more-rows.example.tsx`（组件 `TableShowMoreRowsExample`、demo id `Show more rows`、中文标题「展开更多行」）。
-- [ ] M3-02 DataTable 受控排序（PR-51，依赖 M3-01）
+- [x] M3-02 DataTable 受控排序（PR-51，依赖 M3-01）
+  - Files: `src/components/ui/data-table.tsx`（`DataTableSort` / `sort` / `onSortChange` / `multiSort` / 列 `sortable`）, `src/lib/index.ts`（类型导出）, `tests/data-table-sorting.test.tsx`（8 例）, `docs/site/src/data/component-api.ts` + `guides-30-data-table.ts` + `CHANGELOG`, 生成的 `docs/llm`
+  - Content: 受控排序状态（单列对象或多列数组）；点击可排序列按 `asc → desc → 关闭` 循环，只通过 `onSortChange` 报出下一次完整数组；默认单列替换、`multiSort` 追加并以 `data-sort-index` 表达优先级；`rows` 顺序始终归调用方
+  - Depends: M3-01
+  - Acceptance: 只报告意图不排序 rows；无 handler 时表头保持惰性；单/多列与方向循环全覆盖
+  - PR: PR-51
+  - Evidence (2026-10-30)：`data-table-sorting` **8 passed**（仅 sortable+handler 出按钮、无 handler 时表头惰性、asc→desc→off 循环与受控回显、单对象/数组两种形态、单列替换 vs multiSort 追加、`data-sort-index` 优先级、冻结 rows 不被重排或修改、方向指示与中性图标）；相关回归 8 文件 **65 passed / 1 skipped**；`rsc-boundaries` 3 passed；语料 129 × 2 = 258 页无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
 - [ ] M3-03 DataTable 受控选择（PR-52，依赖 M3-01）
   - Files (M3-02/03): 各自独立 PR、测试、文档、完成包；复用 Checkbox 等现有组件；全选/半选
 - [ ] M3-04 DataTable 编辑与粘贴（PR-53，依赖 M3-02/M3-03，单独评审）
@@ -222,6 +228,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-51（M3-02）——`DataTable` 受控排序（`sort`/`onSortChange`/`multiSort`，asc→desc→off），8 例测试；组件只报告意图，不排序 rows。
 - 2026-10-30：PR-50（M3-01）——`DataTable` v1 受控展示（15 例测试），并把非真虚拟化的示例改名为「展开更多行」；258 页语料无漂移。
 - 2026-10-30：PR-44（M2-06）——`LogView` 日志查看器（最低级别过滤、复制/导出、贴底跟随与上滚暂停），11 例单测 + 2 例真实浏览器 e2e；256 页语料无漂移。**M2 全阶段闭合。**
 - 2026-10-30：PR-43（M2-05）——`usePolling` / `useEventStream` 两个最小数据适配器 + 共享 `nextBackoffDelay`；单飞、终态停止、断连重连、卸载 abort/close 全部有测试（14 例）；254 页语料无漂移。

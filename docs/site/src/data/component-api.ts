@@ -922,7 +922,7 @@ const O = {
   "data-table": component(
     ["DataTable"],
     [
-      row("columns", "DataTableColumn<T>[]", "Typed column definitions with id, header and cell renderer.", "带 id、表头与单元格渲染的列定义。", { required: true }),
+      row("columns", "DataTableColumn<T>[]", "Typed column definitions; set sortable on the columns the caller can sort.", "带类型定义的列；可排序的列设置 sortable。", { required: true }),
       row("rows", "readonly T[]", "Caller-owned rows, rendered in the given order.", "调用方持有的行，按给定顺序渲染。", { required: true }),
       row("getRowKey", "(row, index) => Key", "Stable row identity.", "稳定的行标识。", { required: true }),
       row("caption", "ReactNode", "Optional table caption.", "可选的表格标题。"),
@@ -939,6 +939,11 @@ const O = {
       row("frame", '"outline" | "none"', "Container frame passed to TableRoot.", "透传给 TableRoot 的外框。"),
       row("rowClassName", "(row, index) => string", "Per-row class hook.", "逐行类名钩子。"),
       row("onRowClick", "(row, index) => void", "Row click callback; adds a pointer cursor.", "行点击回调；同时加上指针光标。"),
+      row("sort", "DataTableSort | DataTableSort[]", "Controlled sort state; the component never sorts rows itself.", "受控排序状态；组件自身不排序 rows。"),
+      row("onSortChange", "(next: DataTableSort[]) => void", "Reports the next full sort array when a header is activated.", "表头被激活时报出下一次完整排序数组。"),
+      row("multiSort", "boolean", "Appends a column to the sort instead of replacing it.", "点击时追加列而不是替换排序。", {
+        defaultValue: "false",
+      }),
     ],
     'ComponentProps<"div">',
   ),

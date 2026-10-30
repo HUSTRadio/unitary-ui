@@ -38,6 +38,8 @@ const DATA_TABLE_ZH: ComponentGuide = {
       "loading 优先于 error，error 优先于 empty，三者都显式传入，不由空数组推断。",
       "getRowKey(row, index) 每行调用一次，key 稳定时行节点在重渲染间保持不变。",
       "onRowClick 只回调行数据与下标，选中态与导航由调用方决定。",
+      "排序是受控的：sort 传入当前排序，点击可排序列只通过 onSortChange 报出下一次完整数组（asc → desc → 关闭），rows 顺序始终由调用方决定。",
+      "默认单列排序，点击另一列会替换；multiSort 时追加并以下标表达优先级。",
     ],
   },
   responsiveBehavior: {
@@ -95,6 +97,8 @@ const DATA_TABLE_EN: ComponentGuide = {
       "loading wins over error and error wins over empty; all three are explicit props rather than inferred from an empty array.",
       "getRowKey(row, index) runs once per row, and stable keys keep row nodes identical across renders.",
       "onRowClick only reports the row and index; selection and navigation stay with the caller.",
+      "Sorting is controlled: sort carries the current state and activating a sortable header only reports the next full array through onSortChange (asc to desc to off); the rows order always belongs to the caller.",
+      "Single-column sorting is the default and clicking another column replaces it; multiSort appends and exposes the priority through the sort index.",
     ],
   },
   responsiveBehavior: {

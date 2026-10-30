@@ -544,3 +544,11 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 4. **旧 Table 零改动**：`table.tsx` 未被触碰，DataTable 只是组合层。
 5. **示例更名**：`table/virtualized.example.tsx` 实际是 ShowMore 展开（9→48 行），不具虚拟化能力 → 重命名 `show-more-rows.example.tsx`、demo id `Show more rows`、中文「展开更多行」。
 6. **证据**：`data-table-api` 9 passed；`data-table-controlled` 6 passed；`rsc-boundaries` 3 passed（179 模块）；文档契约 5 文件通过；语料 129 × 2 = 258 页无漂移；四套静态检查全绿。
+
+### 12.16 M3-02 落地记录（2026-10-30）
+
+1. **类型**：`DataTableSort = { columnId, direction: "asc" | "desc" }`，`DataTableColumn` 增加 `sortable`；`sort` 接受单个对象或多列数组（内部统一为数组）。
+2. **交互**：可排序列的表头渲染 `data-slot="data-table-sort"` 按钮，点击按 `asc → desc → 关闭` 循环；`multiSort` 为 false 时替换、为 true 时追加；`data-sort` / `data-sort-index` / `data-direction` 暴露当前态，图标用 ChevronUp/Down/ChevronsUpDown。
+3. **边界**：组件**从不排序 rows**，只经 `onSortChange` 报出下一次完整数组；无 `onSortChange` 时即使 `sortable` 也保持惰性表头（避免假可点）。
+4. **文档**：component-api 增 `sort`/`onSortChange`/`multiSort` 三行并说明 `sortable`；guides-30 的双语 controlledBehavior 增加排序语义两条；双语 CHANGELOG。
+5. **证据**：`data-table-sorting` 8 passed；相关回归 8 文件 65 passed / 1 skipped；`rsc-boundaries` 3 passed；语料 258 页无漂移；四套静态检查全绿。

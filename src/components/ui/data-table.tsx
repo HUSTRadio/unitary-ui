@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -38,6 +39,15 @@ export interface DataTableColumn<T> {
   width?: string | number;
   headClassName?: string;
   cellClassName?: string;
+  /** 可排序：表头渲染为排序按钮，点击只上报意图。 */
+  sortable?: boolean;
+}
+
+export type DataTableSortDirection = "asc" | "desc";
+
+export interface DataTableSort {
+  columnId: string;
+  direction: DataTableSortDirection;
 }
 
 export interface DataTableProps<T> extends Omit<React.ComponentProps<"div">, "children"> {
@@ -64,6 +74,12 @@ export interface DataTableProps<T> extends Omit<React.ComponentProps<"div">, "ch
   empty?: React.ReactNode;
   rowClassName?: (row: T, index: number) => string | undefined;
   onRowClick?: (row: T, index: number) => void;
+  /** 受控排序（单列对象或多列数组）；组件只读它，不排序 rows。 */
+  sort?: DataTableSort | readonly DataTableSort[];
+  /** 排序意图回调：给出下一次完整的排序数组。 */
+  onSortChange?: (next: DataTableSort[]) => void;
+  /** 允许多列排序（点击追加而非替换），默认 false。 */
+  multiSort?: boolean;
 }
 
 type DataTableState = "loading" | "error" | "empty" | "ready";
@@ -87,6 +103,9 @@ function DataTable<T>({
   empty,
   rowClassName,
   onRowClick,
+  sort,
+  onSortChange,
+  multiSort = false,
   ...props
 }: DataTableProps<T>) {
   const state: DataTableState = loading
@@ -98,6 +117,28 @@ function DataTable<T>({
         : "ready";
 
   const columnCount = Math.max(columns.length, 1);
+  const activeSort: DataTableSort[] = sort === undefined ? [] : Array.isArray(sort) ? [...sort] : [sort as DataTableSort];
+
+  /** 循环 asc → desc → 移除；multiSort 时追加而非替换。只上报意图，绝不排序 rows。 */
+  const handleSort = (columnId: string) => {
+    if (!onSortChange) return;
+    const index = activeSort.findIndex((entry) => entry.columnId === columnId);
+    if (index === -1) {
+      onSortChange(
+        multiSort ? [...activeSort, { columnId, direction: "asc" }] : [{ columnId, direction: "asc" }],
+      );
+      return;
+    }
+    if (activeSort[index].direction === "asc") {
+      onSortChange(
+        activeSort.map((entry) =>
+          entry.columnId === columnId ? { columnId, direction: "desc" as const } : entry,
+        ),
+      );
+      return;
+    }
+    onSortChange(activeSort.filter((entry) => entry.columnId !== columnId));
+  };
 
   return (
     <TableRoot
@@ -124,11 +165,42 @@ function DataTable<T>({
         </TableColgroup>
         <TableHeader>
           <TableRow>
-            {columns.map((column) => (
-              <TableHead key={column.id} align={column.align} className={column.headClassName}>
-                {column.header}
-              </TableHead>
-            ))}
+            {columns.map((column) => {
+              const sortIndex = activeSort.findIndex((entry) => entry.columnId === column.id);
+              const direction = sortIndex === -1 ? undefined : activeSort[sortIndex].direction;
+              const interactive = Boolean(onSortChange) && column.sortable === true;
+              return (
+                <TableHead
+                  key={column.id}
+                  align={column.align}
+                  className={column.headClassName}
+                  data-sortable={interactive ? "true" : undefined}
+                  data-sort={direction}
+                  data-sort-index={sortIndex === -1 ? undefined : sortIndex}
+                >
+                  {interactive ? (
+                    <button
+                      type="button"
+                      data-slot="data-table-sort"
+                      data-direction={direction ?? "none"}
+                      onClick={() => handleSort(column.id)}
+                      className="inline-flex items-center gap-1 rounded-sm outline-none focus-ring"
+                    >
+                      {column.header}
+                      {direction === "asc" ? (
+                        <ChevronUp aria-hidden className="size-3.5 shrink-0" />
+                      ) : direction === "desc" ? (
+                        <ChevronDown aria-hidden className="size-3.5 shrink-0" />
+                      ) : (
+                        <ChevronsUpDown aria-hidden className="size-3.5 shrink-0 opacity-60" />
+                      )}
+                    </button>
+                  ) : (
+                    column.header
+                  )}
+                </TableHead>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
