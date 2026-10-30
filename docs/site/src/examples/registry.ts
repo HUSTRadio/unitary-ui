@@ -1,3 +1,5 @@
+import { LogViewFollowA17B53C9Example } from "./log-view/follow-a17b53c9.example";
+import LogViewFollowA17B53C9ExampleSource from "./log-view/follow-a17b53c9.example.tsx?example-source";
 import { LayerPortalExample } from "./layer/portal.example";
 import LayerPortalSource from "./layer/portal.example.tsx?example-source";
 import { LayerScopedExample } from "./layer/scoped.example";
@@ -1205,6 +1207,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "device", id: "Landscape", Component: DeviceLandscapeE658D3AEExample, source: DeviceLandscapeE658D3AEExampleSource },
   { slug: "device", id: "Appearance", Component: DeviceAppearance1C9D4B2EExample, source: DeviceAppearance1C9D4B2EExampleSource },
   { slug: "error-card", id: "Default", Component: ErrorCardDefault21B111CBExample, source: ErrorCardDefault21B111CBExampleSource },
+  { slug: "log-view", id: "follow", Component: LogViewFollowA17B53C9Example, source: LogViewFollowA17B53C9ExampleSource },
   { slug: "middle-truncate", id: "Examples", Component: MiddleTruncateExamplesE68EE04DExample, source: MiddleTruncateExamplesE68EE04DExampleSource },
   { slug: "relative-time-card", id: "Default", Component: RelativeTimeCardDefault21B111CBExample, source: RelativeTimeCardDefault21B111CBExampleSource },
   { slug: "tabs", id: "Default", Component: TabsDefault21B111CBExample, source: TabsDefault21B111CBExampleSource },

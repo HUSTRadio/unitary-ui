@@ -289,8 +289,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9a60d9febc083c5f576387abab68140385b7cae7464e69f1e7286e19260a4fb4",
-        "en-US": "sha256:7e4970697e4fd02cc699c5d5c6781d5c114a76099503cc115a03583dfd184b03"
+        "zh-CN": "sha256:2998093ef188b5edd6996cab831fbc6df2962b5445989471893b6b0cbf91913b",
+        "en-US": "sha256:0158c9e5958a79c51fa337103bac68e9d2145fe3f741476067cc694c24079ae3"
       }
     },
     {
@@ -1059,6 +1059,22 @@
       "sourceHash": {
         "zh-CN": "sha256:8e4617291f8d2f7525ed60f5cfe99ea46be63eaafaf2953d1a627b2e414698f6",
         "en-US": "sha256:1ed64fea81fa83fc42df93c70c6c9f5358260331153c061866aa5b3a88fa7fc7"
+      }
+    },
+    {
+      "path": "/components/log-view",
+      "title": {
+        "zh-CN": "日志视图",
+        "en-US": "Log View"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/log-view.md",
+        "en-US": "pages/en-US/components/log-view.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:f39918febd8dbd3af0f304fd6ecdc81aea1152fccda6f35177636ea561e6baff",
+        "en-US": "sha256:d12a26f2cb9f3e33c1400bd85ee9168e9c2a1f8fb0474c9a536f86356f64cb8e"
       }
     },
     {

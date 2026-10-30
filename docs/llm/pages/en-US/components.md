@@ -416,6 +416,14 @@ Use three animated dots to indicate an action such as saving or loading.
 
 ](#/components/loading-dots)[
 
+log-view
+
+### Log View
+
+Render caller-owned log entries with severity filtering, copy and export, and follow the newest line until the reader scrolls up.
+
+](#/components/log-view)[
+
 menu
 
 ### Menu

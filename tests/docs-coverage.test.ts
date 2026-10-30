@@ -59,6 +59,7 @@ describe("Geist documentation coverage", () => {
       "lazy-load",
       "line-chart",
       "link",
+      "log-view",
       "menu-bar",
       "motion",
       "navbar",

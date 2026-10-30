@@ -649,6 +649,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "有界面板无法渲染时用 Error Card；校验用字段错误，瞬态动作失败用 Toast。",
     "说明什么失败并提供具体恢复动作，而非通用的 Try again 消息。",
   ],
+  "log-view": [
+    "entries 按你期望的展示顺序传入；LogView 不排序、不合并、不发请求。",
+    "每行 id 保持稳定，新日志才会追加而不是整列表重挂载。",
+    "过滤按最低级别生效：选 Warn 会保留 warn 与 error。",
+    "用户上滚后立即暂停自动跟随，不要在他们回看历史时把视口拽回底部。",
+    "条目总量由调用方控制；首版渲染全部可见行，不做虚拟化。",
+  ],
   "middle-truncate": [
     "路径、URL、哈希和标识符（前缀与后缀都承载含义）用 Middle Truncate。",
     "通过 title 或相邻复制功能暴露完整值；截断绝不能破坏对源值的访问。",

@@ -1319,6 +1319,22 @@ const O = {
       row("onSelect", "() => void", "Runs an item action.", "执行条目操作。"),
     ],
   ),
+  "log-view": component(
+    ["LogView", "LOG_LEVELS", "formatLogLine", "logEntriesToText"],
+    [
+      row("entries", "LogEntry[]", "Caller-owned rows, rendered in the given order.", "调用方持有的行，按给定顺序渲染。", { required: true }),
+      row("level", '"all" | LogLevel', "Controlled minimum-severity filter.", "受控的最低级别过滤。"),
+      row("defaultLevel", '"all" | LogLevel', "Initial filter when level is omitted.", "未传 level 时的初始过滤。", { defaultValue: '"all"' }),
+      row("onLevelChange", "(level) => void", "Reports a filter change from the built-in controls.", "内置控件触发的过滤变更回调。"),
+      row("height", "number | string", "Viewport height; numbers are px.", "视口高度；数字按 px 处理。", { defaultValue: "320" }),
+      row("title", "ReactNode", "Header label for the viewer.", "查看器标题。"),
+      row("emptyLabel", "ReactNode", "Copy shown when no rows are visible.", "无可见行时的文案。"),
+      row("clipboard", "{ writeText }", "Injection point for copying; defaults to navigator.clipboard.", "复制实现的注入点；默认 navigator.clipboard。"),
+      row("onExport", "(text, entries) => void", "Takes the exported text instead of downloading a file.", "接手导出文本，替代下载文件。"),
+      row("exportFileName", "string", "Download file name when onExport is absent.", "未提供 onExport 时的下载文件名。", { defaultValue: '"logs.txt"' }),
+    ],
+    'ComponentProps<"div">',
+  ),
   "middle-truncate": component(
     ["MiddleTruncate"],
     [

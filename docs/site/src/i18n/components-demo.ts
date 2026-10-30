@@ -721,6 +721,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Highlighted lines": "高亮指定行",
     "Basic": "基础用法",
     "Progress": "进度",
+    "Follow": "跟随",
     "Informational": "信息型空状态",
     "Inline": "行内反馈",
     "Inset": "内嵌样式",

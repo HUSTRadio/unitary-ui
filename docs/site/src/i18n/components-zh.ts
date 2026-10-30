@@ -95,6 +95,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   combobox: "通过输入搜索并选择一个选项。",
   entity: "在一行中展示资源信息和主要操作。",
   "error-card": "在卡片内显示错误信息和恢复操作。",
+  "log-view": "展示调用方传入的日志：按级别过滤、复制与导出，并在用户上滚前持续跟随最新一行。",
   "middle-truncate": "用省略号缩短长文本，保留路径、URL 或标识符的首尾。",
   "multi-select": "在弹出列表中勾选多个选项，选择状态由页面管理。",
   "relative-time-card": "显示“5 分钟前”等相对时间，悬停或聚焦时查看精确时间。",

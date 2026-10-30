@@ -416,6 +416,14 @@ loading-dots
 
 ](#/components/loading-dots)[
 
+log-view
+
+### 日志视图
+
+展示调用方传入的日志：按级别过滤、复制与导出，并在用户上滚前持续跟随最新一行。
+
+](#/components/log-view)[
+
 menu
 
 ### 菜单

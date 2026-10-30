@@ -862,6 +862,19 @@
       "reason": "no client indicators; renderable from Server Components"
     },
     {
+      "file": "src/components/ui/log-view.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
       "file": "src/components/ui/menu-bar.tsx",
       "classification": "client",
       "indicators": [

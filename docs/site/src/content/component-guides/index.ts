@@ -36,8 +36,10 @@ import { SUB_FRAME_GUIDES_ZH, SUB_FRAME_GUIDES_EN } from "./guides-22-sub-frame"
 import { WEBSITE_GUIDES_ZH, WEBSITE_GUIDES_EN } from "./guides-23-website";
 import { FIELD_GUIDES_ZH, FIELD_GUIDES_EN } from "./guides-27-field";
 import { TASK_GUIDES_ZH, TASK_GUIDES_EN } from "./guides-28-task";
+import { LOG_VIEW_GUIDES_ZH, LOG_VIEW_GUIDES_EN } from "./guides-29-log-view";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
+  LOG_VIEW_GUIDES_ZH,
   TASK_GUIDES_ZH,
   FIELD_GUIDES_ZH,
   GUIDES_01_ZH,
@@ -70,6 +72,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
+  LOG_VIEW_GUIDES_EN,
   TASK_GUIDES_EN,
   FIELD_GUIDES_EN,
   GUIDES_01_EN,

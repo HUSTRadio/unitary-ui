@@ -1343,6 +1343,19 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "log-view",
+    label: "Log View",
+    labelZh: "日志视图",
+    description: "Render caller-owned log entries with severity filtering, copy and export, and follow the newest line until the reader scrolls up.",
+    bestPractices: [
+      "Pass entries in the order you want them shown; LogView never sorts, merges or fetches.",
+      "Keep ids stable per line so new entries append instead of remounting the whole list.",
+      "Filtering is by minimum severity: choosing Warn keeps warnings and errors.",
+      "Auto-follow pauses as soon as the reader scrolls up; never force the viewport back while they read history.",
+      "Cap the entry count in the caller; the first version renders every visible row without virtualisation.",
+    ],
+  },
+  {
     name: "middle-truncate",
     label: "Middle Truncate",
     labelZh: "中间截断",

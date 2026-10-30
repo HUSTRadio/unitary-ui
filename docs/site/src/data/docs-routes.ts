@@ -275,6 +275,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   "file-tree": "data-display",
   gauge: "data-display",
   "json-view": "data-display",
+  "log-view": "data-display",
   "middle-truncate": "data-display",
   pill: "data-display",
   progress: "data-display",

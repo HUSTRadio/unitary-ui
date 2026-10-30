@@ -194,6 +194,8 @@ export type { SliderProps } from "@/components/ui/slider";
 export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
 export { Field } from "@/components/ui/field";
+export { LogView, LOG_LEVELS, formatLogLine, logEntriesToText } from "@/components/ui/log-view";
+export type { LogEntry, LogLevel, LogLevelFilter, LogViewProps } from "@/components/ui/log-view";
 export { Task } from "@/components/ui/task";
 export type { TaskProps } from "@/components/ui/task";
 export { useDraft } from "@/lib/use-draft";
