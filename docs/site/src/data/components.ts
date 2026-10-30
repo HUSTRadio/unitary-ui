@@ -1193,6 +1193,19 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "task",
+    label: "Task",
+    labelZh: "任务",
+    description: "Show long-running work with explicit status, progress, stage and cancel or retry actions.",
+    bestPractices: [
+      "Render the status the reducer produced; Task never starts, polls or cancels on its own.",
+      "Cancel only while running and retry only after failed or partial, so the offered action matches the state.",
+      "Describe the current stage in the user's language (Uploading 3 of 12) instead of exposing internal ids.",
+      "Keep the failure reason in description; Task renders what it is given and never rewrites error copy.",
+      "Do not reuse StatusDot states here: build and deploy semantics stay on StatusDot.",
+    ],
+  },
+  {
     name: "text-with-copy-button",
     label: "Text With Copy Button",
     labelZh: "带复制按钮的文本",

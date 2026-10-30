@@ -1326,6 +1326,14 @@
       "reason": "client indicators: dom, event, hook"
     },
     {
+      "file": "src/components/ui/task.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
       "file": "src/components/ui/textarea.tsx",
       "classification": "client",
       "indicators": [

@@ -289,8 +289,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:3e9f6e98a1236bc5460e90d17e0f32d2783959b0a506b247228b70618a756ab2",
-        "en-US": "sha256:feae0d777b4426ea4063411d7cc98c68b4c9f53126c16af7c9a11f9aeecd765d"
+        "zh-CN": "sha256:9a60d9febc083c5f576387abab68140385b7cae7464e69f1e7286e19260a4fb4",
+        "en-US": "sha256:7e4970697e4fd02cc699c5d5c6781d5c114a76099503cc115a03583dfd184b03"
       }
     },
     {
@@ -1315,6 +1315,22 @@
       "sourceHash": {
         "zh-CN": "sha256:a2ff5fc076d69ff572750d29969c1d558ebab9e9739a9a064becadd89de18ef8",
         "en-US": "sha256:e19ae0c6daeaf977fb68984ad555dc32975db07ac4cba4b22e90c3165b3940fa"
+      }
+    },
+    {
+      "path": "/components/task",
+      "title": {
+        "zh-CN": "任务",
+        "en-US": "Task"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/task.md",
+        "en-US": "pages/en-US/components/task.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6054eb1ca598f62f80e1dafd6556634969fc088ea5ffe2326887022c8491d7f7",
+        "en-US": "sha256:6c1308b5f2a7fdc0a98e22d3c7d37e60359bb8107723fe199dd1a26ac708b9a1"
       }
     },
     {

@@ -73,6 +73,7 @@ describe("Geist documentation coverage", () => {
       "spark-chart",
       "step-point",
       "sub-frame",
+      "task",
       "toolbar",
       "tracker",
     ]);

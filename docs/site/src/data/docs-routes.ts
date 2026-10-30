@@ -293,6 +293,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   "loading-dots": "feedback",
   skeleton: "feedback",
   spinner: "feedback",
+  task: "feedback",
   toast: "feedback",
   tooltip: "feedback",
 

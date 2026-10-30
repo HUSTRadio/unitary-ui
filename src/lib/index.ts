@@ -194,6 +194,8 @@ export type { SliderProps } from "@/components/ui/slider";
 export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
 export { Field } from "@/components/ui/field";
+export { Task } from "@/components/ui/task";
+export type { TaskProps } from "@/components/ui/task";
 export { useDraft } from "@/lib/use-draft";
 export { canStart, createTaskState, isActive, isTerminal, taskReducer } from "@/lib/task";
 export type { TaskAction, TaskState, TaskStatus } from "@/lib/task";

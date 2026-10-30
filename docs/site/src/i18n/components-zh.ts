@@ -84,6 +84,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   table: "以行列显示结构化数据，便于逐项比较。",
   tabs: "在同一页面内切换概览、日志等相关视图。",
   "text-with-copy-button": "显示文本，并在旁边提供复制按钮。",
+  task: "展示长时间运行的任务：状态、进度、当前阶段，以及取消或重试操作。",
   textarea: "输入描述、备注等多行文本。",
   toast: "短暂显示操作结果或通知。",
   toggle: "开启或关闭一个布尔设置，如密码保护。",

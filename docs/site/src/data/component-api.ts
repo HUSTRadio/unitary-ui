@@ -1986,6 +1986,22 @@ const O = {
       row("children", "ReactNode", "Panel content, including a title and an explicit close control.", "面板内容，包括标题及显式关闭控件。", { required: true }),
     ],
   ),
+  task: component(
+    ["Task"],
+    [
+      row("status", '"idle" | "running" | "partial" | "failed" | "succeeded"', "Current state, usually derived by taskReducer.", "当前状态，通常由 taskReducer 推导。", { required: true }),
+      row("progress", "number", "0–1; renders a bar for running and partial.", "0–1；running 与 partial 下渲染进度条。"),
+      row("stage", "ReactNode", "Current stage copy, for example Uploading 3 of 12.", "当前阶段文案，例如 正在上传 3/12。"),
+      row("title", "ReactNode", "Task name.", "任务名称。"),
+      row("description", "ReactNode", "Supporting copy or the failure reason.", "补充说明或失败原因。"),
+      row("onCancel", "() => void", "Renders a cancel action only while running.", "仅在 running 时渲染取消操作。"),
+      row("onRetry", "() => void", "Renders a retry action only for failed and partial.", "仅在 failed 与 partial 下渲染重试操作。"),
+      row("cancelLabel", "ReactNode", "Overrides the framework cancel label.", "覆盖框架默认的取消文案。"),
+      row("retryLabel", "ReactNode", "Overrides the framework retry label.", "覆盖框架默认的重试文案。"),
+      row("children", "ReactNode", "Extra content rendered above the actions.", "渲染在操作按钮上方的额外内容。"),
+    ],
+    'ComponentProps<"div">',
+  ),
   "text-with-copy-button": component(
     ["TextWithCopyButton"],
     [

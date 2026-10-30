@@ -629,6 +629,8 @@ import { MiddleTruncateExamplesE68EE04DExample } from "./middle-truncate/example
 import MiddleTruncateExamplesE68EE04DExampleSource from "./middle-truncate/examples-e68ee04d.example.tsx?example-source";
 import { RelativeTimeCardDefault21B111CBExample } from "./relative-time-card/default-21b111cb.example";
 import RelativeTimeCardDefault21B111CBExampleSource from "./relative-time-card/default-21b111cb.example.tsx?example-source";
+import { TaskProgress5C1D9A42Example } from "./task/progress-5c1d9a42.example";
+import TaskProgress5C1D9A42ExampleSource from "./task/progress-5c1d9a42.example.tsx?example-source";
 import { TabsDefault21B111CBExample } from "./tabs/default-21b111cb.example";
 import TabsDefault21B111CBExampleSource from "./tabs/default-21b111cb.example.tsx?example-source";
 import { TabsDisabled75081B59Example } from "./tabs/disabled-75081b59.example";
@@ -1062,6 +1064,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "slider", id: "range-with-inputs", Component: SliderRangeWithInputs16EAD947Example, source: SliderRangeWithInputs16EAD947ExampleSource },
   { slug: "slider", id: "disabled-range-with-inputs", Component: SliderDisabledRangeWithInputsFCA5E8B4Example, source: SliderDisabledRangeWithInputsFCA5E8B4ExampleSource },
   { slug: "slider", id: "commit-on-release", Component: SliderCommitOnRelease97B1700EExample, source: SliderCommitOnRelease97B1700EExampleSource },
+  { slug: "task", id: "progress", Component: TaskProgress5C1D9A42Example, source: TaskProgress5C1D9A42ExampleSource },
   { slug: "textarea", id: "default", Component: TextareaDefault37A8EEC1Example, source: TextareaDefault37A8EEC1ExampleSource },
   { slug: "textarea", id: "disabled", Component: TextareaDisabled17EB3C01Example, source: TextareaDisabled17EB3C01ExampleSource },
   { slug: "textarea", id: "error", Component: TextareaErrorCA00FCCFExample, source: TextareaErrorCA00FCCFExampleSource, renderInSection: false },

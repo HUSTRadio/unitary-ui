@@ -8,6 +8,7 @@
 
 ### Added
 
+- **长任务展示 `Task` 与纯状态机 `taskReducer`**：新增受控的 Task 组件与 `idle/running/partial/failed/succeeded` 状态机。组件只呈现传入的状态、进度与阶段，取消仅在 running、重试仅在 failed/partial 出现；不持状态、不设定时器、不发请求，也不复用 StatusDot 的构建语义。
 - **表单草稿持久化 `useDraft`**：新增可选的草稿钩子，把表单值存进带命名空间与 schema 版本的存储键（`unitary-draft/v<version>/<key>`）。只在值与基线不同时写入、回到基线即删除记录；服务端渲染返回初始值且不回写；损坏 JSON、旧版本、配额异常与存储禁用都不影响内存态。
 - **Field 字段外壳**：新增 `Field`，把标签、控件、辅助说明与错误消息组合成一个字段。它只负责排版与文案——不接管控件状态、不绑定校验库、不 clone 子元素注入 ARIA，错误消息复用 `FieldError`（4px 间距、图标、13/16px 排版）。
 - **Next.js App Router 支持与集成指南**：发布产物的根入口整体声明为 Client Component 边界，Server Component 可直接从包根导入并渲染任意组件（含纯展示组件），首屏由服务端输出、浏览器接管后交互正常。新增「集成指南」文档页，覆盖样式入口、Server/Client 边界、错误边界、Tailwind v4 共存与接入自检；README 双语补充 App Router 用法。

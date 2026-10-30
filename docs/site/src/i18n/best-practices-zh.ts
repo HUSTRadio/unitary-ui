@@ -572,6 +572,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "活动 tab 保持可见焦点环；不要为视觉美观压制焦点样式。",
     '上方没有可见标题时用 aria-label 标记 tablist（如 aria-label="Reference view"）。',
   ],
+  task: [
+    "Task 只渲染状态机给出的结果，自身不发起、不轮询、不取消任何请求。",
+    "只在 running 时提供取消、failed/partial 时提供重试，让可用操作与状态一致。",
+    "阶段文案面向用户（正在上传 3/12），不要暴露内部 id。",
+    "失败原因放进 description，由调用方撰写，Task 不改写文案。",
+    "不要复用 StatusDot 的构建状态：构建与部署语义仍由 StatusDot 承担。",
+  ],
   textarea: [
     "会换行成多行的内容（提交消息、描述、备注）用 <Textarea>；名称或域名这类单个值用 Input。",
     "设宽裕的默认 rows，仅在表面有垂直空间时增长；不要让字段把主动作推到折叠线以下。",

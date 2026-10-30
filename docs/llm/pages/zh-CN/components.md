@@ -704,6 +704,14 @@ tabs
 
 ](#/components/tabs)[
 
+task
+
+### 任务
+
+展示长时间运行的任务：状态、进度、当前阶段，以及取消或重试操作。
+
+](#/components/task)[
+
 text-with-copy-button
 
 ### 带复制按钮的文本

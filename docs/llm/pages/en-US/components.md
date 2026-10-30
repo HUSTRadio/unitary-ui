@@ -704,6 +704,14 @@ Switch between related views, such as overview and logs, within a page.
 
 ](#/components/tabs)[
 
+task
+
+### Task
+
+Show long-running work with explicit status, progress, stage and cancel or retry actions.
+
+](#/components/task)[
+
 text-with-copy-button
 
 ### Text With Copy Button

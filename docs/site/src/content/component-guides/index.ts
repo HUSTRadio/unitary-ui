@@ -35,8 +35,10 @@ import { PUBLIC_NAVIGATION_GUIDES_ZH, PUBLIC_NAVIGATION_GUIDES_EN } from "./guid
 import { SUB_FRAME_GUIDES_ZH, SUB_FRAME_GUIDES_EN } from "./guides-22-sub-frame";
 import { WEBSITE_GUIDES_ZH, WEBSITE_GUIDES_EN } from "./guides-23-website";
 import { FIELD_GUIDES_ZH, FIELD_GUIDES_EN } from "./guides-27-field";
+import { TASK_GUIDES_ZH, TASK_GUIDES_EN } from "./guides-28-task";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
+  TASK_GUIDES_ZH,
   FIELD_GUIDES_ZH,
   GUIDES_01_ZH,
   GUIDES_02_ZH,
@@ -68,6 +70,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
+  TASK_GUIDES_EN,
   FIELD_GUIDES_EN,
   GUIDES_01_EN,
   GUIDES_02_EN,
