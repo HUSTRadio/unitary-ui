@@ -16,8 +16,8 @@
 
 ## 当前进行
 
-- 下一步入口：**M2-06（LogView，PR-44，依赖 M2-04）**，方案见计划书 §7 M2-06：调用方传入 entries、级别过滤、复制/导出、底部自动跟随与手动上滚暂停；首版不做虚拟化。
-- M2-05 已闭环（usePolling / useEventStream + 共享退避 + state/events 文档）。M2 剩 M2-06，之后进入 M3。
+- 下一步入口：**M3-01（DataTable v1 受控展示，PR-50）**，方案见计划书 §7 M3-01：泛型 columns/rows/getRowKey、cell render、loading/empty/error、Table 外观透传；Pagination 仅示例组合。
+- **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
 ## 已完成的 planner 限制记录
@@ -161,10 +161,12 @@
   - Acceptance: 轮询停止、流断连、卸载清理有测试
   - PR: PR-43
   - Evidence (2026-10-30)：`use-task-adapters` **14 passed**（退避 1/2/4 倍与封顶、立即拉取 + 间隔轮询、`isDone` 停止且不再调度、失败退避序列、卸载 abort、`enabled:false` 零请求、`stop`/`refresh` 往返、在途请求不叠加；事件流 open/message 解析、断连退避重连（连接数 1→2→3）、卸载 close、`close` 后不再重连且 `reconnect` 复活、解析失败上报但保持连接、自定义解析与非字符串负载忽略）；`rsc-boundaries` 3 passed（177 模块）；`docs-i18n(-parity) + changelog-contract + export-parity + api-category + docs-api-reference` **81 passed / 1 skipped**；`docs:llm:generate` → 127 路由 × 2 = **254 页**，`--check` 无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
-- [ ] M2-06 LogView（PR-44，依赖 M2-04）
-  - Files: `src/components/ui/log-view.tsx`, `tests/log-view-api.test.tsx`, `tests/e2e/log-view-follow.spec.ts`, 完成包
-  - Content: 调用方传入 entries；level/time/message、级别过滤、复制/导出、底部自动跟随、手动上滚暂停跟随；首版不做虚拟化
+- [x] M2-06 LogView（PR-44，依赖 M2-04）
+  - Files: `src/components/ui/log-view.tsx`（新建）, `src/lib/framework-messages.ts`（Export / No log entries / Jump to latest）, `src/lib/index.ts`, `tests/fixtures/rsc-boundaries.json`（178 模块）, `tests/log-view-api.test.tsx`（11 例）, `tests/e2e/log-view-follow.spec.ts`（2 例）, 完成包（components/zh/best-practices/component-api/docs-routes/guides-29-log-view/示例/CHANGELOG/语料）
+  - Content: 调用方传入 entries（顺序即渲染顺序，不排序不合并不发请求）；level/time/message 行结构；**最低级别过滤**（选 warn 保留 warn+error，level 受控/非受控配对）；复制（注入 clipboard，成功后 1.2s 回到 Copy）与导出（onExport 接手或下载文本）；贴底自动跟随、上滚暂停并出现「跳到最新」；长消息 whitespace-pre-wrap + break-words 换行；首版不做虚拟化
   - Acceptance: 空/顺序/过滤/导出/长消息/跟随切换有测试
+  - PR: PR-44
+  - Evidence (2026-10-30)：`log-view-api` **11 passed**（空态、顺序、最低级别过滤与回调、受控 level 不改内部状态、复制文本与 Copied 回落、剪贴板拒绝被吞、导出接手文本、长消息不截断、上滚暂停 + 跳转恢复 + 贴底跟随、className/id 透传）；`e2e/log-view-follow` **2 passed（43.4s）**（真实浏览器：追加后贴底、上滚置 false 且出现跳转按钮、暂停期间不自动滚、点击恢复贴底；级别过滤后仅剩 warn/error 且数量减少）；`rsc-boundaries` 3 passed；文档与导出契约 13 文件 **106 passed / 1 skipped**；`docs:llm:generate` → 128 路由 × 2 = **256 页**，`--check` 无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
 
 ## M3 — DataTable / Import / Theme Coverage
 
@@ -217,6 +219,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-44（M2-06）——`LogView` 日志查看器（最低级别过滤、复制/导出、贴底跟随与上滚暂停），11 例单测 + 2 例真实浏览器 e2e；256 页语料无漂移。**M2 全阶段闭合。**
 - 2026-10-30：PR-43（M2-05）——`usePolling` / `useEventStream` 两个最小数据适配器 + 共享 `nextBackoffDelay`；单飞、终态停止、断连重连、卸载 abort/close 全部有测试（14 例）；254 页语料无漂移。
 - 2026-10-30：PR-42（M2-04）——`Task` 受控展示 + 纯 `taskReducer`（5 状态 × 7 动作矩阵），取消/重试按状态门控，不与 StatusDot 语义混用；18 例测试 + 254 页语料。
 - 2026-10-30：PR-41（M2-03）——`useDraft` 草稿持久化（命名空间 + 版本化单 key、dirty 才写、回基线删除、SSR 不回写、reset 只清自身前缀），12 例覆盖全部边界；state/events 与 framework-api 双语文档 + 252 页语料无漂移。

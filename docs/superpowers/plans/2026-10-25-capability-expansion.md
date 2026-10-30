@@ -525,3 +525,13 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 4. **刻意不做**：不缓存响应、不跨实例共享、不提供通用 async store；`useTask` 只是「取数」，状态推进仍由调用方的 `taskReducer` 负责。
 5. **证据**：`use-task-adapters` 14 passed；`rsc-boundaries` 3 passed（177 模块）；文档与导出契约 8 文件 **81 passed / 1 skipped**；语料 127 × 2 = 254 页 `--check` 无漂移；四套静态检查全绿。
 6. **一处文档结构修正**：新增中文节时曾吞掉 `zh` 对象的收尾与 `const en` 声明，被 `tsc -p docs/site/tsconfig.source.json` 当场发现并修复；此后改 `state-and-events.tsx` 一律先跑该 typecheck。
+
+### 12.14 M2-06 落地记录（2026-10-30，M2 收尾）
+
+1. **数据模型**：`LogEntry = { id, level, time, message }`，顺序即渲染顺序；组件不排序、不合并、不发请求。
+2. **过滤**：**最低级别**语义（选 `warn` 保留 `warn` + `error`），`level` 受控 / `defaultLevel` 非受控配对，变更经 `onLevelChange` 上报。
+3. **复制/导出**：`clipboard` 可注入（默认 `navigator.clipboard`），成功后按钮 1.2s 显示 Copied 再回落，拒绝被吞；`onExport(text, entries)` 接管导出，缺省则下载文本文件。
+4. **跟随**：`scrollHeight - scrollTop - clientHeight <= 8` 判定贴底；贴底时新行到达自动滚动，上滚即置 `data-following="false"` 并浮出「跳到最新」，点击恢复。
+5. **长消息**：`whitespace-pre-wrap` + `break-words`，保留缩进且不截断；首版不虚拟化，行数上限由调用方控制。
+6. **证据**：`log-view-api` 11 passed；`e2e/log-view-follow` 2 passed（43.4s，真实浏览器跟随/暂停/过滤）；`rsc-boundaries` 3 passed（178 模块）；文档与导出契约 13 文件 106 passed / 1 skipped；语料 128 × 2 = 256 页无漂移；四套静态检查全绿。
+7. **e2e 三次修正的教训**：①示例种子必须先足够长出视口，否则 `scrollHeight == clientHeight`，上滚永远判定为贴底；②断言不要依赖可见文案（文档站默认中文，`getByRole(name:"Jump to latest")` 找不到），改用 `data-slot="log-view-jump"`；③过滤断言用 `evaluateAll` 校验可见行的 `data-level` 集合，而不是写死数量。
