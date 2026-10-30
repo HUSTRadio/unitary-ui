@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { ArrowLeft, ArrowRight, Check, Copy, RefreshCw } from "lucide-react";
 
@@ -46,7 +48,7 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
             <span className="size-3 rounded-full bg-[#febc2e]" />
             <span className="size-3 rounded-full bg-[#28c840]" />
           </span>
-          <span aria-hidden className="hidden items-center gap-4 md:flex">
+          <span aria-hidden data-uni-responsive="above-md-flex" className="items-center gap-4">
             <ArrowLeft className="size-3.5 text-gray-900" />
             <ArrowRight className="size-3.5 text-gray-900" />
             <RefreshCw className="size-3.5 text-gray-900" />
@@ -73,7 +75,7 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
             </div>
           ) : null}
         </div>
-        <div aria-hidden className="hidden min-w-0 flex-1 md:block md:max-w-[140px]" />
+        <div aria-hidden data-uni-responsive="above-md" className="min-w-0 flex-1 md:max-w-[140px]" />
       </div>
       <div data-slot="browser-content">{children}</div>
     </div>

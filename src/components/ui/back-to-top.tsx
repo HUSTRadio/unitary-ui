@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, type ButtonHTMLAttributes } from "react";
 import { usePageScroll } from "@/lib/use-page-scroll";
 import { animateScroll, type ScrollAnimation } from "@/lib/scroll-animation";

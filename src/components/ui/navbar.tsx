@@ -1,3 +1,5 @@
+"use client";
+
 import type { CSSProperties, ReactNode } from "react";
 
 import { usePageScroll } from "@/lib/use-page-scroll";

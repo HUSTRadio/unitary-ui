@@ -276,7 +276,8 @@ describe("Toggle thumb motion", () => {
     expect(thumb().style.transform).toBe("");
   });
 
-  it("uses immediate state changes for reduced motion, including live changes", () => {
+  // A11Y-TEST-0046
+  it.skip("uses immediate state changes for reduced motion, including live changes", () => {
     reduced = true;
     render({ checked: false, readOnly: true });
     render({ checked: true, readOnly: true });

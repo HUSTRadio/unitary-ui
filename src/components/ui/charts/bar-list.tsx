@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · BarList [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、focus-ring 项目惯例、语义 token（text-foreground、hover:bg-gray-alpha-200）、
 // 排版类（text-copy-14）、动效时长 token 化（duration-800 → --uni-duration-slower）、

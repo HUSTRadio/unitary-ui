@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useLayerVariables } from "@/components/ui/layer";
 import { subscribeTokens } from "./tokens";

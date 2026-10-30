@@ -1,3 +1,5 @@
+"use client";
+
 import { useLayerVariables } from "./layer";
 import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";

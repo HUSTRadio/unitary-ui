@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { MockFrame } from "react-mockframe";
 import "react-mockframe/styles/mockframe-iphones.css";

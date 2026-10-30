@@ -25,8 +25,10 @@ describe("Browser official API contract", () => {
   it("renders responsive back/forward/reload controls (P1)", () => {
     const markup = render("https://example.com");
 
-    // Controls live in a decorative aria-hidden group, hidden below md, flex at md+
-    expect(markup).toMatch(/<span aria-hidden="true" class="[^"]*hidden[^"]*md:flex[^"]*">/);
+    // Controls live in a decorative aria-hidden group that the responsive visibility
+    // contract hides below md and shows as flex at md+ (no `hidden md:flex` class pair).
+    expect(markup).toMatch(/<span aria-hidden="true" data-uni-responsive="above-md-flex" class="[^"]*items-center gap-4[^"]*">/);
+    expect(markup).not.toMatch(/<span aria-hidden="true" class="[^"]*hidden[^"]*md:flex/);
     // Back / forward / reload icons at 14px (size-3.5) in muted gray-900
     expect(markup).toContain("lucide-arrow-left");
     expect(markup).toContain("lucide-arrow-right");

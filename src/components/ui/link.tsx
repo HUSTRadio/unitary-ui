@@ -66,7 +66,7 @@ function ForgeIcon({ slug, className }: { slug: string; className?: string }) {
  * `target="_blank"` + `rel="noreferrer"` 并附图标；代码托管平台
  * （GitHub/GitLab/Gitee/Codeberg/Bitbucket/Forgejo/SourceHut）显示
  * simpleicons 品牌图标，其余外链附 ExternalLink。站内相对路径保持普通锚点。
- * 按钮形态的外链请用 `<Button variant="link">`。
+ * 按钮形态的外链请用 `<ButtonLink>`（Button 没有 link 视觉变体）。
  */
 function Link({ href, iconSide, children, className, ...props }: LinkProps) {
   const resolved = resolveHref(href);

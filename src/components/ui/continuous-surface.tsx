@@ -1,6 +1,8 @@
+"use client";
+
 import type * as React from "react";
 
-import { useContinuousCorners } from "@/lib/continuous-corner";
+import { useContinuousCorners } from "@/lib/use-continuous-corners";
 import { cn } from "@/lib/utils";
 
 export interface ContinuousSurfaceProps extends React.ComponentPropsWithoutRef<"div"> {

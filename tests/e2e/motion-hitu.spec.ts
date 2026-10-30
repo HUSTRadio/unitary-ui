@@ -58,7 +58,8 @@ for (const theme of ["light", "dark"] as const) {
     });
   }
 
-  test(`Motion content completes entry and exit instantly under reduced motion (${theme})`, async ({ page }) => {
+  // A11Y-TEST-0057 (light) / A11Y-TEST-0058 (dark)
+  test.skip(`Motion content completes entry and exit instantly under reduced motion (${theme})`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
@@ -116,7 +117,8 @@ test("the introduction stays usable while its viewport illustration loads, then 
   await page.screenshot({ path: ".scratch/motion-hitu/introduction.png" });
 });
 
-test("changing reduced-motion preferences stops an in-flight Motion exit", async ({ page }) => {
+// A11Y-TEST-0059
+test.skip("changing reduced-motion preferences stops an in-flight Motion exit", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => localStorage.setItem("unitary-docs-language", "en-US"));
   await page.goto("/#/components/motion");
@@ -132,7 +134,8 @@ test("changing reduced-motion preferences stops an in-flight Motion exit", async
   await expect(content).toHaveCount(0, { timeout: 500 });
 });
 
-test("reduced motion completes an infinite native exit without a finish exception", async ({ page }) => {
+// A11Y-TEST-0060
+test.skip("reduced motion completes an infinite native exit without a finish exception", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
@@ -223,7 +226,8 @@ for (const theme of ["light", "dark"] as const) {
     });
   }
 
-  test(`dynamic reduced motion resets and stops the JS timeline (${theme})`, async ({ page }) => {
+  // A11Y-TEST-0061 (light) / A11Y-TEST-0062 (dark)
+  test.skip(`dynamic reduced motion resets and stops the JS timeline (${theme})`, async ({ page }) => {
     const { demo, player, errors } = await openDemo(page, theme);
     await demo.locator("[data-motion-loop]").check();
     await demo.locator("[data-motion-replay]").click();

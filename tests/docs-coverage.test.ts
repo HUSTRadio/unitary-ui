@@ -49,6 +49,7 @@ describe("Geist documentation coverage", () => {
       "donut-chart",
       "edit-menu",
       "error-boundary",
+      "field",
       "flex",
       "footer",
       "full-page-scroller",

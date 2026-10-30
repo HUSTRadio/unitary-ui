@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -92,10 +94,10 @@ export function Footer({
                         setExpanded((current) => ({ ...current, [column.title]: open }))
                       }
                     >
-                      <h3 className="hidden pb-3 text-copy-13 font-medium text-gray-1000 md:block">
+                      <h3 data-uni-responsive="above-md" className="pb-3 text-copy-13 font-medium text-gray-1000">
                         {column.title}
                       </h3>
-                      <CollapseTrigger className="min-h-11 text-copy-13 md:hidden">
+                      <CollapseTrigger data-uni-responsive="below-md" className="min-h-11 text-copy-13">
                         {column.title}
                       </CollapseTrigger>
                       <CollapseContent>{links(column)}</CollapseContent>

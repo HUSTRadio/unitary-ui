@@ -46,7 +46,17 @@ describe("library and documentation build boundaries", () => {
     const loaded = await libraryConfig();
     expect(loaded.dependencies.some(file => /[\\/]docs[\\/]/.test(file))).toBe(false);
     expect(loaded.dependencies).not.toContain(path.join(ROOT, "vite.config.ts"));
-    expect(loaded.config.build?.lib).toMatchObject({ entry: path.join(ROOT, "src/lib/bundle.ts") });
+    // 根入口保持单文件构建；子路径门面由 fix-css-font-urls 生成（M1-03）。
+    expect(loaded.config.build?.lib).toMatchObject({
+      entry: path.join(ROOT, "src/lib/bundle.ts"),
+      cssFileName: "unitary-ui",
+    });
+    const exports = JSON.parse(readFileSync(path.join(ROOT, "package.json"), "utf8")).exports as Record<string, { import?: string; require?: string; types?: string }>;
+    for (const subpath of ["./charts", "./motion", "./device", "./code"]) {
+      expect(exports[subpath]?.import, subpath).toMatch(/^\.\/dist\/unitary-ui-[a-z]+\.es\.js$/);
+      expect(exports[subpath]?.require, subpath).toMatch(/^\.\/dist\/unitary-ui-[a-z]+\.cjs$/);
+      expect(exports[subpath]?.types, subpath).toMatch(/^\.\/dist\/types\/lib\/entries\/[a-z]+\.d\.ts$/);
+    }
     const plugins: unknown[] = await Promise.all(((loaded.config.plugins ?? []) as unknown[]).flat(Infinity));
     expect(plugins.filter(Boolean).map(plugin => plugin !== null && typeof plugin === "object" && "name" in plugin ? plugin.name : undefined))
       .not.toContain("unitary-example-source");

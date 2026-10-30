@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 
 /**
@@ -144,32 +146,34 @@ export function probeFontMetrics(fontStack?: string): void {
   }
 }
 
-let registered = false;
+let installed = false;
 
-/** 自注册：模块加载即探测（幂等，多份 bundle 合并只测一次）。 */
-function autoRegister(): void {
-  if (registered || typeof document === "undefined") return;
-  registered = true;
-  // 立即试（缓存命中或字体已就绪）
-  probeFontMetrics();
-  // 字体加载完成后重测，覆盖首次测量时字体未就绪（swap 未完成）的情况
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(() => probeFontMetrics());
-  }
-}
-
-if (typeof window !== "undefined") {
+/**
+ * 安装字体度量自注册：立即探测（缓存命中或字体已就绪），字体加载完成后重测，
+ * 覆盖首次测量时字体未就绪（swap 未完成）的情况。幂等。
+ *
+ * 由包入口（`src/lib/bundle.ts`）在浏览器环境调用——M1-01 把原先的模块加载
+ * 副作用改为显式安装，使本模块本身无副作用、未使用的导出可被 tree-shake，
+ * 同时保证根入口消费端仍自动初始化。
+ */
+export function installFontMetrics(): void {
+  if (installed || typeof document === "undefined") return;
+  installed = true;
+  const run = () => {
+    probeFontMetrics();
+    document.fonts?.ready.then(() => probeFontMetrics());
+  };
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", autoRegister, { once: true });
+    document.addEventListener("DOMContentLoaded", run, { once: true });
   } else {
-    autoRegister();
+    run();
   }
 }
 
 /**
- * React hook 版本：显式控制时使用（幂等，可重复调用；默认场景不需要，
- * 因为模块加载已自注册）。额外监听 data-font-tier 变化：档位切换时
- * 用新字体栈重新探测（栈字符串变化 → 缓存 miss → 重测）。
+ * React hook 版本：显式控制时使用（幂等，可重复调用；包根消费端已由入口
+ * 自动安装，直接使用源码别名时可显式调用）。额外监听 data-font-tier 变化：
+ * 档位切换时用新字体栈重新探测（栈字符串变化 → 缓存 miss → 重测）。
  */
 export function useFontMetrics(fontStack?: string): void {
   useEffect(() => {

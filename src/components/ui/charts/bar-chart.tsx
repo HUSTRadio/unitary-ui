@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · BarChart [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、图例滚动图标换 lucide（ChevronLeft/ChevronRight）、灰色系全部映射语义 token、
 // 排版类（text-copy-13/14）、tooltip 卡片材质、recharts 光标改 var(--border) 规避原生色值、

@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · useOnWindowResize [v0.0.2] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：无。
 

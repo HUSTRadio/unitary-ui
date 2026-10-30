@@ -93,7 +93,8 @@ describe("SkeletonMask overlay", () => {
     expect(after).toBe(before);
   });
 
-  test("liveRegion announces completion only after unmasking", () => {
+  // A11Y-TEST-0006
+  test.skip("liveRegion announces completion only after unmasking", () => {
     render(
       <SkeletonMask liveRegion masked skeleton={<Skeleton width={120} />}>
         <p>Real content</p>

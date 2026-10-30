@@ -1,4 +1,8 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { createElement as h } from "react";
 import { describe, expect, test } from "vitest";
+
+import { Button, ButtonLink } from "../src/components/ui/button";
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -137,5 +141,47 @@ describe("Button official single-track API contract", () => {
     }
 
     expect(violations).toEqual([]);
+  });
+});
+
+describe("Button variant alias (C3)", () => {
+  const renderButton = (props: Record<string, unknown>) =>
+    renderToStaticMarkup(h(Button, props, "Save"));
+  const renderLink = (props: Record<string, unknown>) =>
+    renderToStaticMarkup(h(ButtonLink, { href: "#", ...props }, "Save"));
+
+  test("variant renders exactly the same markup as type", () => {
+    for (const value of ["default", "secondary", "tertiary", "error", "warning"] as const) {
+      expect(renderButton({ variant: value })).toBe(renderButton({ type: value }));
+    }
+  });
+
+  test("type wins when both are provided (canonical over alias)", () => {
+    expect(renderButton({ type: "error", variant: "secondary" })).toBe(renderButton({ type: "error" }));
+  });
+
+  test("falls back to default when both are omitted", () => {
+    expect(renderButton({})).toBe(renderButton({ type: "default" }));
+    expect(renderButton({})).toContain('data-type="default"');
+  });
+
+  test("data-type reflects the resolved visual variant", () => {
+    expect(renderButton({ variant: "warning" })).toContain('data-type="warning"');
+    expect(renderButton({ type: "tertiary", variant: "warning" })).toContain('data-type="tertiary"');
+  });
+
+  test("ButtonLink supports the same alias and precedence", () => {
+    expect(renderLink({ variant: "secondary" })).toBe(renderLink({ type: "secondary" }));
+    expect(renderLink({ type: "error", variant: "secondary" })).toBe(renderLink({ type: "error" }));
+    expect(renderLink({ variant: "secondary" })).toContain('data-type="secondary"');
+  });
+
+  test("ButtonProps keeps typeName and documents the alias", async () => {
+    const src = await read("src/components/ui/button.tsx");
+    expect(src).toMatch(/variant\?: ButtonType/);
+    expect(src).toMatch(/type \?\? variant \?\? "default"/);
+    expect(src).toMatch(/typeName\?: "submit" \| "button" \| "reset"/);
+    // CustomButton forces the visual variant, so the alias must be excluded there.
+    expect(src).toMatch(/Omit<ButtonProps, "type" \| "variant"/);
   });
 });

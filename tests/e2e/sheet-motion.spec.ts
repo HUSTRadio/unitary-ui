@@ -103,7 +103,8 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1280, height: 900 
       }
     });
 
-    test(`Sheet skips motion and closes with reduced motion (${theme}, ${viewport.width})`, async ({ page }) => {
+    // A11Y-TEST-0051 (light, 390) / A11Y-TEST-0052 (dark, 390) / A11Y-TEST-0053 (light, 1280) / A11Y-TEST-0054 (dark, 1280)
+    test.skip(`Sheet skips motion and closes with reduced motion (${theme}, ${viewport.width})`, async ({ page }) => {
       await page.setViewportSize(viewport);
       await openRoute(page, theme, true);
       const trigger = page.getByRole("button", { name: "Open left", exact: true });

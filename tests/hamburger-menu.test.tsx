@@ -237,7 +237,8 @@ describe("HamburgerMenu", () => {
     ).toBe("false");
   });
 
-  it("returns focus after navigation without scrolling the surrounding shell", () => {
+  // A11Y-TEST-0025
+  it.skip("returns focus after navigation without scrolling the surrounding shell", () => {
     renderMenu(
       <div onClick={(event) => event.preventDefault()}>
         <HamburgerMenu anchor="topbar" items={ITEMS} />

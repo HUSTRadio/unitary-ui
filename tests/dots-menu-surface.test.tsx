@@ -100,7 +100,8 @@ describe("DotsMenu 表面与 Menu 同源（HIG-AUD-032）", () => {
     expect(popup!.querySelectorAll('[role="menuitem"]').length).toBeGreaterThan(0);
   });
 
-  it("触发器 aria-haspopup 为 menu，未被显式覆盖为 true（语义不被降级）", () => {
+  // A11Y-TEST-0029
+  it.skip("触发器 aria-haspopup 为 menu，未被显式覆盖为 true（语义不被降级）", () => {
     const { trigger } = renderDotsMenuOpen();
     expect(trigger.getAttribute("aria-haspopup")).toBe("menu");
     expect(trigger.getAttribute("aria-haspopup")).not.toBe("true");

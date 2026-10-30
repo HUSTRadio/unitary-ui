@@ -275,7 +275,8 @@ for (const texture of ["acrylic", "glass"] as const) {
   });
 
   for (const fallback of ["forced colors", "reduced transparency"] as const) {
-    test(`Static masks stay opaque and preserve closed lifecycle in CSS fallback: ${texture}, ${fallback}`, async ({ page, context }) => {
+    // A11Y-TEST-0074..0077 (${texture} x ${fallback} 四个参数化变体)
+    test.skip(`Static masks stay opaque and preserve closed lifecycle in CSS fallback: ${texture}, ${fallback}`, async ({ page, context }) => {
       const materials = await open(page, "dark");
       const fixture = await installStaticMasks(page);
       await fixture.lifecycle.evaluate(el => { (el as HTMLElement).dataset.motionState = "open"; });

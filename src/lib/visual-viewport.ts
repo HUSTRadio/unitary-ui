@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * 可见视口（visual viewport）的统一契约 —— HIG-AUD-029。
  *

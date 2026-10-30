@@ -1,3 +1,5 @@
+"use client";
+
 import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { DropdownMenu as MenuPrimitive } from "radix-ui";
@@ -41,7 +43,7 @@ function MenuContainer({ position = "bottom-start", children, ...props }: MenuCo
   );
 }
 
-export interface MenuButtonProps extends Omit<ButtonProps, "type"> {
+export interface MenuButtonProps extends Omit<ButtonProps, "type" | "variant"> {
   /** "unstyled" renders a plain button; otherwise passes visual type to Button */
   variant?: "unstyled" | ButtonProps["type"];
   showChevron?: boolean;

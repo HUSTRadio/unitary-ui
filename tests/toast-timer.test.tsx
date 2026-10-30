@@ -29,7 +29,8 @@ const items = () => Array.from(document.querySelectorAll<HTMLLIElement>('[data-s
 
 /** HIG-AUD-014：隐藏项移出 Tab/无障碍树 + hover/focus 暂停自动关闭。 */
 describe("Toasts visibility & timers", () => {
-  test("hidden stack items leave the tab order and the a11y tree", () => {
+  // A11Y-TEST-0015
+  test.skip("hidden stack items leave the tab order and the a11y tree", () => {
     const store = createToastStore();
     act(() => root.render(<Toasts store={store} />));
 

@@ -8,7 +8,17 @@ import { COMPONENT_API } from "../docs/site/src/data/component-api";
 const docsRoot = path.resolve("docs/site");
 const docsSourceRoot = path.join(docsRoot, "src");
 const packageName = "@hustradio/unitary-ui";
-const publicStyles = new Set([`${packageName}/styles.css`, `${packageName}/tailwind-reference.css`]);
+// Derive the docs allowlist from the published exports: a subpath cannot be
+// shown in documentation before package.json declares it, and a new export is
+// documented without editing a second list (M1-05 documents charts/motion/
+// device/code).
+const publicEntries = new Set(
+  Object.keys(
+    (JSON.parse(readFileSync("package.json", "utf8")) as { exports: Record<string, unknown> }).exports,
+  )
+    .filter((key) => key.startsWith("./") && key !== "./package.json")
+    .map((key) => `${packageName}/${key.slice("./".length)}`),
+);
 const interpolation = "__docs_interpolated_value__";
 
 function constantStrings(source: ts.SourceFile): Map<string, string> {
@@ -68,7 +78,7 @@ function importViolations(file: string, text: string, exports: Set<string>): str
     if (moduleName.startsWith("@/") || (relative !== undefined && (relative === ".." || relative.startsWith(`..${path.sep}`)))) {
       violations.push(`${moduleName}: imports repository internals`);
     }
-    if (moduleName.startsWith(`${packageName}/`) && !publicStyles.has(moduleName)) {
+    if (moduleName.startsWith(`${packageName}/`) && !publicEntries.has(moduleName)) {
       violations.push(`${moduleName}: is not a public docs entry point`);
     }
     if (moduleName === packageName) {
@@ -148,6 +158,14 @@ describe("docs public library imports", () => {
       return found.map((issue) => `${path.relative(docsRoot, file)}: ${issue}`);
     });
     expect(violations).toEqual([]);
+  });
+
+  it("allows every published subpath entry and no private path", () => {
+    for (const entry of ["charts", "motion", "device", "code", "styles.css", "tailwind-reference.css"]) {
+      expect(publicEntries.has(`${packageName}/${entry}`), entry).toBe(true);
+    }
+    expect(publicEntries.has(`${packageName}/package.json`)).toBe(false);
+    expect(publicEntries.has(`${packageName}/dist/unitary-ui.es.js`)).toBe(false);
   });
 
   it("detects aliased, dynamic, type-only and snippet imports that bypass the public API", () => {

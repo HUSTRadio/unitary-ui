@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { ChevronDown, Menu as MenuIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -36,8 +38,10 @@ export interface SiteNavigationProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-const desktopClasses = { 768: "hidden md:block", 1024: "hidden lg:block", 1280: "hidden xl:block" };
-const mobileClasses = { 768: "md:hidden", 1024: "lg:hidden", 1280: "xl:hidden" };
+// 响应式可见性由非分层契约承载（src/styles/index.css 的 data-uni-responsive），
+// 不使用 `hidden md:block` 组合——消费端 Tailwind 再生成基础 utility 会反压响应式变体。
+const desktopResponsive = { 768: "above-md", 1024: "above-lg", 1280: "above-xl" } as const;
+const mobileResponsive = { 768: "below-md", 1024: "below-lg", 1280: "below-xl" } as const;
 
 export function SiteNavigation({
   items,
@@ -182,7 +186,7 @@ export function SiteNavigation({
       }}
     >
       <div
-        className={desktopClasses[desktopBreakpoint]}
+        data-uni-responsive={desktopResponsive[desktopBreakpoint]}
         onPointerEnter={clearTimer}
         onPointerLeave={() => {
           if (hover && !root.current?.contains(document.activeElement)) {
@@ -284,7 +288,7 @@ export function SiteNavigation({
           </div>
         ) : null}
       </div>
-      <div className={mobileClasses[desktopBreakpoint]}>
+      <div data-uni-responsive={mobileResponsive[desktopBreakpoint]}>
         <Sheet modal open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
             <button

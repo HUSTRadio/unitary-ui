@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · SparkChart [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、导入路径、移除 tremor-id 标记、补 data-slot；渐变/取色/堆叠逻辑保持上游一致。
 

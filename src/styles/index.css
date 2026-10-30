@@ -5,6 +5,65 @@
 /* Public shape utilities must ship even when no library component uses them. */
 @source inline("rounded-circle rounded-circular rounded-pill rounded-capsule rounded-continuous");
 
+/*
+ * 响应式可见性契约（M1-02 / PR-20b）
+ * ---------------------------------------------------------------------------
+ * 库组件不得用 `hidden` + `md:block` 之类的「基础 utility + 响应式变体」组合
+ * 表达可见性：消费端 Tailwind 会在库 CSS 之后重新生成基础 utility（如
+ * .hidden/.flex），同层后出现的规则取胜，会反压库内响应式变体，导致桌面项
+ * 在宽屏被 display:none（已由 package-mode 浏览器回归证实）。
+ *
+ * 以下规则刻意保持**非分层**（unlayered）：非分层规则优先于任何 @layer
+ * utilities，因此不受消费端再生成顺序影响。组件通过 data-uni-responsive
+ * 属性选择断点，不再携带 display 相关类名。
+ */
+[data-uni-responsive="above-md"],
+[data-uni-responsive="above-lg"],
+[data-uni-responsive="above-xl"],
+[data-uni-responsive="above-md-flex"] {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  [data-uni-responsive="above-md"] {
+    display: block;
+  }
+
+  [data-uni-responsive="above-md-flex"] {
+    display: flex;
+  }
+}
+
+@media (min-width: 64rem) {
+  [data-uni-responsive="above-lg"] {
+    display: block;
+  }
+}
+
+@media (min-width: 80rem) {
+  [data-uni-responsive="above-xl"] {
+    display: block;
+  }
+}
+
+@media (min-width: 48rem) {
+  [data-uni-responsive="below-md"] {
+    display: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  [data-uni-responsive="below-lg"] {
+    display: none;
+  }
+}
+
+@media (min-width: 80rem) {
+  [data-uni-responsive="below-xl"] {
+    display: none;
+  }
+}
+
 @custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
 
 /*

@@ -1,3 +1,5 @@
+"use client";
+
 import { withLayerBridge } from "@/lib/layer-bridge";
 // Tremor Raw · CategoryBar [v0.0.3] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、语义 token（text-muted-foreground、ring-background）、排版类（text-copy-13）、

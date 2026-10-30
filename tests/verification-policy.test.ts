@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { existsSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -452,8 +452,20 @@ describe("verification selection", () => {
     // Git also lists tracked tests deleted in the working tree. They have no
     // current import closure or indirect consumers to inspect.
     const files = verificationFiles(root).filter(file => existsSync(path.join(root, file)));
-    expect(missingIndirectInputs(root, files.filter(isUnitTest), files)).toEqual([]);
-    expect(selectBrowserSpecs([], files, []).missing).toEqual([]);
+    // Unit tests and browser specs disabled through the a11y ledger (A11Y-00)
+    // are intentionally outside the selection inventory and must not fail the
+    // fail-closed checks.
+    const disabledFiles = new Set(
+      JSON.parse(
+        readFileSync(path.join(root, "tests/fixtures/a11y-test-disable-ledger.json"), "utf8"),
+      ).entries
+        .filter((entry: { action: string }) => entry.action === "disable")
+        .map((entry: { file: string }) => entry.file),
+    );
+    expect(
+      missingIndirectInputs(root, files.filter(file => isUnitTest(file) && !disabledFiles.has(file)), files),
+    ).toEqual([]);
+    expect(selectBrowserSpecs([], files.filter(file => !disabledFiles.has(file)), []).missing).toEqual([]);
     expect(INDIRECT_INPUT_GROUPS.every(({ inputs }) => inputs.length > 0)).toBe(true);
     expect(indirectTests(["scripts/run-locked-script.mjs"], files)).toContain(
       "tests/package-script-lock.test.ts",

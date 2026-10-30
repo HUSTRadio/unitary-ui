@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · ProgressCircle [v0.0.3] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：去除 tailwind-variants 依赖（改用静态变体映射）、cn 工具、动效时长 token 化
 // （duration-300 → --uni-duration-base）、移除 tremor-id 标记；绘制逻辑保持上游一致。

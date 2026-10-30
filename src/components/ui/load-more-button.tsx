@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";

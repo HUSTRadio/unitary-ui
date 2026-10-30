@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · LineChart [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、图例滚动图标换 lucide（ChevronLeft/ChevronRight）、灰色系全部映射语义 token
 // （bg-background/text-foreground/text-muted-foreground/stroke-border/fill-muted-foreground 等）、

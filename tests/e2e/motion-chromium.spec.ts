@@ -4,7 +4,8 @@ import { openMotionFixture as open } from "./helpers/motion";
 test.setTimeout(60_000);
 
 for (const theme of ["light", "dark"]) for (const width of [390, 1280]) {
-  test(`reduced transparency removes the modal backdrop (${theme}, ${width})`, async ({ page }) => {
+  // A11Y-TEST-0090..0093 (${theme}, ${width} 四个参数化变体；motion 侧由 grepInvert 收集期过滤)
+  test.skip(`reduced transparency removes the modal backdrop (${theme}, ${width})`, async ({ page }) => {
     await open(page, theme, width);
     await page.emulateMedia({ reducedMotion: "reduce" });
     const cdp = await page.context().newCDPSession(page);

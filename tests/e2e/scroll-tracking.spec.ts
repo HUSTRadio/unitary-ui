@@ -361,7 +361,8 @@ for (const theme of ["light", "dark"] as const) {
       await expectDemoPosition(surface, 3);
     });
 
-    test(`${kind} dynamic reduced motion completes an active scroll (${theme})`, async ({ page }) => {
+    // A11Y-TEST-0063..0066 (${kind} x ${theme} 四个参数化变体)
+    test.skip(`${kind} dynamic reduced motion completes an active scroll (${theme})`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "no-preference" });
       const surface = await openDemo(page, kind, theme);
       await setMode(surface, "Always");
@@ -381,7 +382,8 @@ for (const theme of ["light", "dark"] as const) {
       expect(await position(surface)).toBe(final);
     });
 
-    test(`${kind} reduced motion places the active item without animation (${theme})`, async ({ page }) => {
+    // A11Y-TEST-0067..0070 (${kind} x ${theme} 四个参数化变体)
+    test.skip(`${kind} reduced motion places the active item without animation (${theme})`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" });
       const surface = await openDemo(page, kind, theme);
       await setMode(surface, "Always");

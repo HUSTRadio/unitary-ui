@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import { useI18n } from "@/lib/i18n";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useLayerVariables } from "./layer";
 import * as React from "react";
 import { waitForExitMotion } from "@/lib/exit-motion";

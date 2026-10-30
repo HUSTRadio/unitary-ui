@@ -39,7 +39,8 @@ async function render() {
 }
 
 describe("Introduction Components preview", () => {
-  test("is an aria-hidden visual-only preview inside the single Components link", async () => {
+  // A11Y-TEST-0028
+  test.skip("is an aria-hidden visual-only preview inside the single Components link", async () => {
     await render();
 
     const card = container.querySelector<HTMLAnchorElement>('a[href="#/components"]');

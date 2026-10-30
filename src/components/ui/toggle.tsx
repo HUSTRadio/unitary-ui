@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { hasGlassBackgroundOverride, useGlassInteraction } from "@/lib/glass-interaction";
 

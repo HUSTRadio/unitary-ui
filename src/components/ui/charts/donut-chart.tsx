@@ -1,3 +1,5 @@
+"use client";
+
 // Tremor Raw · DonutChart [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、语义 token（bg-background/text-foreground/text-muted-foreground/border-border、
 // fill-muted-foreground/stroke-background）、排版类（text-copy-14）、tooltip 卡片材质（--material-shadow-base）、

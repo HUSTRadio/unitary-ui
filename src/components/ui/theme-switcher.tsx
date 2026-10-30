@@ -1,3 +1,5 @@
+"use client";
+
 import { Monitor, Moon, Smartphone, Sun } from "lucide-react";
 
 import { useTheme, type ThemePreference } from "@/lib/theme";

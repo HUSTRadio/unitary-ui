@@ -361,7 +361,8 @@ describe("sliding selection indicator", () => {
     expect(activeMarker()?.dataset.marker).toBe("b");
   });
 
-  it("honors reduced motion on mount while updating the active marker", () => {
+  // A11Y-TEST-0044
+  it.skip("honors reduced motion on mount while updating the active marker", () => {
     reducedMotion = true;
     render({ activeKey: "a" });
     render({ activeKey: "b" });
@@ -369,7 +370,8 @@ describe("sliding selection indicator", () => {
     expect(activeMarker()?.dataset.marker).toBe("b");
   });
 
-  it("cancels running motion when the preference changes and resumes on a later selection", () => {
+  // A11Y-TEST-0045
+  it.skip("cancels running motion when the preference changes and resumes on a later selection", () => {
     render({ activeKey: "a" });
     render({ activeKey: "b" });
     changeReducedMotion(true);

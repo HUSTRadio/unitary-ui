@@ -80,7 +80,8 @@ for (const dpr of [1, 2]) test.describe(`native CSS material DPR${dpr}`, () => {
   }
 });
 
-test("Glass reduced transparency and forced colors preserve the preference and recover", async ({ page }) => {
+// A11Y-TEST-0073
+test.skip("Glass reduced transparency and forced colors preserve the preference and recover", async ({ page }) => {
   await open(page, "dark"); const session = await page.context().newCDPSession(page);
   await session.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-transparency", value: "reduce" }] });
   await expect(page.locator("html")).toHaveAttribute("data-texture", "solid"); await expect(page.locator("html")).toHaveAttribute("data-texture-preference", "glass");

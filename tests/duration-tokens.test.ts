@@ -90,12 +90,14 @@ describe("overlay motion durations reference tokens (HIG-AUD-012)", () => {
   });
 
   test.each([
-    ["bottom-sheet.tsx", "height var(--uni-motion-overlay)"],
-    ["responsive-drawer.tsx", "height var(--uni-motion-overlay)"],
-    ["drawer.tsx", "transform var(--uni-motion-expansive)"],
-  ])("%s inline transition consumes motion tokens", async (file, needle) => {
+    ["bottom-sheet.tsx", "height var(--uni-duration-base) var(--ease-snap)"],
+    ["responsive-drawer.tsx", "height var(--uni-duration-base) var(--ease-snap)"],
+    ["drawer.tsx", "transform var(--uni-duration-base) var(--ease-snap)"],
+  ])("%s inline transition consumes duration tokens", async (file, needle) => {
     const src = await readSource(`src/components/ui/${file}`);
     expect(src).toContain(needle);
+    // 禁止回退到字面量毫秒（本轮语义别名迁移未做，仅要求走 token 层）。
+    expect(src).not.toMatch(/transition:\s*"[^"]*\b\d+ms\b/);
   });
 
   test("command-menu overlay utilities consume tier tokens (no raw 0.3s/0.4s left)", async () => {
@@ -105,8 +107,8 @@ describe("overlay motion durations reference tokens (HIG-AUD-012)", () => {
     expect(start).toBeGreaterThan(-1);
     expect(end).toBeGreaterThan(start);
     const block = css.slice(start, end);
-    expect(block).toContain("var(--uni-motion-overlay)");
-    expect(block).toContain("var(--uni-motion-expansive)");
+    expect(block).toContain("var(--uni-duration-base)");
+    expect(block).toContain("var(--uni-duration-fast)");
     expect(block).not.toMatch(/0\.3s|0\.4s/);
   });
 });

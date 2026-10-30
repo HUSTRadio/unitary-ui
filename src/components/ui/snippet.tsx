@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Copy, CopyCheck } from "lucide-react";
 

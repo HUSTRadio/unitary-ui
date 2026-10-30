@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, type RefObject } from "react";
 
 import { animateScroll, type ScrollAnimation } from "./scroll-animation";

@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useSyncExternalStore, type ReactNode } from "react";
 
 const ForcedReducedMotion = /* @__PURE__ */ createContext(false);

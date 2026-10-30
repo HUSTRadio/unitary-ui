@@ -1,3 +1,5 @@
+"use client";
+
 import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";

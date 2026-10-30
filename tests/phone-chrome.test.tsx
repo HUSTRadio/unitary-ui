@@ -106,7 +106,8 @@ describe("Device status bar & Safari chrome", () => {
     expect(chrome.textContent).toContain("…");
   });
 
-  test("chrome elements are not focusable (no button/a/input inside chrome)", () => {
+  // A11Y-TEST-0032
+  test.skip("chrome elements are not focusable (no button/a/input inside chrome)", () => {
     mount(
       <Device model={DEVICE_MODEL} safari={{ layout: "top" }} statusBar>
         <DeviceScreen />

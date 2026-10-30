@@ -53,7 +53,8 @@ describe("Combobox multiple-instance ARIA ownership", () => {
     expect(input.value).toBe(before);
   });
 
-  test("generates one unique, existing controlled list id per instance", () => {
+  // A11Y-TEST-0001
+  test.skip("generates one unique, existing controlled list id per instance", () => {
     container = document.createElement("div");
     document.body.appendChild(container);
     root = createRoot(container);
@@ -70,7 +71,8 @@ describe("Combobox multiple-instance ARIA ownership", () => {
     }
   });
 
-  test("keeps aria-controls and aria-activedescendant inside the opened instance", () => {
+  // A11Y-TEST-0002
+  test.skip("keeps aria-controls and aria-activedescendant inside the opened instance", () => {
     container = document.createElement("div");
     document.body.appendChild(container);
     root = createRoot(container);

@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * 统一剪贴板写入（copy-button / snippet 共用；2026-09-15 抽取）。
  *

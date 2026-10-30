@@ -1,3 +1,5 @@
+"use client";
+
 import { createElement, forwardRef, useCallback, useInsertionEffect, useLayoutEffect, useRef, type ComponentType, type ElementType, type ForwardedRef, type ReactNode } from "react";
 import { LazyMotion, MotionConfig, visualElementStore, type Transition } from "motion/react";
 import * as slimMotion from "motion/react-m";

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
@@ -81,6 +83,8 @@ export interface ButtonProps extends Omit<
 > {
   /** 视觉变体（官方 type prop）：default / secondary / tertiary / error / warning */
   type?: ButtonType;
+  /** `type` 的别名（C3）。两者同时提供时 `type` 生效；视觉结果完全相同。 */
+  variant?: ButtonType;
   /** HTML type 属性（官方 typeName），默认 "submit" */
   typeName?: "submit" | "button" | "reset";
   /** 尺寸 */
@@ -103,7 +107,8 @@ export interface ButtonProps extends Omit<
 
 function Button({
   className,
-  type = "default",
+  type,
+  variant,
   typeName = "submit",
   size = "medium",
   shape = "square",
@@ -117,7 +122,9 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
-  const glass = useGlassInteraction({ enabled: type === "secondary" && !disabled && !loading });
+  // canonical 优先：显式 type 覆盖 variant 别名，两者都缺省时回到 default。
+  const visualType = type ?? variant ?? "default";
+  const glass = useGlassInteraction({ enabled: visualType === "secondary" && !disabled && !loading });
   const Comp = asChild ? Slot.Root : "button";
 
   const shadowClass = shadow ? "shadow-lg" : "";
@@ -129,13 +136,13 @@ function Button({
       data-slot="button"
       data-uni-button=""
       data-uni-glass-interaction={glass.marker}
-      data-type={type}
+      data-type={visualType}
       data-size={resolvedSize}
       data-shape={shape}
       type={typeName}
       disabled={disabled || loading}
       className={cn(
-        buttonVariants({ type, size: resolvedSize, shape, className }),
+        buttonVariants({ type: visualType, size: resolvedSize, shape, className }),
         svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
         shadowClass,
       )}
@@ -167,6 +174,8 @@ export interface ButtonLinkProps extends Omit<
   "type" | "prefix" | "shape"
 > {
   type?: ButtonType;
+  /** `type` 的别名（C3）。两者同时提供时 `type` 生效。 */
+  variant?: ButtonType;
   size?: ButtonSize;
   shape?: ButtonShape;
   shadow?: boolean;
@@ -179,7 +188,8 @@ export interface ButtonLinkProps extends Omit<
 
 function ButtonLink({
   className,
-  type = "default",
+  type,
+  variant,
   size = "medium",
   shape = "square",
   shadow = false,
@@ -192,20 +202,21 @@ function ButtonLink({
   children,
   ...props
 }: ButtonLinkProps) {
-  const glass = useGlassInteraction({ enabled: type === "secondary" && !disabled && !loading, keys: "link" });
+  const visualType = type ?? variant ?? "default";
+  const glass = useGlassInteraction({ enabled: visualType === "secondary" && !disabled && !loading, keys: "link" });
   const resolvedSize = size;
   return (
     <a
       data-slot="button"
       data-uni-button=""
       data-uni-glass-interaction={glass.marker}
-      data-type={type}
+      data-type={visualType}
       data-size={resolvedSize}
       data-shape={shape}
       href={href}
       aria-disabled={disabled || loading || undefined}
       className={cn(
-        buttonVariants({ type, size: resolvedSize, shape, className }),
+        buttonVariants({ type: visualType, size: resolvedSize, shape, className }),
         svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
         shadow && "shadow-lg",
       )}
@@ -238,7 +249,7 @@ export interface CustomColorSet {
   border: string;
 }
 
-export interface CustomButtonProps extends Omit<ButtonProps, "type" | "className" | "style"> {
+export interface CustomButtonProps extends Omit<ButtonProps, "type" | "variant" | "className" | "style"> {
   normal: CustomColorSet;
   hover: CustomColorSet;
   active: CustomColorSet;

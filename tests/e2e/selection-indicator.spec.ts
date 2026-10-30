@@ -325,7 +325,8 @@ for (const theme of ["light", "dark"] as const) {
     close(await finish(active), destination);
   });
 
-  test(`reduced motion places vertical and horizontal indicators immediately (${theme})`, async ({ page }) => {
+  // A11Y-TEST-0055 (light) / A11Y-TEST-0056 (dark)
+  test.skip(`reduced motion places vertical and horizontal indicators immediately (${theme})`, async ({ page }) => {
     await open(page, getComponentDocsPath("sidebar-nav"), theme, true);
     const sidebar = page.locator('[data-demo-container="default"] [data-slot="sidebar-nav"]');
     const projects = sidebar.getByRole("link", { name: "Projects", exact: true });

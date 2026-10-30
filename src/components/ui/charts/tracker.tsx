@@ -1,3 +1,5 @@
+"use client";
+
 import { withLayerBridge } from "@/lib/layer-bridge";
 // Tremor Raw · Tracker [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：radix-ui 聚合导入、cn 工具、语义 token（bg-foreground/text-background/text-copy-13）、
