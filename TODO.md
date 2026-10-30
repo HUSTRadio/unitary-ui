@@ -16,8 +16,8 @@
 
 ## 当前进行
 
-- 下一步入口：**M2-05（Task 数据适配器，PR-43，依赖 M2-04）**，方案见计划书 §7 M2-05：`usePolling` / `useEventStream` 统一退避、AbortController 与卸载清理；不引入通用 async store。
-- M2-04 已闭环（Task + taskReducer + 双语指南/示例 + 254 页语料）。M2 剩 M2-05 / M2-06。
+- 下一步入口：**M2-06（LogView，PR-44，依赖 M2-04）**，方案见计划书 §7 M2-06：调用方传入 entries、级别过滤、复制/导出、底部自动跟随与手动上滚暂停；首版不做虚拟化。
+- M2-05 已闭环（usePolling / useEventStream + 共享退避 + state/events 文档）。M2 剩 M2-06，之后进入 M3。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
 ## 已完成的 planner 限制记录
@@ -155,10 +155,12 @@
   - Acceptance: 纯转换全覆盖；无后台副作用
   - PR: PR-42
   - Evidence (2026-10-30)：`task-state-machine` **9 passed**（5 状态 × 7 动作矩阵、非法转换原引用、进度 -1/4/NaN 截断、stage 仅 running、succeed/fail/partial 字段清理、reset 幂等、helper 集合）；`task-api` **9 passed**（每状态 data-status、title/description/stage、进度仅 running|partial、百分比取整截断、cancel/retry 出现条件、双语默认文案与覆盖、className 透传、源码级无 state/timer/fetch）；`rsc-boundaries` 3 passed；文档与导出契约 **101 passed / 1 skipped**（13 文件，含 docs-coverage / component-doc-completeness / api-registry / i18n parity / export parity / changelog / public imports / Field / useDraft）；`docs:llm:generate` → **127 路由 × 2 = 254 页**，`--check` 无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
-- [ ] M2-05 Task 数据适配器（PR-43，依赖 M2-04）
-  - Files: `src/lib/use-task.ts`, 相关测试
-  - Content: `usePolling`/`useEventStream`，统一退避、AbortController 与清理；不引入通用 async store
+- [x] M2-05 Task 数据适配器（PR-43，依赖 M2-04）
+  - Files: `src/lib/use-task.ts`（新建）, `src/lib/index.ts`（3 个函数 + 6 个类型导出）, `tests/fixtures/rsc-boundaries.json`, `tests/use-task-adapters.test.tsx`（新建，14 例）, `docs/site/src/pages/state-and-events.tsx`（新增「任务数据适配器 / Task data adapters」节）, `docs/site/src/data/framework-api.ts`, `CHANGELOG.md` / `CHANGELOG.en.md`, 生成的 `docs/llm`
+  - Content: `nextBackoffDelay` 统一指数退避（1s 起 / 2 倍 / 30s 封顶）；`usePolling` 单飞请求 + `isDone` 终态停止 + `stop()/refresh()`；`useEventStream` 断连退避重连、解析失败不丢连接、`close()/reconnect()`；两者在卸载与参数变化时清理定时器并 abort/close；不缓存、不共享状态、不引入通用 async store
   - Acceptance: 轮询停止、流断连、卸载清理有测试
+  - PR: PR-43
+  - Evidence (2026-10-30)：`use-task-adapters` **14 passed**（退避 1/2/4 倍与封顶、立即拉取 + 间隔轮询、`isDone` 停止且不再调度、失败退避序列、卸载 abort、`enabled:false` 零请求、`stop`/`refresh` 往返、在途请求不叠加；事件流 open/message 解析、断连退避重连（连接数 1→2→3）、卸载 close、`close` 后不再重连且 `reconnect` 复活、解析失败上报但保持连接、自定义解析与非字符串负载忽略）；`rsc-boundaries` 3 passed（177 模块）；`docs-i18n(-parity) + changelog-contract + export-parity + api-category + docs-api-reference` **81 passed / 1 skipped**；`docs:llm:generate` → 127 路由 × 2 = **254 页**，`--check` 无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
 - [ ] M2-06 LogView（PR-44，依赖 M2-04）
   - Files: `src/components/ui/log-view.tsx`, `tests/log-view-api.test.tsx`, `tests/e2e/log-view-follow.spec.ts`, 完成包
   - Content: 调用方传入 entries；level/time/message、级别过滤、复制/导出、底部自动跟随、手动上滚暂停跟随；首版不做虚拟化
@@ -215,6 +217,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-43（M2-05）——`usePolling` / `useEventStream` 两个最小数据适配器 + 共享 `nextBackoffDelay`；单飞、终态停止、断连重连、卸载 abort/close 全部有测试（14 例）；254 页语料无漂移。
 - 2026-10-30：PR-42（M2-04）——`Task` 受控展示 + 纯 `taskReducer`（5 状态 × 7 动作矩阵），取消/重试按状态门控，不与 StatusDot 语义混用；18 例测试 + 254 页语料。
 - 2026-10-30：PR-41（M2-03）——`useDraft` 草稿持久化（命名空间 + 版本化单 key、dirty 才写、回基线删除、SSR 不回写、reset 只清自身前缀），12 例覆盖全部边界；state/events 与 framework-api 双语文档 + 252 页语料无漂移。
 - 2026-10-30：§12.4 存量债处置——Default 方案 light/dark 补 `--color-warning`（314 项 runtime 颜色中唯一缺失项）；`duration-tokens` 4 条断言改为当前真实消费（`--uni-duration-base` + `--ease-snap` / `@utility command-menu-overlay` 的 base+fast），并新增「inline transition 不得回退字面量 `Nms`」反向断言。聚焦回归 color-schemes 41 / 颜色治理 25 / theme-token-pairing 4 passed，`tokens:check` 通过。

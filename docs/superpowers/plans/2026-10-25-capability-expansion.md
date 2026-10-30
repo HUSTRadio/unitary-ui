@@ -516,3 +516,12 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 4. **完成包**：`components.ts` + 中文描述/要点、`docs-routes` 归入 `feedback`（标签序 Task 位于 Spinner 与 Toast 之间）、`component-api` 10 行、`guides-28-task.ts` 双语、示例 `task/progress-5c1d9a42`、双语 CHANGELOG、语料 254 页。
 5. **证据**：`task-state-machine` 9 passed；`task-api` 9 passed；`rsc-boundaries` 3 passed；文档与导出契约 13 文件 **101 passed / 1 skipped**；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿；`docs:llm:check` 无漂移。
 6. **两个连带修正**：`docs-coverage.test.ts` 的非官方组件白名单补 `task`；`i18n/components-demo.ts` 补 `Progress → 进度`（否则示例分节标题在中文页回退英文）。
+
+### 12.13 M2-05 落地记录（2026-10-30）
+
+1. **共享退避**：`nextBackoffDelay(attempt, options)` 默认 1s 起、2 倍增长、30s 封顶；`attempt<=1` 或非有限值回落 `initialDelay`，超大指数回落 `maxDelay`（不产生 `Infinity` 定时器）。
+2. **`usePolling`**：`setTimeout` 链而非 `setInterval`（退避才可控）；`inFlight` 保证单飞；`isDone(value)` 为真时停止调度；`stop()` 置停止态、`refresh()` 重置并立即拉取；`enabled:false` 不发请求；卸载 clearTimeout + abort。
+3. **`useEventStream`**：注入 `eventSourceFactory`（默认全局 `EventSource`），`error` 时 close 旧连接并按退避重连，`open` 重置计数；解析失败只上报 `onError` 且保持连接；`close()` 置停止态不再重连，`reconnect()` 复活。
+4. **刻意不做**：不缓存响应、不跨实例共享、不提供通用 async store；`useTask` 只是「取数」，状态推进仍由调用方的 `taskReducer` 负责。
+5. **证据**：`use-task-adapters` 14 passed；`rsc-boundaries` 3 passed（177 模块）；文档与导出契约 8 文件 **81 passed / 1 skipped**；语料 127 × 2 = 254 页 `--check` 无漂移；四套静态检查全绿。
+6. **一处文档结构修正**：新增中文节时曾吞掉 `zh` 对象的收尾与 `const en` 声明，被 `tsc -p docs/site/tsconfig.source.json` 当场发现并修复；此后改 `state-and-events.tsx` 一律先跑该 typecheck。
