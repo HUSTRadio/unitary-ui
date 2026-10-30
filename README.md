@@ -84,6 +84,9 @@ pnpm run test:package
 
 `0.1.0-beta.0` 已发布到 npm 的 `beta` 标签，通过 `publish.yml` 从 `master` 手动触发，无需发布 GitHub Release。全部 CI 和浏览器检查通过后发布同一份已验证压缩包；首个包使用临时环境 Token，后续版本使用 npm trusted publishing。外部配置与失败恢复见[发布指南](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release.md)。npm 首次发包还会添加 `latest`，请明确使用 `@beta` 安装。正式 `0.1.0` 的 [Release 草稿](https://github.com/HUSTRadio/unitary-ui/blob/master/docs/guides/npm-release-0.1.0.md) 留待后续发布。
 
+开发辅助工作台使用独立 npm 包 `@leonhardthust/frontend-vibeshell`。先运行 `pnpm dev`，
+再在另一个终端运行 `pnpm dev:dev-shell --backend codex`；详见[工作台接入指南](./docs/guides/dev-shell.md)。
+
 ## 持续集成
 
 [`CI`](./.github/workflows/ci.yml) 在 `master` 推送、所有 PR 和手动运行时触发，三个并行任务分别执行静态检查与完整单测、应用构建与包契约检查、文档构建与 LLM 语料一致性检查。任务使用 Ubuntu 24.04、Node.js 24 和 `package.json` 声明的 pnpm 版本，以 `pnpm install --frozen-lockfile` 安装依赖。
