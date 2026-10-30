@@ -72,3 +72,72 @@ try {
 // 5. Expose the canonical Tailwind theme and its adjacent palette import.
 copyTailwindReference(join(import.meta.dirname, ".."));
 console.log("canonical Tailwind reference and palette copied to dist/");
+
+// 6. RSC 边界（M0-02）：单文件 bundle 会把叶子模块的 "use client" 指令合并丢弃
+//    （rolldown 1.2.3 尚未实现 preserveModules，见 tests/fixtures/rsc-boundaries.json）。
+//    在产物层把根入口整体声明为 client 边界；子路径入口继承同一实现（M1-03）。
+// 5b. 子路径门面（M1-03）：从 src/lib/entries/*.ts 提取运行时导出名，生成
+//     re-export 门面而不是独立 bundle——保证根与子路径共享同一模块实例，
+//     且不给消费端新增 chunk 请求（多入口共享 chunk 曾使文档站延迟路由悬停）。
+const SUBPATHS = ["charts", "motion", "device", "code"];
+
+function runtimeExportNames(name) {
+  const source = readFileSync(join(import.meta.dirname, "../src/lib/entries", `${name}.ts`), "utf8");
+  const names = new Set();
+  // 只取运行时导出；`export type { ... }` 由 d.ts 承担，门面不需要。
+  for (const match of source.matchAll(/(^|\n)export\s*\{([^}]+)\}\s*from/g)) {
+    for (const part of match[2].split(",")) {
+      const cleaned = part.trim();
+      if (!cleaned) continue;
+      const alias = cleaned.split(/\s+as\s+/);
+      names.add((alias[1] ?? alias[0]).trim());
+    }
+  }
+  return [...names];
+}
+
+const allowed = new Set(["unitary-ui.es.js", "unitary-ui.cjs"]);
+for (const name of SUBPATHS) {
+  const names = runtimeExportNames(name);
+  if (names.length === 0) throw new Error(`No runtime exports found for subpath ${name}`);
+  const esFile = `unitary-ui-${name}.es.js`;
+  const cjsFile = `unitary-ui-${name}.cjs`;
+  allowed.add(esFile);
+  allowed.add(cjsFile);
+  writeFileSync(join(distDir, esFile), `"use client";\nexport { ${names.join(", ")} } from "./unitary-ui.es.js";\n`);
+  const pairs = names.map((exportName) => `${exportName}: root.${exportName}`).join(", ");
+  writeFileSync(join(distDir, cjsFile), `"use client";\nconst root = require("./unitary-ui.cjs");\nmodule.exports = { ${pairs} };\n`);
+  console.log(`${esFile}/${cjsFile}: ${names.length} exports`);
+}
+
+// 清理上一次多入口构建遗留的 chunk 文件（否则会被打进发布包）。
+// 动态 import（如 motion-features）仍会产出独立 chunk，必须按引用保留。
+const referenced = new Set();
+for (const entry of ["unitary-ui.es.js", "unitary-ui.cjs"]) {
+  const entryPath = join(distDir, entry);
+  try {
+    for (const match of readFileSync(entryPath, "utf8").matchAll(/["'](\.\/[^"']+\.(?:js|cjs))["']/g)) referenced.add(match[1].slice(2));
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+  }
+}
+for (const file of readdirSync(distDir)) {
+  if (!/\.(es\.js|cjs)$/.test(file) || allowed.has(file) || referenced.has(file)) continue;
+  rmSync(join(distDir, file), { force: true });
+  console.log(`removed stale artifact ${file}`);
+}
+
+for (const artifact of readdirSync(distDir).filter((name) => /^unitary-ui(-[a-z]+)?\.(es\.js|cjs)$/.test(name))) {
+  const artifactPath = join(distDir, artifact);
+  try {
+    let code = readFileSync(artifactPath, "utf8");
+    if (/^\s*["']use client["']/.test(code)) continue;
+    code = `"use client";\n${code}`;
+    writeFileSync(artifactPath, code);
+    console.log(`${artifact}: use client boundary injected`);
+  } catch (error) {
+    if (error?.code !== "ENOENT") throw error;
+    console.log(`${artifact}: not found, skipped`);
+  }
+}
+

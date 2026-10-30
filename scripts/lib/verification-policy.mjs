@@ -1,4 +1,5 @@
 import path from "node:path";
+import { readFileSync } from "node:fs";
 import { affectsScreenshots } from "./pre-push-classifier.mjs";
 
 const names = (text) => text.trim().split(/\s+/);
@@ -15,8 +16,19 @@ export const INDIRECT_INPUT_GROUPS = [
     inputs: ["scripts/audit-glass-performance.mjs", "scripts/lib/select-reopening.mjs", "scripts/lib/docs-preview.mjs", "src/styles/index.css", "docs/site/build/glass-regression*"],
   },
   {
+    // M1-02: the responsive visibility contract couples styles with the surfaces that consume it.
+    tests: unitFiles("responsive-visibility-contract.test.ts"),
+    inputs: ["src/styles/**", "src/components/ui/site-navigation.tsx", "src/components/ui/browser.tsx", "src/components/ui/footer.tsx"],
+  },
+  {
     tests: unitFiles("select-reopening.test.ts"),
     inputs: ["scripts/diagnose-select-reopening.mjs", "scripts/lib/select-reopening.mjs", "docs/site/build/glass-regression*"],
+  },
+  {
+    // M1-04: the budget contract reads the recorded fixture and the measuring
+    // CLI, neither of which is a static import of the test.
+    tests: unitFiles("package-budgets.test.ts"),
+    inputs: ["tests/fixtures/package-budgets.json", "scripts/check-package-budgets.mjs"],
   },
   {
     tests: unitFiles("native-blur.test.ts native-capture.test.ts glass-native-tooling.test.ts"),
@@ -36,7 +48,7 @@ export const INDIRECT_INPUT_GROUPS = [
   },
   {
     tests: unitFiles("npm-release.test.ts"),
-    inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", ".github/workflows/**", "docs/guides/npm-release.md", "docs/guides/npm-release.en.md"],
+    inputs: ["package.json", "scripts/clean-library-output.mjs", "scripts/test-packed-package.mjs", "scripts/test-package-imports.mjs", "scripts/test-next-app-router.mjs", "scripts/lib/next-build-trace-guard.cjs", "scripts/lib/package-artifact.mjs", "scripts/lib/npm-release.mjs", "scripts/npm-release.mjs", "tests/fixtures/next-app-router/**", ".github/workflows/**", "docs/guides/npm-release.md", "docs/guides/npm-release.en.md"],
   },
   {
     tests: unitFiles("motion-easing-governance.test.ts"),
@@ -92,8 +104,26 @@ export const INDIRECT_INPUT_GROUPS = [
     inputs: ["docs/**", "src/**", "tests/audit/**"],
   },
   {
-    tests: unitFiles("verification-layout.test.ts"),
-    inputs: ["tests/e2e/**", "playwright.config.ts", "docs/site/src/data/**"],
+    // a11y-test-disable-ledger.test.ts is an indirect reader of the ledger
+    // fixture and both runner configs (A11Y-00).
+    // rsc-boundaries.test.ts reads the boundary fixture and analyzes src
+    // modules through scripts/lib/rsc-module-analysis.mjs (M0-01).
+    tests: unitFiles(
+      "verification-layout.test.ts a11y-test-disable-ledger.test.ts rsc-boundaries.test.ts",
+    ),
+    inputs: [
+      "tests/e2e/**",
+      "playwright.config.ts",
+      "vitest.config.ts",
+      "tests/fixtures/a11y-test-disable-ledger.json",
+      "tests/fixtures/rsc-boundaries.json",
+      "scripts/lib/rsc-module-analysis.mjs",
+      "docs/site/src/data/**",
+    ],
+  },
+  {
+    tests: unitFiles("rsc-boundaries.test.ts"),
+    inputs: ["src/**"],
   },
   {
     tests: unitFiles(`audit/comparator-context.test.ts audit/comparator-exemptions.test.ts
@@ -111,8 +141,8 @@ export const INDIRECT_INPUT_GROUPS = [
       ease-tokens.test.ts error-foreground-token.test.ts foundation-colors.test.ts foundation-materials.test.ts
       foundation-contract.test.ts global-token-catalog.test.ts layer-tokens.test.ts motion-duration-governance.test.ts
       overlay-backdrop-tokens.test.ts overlay-blur-boundary.test.ts radius-tokens.test.ts raw-color-governance.test.ts
-      reduced-motion-coverage.test.ts surface-shadow-contract.test.ts texture-materials.test.ts texture-theme.test.tsx
-      theme-switching.test.ts theme-token-pairing.test.ts token-namespace.test.ts touch-targets-contract.test.ts
+      surface-shadow-contract.test.ts texture-materials.test.ts texture-theme.test.tsx
+      theme-switching.test.ts theme-token-pairing.test.ts token-namespace.test.ts
       typography-tokens.test.ts visual-fixes-regression.test.ts audit/uni-token-contract.test.ts`),
     inputs: [
       "src/**",
@@ -207,11 +237,34 @@ export const matches = (file, patterns) =>
 const isTestFile = (file) => /\.(?:test|spec)\.[cm]?[jt]sx?$/.test(file);
 export const isUnitTest = (file) => isTestFile(file) && !isBrowserTest(file);
 export const isBrowserTest = (file) => (file.startsWith("tests/e2e/") || file.startsWith("website/tests/e2e/")) && isTestFile(file);
+// A11Y-00：按台账精确禁用的 spec 文件不进入浏览器覆盖清单（完整覆盖检查、
+// fullBrowser 选择与 check-docs-artifact 共用本谓词，单一事实源）。
+let ledgerDisabledCache;
+function ledgerDisabledFiles() {
+  if (!ledgerDisabledCache) {
+    try {
+      const ledger = JSON.parse(
+        readFileSync(path.resolve(process.cwd(), "tests/fixtures/a11y-test-disable-ledger.json"), "utf8"),
+      );
+      ledgerDisabledCache = new Set(
+        ledger.entries
+          // 仅整文件禁用（kind=file）才把 spec 从浏览器清单剔除；
+          // test 级禁用运行时 skip 即可，文件仍在报告中。
+          .filter((entry) => entry.action === "disable" && entry.kind === "file")
+          .map((entry) => entry.file),
+      );
+    } catch {
+      ledgerDisabledCache = new Set();
+    }
+  }
+  return ledgerDisabledCache;
+}
 export const isBrowserSpec = (file) =>
   file.startsWith("tests/e2e/") && isBrowserTest(file) &&
   !file.startsWith("tests/e2e/templates/") &&
   !file.split("/").some((part) => part.startsWith(".")) &&
-  !matches(file, ["**/_tmp-*", "**/*.tmp.*"]);
+  !matches(file, ["**/_tmp-*", "**/*.tmp.*"]) &&
+  !ledgerDisabledFiles().has(file.replaceAll("\\", "/"));
 const browserSpecFile = (name) => `tests/e2e/${isTestFile(name) ? name : `${name}.spec.ts`}`;
 export const isWebsiteBrowserSpec = (file) =>
   file.startsWith("website/tests/e2e/") && isTestFile(file) &&
@@ -244,6 +297,7 @@ export const BROWSER_RENDERER_INPUTS = {
     layer: "docs/site/src/pages/layer.tsx",
     "color-schemes": "docs/site/src/color-schemes/page.tsx",
     "color-scheme-api": "docs/site/src/pages/color-scheme-api.tsx",
+    integrations: "docs/site/src/pages/integrations.tsx",
   },
 };
 export const BROWSER_COMPONENT_RENDERER = "docs/site/src/components/docs-components-page.tsx";
@@ -263,7 +317,8 @@ export const BROWSER_INPUT_GROUPS = [
   },
   {
     specs: names(
-      "docs-layout component-geometry continuous-surface-review reduced-motion scroll-owner-bounds touch-targets",
+      // reduced-motion / touch-targets 专用 spec 已按 A11Y-00 从台账精确禁用。
+      "docs-layout component-geometry continuous-surface-review scroll-owner-bounds",
     ),
     inputs: ["src/**", "docs/site/**"],
   },
@@ -297,7 +352,8 @@ export const BROWSER_INPUT_GROUPS = [
   { specs: names("choicebox-custom-content"), owners: names("choicebox") },
   { specs: names("color-schemes"), inputs: ["docs/site/src/color-schemes/**"] },
   {
-    specs: names("combobox-panel-material multi-select-keyboard"),
+    // multi-select-keyboard spec 已按 A11Y-00 从台账精确禁用。
+    specs: names("combobox-panel-material"),
     owners: names("combobox multi-select command-menu"),
   },
   {
@@ -501,7 +557,7 @@ export function classifyVerification(context, full = false) {
       file.startsWith(".github/")
     ) {
       Object.assign(scope, { unit: true, typecheck: true, appBuild: true, lint: true });
-      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs", "scripts/test-packed-package.mjs", "scripts/clean-library-output.mjs", "scripts/lib/package-artifact.mjs", "scripts/*docs*artifact*.mjs", "scripts/*docs*package*.mjs", "scripts/build-docs-registry.mjs", "scripts/lib/docs-*.mjs"]))
+      if (matches(file, ["scripts/fix-css-font-urls.mjs", "scripts/test-package-imports.mjs", "scripts/test-packed-package.mjs", "scripts/test-next-app-router.mjs", "scripts/lib/next-build-trace-guard.cjs", "scripts/clean-library-output.mjs", "scripts/lib/package-artifact.mjs", "scripts/*docs*artifact*.mjs", "scripts/*docs*package*.mjs", "scripts/build-docs-registry.mjs", "scripts/lib/docs-*.mjs"]))
         scope.package = true;
       if (
         matches(file, [
@@ -526,6 +582,8 @@ export function classifyVerification(context, full = false) {
         scope.browser = true;
     } else if (file.startsWith("tests/") || isUnitTest(file) || file.startsWith("docs/")) {
       scope.unit = true;
+      // The Next fixture is only consumed by the tarball acceptance run.
+      if (file.startsWith("tests/fixtures/next-app-router/")) scope.package = true;
       if (isBrowserSpec(file)) scope.browser = true;
       if (file.startsWith("tests/e2e/") && !isBrowserSpec(file))
         Object.assign(scope, { browser: true, fullBrowser: true });

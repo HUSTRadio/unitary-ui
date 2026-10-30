@@ -1,0 +1,22 @@
+{
+  "name": "@hustradio/unitary-ui-next-app-router-fixture",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Verification fixture: installs the packed @hustradio/unitary-ui tarball into a real Next.js App Router application. scripts/test-next-app-router.mjs copies this directory into a temp path and injects the real dependency versions, so the versions below are placeholders.",
+  "scripts": {
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@hustradio/unitary-ui": "file:../../../../.scratch/next-app-router/hustradio-unitary-ui-0.0.0.tgz",
+    "next": "0.0.0-fixture",
+    "react": "0.0.0-fixture",
+    "react-dom": "0.0.0-fixture"
+  },
+  "devDependencies": {
+    "@types/react": "0.0.0-fixture",
+    "@types/react-dom": "0.0.0-fixture",
+    "typescript": "0.0.0-fixture"
+  }
+}

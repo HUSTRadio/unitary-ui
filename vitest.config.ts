@@ -37,6 +37,16 @@ export default {
       // 依赖 @playwright/test 的 test 函数，vitest 收集会直接报错）
       "tests/e2e/**",
       "website/tests/e2e/**",
+      // 无障碍测试精确禁用（A11Y-00，台账 tests/fixtures/a11y-test-disable-ledger.json；
+      // 仅按精确路径排除，禁止关键词 glob；混合测试完整保留）
+      "tests/activity-view-a11y.test.tsx",
+      "tests/reduced-motion-coverage.test.ts",
+      "tests/touch-targets-contract.test.ts",
+      "tests/context-menu-keyboard.test.tsx",
+      "tests/edit-menu-keyboard.test.tsx",
+      "tests/multi-select-keyboard.test.tsx",
+      "tests/tooltip-focus.test.tsx",
+      "tests/motion-active-policy.test.tsx",
     ],
   },
 };

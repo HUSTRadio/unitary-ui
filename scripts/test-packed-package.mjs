@@ -51,6 +51,8 @@ export const app = <ThemeProvider><Button {...button}/><motion.div/><HituPlayer 
   const { evidence } = await buildDocsConsumer({ root, consumerRoot: docsConsumer, libraryManifest: manifest, bytes, evidenceDirectory: docsEvidence });
   evidence.checks = await checkDocsConsumer(root, docsConsumer, docsEvidence);
   writeFileSync(path.join(docsEvidence, "build.json"), JSON.stringify(evidence, null, 2) + "\n");
+  console.log("Verifying the same tarball inside a real Next.js App Router application...");
+  console.log(await runConsumerCommand(process.execPath, ["scripts/test-next-app-router.mjs"], root));
   const summary = { name: manifest.name, version: manifest.version, filename, integrity: packageIntegrity(bytes), sha256, files, commit: checkoutCommit(root), docs: evidence };
   assert.equal(JSON.parse(readFileSync(path.join(installed, "package.json"), "utf8")).version, manifest.version);
   writeFileSync(path.join(output, "files.json"), JSON.stringify(files, null, 2) + "\n");

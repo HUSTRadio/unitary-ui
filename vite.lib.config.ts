@@ -16,6 +16,8 @@ export default defineConfig({
   build: {
     emptyOutDir: false,
     lib: {
+      // 根产物保持单文件；子路径入口由 fix-css-font-urls 生成重导出门面
+      // （M1-03 决策：多入口共享 chunk 会让消费端延迟路由加载悬停，见 TODO M1-03）。
       entry: path.resolve(import.meta.dirname, "src/lib/bundle.ts"),
       name: "UnitaryStyleFramework",
       fileName: (format) => (format === "cjs" ? "unitary-ui.cjs" : "unitary-ui.es.js"),

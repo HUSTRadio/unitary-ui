@@ -10,6 +10,12 @@ import test from "node:test";
 const consumerRoot = process.env.UNITARY_PACKAGE_CONSUMER_ROOT ?? process.cwd();
 const requireFromConsumer = createRequire(path.join(consumerRoot, "package.json"));
 const packageName = "@hustradio/unitary-ui";
+// M1-03: each subpath must resolve to the same module instances as the root entry,
+// so ThemeProvider/context/store singletons are never duplicated by an import.
+const subpathPairs = [["charts", "AreaChart"], ["motion", "motion"], ["device", "Device"], ["code", "CodeBlock"]];
+const subpathLoader = mode => mode === "module"
+  ? `await import(${JSON.stringify(`${packageName}/`)} + sub)`
+  : `require(${JSON.stringify(`${packageName}/`)} + sub)`;
 function consume(mode) {
   const load = mode === "module"
     ? `const api = await import('${packageName}');`
@@ -34,6 +40,10 @@ function consume(mode) {
     assert.equal(Object.hasOwn(api, 'Stack'), false);
     assert.equal(typeof api.ThemeProvider, 'function');
     assert.equal(typeof api.useTheme, 'function');
+    for (const [sub, name] of ${JSON.stringify(subpathPairs)}) {
+      const mod = ${subpathLoader(mode)};
+      assert.equal(mod[name], api[name], "subpath " + sub + " must share the root module instance");
+    }
     for (const name of ['MotionProvider', 'AnimatePresence', 'useMotionTransition', 'HituBox', 'HituFile']) {
       assert.equal(typeof api[name], 'function', name);
     }

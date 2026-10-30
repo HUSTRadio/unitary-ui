@@ -50,6 +50,8 @@ export const LOCKED_PACKAGE_SCRIPTS = {
   "tokens:check": checks(node("scripts/generate-token-catalog.mjs", "--check")),
   "typecheck:tests": checks(bin("typescript", "tsc", "-p", "tsconfig.tests.json")),
   "test:package": checks(script("build:lib"), node("scripts/test-packed-package.mjs")),
+  "test:budgets": checks(script("build:lib"), node("scripts/check-package-budgets.mjs")),
+  "test:next-app-router": checks(script("build:lib"), node("scripts/test-next-app-router.mjs")),
   prepack: checks(script("build:lib")),
   prepublishOnly: checks(script("test:package"), script("typecheck")),
   "test:docs-layout": checks(

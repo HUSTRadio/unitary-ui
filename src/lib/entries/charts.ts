@@ -1,0 +1,23 @@
+// 子路径入口：图表（M1-03）。与根入口重导出同一实现，不复制代码。
+export { AreaChart } from "@/components/ui/charts/area-chart";
+export type { AreaChartProps, AreaChartEventProps, TooltipProps as AreaChartTooltipProps } from "@/components/ui/charts/area-chart";
+export { BarChart } from "@/components/ui/charts/bar-chart";
+export type { BarChartProps, BarChartEventProps, TooltipProps as BarChartTooltipProps } from "@/components/ui/charts/bar-chart";
+export { LineChart } from "@/components/ui/charts/line-chart";
+export type { LineChartProps, LineChartEventProps, TooltipProps as LineChartTooltipProps } from "@/components/ui/charts/line-chart";
+export { ComboChart } from "@/components/ui/charts/combo-chart";
+export type { ComboChartProps, ComboChartEventProps, TooltipProps as ComboChartTooltipProps } from "@/components/ui/charts/combo-chart";
+export { DonutChart } from "@/components/ui/charts/donut-chart";
+export type { DonutChartProps, DonutChartEventProps, DonutChartVariant, TooltipProps as DonutChartTooltipProps } from "@/components/ui/charts/donut-chart";
+export { SparkAreaChart, SparkLineChart, SparkBarChart } from "@/components/ui/charts/spark-chart";
+export type { SparkAreaChartProps, SparkLineChartProps, SparkBarChartProps } from "@/components/ui/charts/spark-chart";
+export { CategoryBar } from "@/components/ui/charts/category-bar";
+export type { CategoryBarProps } from "@/components/ui/charts/category-bar";
+export { BarList } from "@/components/ui/charts/bar-list";
+export type { BarListProps } from "@/components/ui/charts/bar-list";
+export { Tracker } from "@/components/ui/charts/tracker";
+export type { TrackerProps, TrackerBlockProps } from "@/components/ui/charts/tracker";
+export { ProgressCircle } from "@/components/ui/charts/progress-circle";
+export type { ProgressCircleProps, ProgressCircleVariant } from "@/components/ui/charts/progress-circle";
+export { AvailableChartColors, constructCategoryColors, getColorClassName } from "@/components/ui/charts/chart-colors";
+export type { AvailableChartColorsKeys, ColorUtility } from "@/components/ui/charts/chart-colors";

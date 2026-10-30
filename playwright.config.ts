@@ -9,7 +9,17 @@ const artifactMode = Boolean(process.env.UNITARY_DOCS_ARTIFACT);
  */
 export default defineConfig({
   testDir: "./tests/e2e",
-  testIgnore: ["**/_tmp-*", "**/*.tmp.*", "**/.*.spec.ts", "**/templates/**"],
+  testIgnore: [
+    "**/_tmp-*",
+    "**/*.tmp.*",
+    "**/.*.spec.ts",
+    "**/templates/**",
+    // 无障碍测试精确禁用（A11Y-00，台账 tests/fixtures/a11y-test-disable-ledger.json；
+    // 仅锚定文件名的精确路径，禁止关键词 glob）
+    "**/tests/e2e/reduced-motion.spec.ts",
+    "**/tests/e2e/touch-targets.spec.ts",
+    "**/tests/e2e/multi-select-keyboard.spec.ts",
+  ],
   timeout: 15 * 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,

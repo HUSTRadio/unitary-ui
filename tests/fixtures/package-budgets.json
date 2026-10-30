@@ -1,0 +1,76 @@
+{
+  "$schema": "package-budgets/v1",
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-30",
+  "measuredWith": "pnpm run build:lib && node scripts/check-package-budgets.mjs --record",
+  "policy": {
+    "measurement": "每个消费端只从 package exports 导入单个入口，CSS 不在消费端导入；CSS/字体/ tarball 由发布产物单独测量，因此子路径实测只可能是 JS，不会把样式或字体的减量算作子路径收益。",
+    "baseline": "baseline 是可复现的实测值（.scratch/package-budgets/*/measured.json），limit 是审阅后的阈值。",
+    "raise": "提高阈值必须同 PR 更新 rationale；超过 baseline ×1.3 还需 allowanceReason。",
+    "gzip": "值为各产物 .js 文件独立 gzip(level 9) 后求和，包含惰性 chunk。"
+  },
+  "budgets": {
+    "root.button.jsGzip": {
+      "unit": "gzip bytes",
+      "baseline": 301075,
+      "limit": 315000,
+      "rationale": "Button-only 根消费端基线实测值，阈值留 ~4.6% 余量吸收依赖补丁与小改动。"
+    },
+    "subpath.charts.jsGzip": {
+      "unit": "gzip bytes",
+      "baseline": 301067,
+      "limit": 315000,
+      "rationale": "charts 子路径与根入口同量级（门面重导出，见 knownGaps），阈值与根入口对齐。"
+    },
+    "subpath.motion.jsGzip": {
+      "unit": "gzip bytes",
+      "baseline": 327720,
+      "limit": 340000,
+      "rationale": "motion 子路径额外带入动效运行时，基线 327,720 B，阈值留 ~3.7% 余量。"
+    },
+    "subpath.device.jsGzip": {
+      "unit": "gzip bytes",
+      "baseline": 301065,
+      "limit": 315000,
+      "rationale": "device 子路径与根入口同量级，阈值与根入口对齐以暴露任何入口级膨胀。"
+    },
+    "subpath.code.jsGzip": {
+      "unit": "gzip bytes",
+      "baseline": 301064,
+      "limit": 315000,
+      "rationale": "code 子路径与根入口同量级，阈值与根入口对齐以暴露任何入口级膨胀。"
+    },
+    "css.published.gzip": {
+      "unit": "gzip bytes",
+      "baseline": 273794,
+      "limit": 288000,
+      "rationale": "发布样式基线 273,794 B gzip（原始 643,643 B），阈值留 ~5.2% 余量给新增组件样式。"
+    },
+    "fonts.published.total": {
+      "unit": "bytes",
+      "baseline": 25227500,
+      "limit": 25600000,
+      "rationale": "字体是不可压缩的静态资产，基线 25,227,500 B，阈值仅留 ~1.5% 防止新增字重被忽略。"
+    },
+    "tarball.published.total": {
+      "unit": "bytes",
+      "baseline": 26041381,
+      "limit": 27000000,
+      "rationale": "tarball 由字体与声明文件主导，基线 26,041,381 B，阈值留 ~3.7% 余量。"
+    }
+  },
+  "knownGaps": [
+    {
+      "id": "root.button.excludes-charts",
+      "status": "deferred",
+      "task": "根入口 tree-shaking 专项（TODO.md Future）",
+      "detail": "Button-only 产物仍含 recharts(116)/AreaChart(4)/Prism(60) 标记，根因是 103 处顶层 Component.displayName 赋值等模块级副作用阻断消费端 DCE；脚本只把标记作为诊断输出，不据此失败。"
+    },
+    {
+      "id": "subpath.download-reduction",
+      "status": "deferred",
+      "task": "M1-03 遗留：子路径按需体积（TODO.md Future）",
+      "detail": "四个子路径为门面重导出，实测 301,064–327,720 B gzip 与根入口 301,075 B 同量级，不减少下载体积；预算记录现状而不承诺收益，优化需 rolldown preserveModules 后重启。"
+    }
+  ]
+}

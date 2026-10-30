@@ -25,5 +25,7 @@
     }
   },
   "include": ["tests", "docs/site/src"],
-  "exclude": ["tests/e2e", "**/.hermes/**", "**/.superpowers/**"]
+  /* Next 应用 fixture 自带 App Router 类型环境（next-env.d.ts 会注册只读 NODE_ENV 等全局声明），
+     由 `next build`（typescript.ignoreBuildErrors: false）独立类型检查，不能进入本程序。 */
+  "exclude": ["tests/e2e", "tests/fixtures/next-app-router", "**/.hermes/**", "**/.superpowers/**"]
 }
