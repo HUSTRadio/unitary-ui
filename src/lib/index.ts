@@ -197,6 +197,7 @@ export { DataTable } from "@/components/ui/data-table";
 export type {
   DataTableColumn,
   DataTableProps,
+  DataTableSelection,
   DataTableSort,
   DataTableSortDirection,
 } from "@/components/ui/data-table";

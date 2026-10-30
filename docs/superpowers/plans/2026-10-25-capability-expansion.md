@@ -552,3 +552,12 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 3. **边界**：组件**从不排序 rows**，只经 `onSortChange` 报出下一次完整数组；无 `onSortChange` 时即使 `sortable` 也保持惰性表头（避免假可点）。
 4. **文档**：component-api 增 `sort`/`onSortChange`/`multiSort` 三行并说明 `sortable`；guides-30 的双语 controlledBehavior 增加排序语义两条；双语 CHANGELOG。
 5. **证据**：`data-table-sorting` 8 passed；相关回归 8 文件 65 passed / 1 skipped；`rsc-boundaries` 3 passed；语料 258 页无漂移；四套静态检查全绿。
+
+### 12.17 M3-03 落地记录（2026-10-30）
+
+1. **API**：`DataTableSelection<T> = { selectedKeys, onChange, selectAll?, selectable? }`，以 `selection` 属性传入；提供时在首列渲染复选框，`columns` 契约不变。
+2. **全选语义**：表头全选/清空只作用于**当前可见且可选**的行，保留视图外的既有选择；`checked` / `indeterminate` 由「视图内可选行」的选中比例推导（原生 `indeterminate` 属性由 Checkbox 的 ref 同步）。
+3. **交互隔离**：选择列 `TableCell` 挂 `onClick` 阻止冒泡，勾选不会误触 `onRowClick`。
+4. **表格完整性**：骨架行、空态、错误行的列数都计入选择列（`colSpan` 与 `td` 数量对齐）。
+5. **回归修复**：`getRowKey` 曾因「派生 rowKeys + 行 key 各调一次」变成每行两次，触碰 v1 的「每行一次」契约；改为行 key 复用 `rowKeys[index].key` 后恢复。这条正是既有契约测试拦下来的。
+6. **证据**：`data-table-selection` 10 passed；四个 DataTable 套件 33 passed；含文档契约 10 文件 79 passed / 1 skipped；语料 258 页无漂移；三套 typecheck + lint 全绿。

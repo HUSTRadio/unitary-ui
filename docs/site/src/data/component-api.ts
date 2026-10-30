@@ -944,6 +944,7 @@ const O = {
       row("multiSort", "boolean", "Appends a column to the sort instead of replacing it.", "点击时追加列而不是替换排序。", {
         defaultValue: "false",
       }),
+      row("selection", "DataTableSelection<T>", "{ selectedKeys, onChange, selectAll?, selectable? }; adds a leading checkbox column.", "{ selectedKeys, onChange, selectAll?, selectable? }；为表格增加首列复选框。"),
     ],
     'ComponentProps<"div">',
   ),

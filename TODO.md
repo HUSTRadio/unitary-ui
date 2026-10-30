@@ -16,7 +16,7 @@
 
 ## 当前进行
 
-- 下一步入口：**M3-03（DataTable 受控选择，PR-52，依赖 M3-01）**，方案见计划书 §7：受控 `selectedKeys` + `onSelectionChange`、全选/半选（复用 Checkbox）、`getRowKey` 对齐。
+- 下一步入口：**M3-04（DataTable 编辑与粘贴，PR-53，依赖 M3-02/M3-03，需单独评审）**，方案见计划书 §7：列级 `editable/validate/readOnly`、受控 `rows/onChange`、单元格错误、`\t`/`,` 粘贴解析、取消/撤销语义；键盘矩阵导航留待未来专项。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -185,8 +185,14 @@
   - Acceptance: 只报告意图不排序 rows；无 handler 时表头保持惰性；单/多列与方向循环全覆盖
   - PR: PR-51
   - Evidence (2026-10-30)：`data-table-sorting` **8 passed**（仅 sortable+handler 出按钮、无 handler 时表头惰性、asc→desc→off 循环与受控回显、单对象/数组两种形态、单列替换 vs multiSort 追加、`data-sort-index` 优先级、冻结 rows 不被重排或修改、方向指示与中性图标）；相关回归 8 文件 **65 passed / 1 skipped**；`rsc-boundaries` 3 passed；语料 129 × 2 = 258 页无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
-- [ ] M3-03 DataTable 受控选择（PR-52，依赖 M3-01）
-  - Files (M3-02/03): 各自独立 PR、测试、文档、完成包；复用 Checkbox 等现有组件；全选/半选
+- [x] M3-03 DataTable 受控选择（PR-52，依赖 M3-01）
+  - Files: `src/components/ui/data-table.tsx`（`DataTableSelection` / `selection` / 首列复选框）, `src/lib/index.ts`（类型导出）, `tests/data-table-selection.test.tsx`（10 例）, `docs/site/src/data/component-api.ts` + `guides-30-data-table.ts` + `CHANGELOG`, 生成的 `docs/llm`
+  - Content: `selection={{ selectedKeys, onChange, selectAll?, selectable? }}` 完全受控；表头全选只作用于当前可见且可选的行走并保留其它选择，部分选中呈现半选（原生 `indeterminate`）；选择列点击 `stopPropagation`，不触发 `onRowClick`；骨架行与空/错误行的 `colSpan` 都计入选择列
+  - Depends: M3-01
+  - Acceptance: 全选/半选/单选往返、禁用行被排除、无 selection 时不渲染选择列、getRowKey 仍每行一次
+  - PR: PR-52
+  - Evidence (2026-10-30)：`data-table-selection` **10 passed**（无 selection 零复选框、selectedKeys 驱动勾选与半选、单选增删、全选、清空保留视图外 key、`selectable` 排除禁用行、`selectAll:false` 隐藏表头、选择不冒泡到 onRowClick、空/错误 colSpan 含选择列、骨架行对齐）；四个 DataTable 套件 **33 passed**；含文档契约共 10 文件 **79 passed / 1 skipped**；语料 258 页无漂移；三套 typecheck + lint 全绿
+  - **回归修复**：选择列引入后 `getRowKey` 被调用两次（派生 rowKeys + 行 key 各一次），把行 key 改为复用 `rowKeys[index].key`，恢复「每行一次」契约。
 - [ ] M3-04 DataTable 编辑与粘贴（PR-53，依赖 M3-02/M3-03，单独评审）
   - Files: `tests/data-table-editing.test.tsx`, `tests/data-table-paste.test.tsx`
   - Content: 列级 `editable/validate/readOnly`、受控 `rows/onChange`、单元格错误、`\t`/`,` 粘贴解析、取消/撤销语义；键盘矩阵导航留待未来专项
@@ -228,6 +234,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-52（M3-03）——`DataTable` 受控选择（首列复选框、全选/半选、`selectable` 排除、选择不冒泡），10 例测试。
 - 2026-10-30：PR-51（M3-02）——`DataTable` 受控排序（`sort`/`onSortChange`/`multiSort`，asc→desc→off），8 例测试；组件只报告意图，不排序 rows。
 - 2026-10-30：PR-50（M3-01）——`DataTable` v1 受控展示（15 例测试），并把非真虚拟化的示例改名为「展开更多行」；258 页语料无漂移。
 - 2026-10-30：PR-44（M2-06）——`LogView` 日志查看器（最低级别过滤、复制/导出、贴底跟随与上滚暂停），11 例单测 + 2 例真实浏览器 e2e；256 页语料无漂移。**M2 全阶段闭合。**

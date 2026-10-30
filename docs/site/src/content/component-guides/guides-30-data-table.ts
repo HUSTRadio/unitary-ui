@@ -40,6 +40,8 @@ const DATA_TABLE_ZH: ComponentGuide = {
       "onRowClick 只回调行数据与下标，选中态与导航由调用方决定。",
       "排序是受控的：sort 传入当前排序，点击可排序列只通过 onSortChange 报出下一次完整数组（asc → desc → 关闭），rows 顺序始终由调用方决定。",
       "默认单列排序，点击另一列会替换；multiSort 时追加并以下标表达优先级。",
+      "选择同样是受控的：selection.selectedKeys 决定勾选态，行勾选与表头全选都只经 onChange 报出下一次完整数组。",
+      "表头全选只作用于当前可见且可选的行走（保留其它选择），部分选中时表头呈现半选；选择列点击不会触发 onRowClick。",
     ],
   },
   responsiveBehavior: {
@@ -99,6 +101,8 @@ const DATA_TABLE_EN: ComponentGuide = {
       "onRowClick only reports the row and index; selection and navigation stay with the caller.",
       "Sorting is controlled: sort carries the current state and activating a sortable header only reports the next full array through onSortChange (asc to desc to off); the rows order always belongs to the caller.",
       "Single-column sorting is the default and clicking another column replaces it; multiSort appends and exposes the priority through the sort index.",
+      "Selection is controlled too: selection.selectedKeys drives the checkboxes, and both row toggles and the header select-all only report the next full array through onChange.",
+      "Select-all affects the visible, selectable rows and keeps other selections; a partial selection shows the header as indeterminate, and selection clicks never trigger onRowClick.",
     ],
   },
   responsiveBehavior: {

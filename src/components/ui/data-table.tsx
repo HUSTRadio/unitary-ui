@@ -5,6 +5,8 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { Checkbox } from "./checkbox";
+
 import {
   Table,
   TableBody,
@@ -50,6 +52,17 @@ export interface DataTableSort {
   direction: DataTableSortDirection;
 }
 
+export interface DataTableSelection<T> {
+  /** 已选行的 key，与 getRowKey 的返回值对应。 */
+  selectedKeys: readonly React.Key[];
+  /** 报出下一次完整选择数组。 */
+  onChange: (next: React.Key[]) => void;
+  /** 是否在表头提供全选/半选控件，默认 true。 */
+  selectAll?: boolean;
+  /** 单行是否可选（默认全部可选）。 */
+  selectable?: (row: T, index: number) => boolean;
+}
+
 export interface DataTableProps<T> extends Omit<React.ComponentProps<"div">, "children"> {
   columns: DataTableColumn<T>[];
   /** 只读行数据；组件不会排序、复制或修改它。 */
@@ -80,6 +93,8 @@ export interface DataTableProps<T> extends Omit<React.ComponentProps<"div">, "ch
   onSortChange?: (next: DataTableSort[]) => void;
   /** 允许多列排序（点击追加而非替换），默认 false。 */
   multiSort?: boolean;
+  /** 受控选择；提供时首列渲染复选框，组件只读 selectedKeys。 */
+  selection?: DataTableSelection<T>;
 }
 
 type DataTableState = "loading" | "error" | "empty" | "ready";
@@ -106,6 +121,7 @@ function DataTable<T>({
   sort,
   onSortChange,
   multiSort = false,
+  selection,
   ...props
 }: DataTableProps<T>) {
   const state: DataTableState = loading
@@ -116,8 +132,40 @@ function DataTable<T>({
         ? "empty"
         : "ready";
 
-  const columnCount = Math.max(columns.length, 1);
   const activeSort: DataTableSort[] = sort === undefined ? [] : Array.isArray(sort) ? [...sort] : [sort as DataTableSort];
+
+  const selectionEnabled = Boolean(selection);
+  const showSelectAll = selectionEnabled && selection?.selectAll !== false;
+  const selectedSet = new Set((selection?.selectedKeys ?? []).map((key) => String(key)));
+  const rowKeys = rows.map((row, index) => ({
+    key: getRowKey(row, index),
+    selectable: selectionEnabled ? (selection?.selectable?.(row, index) ?? true) : false,
+  }));
+  const selectableKeys = rowKeys.filter((entry) => entry.selectable).map((entry) => entry.key);
+  const selectedInView = selectableKeys.filter((key) => selectedSet.has(String(key)));
+  const allSelected = selectableKeys.length > 0 && selectedInView.length === selectableKeys.length;
+  const someSelected = selectedInView.length > 0 && !allSelected;
+  const columnCount = Math.max(columns.length + (selectionEnabled ? 1 : 0), 1);
+
+  /** 全选/清空只影响当前可见且可选的行，保留其它选择。 */
+  const toggleAll = () => {
+    if (!selection) return;
+    if (allSelected) {
+      const inView = new Set(selectableKeys.map((key) => String(key)));
+      selection.onChange(selection.selectedKeys.filter((key) => !inView.has(String(key))));
+      return;
+    }
+    const already = new Set(selection.selectedKeys.map((key) => String(key)));
+    selection.onChange([...selection.selectedKeys, ...selectableKeys.filter((key) => !already.has(String(key)))]);
+  };
+
+  const toggleRow = (key: React.Key) => {
+    if (!selection) return;
+    const exists = selectedSet.has(String(key));
+    selection.onChange(
+      exists ? selection.selectedKeys.filter((entry) => String(entry) !== String(key)) : [...selection.selectedKeys, key],
+    );
+  };
 
   /** 循环 asc → desc → 移除；multiSort 时追加而非替换。只上报意图，绝不排序 rows。 */
   const handleSort = (columnId: string) => {
@@ -165,6 +213,18 @@ function DataTable<T>({
         </TableColgroup>
         <TableHeader>
           <TableRow>
+            {selectionEnabled ? (
+              <TableHead className="w-10" data-slot="data-table-select-head">
+                {showSelectAll ? (
+                  <Checkbox
+                    checked={allSelected}
+                    indeterminate={someSelected}
+                    onChange={toggleAll}
+                    data-slot="data-table-select-all"
+                  />
+                ) : null}
+              </TableHead>
+            ) : null}
             {columns.map((column) => {
               const sortIndex = activeSort.findIndex((entry) => entry.columnId === column.id);
               const direction = sortIndex === -1 ? undefined : activeSort[sortIndex].direction;
@@ -207,11 +267,22 @@ function DataTable<T>({
           {state === "ready"
             ? rows.map((row, index) => (
                 <TableRow
-                  key={getRowKey(row, index)}
+                  key={rowKeys[index].key}
                   data-row-index={index}
+                  data-selected={selectedSet.has(String(rowKeys[index].key)) ? "true" : undefined}
                   className={cn(rowClassName?.(row, index), onRowClick ? "cursor-pointer" : undefined)}
                   onClick={onRowClick ? () => onRowClick(row, index) : undefined}
                 >
+                  {selectionEnabled ? (
+                    <TableCell className="w-10" onClick={(event) => event.stopPropagation()}>
+                      <Checkbox
+                        checked={selectedSet.has(String(rowKeys[index].key))}
+                        disabled={!rowKeys[index].selectable}
+                        onChange={() => toggleRow(rowKeys[index].key)}
+                        data-slot="data-table-select-row"
+                      />
+                    </TableCell>
+                  ) : null}
                   {columns.map((column) => (
                     <TableCell key={column.id} align={column.align} className={column.cellClassName}>
                       {column.cell(row)}
@@ -223,6 +294,14 @@ function DataTable<T>({
           {state === "loading"
             ? Array.from({ length: Math.max(loadingRows, 1) }, (_, index) => (
                 <TableRow key={`skeleton-${index}`} data-slot="data-table-skeleton-row">
+                  {selectionEnabled ? (
+                    <TableCell className="w-10">
+                      <div
+                        data-slot="data-table-skeleton"
+                        className="size-4 animate-pulse rounded-sm bg-gray-alpha-300 motion-reduce:animate-none"
+                      />
+                    </TableCell>
+                  ) : null}
                   {columns.map((column) => (
                     <TableCell key={column.id} className={column.cellClassName}>
                       <div
