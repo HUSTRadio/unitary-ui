@@ -507,3 +507,12 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 5. **边界**：`reset()` 在 adapter 不支持枚举（无 `length`/`key`）时只删自身键，不报错。
 6. **证据**：`use-draft` 12 passed（首次不写 / 恢复不回写 / 改动写入 / 回基线删除 / 损坏 JSON / 旧版本忽略 / reset 前缀清理且保留他人键 / 配额失败 / 禁用不触存储 / key 切换保留旧记录 / SSR 确定性 / 自定义序列化）；`rsc-boundaries` 3 passed（`use-draft.ts` 记 client + 5 个 hook 指标）；文档五件套 41 passed / 1 skipped；`docs:llm:generate` → 126 路由 × 2 = 252 页，`docs:llm:check` 无漂移（新节中英各 1 处）；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿。未覆盖 `/api/state-and-events` 的定向 docs-layout（锁占用 + 机器降速；该页仅新增结构化文案）。
 7. **执行环境记录**：`test:package` 全程持有 `workspace-checks` 锁，期间 `pnpm run docs:llm:generate` 会停在 `[package-lock] waiting for workspace-checks`；语料生成与 `docs:llm:check` 必须在验收结束后执行。
+
+### 12.12 M2-04 落地记录（2026-10-30）
+
+1. **纯状态机**：`src/lib/task.ts` 提供 `createTaskState` / `taskReducer` / `isTerminal` / `isActive` / `canStart`。非法转换**返回同一引用**（便于 `Object.is` 断言与 React 跳过重渲染）；`progress` 截断 0–1 且 `NaN → 0`；`start` 递增 `attempts`；`succeed` 清空 stage/error 并置 1；`fail`/`partial` 保留进度供展示。
+2. **组件**：`task.tsx` 完全受控，只读 status/progress/stage/title/description；取消仅 `running`、重试仅 `failed|partial`；进度条仅 `running|partial` 且输出 `data-progress`（0–100 取整）。**不声明 ARIA**（本轮不做无障碍增强），也不复用 `StatusDotState`。
+3. **i18n**：默认操作文案走 `t("Cancel task")` / `t("Retry task")`，双语键加入 `framework-messages.ts`。
+4. **完成包**：`components.ts` + 中文描述/要点、`docs-routes` 归入 `feedback`（标签序 Task 位于 Spinner 与 Toast 之间）、`component-api` 10 行、`guides-28-task.ts` 双语、示例 `task/progress-5c1d9a42`、双语 CHANGELOG、语料 254 页。
+5. **证据**：`task-state-machine` 9 passed；`task-api` 9 passed；`rsc-boundaries` 3 passed；文档与导出契约 13 文件 **101 passed / 1 skipped**；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿；`docs:llm:check` 无漂移。
+6. **两个连带修正**：`docs-coverage.test.ts` 的非官方组件白名单补 `task`；`i18n/components-demo.ts` 补 `Progress → 进度`（否则示例分节标题在中文页回退英文）。

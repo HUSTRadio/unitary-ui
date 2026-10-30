@@ -16,8 +16,8 @@
 
 ## 当前进行
 
-- 下一步入口：**M2-04（Task 组件与纯状态机，PR-42）**，方案见计划书 §7 M2-04：`idle/running/partial/failed/succeeded` 纯转换 + 受控展示 + progress/阶段/取消重试，不改 `StatusDotState`。
-- M2-03 已闭环（useDraft + RSC 台账 + state/events 与 framework-api 文档 + 252 页语料）。M2 剩 M2-04 / M2-05 / M2-06。
+- 下一步入口：**M2-05（Task 数据适配器，PR-43，依赖 M2-04）**，方案见计划书 §7 M2-05：`usePolling` / `useEventStream` 统一退避、AbortController 与卸载清理；不引入通用 async store。
+- M2-04 已闭环（Task + taskReducer + 双语指南/示例 + 254 页语料）。M2 剩 M2-05 / M2-06。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
 ## 已完成的 planner 限制记录
@@ -149,10 +149,12 @@
   - PR: PR-41
   - Evidence (2026-10-30)：`tests/use-draft.test.tsx` **12 passed**（首次不写 / 恢复不回写 / 改动写入 / 回基线删除 / 损坏 JSON / 旧版本忽略 / reset 清理旧版本且保留他人键与无关键 / 配额失败 / `storage: null` 零访问 / key 切换保留旧记录 / SSR 确定性且零读取 / 自定义序列化）；`rsc-boundaries` 3 passed（174 模块，ledger 与指令一致）；`docs-i18n + docs-api-category + changelog-contract + library-docs-export-parity + global-token-catalog` **41 passed / 1 skipped**；`docs:llm:generate` → **126 路由 × 2 = 252 页**，`docs:llm:check` **无漂移**（新节在中英语料中各 1 处）；`typecheck` / `typecheck:tests` / `typecheck:docs` 均 exit 0；`lint` 0 errors（24 条既有 warnings）
   - **未覆盖**：`/api/state-and-events` 的定向 docs-layout 浏览器回归未跑（`test:package` 全程占用 workspace 锁，且本轮机器降速 4–5 倍）；该页仅新增一段结构化文案，无新交互。
-- [ ] M2-04 Task 组件与纯状态机（PR-42）
-  - Files: `src/components/ui/task.tsx`, `src/lib/task.ts`, `tests/task-state-machine.test.ts`, `tests/task-api.test.tsx`, 完成包
-  - Content: `idle/running/partial/failed/succeeded` 纯转换、受控展示、progress、阶段、取消/重试 actions；不改 `StatusDotState`
+- [x] M2-04 Task 组件与纯状态机（PR-42）
+  - Files: `src/lib/task.ts`（纯 reducer + `isTerminal/isActive/canStart`）, `src/components/ui/task.tsx`（受控展示）, `src/lib/framework-messages.ts`（Cancel/Retry 文案双语）, `src/lib/index.ts`（Task + taskReducer 导出）, `tests/fixtures/rsc-boundaries.json`（task.tsx client / task.ts server-pure）, `tests/task-state-machine.test.ts`（9 例）, `tests/task-api.test.tsx`（9 例）, 完成包（components/zh/best-practices/component-api/docs-routes/guides-28-task/示例/CHANGELOG/语料）
+  - Content: `idle/running/partial/failed/succeeded` 纯转换（非法转换返回同一引用、进度截断 0–1、attempts 递增）；组件只呈现 status/progress/stage，取消仅 running、重试仅 failed/partial；不持状态、不设定时器、不发请求；不与 `StatusDotState` 互相映射
   - Acceptance: 纯转换全覆盖；无后台副作用
+  - PR: PR-42
+  - Evidence (2026-10-30)：`task-state-machine` **9 passed**（5 状态 × 7 动作矩阵、非法转换原引用、进度 -1/4/NaN 截断、stage 仅 running、succeed/fail/partial 字段清理、reset 幂等、helper 集合）；`task-api` **9 passed**（每状态 data-status、title/description/stage、进度仅 running|partial、百分比取整截断、cancel/retry 出现条件、双语默认文案与覆盖、className 透传、源码级无 state/timer/fetch）；`rsc-boundaries` 3 passed；文档与导出契约 **101 passed / 1 skipped**（13 文件，含 docs-coverage / component-doc-completeness / api-registry / i18n parity / export parity / changelog / public imports / Field / useDraft）；`docs:llm:generate` → **127 路由 × 2 = 254 页**，`--check` 无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
 - [ ] M2-05 Task 数据适配器（PR-43，依赖 M2-04）
   - Files: `src/lib/use-task.ts`, 相关测试
   - Content: `usePolling`/`useEventStream`，统一退避、AbortController 与清理；不引入通用 async store
@@ -213,6 +215,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-42（M2-04）——`Task` 受控展示 + 纯 `taskReducer`（5 状态 × 7 动作矩阵），取消/重试按状态门控，不与 StatusDot 语义混用；18 例测试 + 254 页语料。
 - 2026-10-30：PR-41（M2-03）——`useDraft` 草稿持久化（命名空间 + 版本化单 key、dirty 才写、回基线删除、SSR 不回写、reset 只清自身前缀），12 例覆盖全部边界；state/events 与 framework-api 双语文档 + 252 页语料无漂移。
 - 2026-10-30：§12.4 存量债处置——Default 方案 light/dark 补 `--color-warning`（314 项 runtime 颜色中唯一缺失项）；`duration-tokens` 4 条断言改为当前真实消费（`--uni-duration-base` + `--ease-snap` / `@utility command-menu-overlay` 的 base+fast），并新增「inline transition 不得回退字面量 `Nms`」反向断言。聚焦回归 color-schemes 41 / 颜色治理 25 / theme-token-pairing 4 passed，`tokens:check` 通过。
 - 2026-10-25：计划书审核定稿（本计划 + `docs/superpowers/plans/2026-10-25-capability-expansion.md`）。
