@@ -16,7 +16,7 @@
 
 ## 当前进行
 
-- 下一步入口：**M3-01（DataTable v1 受控展示，PR-50）**，方案见计划书 §7 M3-01：泛型 columns/rows/getRowKey、cell render、loading/empty/error、Table 外观透传；Pagination 仅示例组合。
+- 下一步入口：**M3-02（DataTable 受控排序，PR-51，依赖 M3-01）**，方案见计划书 §7：受控 sort state（`sort` + `onSortChange`）、多列/方向切换、与 rows 解耦（组件只报告，不排序）。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -170,11 +170,14 @@
 
 ## M3 — DataTable / Import / Theme Coverage
 
-- [ ] M3-01 DataTable v1 受控展示（PR-50）
-  - Files: `src/components/ui/data-table.tsx`, `tests/data-table-api.test.tsx`, `tests/data-table-controlled.test.tsx`, `docs/site/src/examples/data-table/`, 完成包
-  - Content: 泛型 `columns/rows/getRowKey`、cell render、loading/empty/error、Table 外观透传；Pagination 仅示例组合
+- [x] M3-01 DataTable v1 受控展示（PR-50）
+  - Files: `src/components/ui/data-table.tsx`（新建）, `src/lib/index.ts`, `tests/fixtures/rsc-boundaries.json`（179 模块）, `tests/data-table-api.test.tsx`（9 例）, `tests/data-table-controlled.test.tsx`（6 例）, 完成包（components/zh/best-practices/component-api/docs-routes/guides-30-data-table/示例/CHANGELOG/语料）
+  - Content: 泛型 `DataTableColumn<T>`（id/header/cell/align/width/class）与 `columns/rows/getRowKey`；状态互斥 `loading > error > empty > ready`；loading 渲染骨架行、empty/error 渲染跨列消息行；外观（colorScheme/headerRow/headerCol/columnDividers/rowHeight/align/frame）直通 Table/TableRoot；`onRowClick`/`rowClassName` 逐行钩子；不排序、不筛选、不分页、不发请求
   - Depends: M2-02
-  - Acceptance: 类型/稳定 key/空加载错误/rows 不可变/无请求；旧 `table.tsx` 不变；「virtualized」示例如非真虚拟化则更名
+  - Acceptance: 类型/稳定 key/空加载错误/rows 不可变/无请求；旧 `table.tsx` 不变（零改动）；「virtualized」示例已更名
+  - PR: PR-50
+  - Evidence (2026-10-30)：`data-table-api` **9 passed**（列→表头/单元格映射、列宽与 class、骨架行数、空态跨列、错误优先于空态、loading 高于 error、行点击回调、外观透传且 `headerRow` 产出 `scope=col`、源码级无 fetch/sort/pagination）；`data-table-controlled` **6 passed**（rows 变更即重渲染且不留副本、同 key 行节点保持同一 DOM、冻结数组不被修改、`getRowKey` 逐行调用、无排序/选择 affordance、三种状态仅由 props 切换）；`rsc-boundaries` 3 passed（179 模块）；文档契约 `docs-coverage + completeness + api-registry + docs-i18n + changelog` 通过；`docs:llm` 129 路由 × 2 = 258 页无漂移；`typecheck` / `typecheck:tests` / `typecheck:docs` / `lint` 全绿
+  - **示例更名**：旧 `table/virtualized.example.tsx` 实为「展开更多行」（ShowMore 9→48 行），并非虚拟化，已重命名为 `table/show-more-rows.example.tsx`（组件 `TableShowMoreRowsExample`、demo id `Show more rows`、中文标题「展开更多行」）。
 - [ ] M3-02 DataTable 受控排序（PR-51，依赖 M3-01）
 - [ ] M3-03 DataTable 受控选择（PR-52，依赖 M3-01）
   - Files (M3-02/03): 各自独立 PR、测试、文档、完成包；复用 Checkbox 等现有组件；全选/半选
@@ -219,6 +222,7 @@
 
 ## Completed
 
+- 2026-10-30：PR-50（M3-01）——`DataTable` v1 受控展示（15 例测试），并把非真虚拟化的示例改名为「展开更多行」；258 页语料无漂移。
 - 2026-10-30：PR-44（M2-06）——`LogView` 日志查看器（最低级别过滤、复制/导出、贴底跟随与上滚暂停），11 例单测 + 2 例真实浏览器 e2e；256 页语料无漂移。**M2 全阶段闭合。**
 - 2026-10-30：PR-43（M2-05）——`usePolling` / `useEventStream` 两个最小数据适配器 + 共享 `nextBackoffDelay`；单飞、终态停止、断连重连、卸载 abort/close 全部有测试（14 例）；254 页语料无漂移。
 - 2026-10-30：PR-42（M2-04）——`Task` 受控展示 + 纯 `taskReducer`（5 状态 × 7 动作矩阵），取消/重试按状态门控，不与 StatusDot 语义混用；18 例测试 + 254 页语料。

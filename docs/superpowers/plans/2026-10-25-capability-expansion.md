@@ -535,3 +535,12 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 5. **长消息**：`whitespace-pre-wrap` + `break-words`，保留缩进且不截断；首版不虚拟化，行数上限由调用方控制。
 6. **证据**：`log-view-api` 11 passed；`e2e/log-view-follow` 2 passed（43.4s，真实浏览器跟随/暂停/过滤）；`rsc-boundaries` 3 passed（178 模块）；文档与导出契约 13 文件 106 passed / 1 skipped；语料 128 × 2 = 256 页无漂移；四套静态检查全绿。
 7. **e2e 三次修正的教训**：①示例种子必须先足够长出视口，否则 `scrollHeight == clientHeight`，上滚永远判定为贴底；②断言不要依赖可见文案（文档站默认中文，`getByRole(name:"Jump to latest")` 找不到），改用 `data-slot="log-view-jump"`；③过滤断言用 `evaluateAll` 校验可见行的 `data-level` 集合，而不是写死数量。
+
+### 12.15 M3-01 落地记录（2026-10-30）
+
+1. **API**：`DataTableColumn<T> = { id, header, cell(row), align?, width?, headClassName?, cellClassName? }`；`columns` + `rows: readonly T[]` + `getRowKey(row, index)`。外观属性（`colorScheme/headerRow/headerCol/columnDividers/rowHeight/align/frame`）直通 `Table`/`TableRoot`，`onRowClick`/`rowClassName` 为逐行钩子。
+2. **状态互斥**：`loading > error > empty > ready`，四态都显式传入；loading 渲染 `loadingRows` 条骨架行，empty/error 渲染一条 `colSpan` 跨列消息行（表头保持不动）。
+3. **受控约束**：不排序、不筛选、不分页、不发请求；`rows` 只读不复制（冻结数组可直接传入）；`getRowKey` 每行调用一次，同 key 行节点跨渲染保持同一 DOM。
+4. **旧 Table 零改动**：`table.tsx` 未被触碰，DataTable 只是组合层。
+5. **示例更名**：`table/virtualized.example.tsx` 实际是 ShowMore 展开（9→48 行），不具虚拟化能力 → 重命名 `show-more-rows.example.tsx`、demo id `Show more rows`、中文「展开更多行」。
+6. **证据**：`data-table-api` 9 passed；`data-table-controlled` 6 passed；`rsc-boundaries` 3 passed（179 模块）；文档契约 5 文件通过；语料 129 × 2 = 258 页无漂移；四套静态检查全绿。
