@@ -95,6 +95,49 @@ describe("standalone documentation consumer", () => {
     expect(docsDependencyTreeDigest(registry.lock)).not.toBe(docsDependencyTreeDigest(candidate.lock));
   });
 
+  it("drops unrelated root development tools and unused peer snapshots from the frozen consumer", () => {
+    const original = lock();
+    const tool = "@leonhardthust/frontend-vibeshell";
+    Object.assign(original.importers["."], { devDependencies: { [tool]: { specifier: "0.1.0", version: "0.1.0" } } });
+    Object.assign(original.packages, {
+      [`${tool}@0.1.0`]: { resolution: { integrity: "sha512-new-tool" } },
+      "unused-transitive@1.0.0": { resolution: { integrity: "sha512-unused" } },
+    });
+    Object.assign(original.snapshots, {
+      [`${tool}@0.1.0`]: { dependencies: { "unused-transitive": "1.0.0" } },
+      "unused-transitive@1.0.0": {},
+      "react-dom@19.2.0(react@18.3.0)": {},
+    });
+    const result = createDocsConsumerLock(stringify(original), docsManifest, { ...libraryManifest, devDependencies: { [tool]: "0.1.0" } }, "sha512-candidate");
+    expect(Object.keys(result.lock.packages)).not.toContain(`${tool}@0.1.0`);
+    expect(Object.keys(result.lock.packages)).not.toContain("unused-transitive@1.0.0");
+    expect(Object.keys(result.lock.snapshots)).not.toContain("react-dom@19.2.0(react@18.3.0)");
+    expect(result.lock.snapshots["react-dom@19.2.0(react@19.2.0)"]).toEqual(original.snapshots["react-dom@19.2.0(react@19.2.0)"]);
+    expect(Object.keys(original.packages)).toContain(`${tool}@0.1.0`);
+  });
+
+  it("retains reachable aliases, optional platform packages and cycles without changing their locks", () => {
+    const original = lock();
+    Object.assign(original.snapshots["vite@8.0.0"], {
+      dependencies: { "width-alias": "string-width@4.2.3", "@scope/alias": "@scope/runtime@2.0.0" },
+      optionalDependencies: { "platform-addon": "1.0.0" },
+    });
+    const packages = {
+      "string-width@4.2.3": { resolution: { integrity: "sha512-width" } },
+      "@scope/runtime@2.0.0": { resolution: { integrity: "sha512-scoped" } },
+      "platform-addon@1.0.0": { resolution: { integrity: "sha512-platform" }, os: ["darwin"], cpu: ["arm64"] },
+    };
+    const snapshots = { "string-width@4.2.3": { dependencies: { vite: "8.0.0" } }, "@scope/runtime@2.0.0": {}, "platform-addon@1.0.0": {} };
+    Object.assign(original.packages, packages); Object.assign(original.snapshots, snapshots);
+    const result = createDocsConsumerLock(stringify(original), docsManifest, libraryManifest, "sha512-candidate");
+    for (const key of Object.keys(packages)) {
+      expect(result.lock.packages[key]).toEqual(packages[key as keyof typeof packages]);
+      expect(result.lock.snapshots[key]).toEqual(snapshots[key as keyof typeof snapshots]);
+    }
+    const broken = lock(); delete (broken.snapshots as Record<string, unknown>)["clsx@2.1.1"];
+    expect(() => createDocsConsumerLock(stringify(broken), docsManifest, libraryManifest, "sha512-candidate")).toThrow("Missing docs dependency snapshot");
+  });
+
   it("exempts only the integrity-verified published version in the registry consumer's own workspace", () => {
     const bytes = Buffer.from("verified publication");
     const receipt = { name: PACKAGE_NAME, version: libraryManifest.version, integrity: packageIntegrity(bytes) };
