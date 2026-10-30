@@ -1,0 +1,1802 @@
+{
+  "$schema": "rsc-boundaries/v1",
+  "version": 1,
+  "updatedAt": "2026-10-30",
+  "policy": {
+    "clientRule": "client 指标模块必须以 \"use client\" 指令开头；纯展示/纯逻辑模块保持 Server Component 可导入",
+    "barrels": "src/lib/index.ts 与 src/lib/bundle.ts 保持无指令（barrel 不得整体 client）",
+    "analyzer": "scripts/lib/rsc-module-analysis.mjs"
+  },
+  "entries": [
+    {
+      "file": "src/components/ui/activity-view.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onOpenChange",
+        "event:onScroll",
+        "hook:useCallback",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useLayoutEffect",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/avatar.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onError",
+        "hook:useI18n",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/back-to-top.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "event:onClick",
+        "hook:useEffect",
+        "hook:usePageScroll",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/badge.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/banner.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/book.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/bottom-sheet.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onCloseAutoFocus",
+        "event:onCycleDetent",
+        "event:onDetentChange",
+        "event:onOpenAutoFocus",
+        "event:onOpenChange",
+        "event:onPointerCancel",
+        "event:onPointerDown",
+        "event:onPointerMove",
+        "event:onPointerUp",
+        "hook:useCallback",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState",
+        "hook:useSubFrame"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/breadcrumbs.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useContext",
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/browser.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:navigator",
+        "dom:window",
+        "event:onClick",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/button.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useGlassInteraction"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/calendar-classes.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/calendar-panel.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onBlur",
+        "event:onChange",
+        "event:onClick",
+        "event:onKeyDown",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/calendar-utils.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/calendar.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onApply",
+        "event:onChange",
+        "event:onClick",
+        "event:onMouseUp",
+        "event:onOpenChange",
+        "event:onValueChange",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/carousel.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onIndexChange",
+        "hook:useI18n",
+        "hook:useImperativeHandle",
+        "hook:useLayoutEffect",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/area-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onClickLegendItem",
+        "event:onMouseDown",
+        "event:onMouseUp",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useId",
+        "hook:useMotionReduced",
+        "hook:useOnWindowResize",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/bar-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onClickLegendItem",
+        "event:onMouseDown",
+        "event:onMouseUp",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useMotionReduced",
+        "hook:useOnWindowResize",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/bar-list.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/category-bar.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n",
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/charts/chart-colors.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/charts/chart-utils.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/charts/combo-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onClickLegendItem",
+        "event:onMouseDown",
+        "event:onMouseUp",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useMotionReduced",
+        "hook:useOnWindowResize",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/donut-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/line-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onClickLegendItem",
+        "event:onMouseDown",
+        "event:onMouseUp",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useMotionReduced",
+        "hook:useOnWindowResize",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/progress-circle.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/charts/spark-chart.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useId"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/charts/tracker.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onOpenChange",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/charts/use-on-window-resize.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useEffect"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/components/ui/checkbox.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/choicebox.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "hook:useContext",
+        "hook:useId",
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/clearable-input.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "event:onClick",
+        "event:onKeyDown",
+        "hook:useCallback",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/code-block.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onKeyDown",
+        "event:onSelect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/code.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/collapse.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContext",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/combobox.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "event:onClick",
+        "event:onFocusOutside",
+        "event:onKeyDown",
+        "event:onMouseEnter",
+        "event:onOpenAutoFocus",
+        "event:onOpenChange",
+        "event:onPointerDownOutside",
+        "hook:useCallback",
+        "hook:useCombobox",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useListMeta",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/command-menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "event:onClick",
+        "event:onCloseAutoFocus",
+        "event:onOpenAutoFocus",
+        "event:onOpenChange",
+        "event:onSelect",
+        "event:onValueChange",
+        "hook:useCallback",
+        "hook:useCommandMenu",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/context-card.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/context-menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "event:onAnimationStart",
+        "event:onClick",
+        "event:onContextMenu",
+        "event:onKeyDown",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useLayerVariables",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/continuous-surface.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContinuousCorners"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/copy-button.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onClick",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/description.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/destructive-action-modal.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onChange",
+        "event:onClick",
+        "event:onOpenChange",
+        "event:onSubmit",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/device.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/dots-menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/drawer.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onBeforeOpen",
+        "event:onDismiss",
+        "event:onOpenAutoFocus",
+        "event:onOpenChange",
+        "event:onPointerCancel",
+        "event:onPointerDown",
+        "event:onPointerMove",
+        "event:onPointerUp",
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/edit-menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onClick",
+        "event:onContextMenu",
+        "event:onFocus",
+        "event:onKeyDown",
+        "event:onMouseDown",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useLayerVariables",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/empty-state.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/entity.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/error-boundary.tsx",
+      "classification": "client",
+      "indicators": [
+        "class:React.Component",
+        "class:componentDidCatch",
+        "class:getDerivedStateFromError",
+        "event:onClick"
+      ],
+      "reason": "client indicators: class, event"
+    },
+    {
+      "file": "src/components/ui/error-card.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/error.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/expand-panel.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onCloseAutoFocus",
+        "event:onInteractOutside",
+        "event:onOpenChange",
+        "hook:useEffect",
+        "hook:useLayoutEffect",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useState",
+        "hook:useSubFrame"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/feedback-faces.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/feedback.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onBlurCapture",
+        "event:onChange",
+        "event:onOpenChange",
+        "event:onSubmit",
+        "event:onValueChange",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useLayoutEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/field-error.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/field.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/fieldset.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContext"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/file-tree.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/footer.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onOpenChange",
+        "hook:useMediaMatch",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/full-page-scroller.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onKeyDown",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/gauge.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/grabber.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onKeyDown",
+        "event:onPointerCancel",
+        "event:onPointerDown",
+        "event:onPointerMove",
+        "event:onPointerUp",
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/grid.tsx",
+      "classification": "client",
+      "indicators": [
+        "context:createContext",
+        "hook:useCallback",
+        "hook:useContext",
+        "hook:useId",
+        "hook:useMemo",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: context, hook"
+    },
+    {
+      "file": "src/components/ui/hamburger-icon.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/hamburger-menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onBlur",
+        "event:onChange",
+        "event:onClick",
+        "event:onFocus",
+        "event:onOpenChange",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useImperativeHandle",
+        "hook:useMemo",
+        "hook:useNavGroupCollapse",
+        "hook:useRef",
+        "hook:useSlidingIndicator",
+        "hook:useState",
+        "hook:useSubFrame"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/hitu-player.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useImperativeHandle",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/input.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useId"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/json-view.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onFocus",
+        "event:onKeyDown",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/keyboard-input.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/label.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/layer.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useLayerVariables",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/components/ui/layout.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/lazy-load.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/link.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/load-more-button.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/loading-dots.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/loading-icon.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/menu-bar.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onScroll",
+        "hook:useCallback",
+        "hook:useLayoutEffect",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/menu.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContext"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/middle-truncate.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "hook:useCallback",
+        "hook:useLayoutEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/components/ui/modal.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "event:onCloseAutoFocus",
+        "event:onOpenAutoFocus",
+        "hook:useI18n",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/multi-select.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "event:onChange",
+        "event:onClick",
+        "event:onKeyDown",
+        "event:onOpenAutoFocus",
+        "hook:useCallback",
+        "hook:useI18n",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/nav-layout.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/components/ui/nav-status-badge.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/navbar.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:usePageScroll"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/note.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/pagination.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useI18n",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/phone-chrome.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/pill.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/prefetch.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onFocusCapture",
+        "event:onPointerDown",
+        "event:onPointerEnter",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:usePrefetchState",
+        "hook:useState",
+        "hook:useSyncExternalStore"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/progress.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/project-banner.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/radio.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onBlur",
+        "event:onChange",
+        "event:onKeyDownCapture",
+        "event:onPointerDown",
+        "hook:useCallback",
+        "hook:useContext",
+        "hook:useGlassInteraction",
+        "hook:useId",
+        "hook:useMemo",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/rating-pill.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onKeyDown",
+        "event:onValueChange",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/relative-time-card.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/responsive-drawer.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onCycleDetent",
+        "event:onDetentChange",
+        "event:onPointerCancel",
+        "event:onPointerDown",
+        "event:onPointerMove",
+        "event:onPointerUp",
+        "hook:useCallback",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useMediaQuery",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/scroll-reveal.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useEffect",
+        "hook:useMediaMatch",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/components/ui/scroller.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/search-input.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "event:onClick",
+        "hook:useI18n",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/select.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n",
+        "hook:useId"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/separator.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/sheet.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onPointerDownOutside"
+      ],
+      "reason": "client indicators: event"
+    },
+    {
+      "file": "src/components/ui/show-more.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/side-panel.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onCloseAutoFocus",
+        "event:onOpenAutoFocus",
+        "event:onOpenChange",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/sidebar-nav.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onOpenChange",
+        "hook:useMemo",
+        "hook:useNavGroupCollapse",
+        "hook:useRef",
+        "hook:useScrollTracking",
+        "hook:useSlidingIndicator"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/site-navigation.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "event:onBlur",
+        "event:onClick",
+        "event:onCloseAutoFocus",
+        "event:onKeyDown",
+        "event:onOpenChange",
+        "event:onPointerEnter",
+        "event:onPointerLeave",
+        "hook:useEffect",
+        "hook:useGlassInteraction",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useMediaMatch",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/skeleton-mask.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/skeleton.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/slider.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onBlur",
+        "event:onChange",
+        "event:onKeyDown",
+        "event:onValueChange",
+        "event:onValueCommit",
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useId",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/snippet.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onClick",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/spinner.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/split-button.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useElementWidth",
+        "hook:useI18n",
+        "hook:useLayoutEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/status-dot.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/step-point.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/components/ui/sub-frame.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useContext",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/switch.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "event:onKeyDown",
+        "hook:useContext",
+        "hook:useGlassInteraction"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/table.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContext",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/tabs.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onFocus",
+        "event:onKeyDown",
+        "hook:useGlassInteraction",
+        "hook:useRef",
+        "hook:useScrollTracking",
+        "hook:useSlidingIndicator",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/text-with-copy-button.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:navigator",
+        "dom:window",
+        "event:onClick",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState",
+        "hook:useToasts"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/textarea.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useId"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/theme-switcher.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "hook:useI18n",
+        "hook:useTheme"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/toast.tsx",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "event:onBlurCapture",
+        "event:onClick",
+        "event:onFocusCapture",
+        "event:onMouseEnter",
+        "event:onMouseLeave",
+        "hook:useEffect",
+        "hook:useI18n",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useState",
+        "hook:useSyncExternalStore"
+      ],
+      "reason": "client indicators: dom, event, hook"
+    },
+    {
+      "file": "src/components/ui/toggle.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onChange",
+        "hook:useCallback",
+        "hook:useGlassInteraction",
+        "hook:useLayoutEffect",
+        "hook:useMotionReduced",
+        "hook:useRef",
+        "hook:useToggleThumbMotion"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/toolbar.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onSelect",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useGlassInteraction",
+        "hook:useLayoutEffect",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/components/ui/tooltip.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useId"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/components/ui/video.tsx",
+      "classification": "client",
+      "indicators": [
+        "event:onClick",
+        "event:onDurationChange",
+        "event:onLoadedMetadata",
+        "event:onPause",
+        "event:onPlay",
+        "event:onTimeUpdate",
+        "hook:useCallback",
+        "hook:useI18n",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: event, hook"
+    },
+    {
+      "file": "src/lib/bundle.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/calendar-colors.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/cancel-guard.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/clipboard.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:navigator"
+      ],
+      "reason": "client indicators: dom"
+    },
+    {
+      "file": "src/lib/color-schemes/code-themes.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/color-schemes/default.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/color-schemes/index.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/color-schemes/presets.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/color-schemes/styles.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/continuous-corner.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/control-layout.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/date-locale.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/date-time.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/device-models.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/entries/charts.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/entries/code.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/entries/device.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/entries/motion.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/exit-motion.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/font-metrics.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "hook:useEffect"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/framework-messages.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/glass-interaction.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useEffect",
+        "hook:useLayoutEffect",
+        "hook:useMotionReduced",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/highlight.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/i18n.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useContext",
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/index.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/input-modality.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useEffect",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/language-icons.tsx",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/layer-bridge.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useLayerContentRef",
+        "hook:useLayerVariables",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/motion-easing-defaults.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/motion-easing.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/motion-features.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/motion-policy.tsx",
+      "classification": "client",
+      "indicators": [
+        "context:createContext",
+        "dom:window",
+        "hook:useContext",
+        "hook:useSyncExternalStore"
+      ],
+      "reason": "client indicators: context, dom, hook"
+    },
+    {
+      "file": "src/lib/motion.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useInsertionEffect",
+        "hook:useLayoutEffect",
+        "hook:useMotionReduced",
+        "hook:useMotionTransition",
+        "hook:useRef",
+        "hook:useTokens",
+        "react:forwardRef"
+      ],
+      "reason": "client indicators: hook, react"
+    },
+    {
+      "file": "src/lib/navigation.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useEffect",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/prefetch.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/scroll-animation.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/scroll-tracking.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useEffect",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/selection-indicator.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useLayoutEffect",
+        "hook:useRef"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/theme.tsx",
+      "classification": "client",
+      "indicators": [
+        "context:createContext",
+        "dom:document",
+        "dom:window",
+        "hook:useCallback",
+        "hook:useContext",
+        "hook:useEffect",
+        "hook:useMemo",
+        "hook:useState"
+      ],
+      "reason": "client indicators: context, dom, hook"
+    },
+    {
+      "file": "src/lib/tip-arrow.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/token-catalog.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/tokens.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "hook:useMemo",
+        "hook:useSyncExternalStore"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/use-draft.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/task.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/use-continuous-corners.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useEffect",
+        "hook:useMemo",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/use-page-scroll.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:document",
+        "dom:window",
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/use-scroll-direction.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window",
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: dom, hook"
+    },
+    {
+      "file": "src/lib/utils.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
+      "file": "src/lib/visual-viewport.ts",
+      "classification": "client",
+      "indicators": [
+        "dom:window"
+      ],
+      "reason": "client indicators: dom"
+    }
+  ]
+}

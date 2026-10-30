@@ -24,7 +24,7 @@ export { COLOR_SCHEMES, CODE_THEMES, getColorScheme, getCodeTheme, resolveCodeTh
 export type { ColorSchemeId, ColorScheme, ColorSchemeMode, ColorSchemeTokens, CodeThemeId, CodeTheme, CodeRole, CodeColors, ColorSchemeSelection, ApplyColorSchemeOptions, ApplyCodeThemeOptions } from "./color-schemes";
 
 // Font metrics probe
-export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
+export { probeFontMetrics, installFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
 
 // Navigation dismissal primitive (HIG-AUD-017)
 export { useDismissOnNavigate } from "./navigation";
@@ -47,9 +47,9 @@ export {
   continuousCornerPath,
   cornerCurvePoints,
   superellipsePath,
-  useContinuousCorners,
 } from "./continuous-corner";
 export type { ContinuousCornerOptions, SuperellipseOptions } from "./continuous-corner";
+export { useContinuousCorners } from "./use-continuous-corners";
 
 // Components — Core (buttons, inputs, etc.)
 export { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
@@ -193,6 +193,11 @@ export { Slider } from "@/components/ui/slider";
 export type { SliderProps } from "@/components/ui/slider";
 export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
+export { Field } from "@/components/ui/field";
+export { useDraft } from "@/lib/use-draft";
+export { canStart, createTaskState, isActive, isTerminal, taskReducer } from "@/lib/task";
+export type { TaskAction, TaskState, TaskStatus } from "@/lib/task";
+export type { DraftStorage, UseDraftOptions, UseDraftResult } from "@/lib/use-draft";
 export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterActions, FieldsetFooterAction, ErrorText, WarningText, DisabledWall } from "@/components/ui/fieldset";
 
 export { Layer, LayerScope, LayerPortal, useLayerStyle } from "@/components/ui/layer";
