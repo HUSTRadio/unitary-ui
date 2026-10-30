@@ -120,6 +120,49 @@ const zh: DocPageContent = {
         },
       ],
     },
+    {
+      heading: "草稿持久化",
+      blocks: [
+        {
+          p: [
+            "useDraft(options) 把表单草稿存进一个带命名空间与 schema 版本的存储键（",
+            { code: "unitary-draft/v<version>/<key>" },
+            "）：只在当前值与基线不同时写入，回到基线即删除记录，因此未编辑的表单不会留下存储痕迹。",
+          ],
+        },
+        {
+          ul: [
+            [
+              "不传 ",
+              { code: "key" },
+              " 时完全不触碰存储；",
+              { code: "storage" },
+              " 传 ",
+              { code: "null" },
+              " 或不可用（服务端渲染、隐私模式）时退化为普通 state。",
+            ],
+            [
+              "服务端渲染返回 ",
+              { code: "initial" },
+              "，",
+              { code: "isHydrated" },
+              " 只在客户端恢复完成后为 true，恢复前不会把默认值写回存储。",
+            ],
+            [
+              { code: "reset()" },
+              " 回到基线并清理本命名空间的旧版本残留，不会碰其它命名空间或无关的存储键。",
+            ],
+            [
+              "损坏的 JSON、旧版本记录、配额异常与存储禁用都只影响持久化，不抛给调用方；",
+              { code: "serialize" },
+              " / ",
+              { code: "deserialize" },
+              " 可替换序列化方式。",
+            ],
+          ],
+        },
+      ],
+    },
   ],
 };
 
@@ -233,6 +276,49 @@ const en: DocPageContent = {
             ", ",
             { link: ["Toast useToasts", "/components/toast"] },
             ", and Video’s native playback events.",
+          ],
+        },
+      ],
+    },
+    {
+      heading: "Draft persistence",
+      blocks: [
+        {
+          p: [
+            "useDraft(options) keeps a form draft in one namespaced, versioned storage key (",
+            { code: "unitary-draft/v<version>/<key>" },
+            "). It writes only while the current value differs from the baseline and deletes the record once the value returns to it, so an untouched form leaves nothing behind.",
+          ],
+        },
+        {
+          ul: [
+            [
+              "Without a ",
+              { code: "key" },
+              " the hook never touches storage; ",
+              { code: "storage" },
+              " set to ",
+              { code: "null" },
+              " or unavailable (server rendering, private mode) degrades to plain state.",
+            ],
+            [
+              "Server rendering returns ",
+              { code: "initial" },
+              "; ",
+              { code: "isHydrated" },
+              " only becomes true after client restore, and the default value is never written back beforehand.",
+            ],
+            [
+              { code: "reset()" },
+              " returns to the baseline and removes stale versions of its own namespace without touching other namespaces or unrelated keys.",
+            ],
+            [
+              "Corrupt JSON, stale versions, quota failures and disabled storage only affect persistence and never throw at the caller; ",
+              { code: "serialize" },
+              " / ",
+              { code: "deserialize" },
+              " can replace the wire format.",
+            ],
           ],
         },
       ],

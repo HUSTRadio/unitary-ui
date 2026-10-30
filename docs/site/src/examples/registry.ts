@@ -181,6 +181,8 @@ import { EmptyStateBlankSlateE6F82752Example } from "./empty-state/blank-slate-e
 import EmptyStateBlankSlateE6F82752ExampleSource from "./empty-state/blank-slate-e6f82752.example.tsx?example-source";
 import { EmptyStateInformationalBE8ED055Example } from "./empty-state/informational-be8ed055.example";
 import EmptyStateInformationalBE8ED055ExampleSource from "./empty-state/informational-be8ed055.example.tsx?example-source";
+import { FieldBasic3F9A1C7EExample } from "./field/basic-3f9a1c7e.example";
+import FieldBasic3F9A1C7EExampleSource from "./field/basic-3f9a1c7e.example.tsx?example-source";
 import { FieldsetDefault37A8EEC1Example } from "./fieldset/default-37a8eec1.example";
 import FieldsetDefault37A8EEC1ExampleSource from "./fieldset/default-37a8eec1.example.tsx?example-source";
 import { FieldsetDisabled17EB3C01Example } from "./fieldset/disabled-17eb3c01.example";
@@ -981,6 +983,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "empty-state", id: "empty-state-design-framework", Component: EmptyStateEmptyStateDesignFrameworkFF959773Example, source: EmptyStateEmptyStateDesignFrameworkFF959773ExampleSource },
   { slug: "empty-state", id: "blank-slate", Component: EmptyStateBlankSlateE6F82752Example, source: EmptyStateBlankSlateE6F82752ExampleSource },
   { slug: "empty-state", id: "informational", Component: EmptyStateInformationalBE8ED055Example, source: EmptyStateInformationalBE8ED055ExampleSource },
+  { slug: "field", id: "basic", Component: FieldBasic3F9A1C7EExample, source: FieldBasic3F9A1C7EExampleSource },
   { slug: "fieldset", id: "default", Component: FieldsetDefault37A8EEC1Example, source: FieldsetDefault37A8EEC1ExampleSource },
   { slug: "fieldset", id: "disabled", Component: FieldsetDisabled17EB3C01Example, source: FieldsetDisabled17EB3C01ExampleSource },
   { slug: "fieldset", id: "with-long-content", Component: FieldsetWithLongContent39C2ED17Example, source: FieldsetWithLongContent39C2ED17ExampleSource },

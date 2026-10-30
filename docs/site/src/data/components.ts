@@ -729,6 +729,18 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "field",
+    label: "Field",
+    labelZh: "字段",
+    description: "Compose a label, control, helper text and error message around any form control.",
+    bestPractices: [
+      "Use Field for layout and copy only; the control keeps its own value, validation and aria-describedby wiring.",
+      "Pair htmlFor with the control id so the label associates; Field never rewrites the child element.",
+      "Keep helper text to one sentence and put the actionable rule in the error message.",
+      "Errors render through FieldError, so empty values are omitted and long copy wraps without clipping.",
+    ],
+  },
+  {
     name: "fieldset",
     label: "Fieldset",
     labelZh: "字段集",

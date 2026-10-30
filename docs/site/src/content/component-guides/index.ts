@@ -34,8 +34,10 @@ import {
 import { PUBLIC_NAVIGATION_GUIDES_ZH, PUBLIC_NAVIGATION_GUIDES_EN } from "./guides-21-public-navigation";
 import { SUB_FRAME_GUIDES_ZH, SUB_FRAME_GUIDES_EN } from "./guides-22-sub-frame";
 import { WEBSITE_GUIDES_ZH, WEBSITE_GUIDES_EN } from "./guides-23-website";
+import { FIELD_GUIDES_ZH, FIELD_GUIDES_EN } from "./guides-27-field";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
+  FIELD_GUIDES_ZH,
   GUIDES_01_ZH,
   GUIDES_02_ZH,
   GUIDES_03_ZH,
@@ -66,6 +68,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
+  FIELD_GUIDES_EN,
   GUIDES_01_EN,
   GUIDES_02_EN,
   GUIDES_03_EN,

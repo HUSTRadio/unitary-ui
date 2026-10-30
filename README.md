@@ -34,6 +34,21 @@ export function App() {
 
 Node 可直接用 ESM `import` 或 CommonJS `require` 导入组件，无需 CSS 加载器。浏览器应用需另行导入 `@hustradio/unitary-ui/styles.css`，其中包含 Device 外框样式；Node 服务端不应导入 CSS。
 
+### Next.js App Router
+
+发布产物的根入口已声明为 Client Component 边界，因此可以在 Server Component 中直接导入并渲染任意库组件（含纯展示组件）：首屏 HTML 由服务端生成，浏览器接管后交互正常。需要 state、事件或浏览器 API 的封装请自行加 `"use client"`；`app/error.tsx` 与 `app/global-error.tsx` 同样必须是 Client Component，可直接复用 `ErrorCard`。
+
+```tsx
+// app/layout.tsx — Server Component
+import "@hustradio/unitary-ui/styles.css";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="zh-CN"><body>{children}</body></html>;
+}
+```
+
+完整说明（样式入口、client 边界、错误边界、Tailwind v4 共存与接入自检）见文档的 [集成指南](docs/site/src/pages/integrations.tsx)。仓库同时提供真实 Next App Router fixture：安装发布 tarball 后执行 `next build` 并断言浏览器交互。
+
 ## 示例截图
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->

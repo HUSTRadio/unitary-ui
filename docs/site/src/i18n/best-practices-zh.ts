@@ -313,6 +313,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "copy 覆盖表情行旁的提示头，句首大写（How did the import go?）。去掉 please 与 we're sorry。",
     "不要用 Feedback 替代支持表单、bug 报告入口或 NPS 抽样；这些有专门界面。",
   ],
+  field: [
+    "Field 只负责排版与文案；取值、校验和 aria-describedby 仍由控件自身与调用方负责。",
+    "把 htmlFor 设为控件 id 以关联标签；Field 不会改写子元素。",
+    "辅助说明保持一句话，可执行的规则写进错误消息。",
+    "错误统一经 FieldError 渲染：空值不渲染，长文案自动换行不裁切。",
+  ],
   fieldset: [
     "带标题、辅助文案和可选页脚状态/动作的单个设置界面用 Fieldset。",
     "正文放 FieldsetContent、动作放 FieldsetFooterActions；不要手搭额外的卡片或页脚壳。",

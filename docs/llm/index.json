@@ -177,8 +177,24 @@
         "en-US": "pages/en-US/api.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:f7b1b11253d61e818a25bfd4ac9cfb0bf8d4a081f38134c5c273dac625ce1ec0",
-        "en-US": "sha256:3a12433df3ef5750fe4c5d88826b5ab0f09b7c85f24e606118ebababed453e87"
+        "zh-CN": "sha256:b582435c1ad0fc9fa487083ee466552f1465f0790b2478651aba91f774d639b8",
+        "en-US": "sha256:03e1590d77f0bebb98672ae5021f61d0f0c600f9e27cfb79c05014cdf888d21c"
+      }
+    },
+    {
+      "path": "/api/integrations",
+      "title": {
+        "zh-CN": "集成指南",
+        "en-US": "Integrations"
+      },
+      "category": "api",
+      "locales": {
+        "zh-CN": "pages/zh-CN/api/integrations.md",
+        "en-US": "pages/en-US/api/integrations.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a5966242b265d26bed4fcf36a33ef549a72d869fe37bd11447ae16703619b5b8",
+        "en-US": "sha256:64bbd0dfc3547ba4469364fbdc6c73d386c8e02a72c2a4b23359e9ae22425342"
       }
     },
     {
@@ -193,8 +209,8 @@
         "en-US": "pages/en-US/api/state-and-events.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:de8a0853c77f72fab9a667714108fe1bc86b81f5f8e8769dba9dd2b6ed5d9fdc",
-        "en-US": "sha256:fcc0c39653cd697cb3f7732f6739197f88ea2e3d19d8099fd05a8bfa6aa52008"
+        "zh-CN": "sha256:d7a43bbc64efd0e4943d60c1a53abfbfa46274431a95802eb48ba551dbd35cb1",
+        "en-US": "sha256:15c0c6ad689315080ab348e817a0d05263fe73bdfc2cb16569eb8ccb876df736"
       }
     },
     {
@@ -273,8 +289,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:93859407f2bb1a4c28ec64b684bf79921472cb80d0e422602865d849a1d0f644",
-        "en-US": "sha256:2ec307116662b885d92cb4ce4143c52d5ad2eb99d72d1de2f8cba751fd34d241"
+        "zh-CN": "sha256:3e9f6e98a1236bc5460e90d17e0f32d2783959b0a506b247228b70618a756ab2",
+        "en-US": "sha256:feae0d777b4426ea4063411d7cc98c68b4c9f53126c16af7c9a11f9aeecd765d"
       }
     },
     {
@@ -289,8 +305,8 @@
         "en-US": "pages/en-US/components/button.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:17f3fb479c33c503c241728d2604df7802a497301d6d0dff3e757cfe68f80f83",
-        "en-US": "sha256:2b3a49555a3f99f9d9110922d833f72347a71792b24c5c76d61dfe008cd837da"
+        "zh-CN": "sha256:15935847f9ed3ee91dc622ab4df7c7b4932f73d4e3ed12429475761baecd8919",
+        "en-US": "sha256:7e21baa09c228b294e498aca9165fa77ffb0eb5c08abadb1e9bea9349b08380d"
       }
     },
     {
@@ -563,6 +579,22 @@
       "sourceHash": {
         "zh-CN": "sha256:7ca4e583f1001fb399aafcf7239c76fda22d74f6668d02ef4bb151d35c628660",
         "en-US": "sha256:df85e9a55a23def361094db5e2b2fa7f9b1ddf96f8ca54c15857fdab113605ec"
+      }
+    },
+    {
+      "path": "/components/field",
+      "title": {
+        "zh-CN": "字段",
+        "en-US": "Field"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/field.md",
+        "en-US": "pages/en-US/components/field.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ce766de917c05a230996088d534ad24e26c700944b4c8dd28ea1d178faf588a1",
+        "en-US": "sha256:9924a1741ba9349fa912500aed5c3277a50a9d9fa24487e578e7c6a243db52f0"
       }
     },
     {

@@ -719,6 +719,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Focus input on open": "打开时聚焦输入框",
     "Hidden line numbers": "隐藏行号",
     "Highlighted lines": "高亮指定行",
+    "Basic": "基础用法",
     "Informational": "信息型空状态",
     "Inline": "行内反馈",
     "Inset": "内嵌样式",

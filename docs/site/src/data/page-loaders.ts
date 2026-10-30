@@ -9,6 +9,7 @@ export const DOCS_PAGE_RESOURCES = {
   grid: createPrefetch(() => import("../components/docs-grid-page")),
   layer: createPrefetch(() => import("../pages/layer")),
   "api-overview": createPrefetch(() => import("../pages/api-overview")),
+  integrations: createPrefetch(() => import("../pages/integrations")),
   icons: createPrefetch(() => import("../components/docs-icons")),
   "state-and-events": createPrefetch(() => import("../pages/state-and-events")),
   tokens: createPrefetch(() => import("../pages/tokens")),

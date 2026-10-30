@@ -11,7 +11,7 @@ export type StaticPageKey =
   | "typography"
   | "materials"
   | "grid";
-export type LocalizedPageKey = "state-and-events" | "app-shell" | "site-shell" | "charts" | "tokens" | "api-overview" | "layer" | "color-schemes" | "color-scheme-api";
+export type LocalizedPageKey = "state-and-events" | "app-shell" | "site-shell" | "charts" | "tokens" | "api-overview" | "layer" | "color-schemes" | "color-scheme-api" | "integrations";
 
 /** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
 export type DocsRouteStatus = "new" | "updated";
@@ -125,6 +125,14 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
     renderer: { kind: "localized", page: "api-overview" },
   },
   {
+    to: "/api/integrations",
+    group: "api",
+    label: "Integrations",
+    labelZh: "集成指南",
+    sidebar: true,
+    renderer: { kind: "localized", page: "integrations" },
+  },
+  {
     to: "/api/state-and-events",
     group: "api",
     label: "State & Events",
@@ -233,6 +241,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   choicebox: "forms",
   "clearable-input": "forms",
   combobox: "forms",
+  field: "forms",
   fieldset: "forms",
   input: "forms",
   "keyboard-input": "forms",
@@ -439,6 +448,7 @@ const DOCS_ROUTE_STATUS: Readonly<Record<string, DocsRouteStatus>> = {
   "/layout/layer": "new",
   "/layout/flex": "updated",
   "/api": "new",
+  "/api/integrations": "new",
   "/api/state-and-events": "updated",
   "/api/tokens": "updated",
   "/components/sub-frame": "new",

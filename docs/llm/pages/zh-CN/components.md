@@ -296,6 +296,14 @@ feedback
 
 ](#/components/feedback)[
 
+field
+
+### 字段
+
+把标签、控件、说明和错误消息组合成一个字段，适用于任意表单控件。
+
+](#/components/field)[
+
 fieldset
 
 ### 字段集

@@ -43,6 +43,9 @@ import { DOCS_PAGE_RESOURCES, prefetchDocsLink } from "./data/page-loaders";
 const GridPage = lazy(() => DOCS_PAGE_RESOURCES.grid.load().then((module) => ({ default: module.GridPage })));
 const LayerPage = lazy(() => DOCS_PAGE_RESOURCES.layer.load().then((module) => ({ default: module.LayerPage })));
 const ApiOverviewPage = lazy(() => DOCS_PAGE_RESOURCES["api-overview"].load().then((module) => ({ default: module.ApiOverviewPage })));
+const IntegrationsPage = lazy(() =>
+  DOCS_PAGE_RESOURCES.integrations.load().then((module) => ({ default: module.IntegrationsPage })),
+);
 const ComponentsPage = lazy(() =>
   DOCS_PAGE_RESOURCES.components.load().then((module) => ({ default: module.ComponentsPage })),
 );
@@ -85,6 +88,7 @@ const LOCALIZED_PAGE_COMPONENTS = {
   tokens: TokensPage,
   layer: LayerPage,
   "api-overview": ApiOverviewPage,
+  integrations: IntegrationsPage,
   "color-schemes": ColorSchemesPage,
   "color-scheme-api": ColorSchemeApiPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;

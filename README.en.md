@@ -34,6 +34,21 @@ export function App() {
 
 The package root supports native Node ESM `import` and CommonJS `require` without a CSS loader. Browser applications must still import `@hustradio/unitary-ui/styles.css` explicitly; this file includes Device frame styles. Do not import the CSS file directly in Node server code.
 
+### Next.js App Router
+
+The published root entry is declared as a Client Component boundary, so any library component — presentational ones included — can be imported and rendered from a Server Component: the server produces the first HTML and the browser takes over for interaction. Wrap state, events, or browser APIs in your own `"use client"` module. `app/error.tsx` and `app/global-error.tsx` must also be Client Components and can reuse `ErrorCard` directly.
+
+```tsx
+// app/layout.tsx — Server Component
+import "@hustradio/unitary-ui/styles.css";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="en"><body>{children}</body></html>;
+}
+```
+
+See the documentation's Integrations guide for the style entry, client boundaries, error boundaries, Tailwind v4 coexistence, and an adoption self-check. The repository also ships a real Next App Router fixture that installs the published tarball, runs `next build`, and asserts browser interaction.
+
 ## Screenshots
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->

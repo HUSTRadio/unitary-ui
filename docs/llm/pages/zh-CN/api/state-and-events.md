@@ -25,3 +25,12 @@
 ## 组件专用钩子与事件
 
 组件专用钩子和事件见对应文档，例如 [Radio useRadio](#/components/radio)、[Toast useToasts](#/components/toast)，以及 Video 的原生播放事件。
+
+## 草稿持久化
+
+useDraft(options) 把表单草稿存进一个带命名空间与 schema 版本的存储键（`unitary-draft/v<version>/<key>`）：只在当前值与基线不同时写入，回到基线即删除记录，因此未编辑的表单不会留下存储痕迹。
+
+- 不传 `key` 时完全不触碰存储；`storage` 传 `null` 或不可用（服务端渲染、隐私模式）时退化为普通 state。
+- 服务端渲染返回 `initial`，`isHydrated` 只在客户端恢复完成后为 true，恢复前不会把默认值写回存储。
+- `reset()` 回到基线并清理本命名空间的旧版本残留，不会碰其它命名空间或无关的存储键。
+- 损坏的 JSON、旧版本记录、配额异常与存储禁用都只影响持久化，不抛给调用方；`serialize` / `deserialize` 可替换序列化方式。

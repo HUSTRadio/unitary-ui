@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { CodeBlock } from "@hustradio/unitary-ui";
 import { FRAMEWORK_API } from "../data/framework-api";
 import type { DocsLanguage } from "../i18n/language";
-import { DocsPageTitle, DocsPageLead, DocsSection, DocsSectionTitle, DocsParagraph } from "../components/docs-typography";
+import { DocsPageTitle, DocsPageLead, DocsSection, DocsSectionTitle, DocsParagraph, DocsList } from "../components/docs-typography";
 
 const providers = `import { ThemeProvider, I18nProvider, useTheme, useI18n } from "@hustradio/unitary-ui";
 import "@hustradio/unitary-ui/styles.css";
@@ -46,6 +46,39 @@ export function ApiOverviewPage({ language }: { language: DocsLanguage }) {
   return <article className="min-w-0 max-w-3xl">
     <DocsPageTitle>{zh ? "API 总览" : "API Overview"}</DocsPageTitle>
     <DocsPageLead>{zh ? "按用途查找包根公开的钩子和工具。组件属性由各组件页面维护，布局与层级接口由对应专题维护。" : "Find package-root hooks and utilities by purpose. Component pages own their props; layout topics own their corresponding interfaces."}</DocsPageLead>
+    <DocsSection id="conventions">
+      <DocsSectionTitle>{zh ? "API 约定" : "API conventions"}</DocsSectionTitle>
+      <DocsParagraph>
+        {zh
+          ? "状态型组件同时提供受控值与非受控默认值：Switch 使用 checked / defaultChecked，传入 checked 时组件只通过 onCheckedChange 报告变化，不再保留内部状态；同一次渲染以受控值为准。"
+          : "Stateful components pair a controlled value with an uncontrolled default: Switch takes checked / defaultChecked, and once checked is supplied the component only reports changes through onCheckedChange instead of keeping internal state. The controlled value wins in the same render."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "回调命名跟随职责：原生表单事件仍是 onChange / onInput，参数是事件对象；状态迁移用 onXxxChange（onOpenChange、onValueChange），参数是新值。约定只承诺参数语义，不承诺组件内部实现。"
+          : "Callbacks follow their job: native form events stay onChange / onInput with an event object, while state transitions use onXxxChange (onOpenChange, onValueChange) carrying the new value. The convention promises argument semantics, not internal implementation."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "组件不发起网络请求：包内没有 fetch、XMLHttpRequest 或 HTTP 客户端。数据由调用方获取后以 props 传入，加载与错误也由调用方渲染（Skeleton、ErrorCard）；钩子只处理本地状态、订阅与 DOM 生命周期。"
+          : "Components never perform network requests: the package contains no fetch, XMLHttpRequest or HTTP client. Callers fetch data and pass it as props, and callers render loading and error states (Skeleton, ErrorCard). Hooks handle local state, subscriptions and DOM lifecycle only."}
+      </DocsParagraph>
+      <DocsParagraph>
+        {zh
+          ? "canonical 优先于 alias：Button 的 type 优先于 variant；已移除的尺寸名（Button 的 xs / sm / default / lg / icon*，Input 与 Select 的 medium）不会再作为别名恢复。跨组件档位在调用点显式映射，不新增全库统一的 Variant 抽象。"
+          : "Canonical names win over aliases: Button's type takes precedence over variant, and retired size names (xs / sm / default / lg / icon* on Button, medium on Input and Select) are not coming back as aliases. Map tiers explicitly at the call site instead of adding a library-wide Variant abstraction."}
+      </DocsParagraph>
+      <DocsList>
+        <li>{zh ? "32px 档：Button small ↔ Input small ↔ Select small（Textarea small 为 80px 高度）" : "32px tier: Button small ↔ Input small ↔ Select small (Textarea small is an 80px box)"}</li>
+        <li>{zh ? "36px 档：Button medium ↔ Input default ↔ Select default ↔ Textarea medium（100px 高度）" : "36px tier: Button medium ↔ Input default ↔ Select default ↔ Textarea medium (100px box)"}</li>
+        <li>{zh ? "40px 档：Button large ↔ Input large ↔ Select large（Textarea large 为 120px 高度）" : "40px tier: Button large ↔ Input large ↔ Select large (Textarea large is a 120px box)"}</li>
+      </DocsList>
+      <DocsParagraph>
+        {zh
+          ? "间距分三层：LayoutSpacing（xs、sm、md、lg、xl）是组件 prop 的档位，Tailwind --spacing 支撑 utility 刻度，导航语义变量（--uni-nav-space-*）承载导航节奏。三层继续共存，不要新增 --space-1…n 这类平行刻度；纯文档调整不制造 token catalog diff。"
+          : "Spacing has three layers: LayoutSpacing (xs, sm, md, lg, xl) is the component-prop tier, Tailwind --spacing backs the utility scale, and navigation semantic variables (--uni-nav-space-*) carry navigation rhythm. All three coexist; do not add a parallel --space-1…n scale, and do not create token catalog churn for documentation-only tweaks."}
+      </DocsParagraph>
+    </DocsSection>
     {FRAMEWORK_API.map((entry) => <DocsSection key={entry.title} data-api-directory={entry.title}>
       <DocsSectionTitle>{zh ? entry.titleZh : entry.title}</DocsSectionTitle>
       <DocsParagraph>{zh ? entry.descriptionZh : entry.description}</DocsParagraph>

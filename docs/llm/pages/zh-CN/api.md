@@ -6,6 +6,22 @@
 
 按用途查找包根公开的钩子和工具。组件属性由各组件页面维护，布局与层级接口由对应专题维护。
 
+## API 约定
+
+状态型组件同时提供受控值与非受控默认值：Switch 使用 checked / defaultChecked，传入 checked 时组件只通过 onCheckedChange 报告变化，不再保留内部状态；同一次渲染以受控值为准。
+
+回调命名跟随职责：原生表单事件仍是 onChange / onInput，参数是事件对象；状态迁移用 onXxxChange（onOpenChange、onValueChange），参数是新值。约定只承诺参数语义，不承诺组件内部实现。
+
+组件不发起网络请求：包内没有 fetch、XMLHttpRequest 或 HTTP 客户端。数据由调用方获取后以 props 传入，加载与错误也由调用方渲染（Skeleton、ErrorCard）；钩子只处理本地状态、订阅与 DOM 生命周期。
+
+canonical 优先于 alias：Button 的 type 优先于 variant；已移除的尺寸名（Button 的 xs / sm / default / lg / icon\*，Input 与 Select 的 medium）不会再作为别名恢复。跨组件档位在调用点显式映射，不新增全库统一的 Variant 抽象。
+
+- 32px 档：Button small ↔ Input small ↔ Select small（Textarea small 为 80px 高度）
+- 36px 档：Button medium ↔ Input default ↔ Select default ↔ Textarea medium（100px 高度）
+- 40px 档：Button large ↔ Input large ↔ Select large（Textarea large 为 120px 高度）
+
+间距分三层：LayoutSpacing（xs、sm、md、lg、xl）是组件 prop 的档位，Tailwind --spacing 支撑 utility 刻度，导航语义变量（--uni-nav-space-\*）承载导航节奏。三层继续共存，不要新增 --space-1…n 这类平行刻度；纯文档调整不制造 token catalog diff。
+
 ## 滚动与导航布局
 
 最近滚动容器中的可取消滚动，以及侧栏与菜单共用的内容留白。
@@ -80,10 +96,10 @@ import { Layer, LayerScope, LayerPortal, useLayerStyle } from "@hustradio/unitar
 
 ## 状态与事件
 
-通用状态约定；组件专用钩子分别由 Radio 和 Toast 文档维护。
+通用状态约定，以及可选的草稿持久化（命名空间 + 版本化存储键）；组件专用钩子分别由 Radio 和 Toast 文档维护。
 
 ```tsx
-import { useRadio, useToasts, createToastStore } from "@hustradio/unitary-ui";
+import { useRadio, useToasts, createToastStore, useDraft } from "@hustradio/unitary-ui";
 ```
 
 [查看参考](#/api/state-and-events)
@@ -105,6 +121,7 @@ import { useDismissOnNavigate, createPrefetch, usePrefetchState } from "@hustrad
 ```tsx
 import {
   probeFontMetrics,
+  installFontMetrics,
   useFontMetrics,
   measureFontMetrics,
   applyFontMetrics,

@@ -25,3 +25,12 @@ Use controlled mode to synchronize other controls or update state externally. Us
 ## Component hooks and events
 
 See the relevant component page for its hooks and events, such as [Radio useRadio](#/components/radio), [Toast useToasts](#/components/toast), and Video’s native playback events.
+
+## Draft persistence
+
+useDraft(options) keeps a form draft in one namespaced, versioned storage key (`unitary-draft/v<version>/<key>`). It writes only while the current value differs from the baseline and deletes the record once the value returns to it, so an untouched form leaves nothing behind.
+
+- Without a `key` the hook never touches storage; `storage` set to `null` or unavailable (server rendering, private mode) degrades to plain state.
+- Server rendering returns `initial`; `isHydrated` only becomes true after client restore, and the default value is never written back beforehand.
+- `reset()` returns to the baseline and removes stale versions of its own namespace without touching other namespaces or unrelated keys.
+- Corrupt JSON, stale versions, quota failures and disabled storage only affect persistence and never throw at the caller; `serialize` / `deserialize` can replace the wire format.

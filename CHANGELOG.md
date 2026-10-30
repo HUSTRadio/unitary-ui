@@ -8,9 +8,18 @@
 
 ### Added
 
+- **表单草稿持久化 `useDraft`**：新增可选的草稿钩子，把表单值存进带命名空间与 schema 版本的存储键（`unitary-draft/v<version>/<key>`）。只在值与基线不同时写入、回到基线即删除记录；服务端渲染返回初始值且不回写；损坏 JSON、旧版本、配额异常与存储禁用都不影响内存态。
+- **Field 字段外壳**：新增 `Field`，把标签、控件、辅助说明与错误消息组合成一个字段。它只负责排版与文案——不接管控件状态、不绑定校验库、不 clone 子元素注入 ARIA，错误消息复用 `FieldError`（4px 间距、图标、13/16px 排版）。
+- **Next.js App Router 支持与集成指南**：发布产物的根入口整体声明为 Client Component 边界，Server Component 可直接从包根导入并渲染任意组件（含纯展示组件），首屏由服务端输出、浏览器接管后交互正常。新增「集成指南」文档页，覆盖样式入口、Server/Client 边界、错误边界、Tailwind v4 共存与接入自检；README 双语补充 App Router 用法。
+- **真实 Next App Router 验收**：新增 tarball fixture，安装发布包后执行 `next build`，并断言服务端 HTML、无水合告警、client 交互与路由级错误边界。
+
+- **字体度量显式安装 `installFontMetrics()`**：字体探测自注册从模块加载副作用改为入口显式安装（包根消费端仍自动初始化）；新增该导出供源码/子路径场景手动调用。
+
 - **CSS Glass 材质**：以半透明填充、背景模糊与饱和度、静态方向高光、细内描边及柔和投影重做 Glass，保留 Unitary 配色、尺寸与圆角。既有交互控件增加克制的指针追光和双向 hover 过渡，按钮与导航不位移；普通卡片通过材质 class 显式选择，仅提供静态高光。
 
 ### Changed
+
+- **响应式可见性契约**：`SiteNavigation`、`Browser`、`Footer` 的桌面/移动切换改由非分层 `data-uni-responsive` 属性规则承载，不再使用 `hidden` + `md:*` 类名组合，避免消费端 Tailwind 重新生成基础 utility 时反压库内响应式变体。
 
 - **Glass 预设与破坏性 token 迁移**：Clear 浅/深填充为 28%/36%、模糊 8px；Regular 为 56%/76%、10px；Dense 为 80%/86%、20px，导航模糊为 24px。Regular 填充针对中性色板及不受控背景的对比度需求调整。移除 SVG 折射引擎及 `--material-texture-glass-` 下的 `ior`、`roughness`、`thickness`、`absorption`、`light-azimuth`、`light-intensity`、`ambient-intensity`、`ambient-color`、`refraction`、`edge-width` 十个 token，请删除对应覆盖；继续使用 `blur`、`overlay-blur`、`opacity`。四档材质、v2 偏好、组件 props、局部覆盖/reset、Portal 与辅助设置契约保留。
 

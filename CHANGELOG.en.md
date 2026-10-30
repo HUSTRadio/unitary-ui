@@ -8,9 +8,18 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Draft persistence `useDraft`**: adds an opt-in draft hook that keeps form values under a namespaced, versioned storage key (`unitary-draft/v<version>/<key>`). It writes only while the value differs from the baseline, deletes the record on return, never writes back during server rendering, and tolerates corrupt JSON, stale versions, quota failures and disabled storage without touching in-memory state.
+- **Field composition shell**: adds `Field`, which composes a label, control, helper text and error message into one field. It owns layout and copy only — no control state, no validation library, and no cloned children with injected ARIA; error messages render through `FieldError` (4px gap, icon, 13/16px typography).
+- **Next.js App Router support and integration guide**: the published root entry is declared as a Client Component boundary, so Server Components can import and render any component from the package root — presentational ones included — with server-produced first HTML and working interaction after hydration. Adds an Integrations documentation page covering the style entry, Server/Client boundaries, error boundaries, Tailwind v4 coexistence, and an adoption self-check; the bilingual README documents App Router usage.
+- **Real Next App Router acceptance**: a tarball fixture installs the published package, runs `next build`, and asserts server HTML, no hydration warnings, client interaction, and a route-level error boundary.
+
+- **Explicit font-metric installation via `installFontMetrics()`**: font probing no longer self-registers as a module-load side effect; the package entry installs it explicitly (root consumers still initialize automatically). The new export covers source-alias and subpath scenarios.
+
 - **CSS Glass material**: rebuilds Glass with translucent fill, backdrop blur and saturation, static directional sheen, fine inset edges and soft shadows, retaining Unitary palettes, dimensions and radii. Existing interactive controls gain restrained pointer glints and hover transitions on entry and exit, without moving buttons or navigation. Ordinary cards opt in through material classes and use static sheen only.
 
 ### Changed
+
+- **Responsive visibility contract**: `SiteNavigation`, `Browser`, and `Footer` now switch between desktop and mobile layouts through non-layered `data-uni-responsive` rules instead of `hidden` + `md:*` class pairs, so consumer Tailwind runs cannot override library responsive variants by regenerating base utilities.
 
 - **Glass presets and breaking token migration**: Clear uses 28%/36% light/dark fill with 8px blur; Regular uses 56%/76% with 10px; Dense uses 80%/86% with 20px; navigation blur is 24px. Regular fill is tuned for contrast with neutral palettes and uncontrolled backgrounds. Removes the SVG refraction engine and ten tokens under `--material-texture-glass-`: `ior`, `roughness`, `thickness`, `absorption`, `light-azimuth`, `light-intensity`, `ambient-intensity`, `ambient-color`, `refraction` and `edge-width`. Remove their overrides and continue using `blur`, `overlay-blur` and `opacity`. Retains the four materials, v2 preferences, component props, local overrides/reset, Portal and accessibility contracts.
 

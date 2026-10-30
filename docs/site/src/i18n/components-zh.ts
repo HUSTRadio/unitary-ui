@@ -49,6 +49,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   error: "显示加载失败等错误，并说明下一步操作。",
   "error-boundary": "隔离 React 渲染失败，并以恢复界面替换出错子树。",
   feedback: "收集表情评分和文字反馈。",
+  field: "把标签、控件、说明和错误消息组合成一个字段，适用于任意表单控件。",
   fieldset: "将相关表单控件分组，配上标题、说明和页脚操作。",
   grid: "用单元格和可见参考线组织二维布局。",
   "file-tree": "显示文件和文件夹目录，支持展开文件夹。",

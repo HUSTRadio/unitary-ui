@@ -6,6 +6,22 @@
 
 Find package-root hooks and utilities by purpose. Component pages own their props; layout topics own their corresponding interfaces.
 
+## API conventions
+
+Stateful components pair a controlled value with an uncontrolled default: Switch takes checked / defaultChecked, and once checked is supplied the component only reports changes through onCheckedChange instead of keeping internal state. The controlled value wins in the same render.
+
+Callbacks follow their job: native form events stay onChange / onInput with an event object, while state transitions use onXxxChange (onOpenChange, onValueChange) carrying the new value. The convention promises argument semantics, not internal implementation.
+
+Components never perform network requests: the package contains no fetch, XMLHttpRequest or HTTP client. Callers fetch data and pass it as props, and callers render loading and error states (Skeleton, ErrorCard). Hooks handle local state, subscriptions and DOM lifecycle only.
+
+Canonical names win over aliases: Button's type takes precedence over variant, and retired size names (xs / sm / default / lg / icon\* on Button, medium on Input and Select) are not coming back as aliases. Map tiers explicitly at the call site instead of adding a library-wide Variant abstraction.
+
+- 32px tier: Button small ↔ Input small ↔ Select small (Textarea small is an 80px box)
+- 36px tier: Button medium ↔ Input default ↔ Select default ↔ Textarea medium (100px box)
+- 40px tier: Button large ↔ Input large ↔ Select large (Textarea large is a 120px box)
+
+Spacing has three layers: LayoutSpacing (xs, sm, md, lg, xl) is the component-prop tier, Tailwind --spacing backs the utility scale, and navigation semantic variables (--uni-nav-space-\*) carry navigation rhythm. All three coexist; do not add a parallel --space-1…n scale, and do not create token catalog churn for documentation-only tweaks.
+
 ## Scrolling & navigation layout
 
 Cancellable scrolling in the nearest scroll container and shared sidebar/menu content spacing.
@@ -80,10 +96,10 @@ import { Layer, LayerScope, LayerPortal, useLayerStyle } from "@hustradio/unitar
 
 ## State & events
 
-Common state conventions; component-specific hooks are documented on Radio and Toast.
+Common state conventions, plus opt-in draft persistence under a namespaced, versioned storage key; component-specific hooks are documented on Radio and Toast.
 
 ```tsx
-import { useRadio, useToasts, createToastStore } from "@hustradio/unitary-ui";
+import { useRadio, useToasts, createToastStore, useDraft } from "@hustradio/unitary-ui";
 ```
 
 [View reference](#/api/state-and-events)
@@ -105,6 +121,7 @@ Measure fonts and apply the framework's typography compensation.
 ```tsx
 import {
   probeFontMetrics,
+  installFontMetrics,
   useFontMetrics,
   measureFontMetrics,
   applyFontMetrics,

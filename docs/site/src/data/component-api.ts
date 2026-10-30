@@ -357,6 +357,12 @@ const O = {
         "视觉变体。",
         { defaultValue: '"default"' },
       ),
+      row(
+        "variant",
+        '"default" | "secondary" | "tertiary" | "error" | "warning"',
+        "Alias of type; type wins when both are provided.",
+        "type 的别名；两者同时提供时 type 生效。",
+      ),
       row("typeName", '"submit" | "button" | "reset"', "Native button type.", "原生按钮 type。", {
         defaultValue: '"submit"',
       }),
@@ -1121,6 +1127,22 @@ const O = {
         "在非 dryRun 提交后接收评分、文本、调用方 metadata 与所选主题。主题选择器只在默认 Popover 变体中渲染。",
       ),
     ],
+  ),
+  field: component(
+    ["Field"],
+    [
+      row("label", "ReactNode", "Field label; rendered as a label element pointing at htmlFor.", "字段标签；渲染为指向 htmlFor 的 label 元素。"),
+      row("htmlFor", "string", "Id of the control the label targets; Field never writes it to the child.", "标签指向的控件 id；Field 不会把它写到子元素上。"),
+      row("description", "ReactNode", "Helper text under the control, above the error.", "控件下方的辅助说明，位于错误之前。"),
+      row("error", "ReactNode", "Error message routed through FieldError; empty values render nothing.", "错误消息交由 FieldError 渲染；空值不渲染。"),
+      row("large", "boolean", "Aligns helper text and error with large controls.", "说明与错误对齐 large 控件。", {
+        defaultValue: "false",
+      }),
+      row("children", "ReactNode", "The control itself, rendered as-is.", "控件本身，原样渲染。", {
+        required: true,
+      }),
+    ],
+    'ComponentProps<"div">',
   ),
   fieldset: component(
     [
