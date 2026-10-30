@@ -9,7 +9,13 @@
   },
   "entries": [
     {
-      "file": "src/components/ui/activity-view.tsx",
+      "file": "src/components/ui/data-table.tsx",
+      "classification": "client",
+      "indicators": [],
+      "reason": "client directive; composes client Table primitives"
+    },
+    {
+      "file": "src/components/ui/date-picker.tsx",      "file": "src/components/ui/activity-view.tsx",
       "classification": "client",
       "indicators": [
         "event:onClick",

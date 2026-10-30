@@ -270,6 +270,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   /* Data Display —— 数据、状态与标识的展示 */
   avatar: "data-display",
   badge: "data-display",
+  "data-table": "data-display",
   description: "data-display",
   entity: "data-display",
   "file-tree": "data-display",

@@ -8,6 +8,7 @@
 
 ### Added
 
+- **数据表格 `DataTable`**：用带类型的 `columns` 渲染调用方持有的 `rows`，`getRowKey` 保证行标识稳定；`loading` / `empty` / `error` 显式互斥（loading > error > empty）。不排序、不筛选、不分页、不发请求，外观通过 `colorScheme` 等属性透传给 Table。
 - **日志查看器 `LogView`**：展示调用方传入的 entries，按最低级别过滤、支持复制与导出，并在贴底时自动跟随最新一行、手动上滚后暂停跟随并显示「跳到最新」。首版不排序、不合并、不发请求，也不做虚拟化。
 - **Task 数据适配器 `usePolling` / `useEventStream`**：新增两个最小数据适配器，共用 `nextBackoffDelay` 指数退避（1s 起、2 倍、30s 封顶）。轮询保持单飞、按 `isDone` 停止；事件流断连后退避重连、解析失败不丢连接；卸载、`stop()`、`close()` 与参数变化都会清理定时器并 abort/close 连接。两者不缓存、不共享状态，也不是通用 async store。
 - **长任务展示 `Task` 与纯状态机 `taskReducer`**：新增受控的 Task 组件与 `idle/running/partial/failed/succeeded` 状态机。组件只呈现传入的状态、进度与阶段，取消仅在 running、重试仅在 failed/partial 出现；不持状态、不设定时器、不发请求，也不复用 StatusDot 的构建语义。

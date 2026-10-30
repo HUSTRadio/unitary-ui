@@ -289,8 +289,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2998093ef188b5edd6996cab831fbc6df2962b5445989471893b6b0cbf91913b",
-        "en-US": "sha256:0158c9e5958a79c51fa337103bac68e9d2145fe3f741476067cc694c24079ae3"
+        "zh-CN": "sha256:c31c2e436709053bee3637c60b63146ad09308d2e552aeef448d86505096ade3",
+        "en-US": "sha256:9a4f677ec46699483bb21f47ac49d03a893e73dc8d416234f658b988bdabd502"
       }
     },
     {
@@ -982,6 +982,22 @@
       }
     },
     {
+      "path": "/components/data-table",
+      "title": {
+        "zh-CN": "数据表格",
+        "en-US": "Data Table"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/data-table.md",
+        "en-US": "pages/en-US/components/data-table.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:43c68bece11661a6b4e7173d3b22d27b0b5b730c194cafcb9abbc1656b725bc1",
+        "en-US": "sha256:5a754b664292cc19c6fbf5f2ac947481f3845a3e4f5e0d6328f3109a0a81f86d"
+      }
+    },
+    {
       "path": "/components/description",
       "title": {
         "zh-CN": "描述",
@@ -1185,8 +1201,8 @@
         "en-US": "pages/en-US/components/table.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b4261ea4336209dc6f386e00c9b716f2f0af69667f40159cd8990364bfe08f44",
-        "en-US": "sha256:82ef37cea276f005ee98b1fe6531c872cd8fc5c3ecfa950cd2b9e7d2040f326d"
+        "zh-CN": "sha256:d8136391a5094372401c972ec574368f4ab4622a9e066da11cce48a3720e8358",
+        "en-US": "sha256:37bfcbf34dda2c367d84d878f9578dcb1bc5b36878af5d5c1d35f1795604f3dc"
       }
     },
     {

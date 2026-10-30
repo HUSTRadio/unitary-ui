@@ -193,6 +193,8 @@ export { Slider } from "@/components/ui/slider";
 export type { SliderProps } from "@/components/ui/slider";
 export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
+export { DataTable } from "@/components/ui/data-table";
+export type { DataTableColumn, DataTableProps } from "@/components/ui/data-table";
 export { Field } from "@/components/ui/field";
 export { LogView, LOG_LEVELS, formatLogLine, logEntriesToText } from "@/components/ui/log-view";
 export type { LogEntry, LogLevel, LogLevelFilter, LogViewProps } from "@/components/ui/log-view";

@@ -446,6 +446,18 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "data-table",
+    label: "Data Table",
+    labelZh: "数据表格",
+    description: "Render caller-owned rows through typed columns with loading, empty and error states.",
+    bestPractices: [
+      "Pass rows as the single source of truth and provide getRowKey; DataTable never sorts, filters or paginates.",
+      "Keep column ids stable so cells keep their identity across renders.",
+      "Treat loading, empty and error as explicit props instead of inferring them from an empty array.",
+      "Compose pagination, sorting and selection in the caller; DataTable v1 stays a presentation layer.",
+    ],
+  },
+  {
     name: "description",
     label: "Description",
     labelZh: "描述",

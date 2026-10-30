@@ -20,7 +20,7 @@ const items = [
   ["Spark Plugs", "500 sets", "$5 per set", "$2,500.00"],
 ] as const;
 
-export function TableVirtualizedExample() {
+export function TableShowMoreRowsExample() {
   const [expanded, setExpanded] = React.useState(false);
   const rows = expanded ? 48 : 9;
   return (

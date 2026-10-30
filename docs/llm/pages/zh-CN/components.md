@@ -200,6 +200,14 @@ copy-button
 
 ](#/components/copy-button)[
 
+data-table
+
+### 数据表格
+
+用带类型的列渲染调用方持有的行数据，并显式处理加载、空与错误状态。
+
+](#/components/data-table)[
+
 description
 
 ### 描述

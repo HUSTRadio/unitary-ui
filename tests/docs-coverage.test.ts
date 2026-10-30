@@ -46,6 +46,7 @@ describe("Geist documentation coverage", () => {
       "category-bar",
       "combo-chart",
       "continuous-surface",
+      "data-table",
       "donut-chart",
       "edit-menu",
       "error-boundary",

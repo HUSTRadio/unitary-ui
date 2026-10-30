@@ -1,3 +1,5 @@
+import { DataTableBasic4E2D81B7Example } from "./data-table/basic-4e2d81b7.example";
+import DataTableBasic4E2D81B7ExampleSource from "./data-table/basic-4e2d81b7.example.tsx?example-source";
 import { LogViewFollowA17B53C9Example } from "./log-view/follow-a17b53c9.example";
 import LogViewFollowA17B53C9ExampleSource from "./log-view/follow-a17b53c9.example.tsx?example-source";
 import { LayerPortalExample } from "./layer/portal.example";
@@ -825,8 +827,8 @@ import { TableInteractiveExample } from "./table/interactive.example";
 import TableInteractiveExampleSource from "./table/interactive.example.tsx?example-source";
 import { TableFullFeaturedExample } from "./table/full-featured.example";
 import TableFullFeaturedExampleSource from "./table/full-featured.example.tsx?example-source";
-import { TableVirtualizedExample } from "./table/virtualized.example";
-import TableVirtualizedExampleSource from "./table/virtualized.example.tsx?example-source";
+import { TableShowMoreRowsExample } from "./table/show-more-rows.example";
+import TableShowMoreRowsExampleSource from "./table/show-more-rows.example.tsx?example-source";
 import { EditMenuDefault3F2A9C71Example } from "./edit-menu/default-3f2a9c71.example";
 import EditMenuDefault3F2A9C71ExampleSource from "./edit-menu/default-3f2a9c71.example.tsx?example-source";
 import { ContextMenuQuickActions8D41B0E7Example } from "./context-menu/quick-actions-8d41b0e7.example";
@@ -1286,6 +1288,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "project-banner", id: "Success", Component: ProjectBannerSuccessC88A0B90Example, source: ProjectBannerSuccessC88A0B90ExampleSource },
   { slug: "project-banner", id: "Warning", Component: ProjectBannerWarningE981DDAEExample, source: ProjectBannerWarningE981DDAEExampleSource },
   { slug: "project-banner", id: "Error", Component: ProjectBannerError54A0E8C1Example, source: ProjectBannerError54A0E8C1ExampleSource },
+  { slug: "data-table", id: "basic", Component: DataTableBasic4E2D81B7Example, source: DataTableBasic4E2D81B7ExampleSource },
   { slug: "description", id: "default", Component: DescriptionDefault37A8EEC1Example, source: DescriptionDefault37A8EEC1ExampleSource },
   { slug: "description", id: "text-right", Component: DescriptionTextRightFE5B1527Example, source: DescriptionTextRightFE5B1527ExampleSource },
   { slug: "description", id: "ellipsis", Component: DescriptionEllipsisB014A021Example, source: DescriptionEllipsisB014A021ExampleSource },
@@ -1307,7 +1310,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "table", id: "Outlined table", Component: TableOutlinedExample, source: TableOutlinedExampleSource },
   { slug: "table", id: "Interactive table", Component: TableInteractiveExample, source: TableInteractiveExampleSource },
   { slug: "table", id: "Full featured table", Component: TableFullFeaturedExample, source: TableFullFeaturedExampleSource },
-  { slug: "table", id: "Virtualized table", Component: TableVirtualizedExample, source: TableVirtualizedExampleSource },
+  { slug: "table", id: "Show more rows", Component: TableShowMoreRowsExample, source: TableShowMoreRowsExampleSource },
   { slug: "edit-menu", id: "default", Component: EditMenuDefault3F2A9C71Example, source: EditMenuDefault3F2A9C71ExampleSource },
   { slug: "context-menu", id: "quick-actions", Component: ContextMenuQuickActions8D41B0E7Example, source: ContextMenuQuickActions8D41B0E7ExampleSource },
   { slug: "select", id: "pop-up-button", Component: SelectPopUpButton5C7E2A91Example, source: SelectPopUpButton5C7E2A91ExampleSource },

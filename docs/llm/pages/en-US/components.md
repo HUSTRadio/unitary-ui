@@ -200,6 +200,14 @@ Copy text and show the result with an icon.
 
 ](#/components/copy-button)[
 
+data-table
+
+### Data Table
+
+Render caller-owned rows through typed columns with loading, empty and error states.
+
+](#/components/data-table)[
+
 description
 
 ### Description

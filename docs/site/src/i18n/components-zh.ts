@@ -39,6 +39,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   "safe-area": "用内边距避开刘海、圆角和系统栏，并保留指定的最小间距。",
   flex: "沿横向或纵向排列子元素，统一间距和对齐方式。",
   "continuous-surface": "按元素尺寸生成连续圆角裁切；无法生成路径时使用普通圆角。",
+  "data-table": "用带类型的列渲染调用方持有的行数据，并显式处理加载、空与错误状态。",
   description: "以键值对显示地区、套餐等元数据。",
   "copy-button": "复制指定文本，并用图标反馈复制结果。",
   "destructive-action-modal": "确认删除等高风险操作；输入指定短语后才能提交。",

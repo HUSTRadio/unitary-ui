@@ -234,6 +234,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "矩形卡片保留直边；完整 superellipse 只用于近方形图标或头像表面。",
     "保留 border-radius 降级，不使用平台品牌曲线名，也不复制平台资源中的精确 path。",
   ],
+  "data-table": [
+    "rows 是唯一数据源，并提供 getRowKey；DataTable 不排序、不筛选、不分页。",
+    "列 id 保持稳定，单元格在多次渲染间才不会重建。",
+    "加载、空、错误都是显式属性，不要用空数组去猜。",
+    "分页、排序、选择由调用方组合；v1 只做展示层。",
+  ],
   description: [
     "定义列表式元数据用 <Description>：简短短语的首字母大写键配单个值（Last Deployed、Region、Plan）。表单字段下的内联帮助用 input 的 helper-text 插槽。",
     "Unitary 渲染 <dl>/<dt>/<dd>，屏幕阅读器会把每个键值对读作定义。不要在组件外包额外段落破坏列表语义。",

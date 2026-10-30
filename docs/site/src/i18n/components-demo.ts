@@ -188,7 +188,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Dashed grid with cross": "带十字的虚线网格",
     "Dashed grid with grid page": "带页面的虚线网格",
     "Disable specific tabs": "禁用指定标签页",
-    "Virtualized table": "虚拟化表格",
+    "Show more rows": "展开更多行",
     "Title with Icon": "带图标标题",
     "Striped table": "斑马纹表格",
     // bordered 是行样式（行间分隔线），不是容器外框（外框由 TableRoot 的 frame 提供）。
