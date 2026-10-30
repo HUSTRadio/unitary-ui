@@ -37,8 +37,24 @@ inventing behavior to match stale prose.
   styling, or dependencies affect every consumer.
 - Do not fabricate props, defaults, events, accessibility behavior, or demo identifiers.
 - Never commit credentials, tokens, private keys, local paths, or machine-specific configuration.
-- Do not commit generated scratch output or local agent state.
-- Do not commit or push unless the user explicitly requests that action.
+- Do not commit generated scratch output or local agent state (`.scratch/`, `.workbuddy/`).
+- **Commit every finished task; never let work accumulate.** As soon as a task's verification has fresh
+  evidence, stage only that task's paths and create one Conventional commit
+  (`<type>(<scope>): <summary>`) with a short body listing what changed and how it was verified. One
+  commit per PR-sized task is expected; a working tree holding days of finished work is a defect.
+  Include generated artifacts that the task's contract owns (for example `docs/llm/pages`) in the same
+  commit, and exclude unrelated dirty paths rather than sweeping them in.
+- Pushing is a separate, explicitly requested action. Commit locally by default; push only when the
+  user asks for it.
+
+### Commit cadence
+
+1. Finish the change and its narrowest verification.
+2. Stage the task's files by exact path (or by the directory the task owns).
+3. Commit with the type that matches the change: `feat` for public surface, `fix` for behavior,
+   `docs` for documentation and corpora, `chore` for plans, tooling and ledgers, `refactor` for
+   structure without behavior change.
+4. If a later task edits the same files, commit it separately instead of amending the earlier one.
 
 ## Versioned LLM task discovery
 
