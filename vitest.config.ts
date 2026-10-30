@@ -30,6 +30,8 @@ export default {
       "**/.hermes/**",
       // 本地验证快照与临时产物不参与测试收集。 / Exclude local verification snapshots.
       "**/.scratch/**",
+      // Local workbench state and recovery snapshots are not test sources.
+      "**/.workbuddy/**",
       // git worktree 隔离工作区（parallel-subagent-driven-development）：
       // 其中的 tests/ 是旧代码快照，会被 vitest 重复收集导致套件数翻倍
       "**/.superpowers/**",
@@ -37,8 +39,6 @@ export default {
       // 依赖 @playwright/test 的 test 函数，vitest 收集会直接报错）
       "tests/e2e/**",
       "website/tests/e2e/**",
-      // devShell 三包使用各自独立的 Vitest / Playwright harness。
-      "packages/dev-shell*/**",
     ],
   },
 };

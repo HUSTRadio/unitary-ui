@@ -16,8 +16,6 @@ import {
   indirectTests,
   isBrowserSpec,
   isBrowserTest,
-  isDevShellBrowserSpec,
-  isDevShellBrowserTest,
   isTemplateBrowserSpec,
   isWebsiteBrowserSpec,
   browserFileFilters,
@@ -114,7 +112,6 @@ export async function createVerificationPlan(root, options, services = {}) {
       browserSpecs: [],
       templateBrowserSpecs: [],
       websiteBrowserSpecs: [],
-      devShellBrowserSpecs: [],
       routes: [],
       checks: [],
       broadChecks: [],
@@ -175,11 +172,10 @@ export async function createVerificationPlan(root, options, services = {}) {
   const excludedBrowserTests = context.paths.filter(
     (file) =>
       files.includes(file) &&
-      ((isBrowserTest(file) &&
+      (isBrowserTest(file) &&
         !isBrowserSpec(file) &&
         !isTemplateBrowserSpec(file) &&
-        !isWebsiteBrowserSpec(file)) ||
-        (isDevShellBrowserTest(file) && !isDevShellBrowserSpec(file))),
+        !isWebsiteBrowserSpec(file)),
   );
   if (excludedBrowserTests.length)
     throw new Error(
@@ -206,7 +202,6 @@ export async function createVerificationPlan(root, options, services = {}) {
   const browserSpecs = scope.fullBrowser ? files.filter(isBrowserSpec) : browser.selected;
   const templateBrowserSpecs = files.filter(isTemplateBrowserSpec);
   const websiteBrowserSpecs = files.filter(isWebsiteBrowserSpec);
-  const devShellBrowserSpecs = files.filter(isDevShellBrowserSpec);
   const routes = scope.fullBrowser ? [] : discovery.routes;
   const checks = [];
   const skipped = [];
@@ -258,10 +253,6 @@ export async function createVerificationPlan(root, options, services = {}) {
   );
   add(scope.templates, "test:templates", "Complete template viewport/theme/language coverage", ["--max-failures=1", "--reporter=list,json"], { UNITARY_TEMPLATE_ARTIFACTS: undefined });
   add(scope.website, "test:website", "Complete website viewport/theme/language and interaction coverage", ["--max-failures=1", "--reporter=list,json"]);
-  add(scope.devShellTypecheck, "typecheck:dev-shell", "Independent devShell contract/server/web types");
-  add(scope.devShellUnit, "test:dev-shell", "Independent devShell server and browser unit tests");
-  add(scope.devShellBuild, "build:dev-shell", "Independent devShell application build");
-  add(scope.devShellBrowser, "test:dev-shell:e2e", "Independent devShell Chromium interactions", ["--max-failures=1", "--reporter=list,json"]);
   return {
     context,
     scope,
@@ -270,7 +261,6 @@ export async function createVerificationPlan(root, options, services = {}) {
     browserSpecs,
     templateBrowserSpecs,
     websiteBrowserSpecs,
-    devShellBrowserSpecs,
     routes,
     checks,
     broadChecks: checks.filter(({ name }) =>
@@ -289,7 +279,6 @@ function browserEvidenceScope(plan, checks, directory) {
     { check: "test:docs-layout", name: "documentation", file: "browser.json", files: plan.browserSpecs },
     { check: "test:templates", name: "template", file: "template-browser.json", files: plan.templateBrowserSpecs },
     { check: "test:website", name: "website", file: "website-browser.json", files: plan.websiteBrowserSpecs },
-    { check: "test:dev-shell:e2e", name: "devShell", file: "dev-shell-browser.json", files: plan.devShellBrowserSpecs },
   ];
   const scope = scopes.find(({ check }) => checks.includes(check));
   return scope ? { ...scope, reportPath: path.join(directory, scope.file) } : null;
@@ -397,7 +386,6 @@ export async function verifyWorkspace(root, options, services = {}) {
       browserSpecs: plan.browserSpecs,
       templateBrowserSpecs: plan.templateBrowserSpecs,
       websiteBrowserSpecs: plan.websiteBrowserSpecs,
-      devShellBrowserSpecs: plan.devShellBrowserSpecs,
       routes: plan.routes,
       discoveryMs: plan.discoveryMs ?? 0,
       status: "RUNNING",

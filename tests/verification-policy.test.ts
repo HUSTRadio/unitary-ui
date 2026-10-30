@@ -13,8 +13,6 @@ import { DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
 import {
   classifyVerification,
   indirectTests,
-  isDevShellBrowserSpec,
-  isDevShellUnitTest,
   isUnitTest,
   selectBrowserSpecs,
   browserFileFilters,
@@ -34,7 +32,7 @@ it("maps leaf motion CSS and component owners to their token consumer browser co
 
 it("associates motion governance with every runtime UI consumer surface", () => {
   const tests = ["tests/motion-duration-governance.test.ts", "tests/motion-easing-governance.test.ts"];
-  for (const input of ["website/src/App.tsx", "templates/docs/src/App.tsx", "packages/dev-shell/src/styles.css"]) {
+  for (const input of ["website/src/App.tsx", "templates/docs/src/App.tsx"]) {
     expect(indirectTests([input], tests).sort()).toEqual([...tests].sort());
   }
 });
@@ -91,74 +89,9 @@ const discovery = (available: string[], selected: string[] = []) => ({
 });
 
 describe("verification selection", () => {
-  it.each([
-    {
-      file: "packages/dev-shell-server/tests/unit/db.test.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell"],
-    },
-    {
-      file: "packages/dev-shell/src/App.tsx",
-      checks: ["typecheck:dev-shell", "test:dev-shell", "build:dev-shell", "test:dev-shell:e2e"],
-    },
-    {
-      file: "packages/dev-shell/vite.config.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell", "build:dev-shell", "test:dev-shell:e2e"],
-    },
-    {
-      file: "packages/dev-shell-server/vitest.config.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell", "build:dev-shell", "test:dev-shell:e2e"],
-    },
-    {
-      file: "packages/dev-shell-server/tests/fixtures/browser-server.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell", "build:dev-shell", "test:dev-shell:e2e"],
-    },
-    {
-      file: "packages/dev-shell-contract/src/index.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell", "build:dev-shell", "test:dev-shell:e2e"],
-    },
-    {
-      file: "packages/dev-shell/tests/e2e/shell.spec.ts",
-      checks: ["typecheck:dev-shell", "test:dev-shell:e2e"],
-    },
-  ])("keeps devShell verification independent for $file", async ({ file, checks }) => {
-    expect(isUnitTest(file)).toBe(false);
-    const root = fixture({ [file]: "export {};", "tests/known.test.ts": "export {};" });
-    const plan = await createVerificationPlan(
-      root,
-      { full: false },
-      {
-        context: context(file),
-        files: [file, "tests/known.test.ts"],
-        discover: async () => discovery(["tests/known.test.ts"]),
-      },
-    );
-    expect(plan.checks.map(({ name }) => name)).toEqual(checks);
-    expect(plan.selectedTests).toEqual([]);
-    expect(plan.browserSpecs).toEqual([]);
-    expect(plan.reasons).toEqual([]);
-    expect(plan.broadChecks).toEqual([]);
-    if (file.startsWith("packages/dev-shell/tests/e2e/")) {
-      expect(plan.devShellBrowserSpecs).toEqual([file]);
-      expect(plan.checks.find(({ name }) => name === "test:dev-shell:e2e")?.args).toEqual(["--max-failures=1", "--reporter=list,json"]);
-    }
-    expect(plan.scope).toMatchObject({
-      unit: false,
-      fullUnit: false,
-      browser: false,
-      fullBrowser: false,
-      docsBuild: false,
-      website: false,
-      package: false,
-    });
-  });
 
-  it("distinguishes devShell unit and Playwright tests from root test ownership", () => {
-    expect(isDevShellUnitTest("packages/dev-shell/tests/unit/store.test.ts")).toBe(true);
-    expect(isDevShellUnitTest("packages/dev-shell/tests/e2e/shell.spec.ts")).toBe(false);
-    expect(isDevShellBrowserSpec("packages/dev-shell/tests/e2e/shell.spec.ts")).toBe(true);
-    expect(isDevShellBrowserSpec("packages/dev-shell/tests/e2e/.shell.spec.ts")).toBe(false);
-    expect(isUnitTest("tests/verification-policy.test.ts")).toBe(true);
-  });
+
+
 
   it.each(["docs/guides/npm-release.md", "docs/guides/npm-release.en.md"])("maps standalone publishing instructions to their contract tests: %s", file => {
     const result = classifyVerification(context(file));
@@ -221,7 +154,6 @@ describe("verification selection", () => {
       "tests/e2e/.new.spec.ts",
       "tests/e2e/_tmp-new.test.js",
       "tests/e2e/new.tmp.spec.ts",
-      "packages/dev-shell/tests/e2e/_tmp-new.spec.ts",
     ]) {
       const files = ["tests/known.test.ts", file];
       const root = fixture(Object.fromEntries(files.map((name) => [name, "export {};"])));
@@ -543,7 +475,6 @@ describe("verification selection", () => {
     // current import closure or indirect consumers to inspect.
     const files = verificationFiles(root).filter(file => existsSync(path.join(root, file)));
     expect(missingIndirectInputs(root, files.filter(isUnitTest), files)).toEqual([]);
-    expect(missingIndirectInputs(root, files.filter(file => isDevShellUnitTest(file) || isDevShellBrowserSpec(file)), files)).toEqual([]);
     expect(selectBrowserSpecs([], files, []).missing).toEqual([]);
     expect(INDIRECT_INPUT_GROUPS.every(({ inputs }) => inputs.length > 0)).toBe(true);
     expect(indirectTests(["scripts/run-locked-script.mjs"], files)).toContain(
@@ -552,8 +483,6 @@ describe("verification selection", () => {
     expect(indirectTests(["src/components/ui/radio.tsx"], files)).not.toContain(
       "tests/audit/comparator-v3.test.ts",
     );
-    const packageTests = ["packages/dev-shell-server/tests/integration/mcp-workbench.test.ts", "packages/dev-shell-server/tests/integration/server-lifecycle.test.ts", "packages/dev-shell/tests/e2e/workbench.spec.ts"];
-    expect(indirectTests(["packages/dev-shell-server/tests/fixtures/browser-server.ts"], packageTests)).toEqual(packageTests.sort());
   });
 });
 
@@ -590,18 +519,7 @@ describe("verification command planning", () => {
     expect(steps.at(-1)?.command).toEqual(["node", "scripts/test-packed-package.mjs"]);
   });
 
-  it("locks the complete devShell sequence and deduplicates its build prerequisites", () => {
-    const steps = verificationSteps([{ name: "verify:dev-shell", reason: "devShell" }]);
-    expect(steps.map(({ command }) => command)).toEqual([
-      ["bin", "typescript", "tsc", "-p", "packages/dev-shell-contract/tsconfig.json"],
-      ["bin", "typescript", "tsc", "-p", "packages/dev-shell-server/tsconfig.json"],
-      ["bin", "typescript", "tsc", "-p", "packages/dev-shell/tsconfig.json"],
-      ["bin", "vitest", "vitest", "run", "-c", "packages/dev-shell-server/vitest.config.ts"],
-      ["bin", "vitest", "vitest", "run", "-c", "packages/dev-shell/vitest.config.ts"],
-      ["bin", "vite", "vite", "build", "-c", "packages/dev-shell/vite.config.ts"],
-      ["bin", "@playwright/test", "playwright", "test", "-c", "packages/dev-shell/playwright.config.ts"],
-    ]);
-  });
+
 
   it("preserves literal arguments, rejects cycles and validates CLI options", () => {
     const literal = ["with spaces", "$(literal)", "a&b", 'quote"value'];

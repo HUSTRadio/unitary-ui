@@ -3,7 +3,6 @@ import path from "node:path";
 import ts from "typescript";
 import {
   INDIRECT_INPUT_GROUPS,
-  isDevShellPath,
   isUnitTest,
   BROWSER_RENDERER_INPUTS,
   BROWSER_COMPONENT_RENDERER,
@@ -42,19 +41,15 @@ export function repositoryImports(root, files, stopAt = new Set()) {
     for (const imported of imports) {
       if (/^(?:node:)?(?:fs(?:\/promises)?|child_process)$/.test(imported)) result.opaque = true;
       if (!imported.startsWith(".") && !imported.startsWith("@/") &&
-          !imported.startsWith("@shell/") &&
-          !imported.startsWith("@hustradio/dev-shell-contract") &&
           !imported.startsWith("@hustradio/unitary-ui")) continue;
       const id = imported.split("?", 1)[0];
       const publicInputs = {
         "@hustradio/unitary-ui": "src/lib/index.ts",
         "@hustradio/unitary-ui/styles.css": "src/styles/index.css",
         "@hustradio/unitary-ui/tailwind-reference.css": "src/styles/index.css",
-        "@hustradio/dev-shell-contract": "packages/dev-shell-contract/src/index.ts",
       };
       const relative = publicInputs[id] ?? (imported.startsWith("@/")
         ? `src/${id.slice(2)}`
-        : imported.startsWith("@shell/") ? `packages/dev-shell/src/${id.slice(7)}`
         : path.posix.normalize(path.posix.join(path.posix.dirname(file), id)));
       if (relative.startsWith("../")) throw new Error(`Import leaves the repository: ${file}`);
       const candidates = [
@@ -162,7 +157,7 @@ const DISCOVERY_ENV_KEYS = [
 /** Vitest resolves the actual configured module graph, including the example-source plugins. */
 export async function discoverVerification(root, files, changed, related = true) {
   const environment = DISCOVERY_ENV_KEYS.map((key) => [key, process.env[key]]);
-  const rootRelated = changed.filter((file) => !isDevShellPath(file));
+  const rootRelated = changed;
   let ctx;
   let available;
   try {

@@ -70,19 +70,7 @@ it("associates public package imports with the canonical library and styles", ()
   ]));
 });
 
-it("traces devShell workspace contract and browser aliases to their canonical owners", () => {
-  const { root, files } = fixture({
-    "packages/dev-shell-contract/src/index.ts": 'export * from "./events";',
-    "packages/dev-shell-contract/src/events.ts": "export const version = 2;",
-    "packages/dev-shell/src/api/client.ts": 'import { version } from "@hustradio/dev-shell-contract"; export const client = version;',
-    "packages/dev-shell/tests/unit/client.test.ts": 'import { client } from "@shell/api/client";',
-  });
-  const closure = repositoryImports(root, files).closure("packages/dev-shell/tests/unit/client.test.ts");
-  expect(closure.opaque).toBe(false);
-  expect([...closure.files]).toEqual(expect.arrayContaining([
-    "packages/dev-shell/src/api/client.ts", "packages/dev-shell-contract/src/index.ts", "packages/dev-shell-contract/src/events.ts",
-  ]));
-});
+
 
 it.each([
   { name: "unset", values: environment(undefined) },
@@ -102,18 +90,7 @@ it.each([
   expect(readEnvironment()).toEqual(values);
 }, 30_000);
 
-it("does not collect independent devShell tests through root Vitest related discovery", async () => {
-  const { root, files } = fixture({
-    "vitest.config.ts":
-      'export default { test: { include: ["**/*.test.ts"], exclude: ["**/node_modules/**", "packages/dev-shell*/**"] } };',
-    "packages/dev-shell/src/App.ts": "export const shell = true;",
-    "packages/dev-shell/tests/unit/independent.test.ts": 'throw new Error("must use package config");',
-  });
-  const result = await discoverVerification(root, files, ["packages/dev-shell/src/App.ts"]);
-  expect(result.available).toEqual(["tests/related.test.ts", "tests/unrelated.test.ts"]);
-  expect(result.selected).toEqual([]);
-  expect(result.missing).toEqual([]);
-}, 30_000);
+
 
 it("restores unset variables when real Vitest initialization fails", async () => {
   const { root, files } = fixture({

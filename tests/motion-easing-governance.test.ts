@@ -15,7 +15,7 @@ const policy = JSON.parse(readFileSync("tests/audit/motion-easing-allowlist.json
 const templateRoots = readdirSync(path.join(root, "templates"), { withFileTypes: true })
   .filter(entry => entry.isDirectory() && existsSync(path.join(root, "templates", entry.name, "src")))
   .map(entry => `templates/${entry.name}/src`);
-const scanRoots = ["src", "docs/site/src", "website/src", "packages/dev-shell/src", ...templateRoots];
+const scanRoots = ["src", "docs/site/src", "website/src", ...templateRoots];
 function proseRegistry(file: string): boolean {
   return /^docs\/site\/src\/(?:content|i18n|data)\//.test(file)
     || /^(?:website\/src|templates\/[^/]+\/src)\/(?:content|data|documents)\.ts$/.test(file);
@@ -106,7 +106,7 @@ function sourceViolations(file: string, text: string, rotations = new Set<string
 describe("motion easing governance", () => {
   it("covers runtime shells and dynamically discovers copyable template sources", () => {
     const actual = scanRoots.flatMap(files);
-    for (const file of ["docs/site/src/App.tsx", "docs/site/src/pages/tokens.tsx", "docs/site/src/index.css", "website/src/index.css", "packages/dev-shell/src/styles.css"]) {
+    for (const file of ["docs/site/src/App.tsx", "docs/site/src/pages/tokens.tsx", "docs/site/src/index.css", "website/src/index.css"]) {
       expect(actual).toContain(file);
     }
     for (const directory of templateRoots) expect(actual).toContain(`${directory}/App.tsx`);

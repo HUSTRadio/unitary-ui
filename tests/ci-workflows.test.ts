@@ -157,47 +157,9 @@ describe("GitHub Actions CI contracts", () => {
     expect(screenshots.steps[check].run).not.toContain("--update-on-drift");
   });
 
-  it("runs the independent devShell database, unit, build and fake-CLI browser gates on Node 24", () => {
-    const config = workflow("dev-shell");
-    expect(config.on.push).toEqual({ branches: ["master"] });
-    expect(config.on).toHaveProperty("pull_request");
-    expect(config.on).toHaveProperty("workflow_dispatch");
-    expect(config.permissions).toEqual({ contents: "read" });
-    const job = config.jobs["dev-shell"];
-    expect(job["runs-on"]).toBe("ubuntu-24.04");
-    expect(job["continue-on-error"] ?? false).toBe(false);
-    const install = runIndex(job, "pnpm install --frozen-lockfile");
-    const unit = runIndex(job, "pnpm run test:dev-shell");
-    const chromium = runIndex(job, browserInstall);
-    const build = runIndex(job, "pnpm run build:dev-shell");
-    const browser = runIndex(job, "pnpm run test:dev-shell:e2e");
-    expect(runIndex(job, "pnpm run typecheck:dev-shell")).toBeGreaterThan(install);
-    expect(unit).toBeGreaterThan(install);
-    expect(chromium).toBeGreaterThan(unit);
-    expect(build).toBeGreaterThan(chromium);
-    expect(browser).toBeGreaterThan(build);
-    for (const step of job.steps) {
-      expect(step.run ?? "").not.toContain("smoke:codebuddy");
-      expect(step.run ?? "").not.toMatch(/(?:^|\s)codebuddy(?:\s|$)/);
-    }
-  });
 
-  it("runs the fake CLI and real lifecycle contracts on Windows without production credentials", () => {
-    const config = workflow("dev-shell");
-    const job = config.jobs["dev-shell-windows"];
-    expect(job["runs-on"]).toBe("windows-2025");
-    expect(job.needs).toBeUndefined();
-    expect(job["timeout-minutes"]).toBe(20);
-    const install = runIndex(job, "pnpm install --frozen-lockfile");
-    const types = runIndex(job, "pnpm run typecheck:dev-shell");
-    const tests = runIndex(job, "pnpm run test:dev-shell");
-    expect(install).toBeLessThan(types);
-    expect(types).toBeLessThan(tests);
-    for (const step of job.steps) {
-      expect(step.run ?? "").not.toContain("smoke:codebuddy");
-      expect(JSON.stringify(step.env ?? {})).not.toContain("secrets.");
-    }
-  });
+
+
 
   it("pins actions and shares secure, reproducible toolchain setup across every job", () => {
     const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
@@ -205,7 +167,7 @@ describe("GitHub Actions CI contracts", () => {
       name: "pnpm",
       version: "11.20.0",
     });
-    for (const config of [workflow("ci"), workflow("e2e-nightly"), workflow("dev-shell")]) {
+    for (const config of [workflow("ci"), workflow("e2e-nightly")]) {
       for (const job of Object.values(config.jobs)) {
         expect(job.permissions ?? config.permissions).toEqual({ contents: "read" });
         expect(job["continue-on-error"] ?? false).toBe(false);

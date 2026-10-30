@@ -2,7 +2,9 @@ packages:
   - docs
   - website
   - templates/*
-  - packages/*
 
 allowBuilds:
   esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@leonhardthust/frontend-vibeshell@0.1.0'

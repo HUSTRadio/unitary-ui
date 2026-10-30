@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policy": "Literal-level ledger for runtime UI code in src, docs/site/src, website/src, templates/*/src and packages/dev-shell/src. Every detected animation/transition duration literal must appear here and every entry must still exist. Migration replaces a duration with a --uni-duration-* / --uni-motion-* tier (or --uni-loop-* period), then removes its file pairing. Prose and displayed snippets, delay/dwell/auto-dismiss timing and --animate-* definition-internal literals have separate contracts. The remaining historical baseline is frozen by literal, file and occurrence count.",
+  "policy": "Literal-level ledger for runtime UI code in src, docs/site/src, website/src, and templates/*/src. Every detected animation/transition duration literal must appear here and every entry must still exist. Migration replaces a duration with a --uni-duration-* / --uni-motion-* tier (or --uni-loop-* period), then removes its file pairing. Prose and displayed snippets, delay/dwell/auto-dismiss timing and --animate-* definition-internal literals have separate contracts. The remaining historical baseline is frozen by literal, file and occurrence count.",
   "entries": [
     {
       "literal": "100ms",
@@ -17,8 +17,8 @@
     {
       "literal": "0.01ms",
       "source": "reduced-motion-fallback",
-      "reason": "Explicit reduced-motion clamps in the library and independent dev-shell; these deliberately tiny durations complete effects immediately and are not transition tiers.",
-      "files": ["src/styles/index.css", "packages/dev-shell/src/styles.css"]
+      "reason": "Explicit reduced-motion clamps in the library; these deliberately tiny durations complete effects immediately and are not transition tiers.",
+      "files": ["src/styles/index.css"]
     },
     {
       "literal": "250ms",

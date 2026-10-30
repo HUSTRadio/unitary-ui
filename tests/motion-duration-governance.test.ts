@@ -26,7 +26,6 @@ const SCAN_ROOTS = [
   // 文档站代码目录；content/i18n/data 为指南散文（含中文时长叙述），不在扫描范围
   "docs/site/src",
   "website/src",
-  "packages/dev-shell/src",
   ...templateRoots,
 ];
 
@@ -221,7 +220,7 @@ function baselineViolations(entries: AllowlistEntry[], read = (file: string) => 
 describe("motion duration literal governance", () => {
   test("covers documentation shells, website styles and every copyable template", () => {
     const files = SCAN_ROOTS.flatMap((directory) => walk(path.join(root, directory)));
-    for (const file of ["docs/site/src/App.tsx", "docs/site/src/pages/tokens.tsx", "docs/site/src/index.css", "website/src/index.css", "packages/dev-shell/src/styles.css"]) {
+    for (const file of ["docs/site/src/App.tsx", "docs/site/src/pages/tokens.tsx", "docs/site/src/index.css", "website/src/index.css"]) {
       expect(files).toContain(file);
     }
     for (const directory of templateRoots) expect(files).toContain(`${directory}/App.tsx`);
