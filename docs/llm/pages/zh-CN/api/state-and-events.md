@@ -34,3 +34,13 @@ useDraft(options) 把表单草稿存进一个带命名空间与 schema 版本的
 - 服务端渲染返回 `initial`，`isHydrated` 只在客户端恢复完成后为 true，恢复前不会把默认值写回存储。
 - `reset()` 回到基线并清理本命名空间的旧版本残留，不会碰其它命名空间或无关的存储键。
 - 损坏的 JSON、旧版本记录、配额异常与存储禁用都只影响持久化，不抛给调用方；`serialize` / `deserialize` 可替换序列化方式。
+
+## 任务数据适配器
+
+usePolling 与 useEventStream 只负责「怎么拿数据」：前者按间隔轮询、后者订阅事件流。两者都不缓存、不共享状态，也不提供通用 async store——每个实例只管理自己的一次订阅。
+
+- 失败后统一走 `nextBackoffDelay(attempt, options)` 指数退避（默认 1s 起、2 倍增长、30s 封顶），两个适配器共用同一套参数。
+- `usePolling` 单飞请求：上一次未完成时不会叠加新请求；`isDone(value)` 返回 true（例如已到终态）后停止调度。
+- 卸载、`stop()`、`close()` 以及参数变化都会清理定时器并 abort 或 close 当前连接，不残留订阅。
+- `useEventStream` 在 `error` 后关闭旧连接并按退避重连；解析失败只上报 `onError`，连接保持。
+- 两者都接受 `enabled` 以按条件挂起；`fetcher` 应尊重传入的 AbortSignal。

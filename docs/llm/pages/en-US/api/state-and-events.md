@@ -34,3 +34,13 @@ useDraft(options) keeps a form draft in one namespaced, versioned storage key (`
 - Server rendering returns `initial`; `isHydrated` only becomes true after client restore, and the default value is never written back beforehand.
 - `reset()` returns to the baseline and removes stale versions of its own namespace without touching other namespaces or unrelated keys.
 - Corrupt JSON, stale versions, quota failures and disabled storage only affect persistence and never throw at the caller; `serialize` / `deserialize` can replace the wire format.
+
+## Task data adapters
+
+usePolling and useEventStream only decide how data arrives: the first polls on an interval, the second subscribes to an event stream. Neither caches, shares state or offers a general async store — each instance owns one subscription.
+
+- Failures share `nextBackoffDelay(attempt, options)` exponential backoff (1s start, 2x growth, 30s cap), so both adapters take the same options.
+- `usePolling` keeps a single request in flight, never stacking a second one, and stops scheduling once `isDone(value)` reports a terminal value.
+- Unmount, `stop()`, `close()` and option changes all clear timers and abort or close the current connection, leaving no subscription behind.
+- `useEventStream` closes the old connection after `error` and reconnects with backoff; a parse failure only reports `onError` and keeps the connection.
+- Both accept `enabled` to suspend conditionally, and `fetcher` must honour the AbortSignal it receives.

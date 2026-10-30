@@ -198,6 +198,15 @@ export { Task } from "@/components/ui/task";
 export type { TaskProps } from "@/components/ui/task";
 export { useDraft } from "@/lib/use-draft";
 export { canStart, createTaskState, isActive, isTerminal, taskReducer } from "@/lib/task";
+export { nextBackoffDelay, useEventStream, usePolling } from "@/lib/use-task";
+export type {
+  BackoffOptions,
+  EventStreamLike,
+  UseEventStreamOptions,
+  UseEventStreamResult,
+  UsePollingOptions,
+  UsePollingResult,
+} from "@/lib/use-task";
 export type { TaskAction, TaskState, TaskStatus } from "@/lib/task";
 export type { DraftStorage, UseDraftOptions, UseDraftResult } from "@/lib/use-draft";
 export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterActions, FieldsetFooterAction, ErrorText, WarningText, DisabledWall } from "@/components/ui/fieldset";

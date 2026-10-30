@@ -96,10 +96,18 @@ import { Layer, LayerScope, LayerPortal, useLayerStyle } from "@hustradio/unitar
 
 ## State & events
 
-Common state conventions, plus opt-in draft persistence under a namespaced, versioned storage key; component-specific hooks are documented on Radio and Toast.
+Common state conventions, opt-in draft persistence, and Task data adapters with shared backoff; component-specific hooks are documented on Radio and Toast.
 
 ```tsx
-import { useRadio, useToasts, createToastStore, useDraft } from "@hustradio/unitary-ui";
+import {
+  useRadio,
+  useToasts,
+  createToastStore,
+  useDraft,
+  usePolling,
+  useEventStream,
+  nextBackoffDelay,
+} from "@hustradio/unitary-ui";
 ```
 
 [View reference](#/api/state-and-events)

@@ -1753,6 +1753,17 @@
       "reason": "client indicators: hook"
     },
     {
+      "file": "src/lib/use-task.ts",
+      "classification": "client",
+      "indicators": [
+        "hook:useCallback",
+        "hook:useEffect",
+        "hook:useRef",
+        "hook:useState"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
       "file": "src/lib/task.ts",
       "classification": "server-pure",
       "indicators": [],

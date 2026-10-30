@@ -163,6 +163,53 @@ const zh: DocPageContent = {
         },
       ],
     },
+    {
+      heading: "任务数据适配器",
+      blocks: [
+        {
+          p: [
+            "usePolling 与 useEventStream 只负责「怎么拿数据」：前者按间隔轮询、后者订阅事件流。两者都不缓存、不共享状态，也不提供通用 async store——每个实例只管理自己的一次订阅。",
+          ],
+        },
+        {
+          ul: [
+            [
+              "失败后统一走 ",
+              { code: "nextBackoffDelay(attempt, options)" },
+              " 指数退避（默认 1s 起、2 倍增长、30s 封顶），两个适配器共用同一套参数。",
+            ],
+            [
+              { code: "usePolling" },
+              " 单飞请求：上一次未完成时不会叠加新请求；",
+              { code: "isDone(value)" },
+              " 返回 true（例如已到终态）后停止调度。",
+            ],
+            [
+              "卸载、",
+              { code: "stop()" },
+              "、",
+              { code: "close()" },
+              " 以及参数变化都会清理定时器并 abort 或 close 当前连接，不残留订阅。",
+            ],
+            [
+              { code: "useEventStream" },
+              " 在 ",
+              { code: "error" },
+              " 后关闭旧连接并按退避重连；解析失败只上报 ",
+              { code: "onError" },
+              "，连接保持。",
+            ],
+            [
+              "两者都接受 ",
+              { code: "enabled" },
+              " 以按条件挂起；",
+              { code: "fetcher" },
+              " 应尊重传入的 AbortSignal。",
+            ],
+          ],
+        },
+      ],
+    },
   ],
 };
 
@@ -318,6 +365,53 @@ const en: DocPageContent = {
               " / ",
               { code: "deserialize" },
               " can replace the wire format.",
+            ],
+          ],
+        },
+      ],
+    },
+    {
+      heading: "Task data adapters",
+      blocks: [
+        {
+          p: [
+            "usePolling and useEventStream only decide how data arrives: the first polls on an interval, the second subscribes to an event stream. Neither caches, shares state or offers a general async store — each instance owns one subscription.",
+          ],
+        },
+        {
+          ul: [
+            [
+              "Failures share ",
+              { code: "nextBackoffDelay(attempt, options)" },
+              " exponential backoff (1s start, 2x growth, 30s cap), so both adapters take the same options.",
+            ],
+            [
+              { code: "usePolling" },
+              " keeps a single request in flight, never stacking a second one, and stops scheduling once ",
+              { code: "isDone(value)" },
+              " reports a terminal value.",
+            ],
+            [
+              "Unmount, ",
+              { code: "stop()" },
+              ", ",
+              { code: "close()" },
+              " and option changes all clear timers and abort or close the current connection, leaving no subscription behind.",
+            ],
+            [
+              { code: "useEventStream" },
+              " closes the old connection after ",
+              { code: "error" },
+              " and reconnects with backoff; a parse failure only reports ",
+              { code: "onError" },
+              " and keeps the connection.",
+            ],
+            [
+              "Both accept ",
+              { code: "enabled" },
+              " to suspend conditionally, and ",
+              { code: "fetcher" },
+              " must honour the AbortSignal it receives.",
             ],
           ],
         },

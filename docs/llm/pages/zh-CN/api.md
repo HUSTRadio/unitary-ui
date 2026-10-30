@@ -96,10 +96,18 @@ import { Layer, LayerScope, LayerPortal, useLayerStyle } from "@hustradio/unitar
 
 ## 状态与事件
 
-通用状态约定，以及可选的草稿持久化（命名空间 + 版本化存储键）；组件专用钩子分别由 Radio 和 Toast 文档维护。
+通用状态约定、可选的草稿持久化，以及共用退避的 Task 数据适配器；组件专用钩子分别由 Radio 和 Toast 文档维护。
 
 ```tsx
-import { useRadio, useToasts, createToastStore, useDraft } from "@hustradio/unitary-ui";
+import {
+  useRadio,
+  useToasts,
+  createToastStore,
+  useDraft,
+  usePolling,
+  useEventStream,
+  nextBackoffDelay,
+} from "@hustradio/unitary-ui";
 ```
 
 [查看参考](#/api/state-and-events)

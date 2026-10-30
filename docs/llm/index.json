@@ -177,8 +177,8 @@
         "en-US": "pages/en-US/api.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b582435c1ad0fc9fa487083ee466552f1465f0790b2478651aba91f774d639b8",
-        "en-US": "sha256:03e1590d77f0bebb98672ae5021f61d0f0c600f9e27cfb79c05014cdf888d21c"
+        "zh-CN": "sha256:405ec04bf36f3d413146fdec0e8114203495845405d934d604399307ba556ef2",
+        "en-US": "sha256:79fee9b31f8cfe19367545ed4303302f628ab0824d83e9d43353f7405e7065f2"
       }
     },
     {
@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/api/state-and-events.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d7a43bbc64efd0e4943d60c1a53abfbfa46274431a95802eb48ba551dbd35cb1",
-        "en-US": "sha256:15c0c6ad689315080ab348e817a0d05263fe73bdfc2cb16569eb8ccb876df736"
+        "zh-CN": "sha256:1862931eef61be877acd8f162aac9b0dc232a0dee89382571e5dc9c6c63e77e9",
+        "en-US": "sha256:f2531ef533bb963062344ae4502c803e5d203b0bc278a522896ed3f4d429a393"
       }
     },
     {
