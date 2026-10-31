@@ -16,7 +16,8 @@
 
 ## 当前进行
 
-- 下一步入口：**M3-04（DataTable 编辑与粘贴，PR-53，依赖 M3-02/M3-03，需单独评审）**，方案见计划书 §7：列级 `editable/validate/readOnly`、受控 `rows/onChange`、单元格错误、`\t`/`,` 粘贴解析、取消/撤销语义；键盘矩阵导航留待未来专项。
+- 下一步入口：**M3-05（Import 列映射与预览，PR-54，依赖 M2-02 + M3-01）**，方案见计划书 §7：输入已解析的 source columns/records、目标字段定义、mapping、必填/重复校验、预览、onSubmit/pending/error；复用 Field/Select/Button/ErrorCard/DataTable。
+- M3-04（DataTable 编辑与粘贴）标注「单独评审」，等你确认语义后再动。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -200,10 +201,13 @@
   - Files: `src/components/ui/import-preview.tsx`, `tests/import-mapping.test.tsx`, `tests/import-preview.test.tsx`, `docs/site/src/examples/import-preview/`, 完成包
   - Content: 输入已解析 source columns/records；目标字段定义、mapping、必填/重复校验、预览、onSubmit/pending/error；复用 Field/Select/Button/ErrorCard/DataTable
   - Acceptance: 缺必填/重复映射/空数据/预览上限/提交失败/取消不写入；不发网络请求、不新增解析依赖
-- [ ] M3-06 C5 双主题覆盖清单（PR-60，新组件之后）
-  - Files: `tests/fixtures/theme-coverage.json`, `tests/theme-coverage-contract.test.ts`, 必要时 `tests/e2e/theme-coverage.spec.ts`
-  - Content: 登记 semantic token 与代表组件 light/dark 覆盖；复用 `color-schemes`/`theme-token-pairing`/`global-tokens` 体系
+- [x] M3-06 C5 双主题覆盖清单（PR-60，新组件之后）
+  - Files: `tests/fixtures/theme-coverage.json`（新建：5 组语义 token + 4 对前景/背景 + 11 个代表组件 + required 清单）, `tests/theme-coverage-contract.test.ts`（新建，10 例）
+  - Content: 登记 semantic token 与代表组件 light/dark 覆盖；复用 `GLOBAL_TOKENS`（runtime 判定）与 `defaultTokens`（两档取值）体系；**不新增对比度/axe 验收**，fixture 里显式声明 `contrast/axe: out-of-scope`
   - Acceptance: 缺项使测试失败；不新增对比度/axe 验收；截图仅真实变化时更新
+  - PR: PR-60
+  - Evidence (2026-10-31)：`theme-coverage-contract` **10 passed**（schema/日期/scope 声明、token 无重复、19 个 token 全为 runtime、19 个 token 在两档都有值、4 对前景背景齐全、required 组件全覆盖、组件条目唯一、组件文件存在且已注册且声明双主题、声明 token 均真实存在、每个组件源码至少引用一个所声称的 token）；**负向验证**：临时移除 `task` 条目后测试 exit 1 并报 `required component missing from theme coverage: task`，恢复后重新通过（证明「缺项会失败」不是空话）。与 `color-schemes` / `theme-token-pairing` / `global-token-catalog` 合计 **36 passed**；`typecheck:tests` / `lint` 全绿
+  - **未做**：没有新增 `tests/e2e/theme-coverage.spec.ts` —— 本轮只做「登记 + 契约」，任何视觉断言都会变成需要维护基线图的隐性回归，计划也要求「截图仅真实变化时更新」。本次改动纯测试，未触碰任何渲染产物，因此无需重生成语料或 README 截图。
 
 ## Future / Not in current scope
 
@@ -234,6 +238,7 @@
 
 ## Completed
 
+- 2026-10-31：PR-60（M3-06）——C5 双主题覆盖清单（19 个 token + 4 对前景背景 + 11 个代表组件），10 例契约测试 + 负向验证；纯测试、零渲染改动。
 - 2026-10-30：PR-52（M3-03）——`DataTable` 受控选择（首列复选框、全选/半选、`selectable` 排除、选择不冒泡），10 例测试。
 - 2026-10-30：PR-51（M3-02）——`DataTable` 受控排序（`sort`/`onSortChange`/`multiSort`，asc→desc→off），8 例测试；组件只报告意图，不排序 rows。
 - 2026-10-30：PR-50（M3-01）——`DataTable` v1 受控展示（15 例测试），并把非真虚拟化的示例改名为「展开更多行」；258 页语料无漂移。

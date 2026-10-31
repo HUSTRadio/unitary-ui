@@ -561,3 +561,11 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 4. **表格完整性**：骨架行、空态、错误行的列数都计入选择列（`colSpan` 与 `td` 数量对齐）。
 5. **回归修复**：`getRowKey` 曾因「派生 rowKeys + 行 key 各调一次」变成每行两次，触碰 v1 的「每行一次」契约；改为行 key 复用 `rowKeys[index].key` 后恢复。这条正是既有契约测试拦下来的。
 6. **证据**：`data-table-selection` 10 passed；四个 DataTable 套件 33 passed；含文档契约 10 文件 79 passed / 1 skipped；语料 258 页无漂移；三套 typecheck + lint 全绿。
+
+### 12.18 M3-06 落地记录（2026-10-31，C5 收尾）
+
+1. **清单结构**：`tests/fixtures/theme-coverage.json` —— `tokens`（surface/text/line/action/feedback 五组，共 19 个）、`pairs`（4 对前景/背景）、`components`（11 个代表组件，含 field/task/log-view/data-table 四个本轮新增）、`required`（缺项即失败的必含集合）、`scope`（显式声明 contrast/axe 不在范围）。
+2. **契约**：`tests/theme-coverage-contract.test.ts` 共 10 例——token 必须同时满足「catalog 里 kind=runtime」与「Default 方案 light/dark 都有值」；组件必须文件存在 + 文档已注册 + 声明双主题 + 只声明真实存在的 token + 源码至少引用其中一个。
+3. **负向验证**：临时删掉 `task` 条目 → 测试 exit 1 且报 `required component missing from theme coverage: task`；恢复后重新通过。这条负向证据是「缺项使测试失败」的实证，而不是口头承诺。
+4. **刻意不做**：没有 e2e 视觉断言（会引入需要维护基线图的隐性回归），也没有任何对比度计算或 axe 规则——两者都属无障碍专项。本次是纯测试改动，未触碰渲染产物，故**无需重生成语料与 README 截图**。
+5. **意图**：这份清单是「声明 + 守门」，不是覆盖率证明。它拦的是「新组件忘了登记」和「登记的 token 根本不存在」两类腐化，不假装能证明像素级双主题正确。

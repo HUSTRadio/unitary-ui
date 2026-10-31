@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-31",
+  "scope": {
+    "contrast": "out-of-scope",
+    "axe": "out-of-scope",
+    "screenshots": "only-update-on-real-visual-change",
+    "note": "本清单守两件事：列出的语义 token 必须在 token catalog 中是 runtime 且在 Default 方案的 light/dark 两档都有定义；列出的代表组件必须真实消费其中至少一个 token。对比度、axe 与视觉回归不在本轮范围。"
+  },
+  "tokens": {
+    "surface": ["--background-100", "--background-200", "--card"],
+    "text": ["--foreground", "--gray-1000", "--gray-700"],
+    "line": ["--gray-alpha-300", "--border", "--ring"],
+    "action": ["--primary", "--primary-foreground", "--link"],
+    "feedback": [
+      "--danger",
+      "--danger-foreground",
+      "--error-foreground",
+      "--warning",
+      "--warning-foreground",
+      "--button-warning",
+      "--success"
+    ]
+  },
+  "pairs": [
+    ["--primary", "--primary-foreground"],
+    ["--danger", "--danger-foreground"],
+    ["--warning", "--warning-foreground"],
+    ["--destructive", "--destructive-foreground"]
+  ],
+  "components": [
+    {
+      "name": "button",
+      "tokens": ["--primary", "--button-warning"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "input",
+      "tokens": ["--background-100", "--gray-700"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "badge",
+      "tokens": ["--background-100", "--badge-green", "--badge-red"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "toast",
+      "tokens": ["--background-100", "--button-warning", "--danger"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "modal",
+      "tokens": ["--background-100"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "sheet",
+      "tokens": ["--background-100", "--foreground"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "table",
+      "tokens": ["--background-100"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "field",
+      "tokens": ["--gray-700"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "task",
+      "tokens": ["--primary", "--gray-alpha-300", "--gray-700"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "log-view",
+      "tokens": ["--background-200", "--gray-alpha-300", "--error-foreground"],
+      "themes": ["light", "dark"]
+    },
+    {
+      "name": "data-table",
+      "tokens": ["--gray-alpha-300"],
+      "themes": ["light", "dark"]
+    }
+  ],
+  "required": ["button", "input", "table", "toast", "modal", "sheet", "field", "task", "log-view", "data-table"]
+}
