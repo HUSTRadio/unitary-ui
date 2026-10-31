@@ -201,6 +201,22 @@ export type {
   DataTableSort,
   DataTableSortDirection,
 } from "@/components/ui/data-table";
+export { ImportMapper } from "@/components/ui/import-mapper";
+export type { ImportMapperProps } from "@/components/ui/import-mapper";
+export {
+  buildImportPreview,
+  canSubmitImport,
+  resolveImportRows,
+  validateImportMapping,
+} from "@/lib/import-mapping";
+export type {
+  ImportField,
+  ImportIssue,
+  ImportIssueType,
+  ImportMapping,
+  ImportPreview,
+  ImportSource,
+} from "@/lib/import-mapping";
 export { Field } from "@/components/ui/field";
 export { LogView, LOG_LEVELS, formatLogLine, logEntriesToText } from "@/components/ui/log-view";
 export type { LogEntry, LogLevel, LogLevelFilter, LogViewProps } from "@/components/ui/log-view";

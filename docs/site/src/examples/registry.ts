@@ -1,3 +1,5 @@
+import { ImportMapperMapping3C7F0A15Example } from "./import-mapper/mapping-3c7f0a15.example";
+import ImportMapperMapping3C7F0A15ExampleSource from "./import-mapper/mapping-3c7f0a15.example.tsx?example-source";
 import { DataTableBasic4E2D81B7Example } from "./data-table/basic-4e2d81b7.example";
 import DataTableBasic4E2D81B7ExampleSource from "./data-table/basic-4e2d81b7.example.tsx?example-source";
 import { LogViewFollowA17B53C9Example } from "./log-view/follow-a17b53c9.example";
@@ -1001,6 +1003,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "fieldset", id: "with-disabled-wall", Component: FieldsetWithDisabledWallB242E994Example, source: FieldsetWithDisabledWallB242E994ExampleSource },
   { slug: "fieldset", id: "error-type", Component: FieldsetErrorType96E58B0DExample, source: FieldsetErrorType96E58B0DExampleSource },
   { slug: "fieldset", id: "warning-type", Component: FieldsetWarningType82942353Example, source: FieldsetWarningType82942353ExampleSource },
+  { slug: "import-mapper", id: "mapping", Component: ImportMapperMapping3C7F0A15Example, source: ImportMapperMapping3C7F0A15ExampleSource },
   { slug: "input", id: "default", Component: InputDefault37A8EEC1Example, source: InputDefault37A8EEC1ExampleSource },
   { slug: "input", id: "prefix-and-suffix", Component: InputPrefixAndSuffix99076368Example, source: InputPrefixAndSuffix99076368ExampleSource },
   { slug: "input", id: "disabled", Component: InputDisabled17EB3C01Example, source: InputDisabled17EB3C01ExampleSource },

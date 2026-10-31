@@ -56,6 +56,7 @@ describe("Geist documentation coverage", () => {
       "full-page-scroller",
       "hamburger-menu",
       "hitu-player",
+      "import-mapper",
       "layer",
       "lazy-load",
       "line-chart",

@@ -368,6 +368,14 @@ hitu-player
 
 ](#/components/hitu-player)[
 
+import-mapper
+
+### 导入映射器
+
+把已解析的源列映射到目标字段，校验映射并预览行，然后再提交。
+
+](#/components/import-mapper)[
+
 input
 
 ### 输入框

@@ -777,6 +777,21 @@
       "reason": "client indicators: hook"
     },
     {
+      "file": "src/components/ui/import-mapper.tsx",
+      "classification": "client",
+      "indicators": [
+        "hook:useI18n",
+        "hook:useMemo"
+      ],
+      "reason": "client indicators: hook"
+    },
+    {
+      "file": "src/lib/import-mapping.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
       "file": "src/components/ui/input.tsx",
       "classification": "client",
       "indicators": [

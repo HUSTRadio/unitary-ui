@@ -345,6 +345,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "不要把单位放进 children；标签承载单位（Uptime · 99.97%）。children 保留给图标覆盖层。",
     '组件设置 role="progressbar" 及 aria-valuemin、aria-valuemax、aria-valuenow；不要覆盖它们。',
   ],
+  "import-mapper": [
+    "文件解析自己做，只把 columns 与 records 传进来；组件不读文件、不发请求。",
+    "映射保持受控，提交被拒时可以恢复上一版映射。",
+    "必填缺失、重复映射、列越界是三类独立问题，任意一条都阻止提交。",
+    "预览只显示已映射字段，让复核的人看到真正会被导入的内容。",
+  ],
   input: [
     "单行自由文本（名称、域名、token）用 <Input>。",
     "内容可能换行成多行的瞬间改用 Textarea。",

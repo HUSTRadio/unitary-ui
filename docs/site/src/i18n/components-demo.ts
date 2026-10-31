@@ -722,6 +722,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Basic": "基础用法",
     "Progress": "进度",
     "Follow": "跟随",
+    "Mapping": "映射",
     "Informational": "信息型空状态",
     "Inline": "行内反馈",
     "Inset": "内嵌样式",

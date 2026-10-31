@@ -1249,6 +1249,24 @@ const O = {
       row("unstable_useContainer", "boolean", "Enables the experimental container-query wrapper.", "启用实验性的容器查询包装器。"),
     ],
   ),
+  "import-mapper": component(
+    ["ImportMapper", "validateImportMapping", "buildImportPreview", "resolveImportRows", "canSubmitImport"],
+    [
+      row("source", "ImportSource", "Parsed columns and records supplied by the caller.", "调用方提供的已解析表头与数据行。", { required: true }),
+      row("fields", "ImportField[]", "Target fields with id, label and required.", "目标字段：id、label、required。", { required: true }),
+      row("mapping", "ImportMapping", "Controlled field-to-column map; null means unmapped.", "受控的字段到列映射；null 表示未映射。", { required: true }),
+      row("onMappingChange", "(next) => void", "Reports the next full mapping.", "报出下一次完整映射。"),
+      row("onSubmit", "(rows) => void | Promise", "Receives field-keyed rows; omit to hide the action.", "接收按字段解析的行；省略则不渲染操作区。"),
+      row("pending", "boolean", "Disables submit and swaps to the pending label.", "禁用提交并切换为进行中文案。", { defaultValue: "false" }),
+      row("error", "ReactNode", "Submission error rendered in an ErrorCard.", "提交错误，渲染在 ErrorCard 中。"),
+      row("title", "ReactNode", "Header label.", "标题。"),
+      row("previewLimit", "number", "Preview row cap; <= 0 means unlimited.", "预览行数上限；<= 0 表示不限。", { defaultValue: "5" }),
+      row("submitLabel", "ReactNode", "Submit label override.", "提交按钮文案覆盖。"),
+      row("pendingLabel", "ReactNode", "Pending label override.", "进行中文案覆盖。"),
+      row("emptyLabel", "ReactNode", "Shown when the source has no columns.", "源数据没有列时显示。"),
+    ],
+    'ComponentProps<"div">',
+  ),
   input: component(
     ["Input"],
     [

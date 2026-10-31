@@ -243,6 +243,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   combobox: "forms",
   field: "forms",
   fieldset: "forms",
+  "import-mapper": "forms",
   input: "forms",
   "keyboard-input": "forms",
   label: "forms",

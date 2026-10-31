@@ -368,6 +368,14 @@ Plays frame-based SVG illustrations with explicit playback controls.
 
 ](#/components/hitu-player)[
 
+import-mapper
+
+### Import Mapper
+
+Map parsed source columns onto target fields, validate the mapping and preview rows before submitting.
+
+](#/components/import-mapper)[
+
 input
 
 ### Input

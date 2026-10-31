@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Import mapping `ImportMapper`**: takes the caller's parsed `source` (columns plus records) and target `fields`, with a controlled `mapping`. Missing required fields, duplicate columns and out-of-range columns are reported per field and block submission; the preview shows only mapped fields; `onSubmit` receives field-keyed rows. Ships the pure helpers `validateImportMapping`, `buildImportPreview`, `resolveImportRows` and `canSubmitImport`.
 - **DataTable controlled selection**: adds `selection={{ selectedKeys, onChange, selectAll?, selectable? }}` and a leading checkbox column. Select-all covers the visible, selectable rows while keeping other selections, partial selections render as indeterminate, and selection clicks never trigger `onRowClick`.
 - **DataTable controlled sorting**: columns gain `sortable`, and the table gains `sort`, `onSortChange` and `multiSort`. Activating a header cycles asc → desc → off and only reports the next full sort array, so the rows order stays with the caller; `multiSort` appends columns and exposes their priority through the sort index.
 - **Data table `DataTable`**: renders caller-owned `rows` through typed `columns` with a stable `getRowKey`, and treats `loading`, `empty` and `error` as explicit, exclusive states (loading > error > empty). It never sorts, filters, paginates or fetches, and forwards appearance props to Table.

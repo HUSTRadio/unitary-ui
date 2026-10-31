@@ -289,8 +289,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:c31c2e436709053bee3637c60b63146ad09308d2e552aeef448d86505096ade3",
-        "en-US": "sha256:9a4f677ec46699483bb21f47ac49d03a893e73dc8d416234f658b988bdabd502"
+        "zh-CN": "sha256:192b83aeff2457298c6161fdb9478ce11b8b5d8afc490d2ccc32c66a1c82925a",
+        "en-US": "sha256:196bbfc0609080168018848105b2a28036c0dac78c9c5dde8bd73a5b0ad54e5e"
       }
     },
     {
@@ -611,6 +611,22 @@
       "sourceHash": {
         "zh-CN": "sha256:175aa817b9db058434de631313932db705dc140f2db775277fa9d5c74ce0cd6d",
         "en-US": "sha256:dfc71ba90a7e2acaca6afb5286a4a822c047fb93116fe834e6a1c47931e95749"
+      }
+    },
+    {
+      "path": "/components/import-mapper",
+      "title": {
+        "zh-CN": "导入映射器",
+        "en-US": "Import Mapper"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/import-mapper.md",
+        "en-US": "pages/en-US/components/import-mapper.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2d34f8ad719a29c459f902b140a86ec9637d3a85f6390367aa88a533ac04ba40",
+        "en-US": "sha256:c358acc850e1588c5753bd93435210a51f45368e982a5f5f0bb16731fb5479ce"
       }
     },
     {

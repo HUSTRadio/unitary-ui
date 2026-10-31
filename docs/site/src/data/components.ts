@@ -797,6 +797,18 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "import-mapper",
+    label: "Import Mapper",
+    labelZh: "导入映射器",
+    description: "Map parsed source columns onto target fields, validate the mapping and preview rows before submitting.",
+    bestPractices: [
+      "Parse the file yourself and pass columns plus records; the component never reads files or fetches.",
+      "Keep mapping controlled so a rejected submit can restore the previous mapping.",
+      "Treat required, duplicate and out-of-range as separate issues; each one blocks submission.",
+      "Show only the mapped fields in the preview so reviewers see exactly what will be imported.",
+    ],
+  },
+  {
     name: "input",
     label: "Input",
     labelZh: "输入框",

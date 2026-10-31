@@ -16,8 +16,7 @@
 
 ## 当前进行
 
-- 下一步入口：**M3-05（Import 列映射与预览，PR-54，依赖 M2-02 + M3-01）**，方案见计划书 §7：输入已解析的 source columns/records、目标字段定义、mapping、必填/重复校验、预览、onSubmit/pending/error；复用 Field/Select/Button/ErrorCard/DataTable。
-- M3-04（DataTable 编辑与粘贴）标注「单独评审」，等你确认语义后再动。
+- 下一步：**M3 只剩 M3-04（DataTable 编辑与粘贴，PR-53）**，计划标注「单独评审」，等你确认列级 `editable/validate/readOnly`、撤销语义与粘贴覆盖范围后再动。M0–M3 其余全部闭环。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -197,10 +196,12 @@
 - [ ] M3-04 DataTable 编辑与粘贴（PR-53，依赖 M3-02/M3-03，单独评审）
   - Files: `tests/data-table-editing.test.tsx`, `tests/data-table-paste.test.tsx`
   - Content: 列级 `editable/validate/readOnly`、受控 `rows/onChange`、单元格错误、`\t`/`,` 粘贴解析、取消/撤销语义；键盘矩阵导航留待未来专项
-- [ ] M3-05 Import 列映射与预览（PR-54，依赖 M2-02 + M3-01）
-  - Files: `src/components/ui/import-preview.tsx`, `tests/import-mapping.test.tsx`, `tests/import-preview.test.tsx`, `docs/site/src/examples/import-preview/`, 完成包
-  - Content: 输入已解析 source columns/records；目标字段定义、mapping、必填/重复校验、预览、onSubmit/pending/error；复用 Field/Select/Button/ErrorCard/DataTable
+- [x] M3-05 Import 列映射与预览（PR-54，依赖 M2-02 + M3-01）
+  - Files: `src/lib/import-mapping.ts`（纯函数 validate/preview/resolve/canSubmit）, `src/components/ui/import-mapper.tsx`, `src/lib/framework-messages.ts`（6 条双语文案）, `src/lib/index.ts`, `tests/fixtures/rsc-boundaries.json`（181 模块）, `tests/import-mapping.test.ts`（14 例）, `tests/import-mapper-api.test.tsx`（11 例）, `docs/site/src/examples/import-mapper/mapping-3c7f0a15.example.tsx`, 完成包（components/zh/best-practices/component-api/docs-routes/guides-31-import-mapper/CHANGELOG/语料）
+  - Content: 输入已解析 `source`（columns + records）与目标 `fields`，受控 `mapping`；必填缺失 / 重复映射 / 列越界三类问题逐字段提示并阻止提交；预览只显示已映射字段且受 `previewLimit` 限制；`onSubmit` 收到 `resolveImportRows` 结果；`pending` 禁用并换文案、`error` 走 ErrorCard；空 source 出空态。复用 Field/Select/Button/ErrorCard/DataTable
   - Acceptance: 缺必填/重复映射/空数据/预览上限/提交失败/取消不写入；不发网络请求、不新增解析依赖
+  - PR: PR-54
+  - Evidence (2026-10-31)：`import-mapping` **14 passed**（必填缺失只报必填项、重复列两侧都报、越界含负数、完整映射静默、不改入参；预览只取已映射字段并保持字段顺序、缺格补空串、无映射返回空行集、limit<=0 视为不限、truncated/total 正确；resolve 按字段 id 组装且跳过未映射；canSubmit 四条判定）；`import-mapper-api` **11 passed**（空 source 空态、字段行与必填星号、重复与必填逐字段呈现、data-state 三态、预览表头与行数受 limit、无映射隐藏预览、ErrorCard、校验未过时提交禁用、有效映射提交 resolved rows、pending 禁用并换「Import…」、无 onSubmit 不渲染操作区）——**取消不写入**由「不调用 onSubmit 即无副作用」保证（组件不持有数据）；相关回归 11 文件 **89 passed / 1 skipped**；`rsc-boundaries` 3 passed（181 模块）；语料 130 路由 × 2 = **260 页**无漂移；三套 typecheck + lint 全绿；**未新增任何解析依赖**（CSV 解析仍由调用方完成）
 - [x] M3-06 C5 双主题覆盖清单（PR-60，新组件之后）
   - Files: `tests/fixtures/theme-coverage.json`（新建：5 组语义 token + 4 对前景/背景 + 11 个代表组件 + required 清单）, `tests/theme-coverage-contract.test.ts`（新建，10 例）
   - Content: 登记 semantic token 与代表组件 light/dark 覆盖；复用 `GLOBAL_TOKENS`（runtime 判定）与 `defaultTokens`（两档取值）体系；**不新增对比度/axe 验收**，fixture 里显式声明 `contrast/axe: out-of-scope`
@@ -238,6 +239,7 @@
 
 ## Completed
 
+- 2026-10-31：PR-54（M3-05）——`ImportMapper` + 四个纯函数（校验/预览/解析/可提交判定），25 例测试；260 页语料无漂移。
 - 2026-10-31：PR-60（M3-06）——C5 双主题覆盖清单（19 个 token + 4 对前景背景 + 11 个代表组件），10 例契约测试 + 负向验证；纯测试、零渲染改动。
 - 2026-10-30：PR-52（M3-03）——`DataTable` 受控选择（首列复选框、全选/半选、`selectable` 排除、选择不冒泡），10 例测试。
 - 2026-10-30：PR-51（M3-02）——`DataTable` 受控排序（`sort`/`onSortChange`/`multiSort`，asc→desc→off），8 例测试；组件只报告意图，不排序 rows。

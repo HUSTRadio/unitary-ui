@@ -569,3 +569,12 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 3. **负向验证**：临时删掉 `task` 条目 → 测试 exit 1 且报 `required component missing from theme coverage: task`；恢复后重新通过。这条负向证据是「缺项使测试失败」的实证，而不是口头承诺。
 4. **刻意不做**：没有 e2e 视觉断言（会引入需要维护基线图的隐性回归），也没有任何对比度计算或 axe 规则——两者都属无障碍专项。本次是纯测试改动，未触碰渲染产物，故**无需重生成语料与 README 截图**。
 5. **意图**：这份清单是「声明 + 守门」，不是覆盖率证明。它拦的是「新组件忘了登记」和「登记的 token 根本不存在」两类腐化，不假装能证明像素级双主题正确。
+
+### 12.19 M3-05 落地记录（2026-10-31）
+
+1. **职责切分**：解析归调用方（不新增 CSV 依赖），组件只吃 `source = { columns, records }` + `fields` + 受控 `mapping`。
+2. **纯逻辑先行**：`src/lib/import-mapping.ts` 提供 `validateImportMapping`（必填/重复/越界，同字段最多一条，越界优先）、`buildImportPreview`（只取已映射字段、保持字段顺序、`limit<=0` 不限、无映射返回空行集）、`resolveImportRows`（按字段 id 组装、跳过未映射）、`canSubmitImport`（有源数据 + 无问题 + 至少一个已映射）。
+3. **组件**：`ImportMapper` 用 Field 包 Select（未映射用 `__unmapped__` 哨兵）、DataTable 做预览、ErrorCard 承载提交错误；`data-state` 四态 `empty/pending/invalid/ready`；无 `onSubmit` 时不渲染操作区。
+4. **文案**：新增 6 条双语键（Import / Preview / Nothing to import / 三类问题提示），避免硬编码中文或英文。
+5. **证据**：`import-mapping` 14 passed；`import-mapper-api` 11 passed；相关回归 11 文件 89 passed / 1 skipped；`rsc-boundaries` 3 passed（181 模块）；语料 130 × 2 = 260 页无漂移；三套 typecheck + lint 全绿。
+6. **两处自我修正**：①「无映射时预览」原本返回 N 个空数组，语义无意义 → 改为空行集；②示例里 `useState<Record<string, number|null>>` 与 `ImportMapping` 不兼容 → 直接用公开类型，避免消费方复制内部形状。

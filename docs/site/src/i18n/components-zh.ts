@@ -55,6 +55,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   grid: "用单元格和可见参考线组织二维布局。",
   "file-tree": "显示文件和文件夹目录，支持展开文件夹。",
   gauge: "用圆弧显示配额、利用率等百分比。",
+  "import-mapper": "把已解析的源列映射到目标字段，校验映射并预览行，然后再提交。",
   input: "输入名称、邮箱等单行文本。",
   "json-view": "以可展开的高亮树查看 JSON 对象和数组。",
   "keyboard-input": "以键帽样式显示按键或快捷键组合。",

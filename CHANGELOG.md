@@ -8,6 +8,7 @@
 
 ### Added
 
+- **导入映射 `ImportMapper`**：接收调用方已解析的 `source`（表头 + 行）与目标 `fields`，受控 `mapping` 驱动列映射；必填缺失、重复映射、列越界三类问题逐字段提示并阻止提交；预览只显示已映射字段；`onSubmit` 收到按字段解析的行。配套导出纯函数 `validateImportMapping` / `buildImportPreview` / `resolveImportRows` / `canSubmitImport`。
 - **DataTable 受控选择**：新增 `selection={{ selectedKeys, onChange, selectAll?, selectable? }}`，渲染首列复选框；表头全选只作用于当前可见且可选的行走并保留其它选择，部分选中呈现半选；选择列点击不触发 `onRowClick`。
 - **DataTable 受控排序**：列增加 `sortable`，表格增加 `sort` / `onSortChange` / `multiSort`。点击表头按 `asc → desc → 关闭` 循环，只上报下一次完整排序数组，`rows` 顺序始终由调用方决定；`multiSort` 时追加并以排序下标表达优先级。
 - **数据表格 `DataTable`**：用带类型的 `columns` 渲染调用方持有的 `rows`，`getRowKey` 保证行标识稳定；`loading` / `empty` / `error` 显式互斥（loading > error > empty）。不排序、不筛选、不分页、不发请求，外观通过 `colorScheme` 等属性透传给 Table。
