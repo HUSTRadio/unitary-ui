@@ -625,8 +625,8 @@
         "en-US": "pages/en-US/components/import-mapper.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2d34f8ad719a29c459f902b140a86ec9637d3a85f6390367aa88a533ac04ba40",
-        "en-US": "sha256:c358acc850e1588c5753bd93435210a51f45368e982a5f5f0bb16731fb5479ce"
+        "zh-CN": "sha256:83e54c20544388c63a56b8fa70248c337850bc2f864d13fa39d2e3006a0bda38",
+        "en-US": "sha256:dadbea305d6d1d5e79d871c584b062da86bfccc9990de6b2f2a7cce82892a49e"
       }
     },
     {
@@ -1009,8 +1009,8 @@
         "en-US": "pages/en-US/components/data-table.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:ff79abbc3f032650dbfc778fa5872e6f20ce83e2a36d1d0d2c0f42d8ab6c4153",
-        "en-US": "sha256:e0fe6b0ea3c5516b0f54fc971b88998d80ebf28a8b33eb25c1cab442adeabe01"
+        "zh-CN": "sha256:b45e7357598401395956b10306c6e2dd27edcb6f7dae92ea7b131c524427715a",
+        "en-US": "sha256:6766a2daf8fde0fd924034a4dd25ffe5a5d176dcb8381ab0125efd0afa9f5848"
       }
     },
     {

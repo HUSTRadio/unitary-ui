@@ -121,7 +121,7 @@ describe("DataTable controlled display", () => {
     ]);
   });
 
-  test("exposes no sorting, filtering or selection affordances", async () => {
+  test("keeps cells inert unless a column opts into editing", async () => {
     const onClick = vi.fn();
     await mount(
       createElement(DataTable<Row>, {
@@ -136,6 +136,8 @@ describe("DataTable controlled display", () => {
     expect(onClick).not.toHaveBeenCalled();
     expect(header.getAttribute("aria-sort")).toBeNull();
     expect(container.querySelector('input[type="checkbox"]')).toBeNull();
+    expect(container.querySelector('td[data-editable]')).toBeNull();
+    expect(container.querySelector('[data-slot="data-table-editor"]')).toBeNull();
   });
 
   test("switches states from props alone", async () => {

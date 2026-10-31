@@ -578,3 +578,15 @@ PR-20/PR-20b 已收口（扫描收窄暂缓，见 §12.2-8 决策），按依赖
 4. **文案**：新增 6 条双语键（Import / Preview / Nothing to import / 三类问题提示），避免硬编码中文或英文。
 5. **证据**：`import-mapping` 14 passed；`import-mapper-api` 11 passed；相关回归 11 文件 89 passed / 1 skipped；`rsc-boundaries` 3 passed（181 模块）；语料 130 × 2 = 260 页无漂移；三套 typecheck + lint 全绿。
 6. **两处自我修正**：①「无映射时预览」原本返回 N 个空数组，语义无意义 → 改为空行集；②示例里 `useState<Record<string, number|null>>` 与 `ImportMapping` 不兼容 → 直接用公开类型，避免消费方复制内部形状。
+
+### 12.20 M3-04 落地记录（2026-10-31，评审后执行）
+
+评审结论（Leon 全数接受建议）：D1 单点回调 / D2 双击进入 / D3 失焦提交 + Escape 取消 / D4 校验失败阻止回写并保留编辑态 / D5 组件不持有历史、撤销归调用方 / D6 二维块粘贴 / D7 批量 `onPasteBlock` / D8 列级 `editable`（布尔或按行）+ 表格级 `readOnly` / D9 不做单元格级异步保存 / D10 补一条真实浏览器 e2e。
+
+1. **API**：列新增 `editable?: boolean | ((row, index) => boolean)`、`getValue?: (row) => string`（编辑态的原始字符串，`cell` 只管展示）、`validate?: (value, row, index) => string | null`；表格新增 `readOnly`、`onCellChange`、`onPasteBlock`。`getValue` 是评审清单外的必要补充——`cell` 返回 ReactNode 无法可靠反解，这一点已在实现中说明。
+2. **交互**：双击进入并带出当前值；失焦校验后提交，值未变不回调；Escape 取消；校验失败保留编辑态、显示 `data-slot="data-table-cell-error"` 并把焦点还给输入框（effect 实现，未新增 API）。单元格点击 `stopPropagation`，不触发 `onRowClick`。
+3. **粘贴**：`src/lib/paste-matrix.ts` 的 `parsePasteMatrix` 优先 `\t`、否则 `,`，末尾换行不产生空行；`isBlockPaste` 只在多行或多列时成立。块粘贴 `preventDefault` 后一次报出，单格粘贴保持原生行为。
+4. **契约变更（已评审）**：`data-table-api` 的源码级「零状态」断言改为「允许编辑态 state、禁止 `setRows`/`useState(rows)`/就地改写」；`data-table-controlled` 的「无 affordance」改为「未声明 `editable` 时 `td` 无可编辑标记、双击不开编辑器」。
+5. **证据**：`data-table-editing` 11 passed；`data-table-paste` 8 passed；`e2e/data-table-edit` 2 passed（22.0s，真实浏览器提交与拦截）；四个 DataTable 套件 34 passed；含文档契约 14 文件 107 passed / 1 skipped；`rsc-boundaries` 3 passed（182 模块）；语料 260 页无漂移；三套 typecheck + lint 全绿。
+6. **已知限制（写进文档）**：无键盘进入编辑（Enter/F2）与二维单元格选区，均属键盘/选区专项；CSV 解析仍归调用方。
+7. **一处工具教训**：用 shell `node -e` 拼接含 `\s` 的正则会被吞掉反斜杠，导致测试文件语法错误；此类改写改用脚本文件或 Edit 工具。

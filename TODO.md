@@ -16,7 +16,7 @@
 
 ## 当前进行
 
-- 下一步：**M3 只剩 M3-04（DataTable 编辑与粘贴，PR-53）**，计划标注「单独评审」，等你确认列级 `editable/validate/readOnly`、撤销语义与粘贴覆盖范围后再动。M0–M3 其余全部闭环。
+- **M0–M3 执行清单全部闭环**（24 项已勾选）；未勾选的 10 条均为 Future/Blocked 项：子路径按需体积、根入口 tree-shaking、预编译 CSS 层叠权威、无障碍恢复与升级、useForm 评估等。
 - **M2 阶段全部闭合**（M2-01 API 约定 / M2-02 Field / M2-03 useDraft / M2-04 Task / M2-05 适配器 / M2-06 LogView）。
 - M1 阶段（包体积/入口/指南）已全部闭合：M1-01 依赖清理、M1-02 响应式可见性契约（`@source` 收窄转 Future）、M1-03 子路径、M1-04 体积预算、M1-05 集成指南。M1-04 的「Button-only 不含 charts」按决策转 Future tree-shaking 专项。
 
@@ -193,9 +193,14 @@
   - PR: PR-52
   - Evidence (2026-10-30)：`data-table-selection` **10 passed**（无 selection 零复选框、selectedKeys 驱动勾选与半选、单选增删、全选、清空保留视图外 key、`selectable` 排除禁用行、`selectAll:false` 隐藏表头、选择不冒泡到 onRowClick、空/错误 colSpan 含选择列、骨架行对齐）；四个 DataTable 套件 **33 passed**；含文档契约共 10 文件 **79 passed / 1 skipped**；语料 258 页无漂移；三套 typecheck + lint 全绿
   - **回归修复**：选择列引入后 `getRowKey` 被调用两次（派生 rowKeys + 行 key 各一次），把行 key 改为复用 `rowKeys[index].key`，恢复「每行一次」契约。
-- [ ] M3-04 DataTable 编辑与粘贴（PR-53，依赖 M3-02/M3-03，单独评审）
-  - Files: `tests/data-table-editing.test.tsx`, `tests/data-table-paste.test.tsx`
-  - Content: 列级 `editable/validate/readOnly`、受控 `rows/onChange`、单元格错误、`\t`/`,` 粘贴解析、取消/撤销语义；键盘矩阵导航留待未来专项
+- [x] M3-04 DataTable 编辑与粘贴（PR-53，依赖 M3-02/M3-03，已评审）
+  - Files: `src/components/ui/data-table.tsx`（列级 `editable/getValue/validate` + 表格级 `readOnly` + `onCellChange/onPasteBlock`）, `src/lib/paste-matrix.ts`（`parsePasteMatrix`/`isBlockPaste`）, `src/lib/index.ts`, `tests/fixtures/rsc-boundaries.json`（182 模块）, `tests/data-table-editing.test.tsx`（11 例）, `tests/data-table-paste.test.tsx`（8 例）, `tests/e2e/data-table-edit.spec.ts`（2 例）, `docs/site/src/examples/data-table/editing-9f4c21d6.example.tsx`, 完成包
+  - Content: 列级 `editable`（布尔/按行）+ `getValue` + `validate`；表格级 `readOnly` 兜底；**双击**进入编辑、**失焦提交**、**Escape 取消**（评审 D2/D3 决定，无键盘进入路径，记录为已知限制）；校验失败保留编辑态并显示单元格错误（D4）；提交经 `onCellChange({ rowKey, columnId, value, previousValue, row, index })`，值未变化不回调；块粘贴按 `\t`/ `,` 解析为矩阵并经 `onPasteBlock` 一次报出（D6/D7）；组件不持有 rows 副本，撤销由调用方依据 `previousValue` 实现（D5）；异步保存不做，调用方 pending 期间传 `readOnly`（D9）
+  - Acceptance: 缺必填/重复映射/空数据/预览上限/提交失败/取消不写入；不发网络请求、不新增解析依赖
+  - PR: PR-53
+  - Evidence (2026-10-31)：`data-table-editing` **11 passed**（未声明 editable 惰性、readOnly 全禁、按行函数只放行目标行、双击带出当前值、blur 提交带 previousValue、未变化不回调、校验失败保留编辑态+错误、改对后清除并提交、Escape 取消不回调、单元格点击不冒泡到 onRowClick、冻结 rows 不被改写）；`data-table-paste` **8 passed**（制表符/逗号/CRLF/尾随换行/空输入/trim 解析，块判定，块粘贴带 startRowKey+startColumnId 且关闭编辑态且不触发 onCellChange，单格粘贴照常，无 handler 不拦截）；`e2e/data-table-edit` **2 passed（22.0s）**（真实浏览器双击→输入→Tab 提交并更新受控行与状态行；空值被拦下、错误可见、Escape 复原）；四个 DataTable 套件 **34 passed**，含文档契约 14 文件 **107 passed / 1 skipped**；`rsc-boundaries` 3 passed（182 模块）；语料 260 页无漂移；三套 typecheck + lint 全绿
+  - **契约变更（已评审）**：`data-table-api` 的源码级「零状态」断言改为「允许编辑态、禁止持有 rows 副本」；`data-table-controlled` 的「无 affordance」断言改为「未声明 editable 时单元格不可编辑」。
+  - **已知限制**：本轮无键盘进入编辑（Enter/F2）与二维单元格选区，均留待键盘导航专项；CSV 解析仍归调用方。
 - [x] M3-05 Import 列映射与预览（PR-54，依赖 M2-02 + M3-01）
   - Files: `src/lib/import-mapping.ts`（纯函数 validate/preview/resolve/canSubmit）, `src/components/ui/import-mapper.tsx`, `src/lib/framework-messages.ts`（6 条双语文案）, `src/lib/index.ts`, `tests/fixtures/rsc-boundaries.json`（181 模块）, `tests/import-mapping.test.ts`（14 例）, `tests/import-mapper-api.test.tsx`（11 例）, `docs/site/src/examples/import-mapper/mapping-3c7f0a15.example.tsx`, 完成包（components/zh/best-practices/component-api/docs-routes/guides-31-import-mapper/CHANGELOG/语料）
   - Content: 输入已解析 `source`（columns + records）与目标 `fields`，受控 `mapping`；必填缺失 / 重复映射 / 列越界三类问题逐字段提示并阻止提交；预览只显示已映射字段且受 `previewLimit` 限制；`onSubmit` 收到 `resolveImportRows` 结果；`pending` 禁用并换文案、`error` 走 ErrorCard；空 source 出空态。复用 Field/Select/Button/ErrorCard/DataTable
@@ -239,6 +244,7 @@
 
 ## Completed
 
+- 2026-10-31：PR-53（M3-04）——`DataTable` 单元格编辑（双击/失焦/Escape + 校验拦截）与块粘贴（`onPasteBlock`），21 例单测 + 2 例真实浏览器 e2e。**M0–M3 执行清单到此全部闭环。**
 - 2026-10-31：PR-54（M3-05）——`ImportMapper` + 四个纯函数（校验/预览/解析/可提交判定），25 例测试；260 页语料无漂移。
 - 2026-10-31：PR-60（M3-06）——C5 双主题覆盖清单（19 个 token + 4 对前景背景 + 11 个代表组件），10 例契约测试 + 负向验证；纯测试、零渲染改动。
 - 2026-10-30：PR-52（M3-03）——`DataTable` 受控选择（首列复选框、全选/半选、`selectable` 排除、选择不冒泡），10 例测试。

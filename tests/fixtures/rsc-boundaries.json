@@ -1804,6 +1804,12 @@
       "reason": "no client indicators; renderable from Server Components"
     },
     {
+      "file": "src/lib/paste-matrix.ts",
+      "classification": "server-pure",
+      "indicators": [],
+      "reason": "no client indicators; renderable from Server Components"
+    },
+    {
       "file": "src/lib/use-continuous-corners.ts",
       "classification": "client",
       "indicators": [

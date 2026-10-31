@@ -195,12 +195,15 @@ export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
 export { DataTable } from "@/components/ui/data-table";
 export type {
+  DataTableCellChange,
   DataTableColumn,
+  DataTablePasteBlock,
   DataTableProps,
   DataTableSelection,
   DataTableSort,
   DataTableSortDirection,
 } from "@/components/ui/data-table";
+export { isBlockPaste, parsePasteMatrix } from "@/lib/paste-matrix";
 export { ImportMapper } from "@/components/ui/import-mapper";
 export type { ImportMapperProps } from "@/components/ui/import-mapper";
 export {

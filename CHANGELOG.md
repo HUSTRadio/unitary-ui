@@ -8,6 +8,7 @@
 
 ### Added
 
+- **DataTable 单元格编辑与块粘贴**：列可声明 `editable`（布尔或按行函数）、`getValue`、`validate`，表格级 `readOnly` 兜底。双击进入编辑、失焦提交、Escape 取消，值未变化不回调；校验失败保留编辑态并显示单元格错误；提交经 `onCellChange({ rowKey, columnId, value, previousValue, row, index })` 报告，组件不持有 rows 副本。粘贴多行多列时按 `\t` 或 `,` 解析为块并经 `onPasteBlock` 一次报出。
 - **导入映射 `ImportMapper`**：接收调用方已解析的 `source`（表头 + 行）与目标 `fields`，受控 `mapping` 驱动列映射；必填缺失、重复映射、列越界三类问题逐字段提示并阻止提交；预览只显示已映射字段；`onSubmit` 收到按字段解析的行。配套导出纯函数 `validateImportMapping` / `buildImportPreview` / `resolveImportRows` / `canSubmitImport`。
 - **DataTable 受控选择**：新增 `selection={{ selectedKeys, onChange, selectAll?, selectable? }}`，渲染首列复选框；表头全选只作用于当前可见且可选的行走并保留其它选择，部分选中呈现半选；选择列点击不触发 `onRowClick`。
 - **DataTable 受控排序**：列增加 `sortable`，表格增加 `sort` / `onSortChange` / `multiSort`。点击表头按 `asc → desc → 关闭` 循环，只上报下一次完整排序数组，`rows` 顺序始终由调用方决定；`multiSort` 时追加并以排序下标表达优先级。

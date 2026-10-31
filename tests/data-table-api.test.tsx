@@ -181,7 +181,7 @@ describe("DataTable structure", () => {
     expect(table()).not.toBeNull();
   });
 
-  test("does not fetch, sort or paginate", async () => {
+  test("keeps rows out of component state and never fetches or paginates", async () => {
     const { readFile } = await import("node:fs/promises");
     const path = await import("node:path");
     const { fileURLToPath } = await import("node:url");
@@ -191,7 +191,9 @@ describe("DataTable structure", () => {
 
     expect(code).not.toMatch(/fetch\(|XMLHttpRequest/);
     expect(code).not.toMatch(/\.sort\(|\.reverse\(|\.splice\(/);
-    expect(code).not.toMatch(/useState|useReducer/);
+    // 编辑态允许持有「当前编辑单元格」，但绝不允许持有 rows 的副本或改写它。
+    expect(code).not.toMatch(/setRows\b|useState\(\s*rows\b/);
+    expect(code).not.toMatch(/rows\.(push|splice|sort|reverse)\(/);
     expect(code).not.toMatch(/Pagination/);
   });
 });

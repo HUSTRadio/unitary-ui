@@ -922,7 +922,7 @@ const O = {
   "data-table": component(
     ["DataTable"],
     [
-      row("columns", "DataTableColumn<T>[]", "Typed column definitions; set sortable on the columns the caller can sort.", "带类型定义的列；可排序的列设置 sortable。", { required: true }),
+      row("columns", "DataTableColumn<T>[]", "Typed column definitions: sortable, editable, getValue and validate opt into the extra behaviours.", "带类型定义的列：sortable、editable、getValue、validate 分别开启对应行为。", { required: true }),
       row("rows", "readonly T[]", "Caller-owned rows, rendered in the given order.", "调用方持有的行，按给定顺序渲染。", { required: true }),
       row("getRowKey", "(row, index) => Key", "Stable row identity.", "稳定的行标识。", { required: true }),
       row("caption", "ReactNode", "Optional table caption.", "可选的表格标题。"),
@@ -945,6 +945,9 @@ const O = {
         defaultValue: "false",
       }),
       row("selection", "DataTableSelection<T>", "{ selectedKeys, onChange, selectAll?, selectable? }; adds a leading checkbox column.", "{ selectedKeys, onChange, selectAll?, selectable? }；为表格增加首列复选框。"),
+      row("readOnly", "boolean", "Disables editing for every column.", "禁止所有列编辑。", { defaultValue: "false" }),
+      row("onCellChange", "(change) => void", "Receives { rowKey, columnId, value, previousValue, row, index } after a valid commit.", "校验通过并提交后收到 { rowKey, columnId, value, previousValue, row, index }。"),
+      row("onPasteBlock", "(block) => void", "Receives a parsed block from the current cell with { startRowKey, startColumnId, values }.", "从当前单元格起收到解析好的块 { startRowKey, startColumnId, values }。"),
     ],
     'ComponentProps<"div">',
   ),

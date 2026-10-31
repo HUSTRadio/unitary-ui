@@ -1,3 +1,5 @@
+import { DataTableEditing9F4C21D6Example } from "./data-table/editing-9f4c21d6.example";
+import DataTableEditing9F4C21D6ExampleSource from "./data-table/editing-9f4c21d6.example.tsx?example-source";
 import { ImportMapperMapping3C7F0A15Example } from "./import-mapper/mapping-3c7f0a15.example";
 import ImportMapperMapping3C7F0A15ExampleSource from "./import-mapper/mapping-3c7f0a15.example.tsx?example-source";
 import { DataTableBasic4E2D81B7Example } from "./data-table/basic-4e2d81b7.example";
@@ -1291,6 +1293,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "project-banner", id: "Success", Component: ProjectBannerSuccessC88A0B90Example, source: ProjectBannerSuccessC88A0B90ExampleSource },
   { slug: "project-banner", id: "Warning", Component: ProjectBannerWarningE981DDAEExample, source: ProjectBannerWarningE981DDAEExampleSource },
   { slug: "project-banner", id: "Error", Component: ProjectBannerError54A0E8C1Example, source: ProjectBannerError54A0E8C1ExampleSource },
+  { slug: "data-table", id: "editing", Component: DataTableEditing9F4C21D6Example, source: DataTableEditing9F4C21D6ExampleSource },
   { slug: "data-table", id: "basic", Component: DataTableBasic4E2D81B7Example, source: DataTableBasic4E2D81B7ExampleSource },
   { slug: "description", id: "default", Component: DescriptionDefault37A8EEC1Example, source: DescriptionDefault37A8EEC1ExampleSource },
   { slug: "description", id: "text-right", Component: DescriptionTextRightFE5B1527Example, source: DescriptionTextRightFE5B1527ExampleSource },

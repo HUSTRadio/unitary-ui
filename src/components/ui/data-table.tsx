@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 
+import { isBlockPaste, parsePasteMatrix } from "@/lib/paste-matrix";
 import { cn } from "@/lib/utils";
 
 import { Checkbox } from "./checkbox";
@@ -43,6 +44,12 @@ export interface DataTableColumn<T> {
   cellClassName?: string;
   /** 可排序：表头渲染为排序按钮，点击只上报意图。 */
   sortable?: boolean;
+  /** 可编辑：布尔或按行判定；未声明即不可编辑。 */
+  editable?: boolean | ((row: T, index: number) => boolean);
+  /** 编辑时的原始字符串；缺省回退到 cell 的文本。 */
+  getValue?: (row: T) => string;
+  /** 单元格校验：返回非空字符串即视为错误，阻止回写。 */
+  validate?: (value: string, row: T, index: number) => string | null | undefined;
 }
 
 export type DataTableSortDirection = "asc" | "desc";
@@ -50,6 +57,23 @@ export type DataTableSortDirection = "asc" | "desc";
 export interface DataTableSort {
   columnId: string;
   direction: DataTableSortDirection;
+}
+
+export interface DataTableCellChange<T> {
+  rowKey: React.Key;
+  columnId: string;
+  value: string;
+  previousValue: string;
+  row: T;
+  index: number;
+}
+
+export interface DataTablePasteBlock<T> {
+  startRowKey: React.Key;
+  startColumnId: string;
+  values: string[][];
+  row: T;
+  index: number;
 }
 
 export interface DataTableSelection<T> {
@@ -95,6 +119,12 @@ export interface DataTableProps<T> extends Omit<React.ComponentProps<"div">, "ch
   multiSort?: boolean;
   /** 受控选择；提供时首列渲染复选框，组件只读 selectedKeys。 */
   selection?: DataTableSelection<T>;
+  /** 表格级只读：为 true 时任何列都不可编辑。 */
+  readOnly?: boolean;
+  /** 单元格提交：只在值真正变化、且通过校验后触发。 */
+  onCellChange?: (change: DataTableCellChange<T>) => void;
+  /** 块粘贴：从起始单元格向右下填充，越界由调用方截断。 */
+  onPasteBlock?: (block: DataTablePasteBlock<T>) => void;
 }
 
 type DataTableState = "loading" | "error" | "empty" | "ready";
@@ -122,6 +152,9 @@ function DataTable<T>({
   onSortChange,
   multiSort = false,
   selection,
+  readOnly = false,
+  onCellChange,
+  onPasteBlock,
   ...props
 }: DataTableProps<T>) {
   const state: DataTableState = loading
@@ -146,6 +179,79 @@ function DataTable<T>({
   const allSelected = selectableKeys.length > 0 && selectedInView.length === selectableKeys.length;
   const someSelected = selectedInView.length > 0 && !allSelected;
   const columnCount = Math.max(columns.length + (selectionEnabled ? 1 : 0), 1);
+
+  // 编辑态：仅记录「当前在编辑哪个单元格」与草稿，永不持有 rows 副本。
+  const [editing, setEditing] = React.useState<{ rowKey: string; columnId: string } | null>(null);
+  const [draft, setDraft] = React.useState("");
+  const [cellError, setCellError] = React.useState<string | null>(null);
+  const editor = React.useRef<HTMLInputElement>(null);
+
+  const canEdit = (column: DataTableColumn<T>, row: T, index: number) => {
+    if (readOnly || column.editable === undefined) return false;
+    return typeof column.editable === "function" ? column.editable(row, index) : column.editable;
+  };
+
+  const rawValue = (column: DataTableColumn<T>, row: T) =>
+    column.getValue ? column.getValue(row) : String(column.cell(row) ?? "");
+
+  const beginEdit = (row: T, index: number, column: DataTableColumn<T>) => {
+    if (!canEdit(column, row, index)) return;
+    setEditing({ rowKey: String(rowKeys[index].key), columnId: column.id });
+    setDraft(rawValue(column, row));
+    setCellError(null);
+  };
+
+  const cancelEdit = () => {
+    setEditing(null);
+    setDraft("");
+    setCellError(null);
+  };
+
+  const commitEdit = (row: T, index: number, column: DataTableColumn<T>) => {
+    const previousValue = rawValue(column, row);
+    const error = column.validate?.(draft, row, index) ?? null;
+    if (error) {
+      setCellError(error);
+      return;
+    }
+    if (draft !== previousValue) {
+      onCellChange?.({
+        rowKey: rowKeys[index].key,
+        columnId: column.id,
+        value: draft,
+        previousValue,
+        row,
+        index,
+      });
+    }
+    cancelEdit();
+  };
+
+  const handlePaste = (
+    event: React.ClipboardEvent<HTMLInputElement>,
+    row: T,
+    index: number,
+    column: DataTableColumn<T>,
+  ) => {
+    if (!onPasteBlock) return;
+    const text = event.clipboardData?.getData("text") ?? "";
+    const matrix = parsePasteMatrix(text);
+    if (!isBlockPaste(matrix)) return;
+    event.preventDefault();
+    onPasteBlock({
+      startRowKey: rowKeys[index].key,
+      startColumnId: column.id,
+      values: matrix,
+      row,
+      index,
+    });
+    cancelEdit();
+  };
+
+  // 校验失败后把焦点还回输入框，避免用户必须再点一次。
+  React.useEffect(() => {
+    if (editing && cellError) editor.current?.focus();
+  }, [editing, cellError]);
 
   /** 全选/清空只影响当前可见且可选的行，保留其它选择。 */
   const toggleAll = () => {
@@ -283,11 +389,53 @@ function DataTable<T>({
                       />
                     </TableCell>
                   ) : null}
-                  {columns.map((column) => (
-                    <TableCell key={column.id} align={column.align} className={column.cellClassName}>
-                      {column.cell(row)}
-                    </TableCell>
-                  ))}
+                  {columns.map((column) => {
+                    const editable = canEdit(column, row, index);
+                    const isEditing =
+                      editing?.rowKey === String(rowKeys[index].key) && editing?.columnId === column.id;
+                    return (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        className={column.cellClassName}
+                        data-slot="data-table-cell"
+                        data-editable={editable ? "true" : undefined}
+                        data-editing={isEditing ? "true" : undefined}
+                        onClick={editable ? (event) => event.stopPropagation() : undefined}
+                        onDoubleClick={editable ? () => beginEdit(row, index, column) : undefined}
+                      >
+                        {isEditing ? (
+                          <div className="flex flex-col gap-1">
+                            <input
+                              ref={editor}
+                              data-slot="data-table-editor"
+                              value={draft}
+                              onChange={(event) => {
+                                setDraft(event.target.value);
+                                if (cellError) setCellError(null);
+                              }}
+                              onBlur={() => commitEdit(row, index, column)}
+                              onKeyDown={(event) => {
+                                if (event.key === "Escape") cancelEdit();
+                              }}
+                              onPaste={(event) => handlePaste(event, row, index, column)}
+                              className="w-full rounded-sm bg-background-100 px-1 py-0.5 text-copy-14 text-gray-1000 outline-none focus-ring"
+                            />
+                            {cellError ? (
+                              <span
+                                data-slot="data-table-cell-error"
+                                className="text-label-12 text-error-foreground"
+                              >
+                                {cellError}
+                              </span>
+                            ) : null}
+                          </div>
+                        ) : (
+                          column.cell(row)
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             : null}
