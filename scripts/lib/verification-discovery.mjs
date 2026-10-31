@@ -157,6 +157,7 @@ const DISCOVERY_ENV_KEYS = [
 /** Vitest resolves the actual configured module graph, including the example-source plugins. */
 export async function discoverVerification(root, files, changed, related = true) {
   const environment = DISCOVERY_ENV_KEYS.map((key) => [key, process.env[key]]);
+  const rootRelated = changed;
   let ctx;
   let available;
   try {
@@ -165,7 +166,7 @@ export async function discoverVerification(root, files, changed, related = true)
       root,
       config: path.join(root, "vitest.config.ts"),
       watch: false,
-      related: related ? changed.map((file) => path.join(root, file)) : undefined,
+      related: related ? rootRelated.map((file) => path.join(root, file)) : undefined,
     });
     available = [
       ...new Set(

@@ -8,6 +8,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
 describe("Device react-mockframe contract", () => {
+  test("animated frames use the shared state timing while static and reduced motion stay immediate", async () => {
+    const css = await read("src/styles/index.css");
+    expect(css).toContain("transition: transform var(--uni-motion-state) var(--ease-out) !important;");
+    expect(css).toMatch(/\.phone-frame-static\.mockframe,\s*\.phone-frame-animated\.mockframe\s*\{\s*transition: none !important;/);
+    expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.phone-frame-static\.mockframe,\s*\.phone-frame-animated\.mockframe\s*\{\s*transition: none !important;/);
+  });
+
   test("Device uses MockFrame and imports every device CSS bundle (no full mockframe.css)", async () => {
     const src = await read("src/components/ui/device.tsx");
     expect(src).toMatch(/import \{[^}]*\bMockFrame\b[^}]*\} from "react-mockframe"/);

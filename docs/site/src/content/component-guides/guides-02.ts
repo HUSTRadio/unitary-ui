@@ -200,6 +200,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
       content: [
         "今日高亮、选中态与禁用日颜色均跟随主题变量。",
         "暗色模式下选中日期保持足够的对比度。",
+        "弹层出入场共用 --uni-motion-feedback，时长由共享 feedback 档位决定；进入使用 --ease-out，退出使用 --ease-in；减少动画时跳过动画。",
       ],
     },
   },
@@ -541,6 +542,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
       content: [
         "Today highlight, selection, and disabled-day colors all follow theme variables.",
         "Selected dates keep sufficient contrast in dark mode.",
+        "Popover entrance and exit share --uni-motion-feedback, with duration determined by the shared feedback tier; --ease-out is used to enter and --ease-in to exit, and reduced motion skips the animations.",
       ],
     },
   },

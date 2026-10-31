@@ -4,12 +4,12 @@ import { describe, expect, it } from "vitest";
 import { Avatar, AvatarGroup } from "../src/components/ui/avatar";
 
 describe("Avatar official API contract", () => {
-  it("uses the shared smooth curve for its placeholder animation", () => {
+  it("uses the shared loading cycle and smooth curve for its placeholder animation", () => {
     const markup = renderToStaticMarkup(<Avatar placeholder title="Loading avatar" />);
 
-    expect(markup).toContain("before:animate-[unitary-avatar-loading_1.4s_var(--ease-in-out)_infinite]");
+    expect(markup).toContain("before:animate-[unitary-avatar-loading_var(--uni-loop-standard)_var(--ease-in-out)_infinite]");
     expect(markup).toContain('aria-label="Loading avatar"');
-    expect(markup).not.toContain("_1.4s_ease-in-out_");
+    expect(markup).not.toContain("unitary-avatar-loading_1.4s");
   });
 
   it("AvatarGroup reverse preserves visual left-to-right DOM order", () => {

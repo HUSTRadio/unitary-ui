@@ -44,7 +44,7 @@
   container-type: inline-size;
   transform: rotate(0deg);
   transform-style: preserve-3d;
-  transition: transform 250ms var(--ease-out);
+  transition: transform var(--uni-motion-state) var(--ease-out);
 }
 
 .rotateWrapper > :first-child {

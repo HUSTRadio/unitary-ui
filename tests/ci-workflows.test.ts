@@ -157,6 +157,10 @@ describe("GitHub Actions CI contracts", () => {
     expect(screenshots.steps[check].run).not.toContain("--update-on-drift");
   });
 
+
+
+
+
   it("pins actions and shares secure, reproducible toolchain setup across every job", () => {
     const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
     expect(packageJson.devEngines.packageManager).toMatchObject({

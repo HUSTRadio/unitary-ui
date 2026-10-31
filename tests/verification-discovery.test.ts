@@ -70,6 +70,8 @@ it("associates public package imports with the canonical library and styles", ()
   ]));
 });
 
+
+
 it.each([
   { name: "unset", values: environment(undefined) },
   { name: "custom", values: environment("caller-value") },
@@ -87,6 +89,8 @@ it.each([
   expect(result.uncovered).toEqual([]);
   expect(readEnvironment()).toEqual(values);
 }, 30_000);
+
+
 
 it("restores unset variables when real Vitest initialization fails", async () => {
   const { root, files } = fixture({

@@ -170,7 +170,12 @@ export async function createVerificationPlan(root, options, services = {}) {
   }
   const browser = selectBrowserSpecs(context.paths, files, discovery.routes);
   const excludedBrowserTests = context.paths.filter(
-    (file) => isBrowserTest(file) && files.includes(file) && !isBrowserSpec(file) && !isTemplateBrowserSpec(file) && !isWebsiteBrowserSpec(file),
+    (file) =>
+      files.includes(file) &&
+      (isBrowserTest(file) &&
+        !isBrowserSpec(file) &&
+        !isTemplateBrowserSpec(file) &&
+        !isWebsiteBrowserSpec(file)),
   );
   if (excludedBrowserTests.length)
     throw new Error(
@@ -269,6 +274,16 @@ export async function createVerificationPlan(root, options, services = {}) {
   };
 }
 
+function browserEvidenceScope(plan, checks, directory) {
+  const scopes = [
+    { check: "test:docs-layout", name: "documentation", file: "browser.json", files: plan.browserSpecs },
+    { check: "test:templates", name: "template", file: "template-browser.json", files: plan.templateBrowserSpecs },
+    { check: "test:website", name: "website", file: "website-browser.json", files: plan.websiteBrowserSpecs },
+  ];
+  const scope = scopes.find(({ check }) => checks.includes(check));
+  return scope ? { ...scope, reportPath: path.join(directory, scope.file) } : null;
+}
+
 export function printVerificationPlan(plan, log = console.log) {
   log(`[verify] Changed paths: ${plan.context.paths.length}`);
   for (const file of plan.context.paths) log(`  ${JSON.stringify(file)}`);
@@ -355,7 +370,6 @@ export async function verifyWorkspace(root, options, services = {}) {
     }
     const directory = path.join(root, ".scratch/verification", randomUUID());
     mkdirSync(directory, { recursive: true });
-    const browserReportPath = path.join(directory, "browser.json");
     const report = {
       version: 1,
       head: plan.context.head,
@@ -380,8 +394,8 @@ export async function verifyWorkspace(root, options, services = {}) {
       durationMs: 0,
       steps: plan.steps.map((step) => ({
         ...step,
-        environment: step.checks.includes("test:docs-layout") || step.checks.includes("test:templates") || step.checks.includes("test:website")
-          ? { ...step.environment, PLAYWRIGHT_JSON_OUTPUT_FILE: step.checks.includes("test:website") ? path.join(directory, "website-browser.json") : step.checks.includes("test:templates") ? path.join(directory, "template-browser.json") : browserReportPath }
+        environment: browserEvidenceScope(plan, step.checks, directory)
+          ? { ...step.environment, PLAYWRIGHT_JSON_OUTPUT_FILE: browserEvidenceScope(plan, step.checks, directory).reportPath }
           : step.environment,
         status: "NOT_RUN",
         durationMs: 0,
@@ -413,18 +427,16 @@ export async function verifyWorkspace(root, options, services = {}) {
           step.exitCode = await run(root, step.command, [], step.environment);
           if (!Number.isInteger(step.exitCode) || step.exitCode < 0)
             throw new Error("Invalid check exit code");
-          if (step.checks.includes("test:docs-layout") || step.checks.includes("test:templates") || step.checks.includes("test:website")) {
+          const browserScope = browserEvidenceScope(plan, step.checks, directory);
+          if (browserScope) {
             try {
-              const templateBrowser = step.checks.includes("test:templates");
-              const websiteBrowser = step.checks.includes("test:website");
-              const evidencePath = websiteBrowser ? path.join(directory, "website-browser.json") : templateBrowser ? path.join(directory, "template-browser.json") : browserReportPath;
+              const evidencePath = browserScope.reportPath;
               step.browserReportPath = evidencePath;
-              if (templateBrowser && !plan.templateBrowserSpecs.length) throw new Error("No template browser specs discovered");
-              if (websiteBrowser && !plan.websiteBrowserSpecs.length) throw new Error("No website browser specs discovered");
+              if (browserScope.name !== "documentation" && !browserScope.files.length) throw new Error(`No ${browserScope.name} browser specs discovered`);
               step.browserEvidence = verificationBrowserEvidence(
                 root,
                 JSON.parse(readFileSync(evidencePath, "utf8")),
-                websiteBrowser ? plan.websiteBrowserSpecs : templateBrowser ? plan.templateBrowserSpecs : plan.browserSpecs,
+                browserScope.files,
               );
               const evidence = step.browserEvidence;
               if (

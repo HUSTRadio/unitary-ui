@@ -30,6 +30,8 @@ export default {
       "**/.hermes/**",
       // 本地验证快照与临时产物不参与测试收集。 / Exclude local verification snapshots.
       "**/.scratch/**",
+      // Local workbench state and recovery snapshots are not test sources.
+      "**/.workbuddy/**",
       // git worktree 隔离工作区（parallel-subagent-driven-development）：
       // 其中的 tests/ 是旧代码快照，会被 vitest 重复收集导致套件数翻倍
       "**/.superpowers/**",

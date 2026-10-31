@@ -33,7 +33,39 @@ function checkManifestLock(manifest, importer) {
   }
 }
 
-/** Preserve every locked external dependency; replace only the library's artifact identity. */
+// pnpm verifies the age and trust policy of every package in a frozen lockfile,
+// including unused entries. Keep only the standalone app's exact dependency graph.
+function pruneConsumerLock(lock) {
+  const pending = [];
+  const snapshots = new Set();
+  const packages = new Set();
+  const enqueue = dependencies => {
+    for (const [name, reference] of Object.entries(dependencies ?? {})) {
+      assert.ok(typeof reference === "string" && !/^(?:workspace:|link:)/.test(reference), `Linked lockfile dependency: ${name}`);
+      const direct = `${name}@${reference}`;
+      // Aliases resolve to an existing package key rather than the alias name.
+      const key = Object.hasOwn(lock.snapshots, direct) ? direct : reference.replace(/^npm:/, "");
+      assert.ok(Object.hasOwn(lock.snapshots, key), `Missing docs dependency snapshot: ${direct}`);
+      pending.push(key);
+    }
+  };
+  for (const kind of dependencyKinds)
+    enqueue(Object.fromEntries(Object.entries(lock.importers["."][kind] ?? {}).map(([name, entry]) => [name, entry.version])));
+  while (pending.length) {
+    const key = pending.pop();
+    if (snapshots.has(key)) continue;
+    snapshots.add(key);
+    const packageKey = key.split("(", 1)[0];
+    assert.ok(Object.hasOwn(lock.packages, packageKey), `Missing docs dependency metadata: ${packageKey}`);
+    packages.add(packageKey);
+    enqueue(lock.snapshots[key].dependencies);
+    enqueue(lock.snapshots[key].optionalDependencies);
+  }
+  lock.packages = Object.fromEntries(Object.entries(lock.packages).filter(([key]) => packages.has(key)));
+  lock.snapshots = Object.fromEntries(Object.entries(lock.snapshots).filter(([key]) => snapshots.has(key)));
+}
+
+/** Preserve pinned app dependencies; replace only the library's artifact identity. */
 export function createDocsConsumerLock(lockText, docsManifest, libraryManifest, integrity, mode = "tarball", application = { name: DOCS_WORKSPACE_NAME, importer: "docs" }) {
   assert.ok(["tarball", "registry"].includes(mode), "Unknown docs package mode");
   assert.equal(docsManifest.name, application.name);
@@ -75,6 +107,7 @@ export function createDocsConsumerLock(lockText, docsManifest, libraryManifest, 
   lock.snapshots[`${packageKey}${peers}`] = snapshot;
   importer.dependencies[PACKAGE_NAME] = { specifier: reference, version: `${reference}${peers}` };
   lock.importers = { ".": importer };
+  pruneConsumerLock(lock);
   // A copied lock is intentionally standalone, never a workspace shortcut.
   for (const [key, entry] of Object.entries(lock.snapshots)) {
     for (const kind of ["dependencies", "optionalDependencies"])

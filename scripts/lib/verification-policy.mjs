@@ -52,11 +52,11 @@ export const INDIRECT_INPUT_GROUPS = [
   },
   {
     tests: unitFiles("motion-easing-governance.test.ts"),
-    inputs: ["src/**", "docs/site/**", "tests/audit/motion-easing-allowlist.json"],
+    inputs: ["src/**", "docs/site/**", "website/src/**", "templates/*/src/**", "tests/audit/motion-easing-allowlist.json"],
   },
   {
     tests: unitFiles("motion-duration-governance.test.ts"),
-    inputs: ["src/**", "docs/site/**", "tests/audit/motion-duration-allowlist.json"],
+    inputs: ["src/**", "docs/site/**", "website/src/**", "templates/*/src/**", "tests/audit/motion-duration-allowlist.json"],
   },
   {
     tests: unitFiles("ci-workflows.test.ts"),
@@ -80,7 +80,8 @@ export const INDIRECT_INPUT_GROUPS = [
       unitFiles(`ai-docs-pre-push.test.ts ai-docs-prompt-contract.test.ts llm-task-contract.test.ts
       llm-task-runner.test.ts llm-task-docs-contract.test.ts pre-push-context.test.ts
       pre-push-orchestrator.test.ts pre-push-classifier.test.ts package-script-lock.test.ts
-      verification-context.test.ts verification-policy.test.ts verification-runner.test.ts verification-discovery.test.ts`),
+      verification-context.test.ts verification-policy.test.ts verification-runner.test.ts verification-discovery.test.ts
+      verify-cli-contract.test.ts`),
     inputs: [
       "scripts/**",
       ".agents/**",
@@ -379,12 +380,18 @@ export const BROWSER_INPUT_GROUPS = [
   {
     specs: names("global-tokens"),
     inputs: ["src/lib/token*", "src/styles/**", "docs/site/src/pages/localized/tokens*"],
+    owners: names("avatar calendar"),
   },
   {
     specs: names("hamburger-menu-states"),
     owners: names("hamburger-menu hamburger-trigger hamburger-icon"),
   },
   { specs: names("input-rounded-capsule"), owners: names("input clearable-input search-input") },
+  {
+    specs: names("motion-token-consumers"),
+    owners: names("book multi-select search-input device"),
+    inputs: ["src/styles/**", "src/components/ui/book.module.css"],
+  },
   {
     specs: names("menu-token-contract menu-bar-overlay menu-bar-content-height"),
     owners: names("menu menu-bar menu-surface dropdown-menu"),

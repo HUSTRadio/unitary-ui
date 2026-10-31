@@ -19,6 +19,24 @@ import {
   INDIRECT_INPUT_GROUPS,
 } from "../scripts/lib/verification-policy.mjs";
 
+it("maps leaf motion CSS and component owners to their token consumer browser contract", () => {
+  const spec = "tests/e2e/motion-token-consumers.spec.ts";
+  for (const input of ["src/styles/index.css", "src/components/ui/book.module.css"]) {
+    expect(selectBrowserSpecs([input], [spec], []).selected).toEqual([spec]);
+  }
+  for (const owner of ["book", "multi-select", "search-input", "device"]) {
+    expect(selectBrowserSpecs([], [spec], [`/components/${owner}`]).selected).toEqual([spec]);
+    expect(selectBrowserSpecs([`src/components/ui/${owner}.tsx`], [spec], []).selected).toEqual([spec]);
+  }
+});
+
+it("associates motion governance with every runtime UI consumer surface", () => {
+  const tests = ["tests/motion-duration-governance.test.ts", "tests/motion-easing-governance.test.ts"];
+  for (const input of ["website/src/App.tsx", "templates/docs/src/App.tsx"]) {
+    expect(indirectTests([input], tests).sort()).toEqual([...tests].sort());
+  }
+});
+
 it("declares native paint and Select attribution inputs without claiming dedicated native execution", () => {
   const unit = ["tests/native-blur.test.ts", "tests/native-capture.test.ts", "tests/glass-native-tooling.test.ts", "tests/select-reopening.test.ts"];
   expect(indirectTests(["scripts/capture-x11.py"], unit).sort()).toEqual(unit.slice(0, 3).sort());
@@ -71,6 +89,10 @@ const discovery = (available: string[], selected: string[] = []) => ({
 });
 
 describe("verification selection", () => {
+
+
+
+
   it.each(["docs/guides/npm-release.md", "docs/guides/npm-release.en.md"])("maps standalone publishing instructions to their contract tests: %s", file => {
     const result = classifyVerification(context(file));
     expect(result.scope.unit).toBe(true);
@@ -508,6 +530,8 @@ describe("verification command planning", () => {
     expect(steps.filter(({ command }) => command[1] === "vite")).toHaveLength(3);
     expect(steps.at(-1)?.command).toEqual(["node", "scripts/test-packed-package.mjs"]);
   });
+
+
 
   it("preserves literal arguments, rejects cycles and validates CLI options", () => {
     const literal = ["with spaces", "$(literal)", "a&b", 'quote"value'];
