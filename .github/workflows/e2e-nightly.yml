@@ -44,8 +44,10 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # tests/e2e/glass-stability.spec.ts 显式 launch firefox / webkit（真实 CSS 回退腿），
+      # 只装 chromium 会让 shard 2 报 "Executable doesn't exist"。
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
 
       # Keep the full viewport/theme matrix; the PR checks live in ci.yml.
       - name: Run e2e

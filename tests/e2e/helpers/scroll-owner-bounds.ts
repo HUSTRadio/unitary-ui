@@ -6,6 +6,22 @@ export function collectLocalScrollOwners() {
   });
   const main = document.getElementById("main-content")?.getBoundingClientRect();
   const owners = [];
+  // Scroll-owner contract resolution (fail-closed). Kept inside this function because the
+  // whole function is serialised into the page via page.evaluate().
+  // 1) The element's own data-scroll-owner wins: it is a stable attribute emitted after the
+  //    props spread, so consumers (e.g. DataTable overriding data-slot) cannot shadow it.
+  // 2) Otherwise only primitives whose scroll node is the element itself, matched by data-slot.
+  // 3) Only then an ancestor lookup, and only for the container-shaped `scroller` (its scroll
+  //    node is the inner viewport, the slot sits on the outer shell). Never add `data-table`
+  //    here: that would excuse any overflowing descendant inside a DataTable subtree.
+  const declaredOwners = ["table-root", "scroller", "tabs", "code-block-tabs"];
+  const selfSlotOwners = ["tabs", "code-block-tabs"];
+  const resolveComponentScrollPrimitive = (el: HTMLElement, slot: string | null) => {
+    const declared = el.getAttribute("data-scroll-owner");
+    if (declared !== null) return declaredOwners.includes(declared) ? declared : null;
+    if (slot !== null && selfSlotOwners.includes(slot)) return slot;
+    return el.closest('[data-slot="scroller"]') ? "scroller" : null;
+  };
   for (const el of document.querySelectorAll<HTMLElement>("body *")) {
     const style = getComputedStyle(el);
     const bounds = el.getBoundingClientRect();
@@ -34,8 +50,7 @@ export function collectLocalScrollOwners() {
     const slot = el.getAttribute("data-slot");
     const demo = el.getAttribute("data-demo-card") ?? el.getAttribute("data-demo-container") ?? el.getAttribute("data-grid-demo");
     const cls = (el.getAttribute("class") ?? "").split(/\s+/).slice(0, 3).join(".");
-    const componentSlot = el.closest('[data-slot="scroller"], [data-slot="tabs"], [data-slot="table-root"], [data-slot="code-block-tabs"]')?.getAttribute("data-slot");
-    const componentScrollPrimitive = componentSlot === "scroller" || componentSlot === "tabs" || componentSlot === "table-root" || componentSlot === "code-block-tabs" ? componentSlot : null;
+    const componentScrollPrimitive = resolveComponentScrollPrimitive(el, slot);
     owners.push({
       selector: `${el.tagName.toLowerCase()}${slot ? `[data-slot=${slot}]` : ""}${demo ? `[${demo}]` : ""}${cls ? `.${cls}` : ""}`,
       clientWidth: el.clientWidth, scrollWidth: el.scrollWidth,

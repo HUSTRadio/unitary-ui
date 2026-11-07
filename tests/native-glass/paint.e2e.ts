@@ -2,11 +2,39 @@ import { test, expect, type Page, type Locator } from "@playwright/test";
 import { PNG } from "pngjs";
 import { arch, cpus, release } from "node:os";
 import { nativeBlurMetrics } from "../../scripts/lib/native-blur.mjs";
+import { probeNativeBlur } from "../../scripts/lib/native-capability.mjs";
 import { captureNativeSurface, NativeCaptureError } from "../../scripts/lib/native-capture.mjs";
 import { LAYOUT_VIEWPORTS, LAYOUT_THEMES } from "../e2e/helpers/layout-matrix";
 
 const texture = "repeating-linear-gradient(90deg,#000 0 4px,#fff 4px 8px)";
 let marker = 0;
+/** 每个引擎只在首个用例前探测一次合成能力；Firefox 是严格 oracle，永不进入该门控。 */
+const capabilities = new Map<string, Awaited<ReturnType<typeof probeNativeBlur>>>();
+test.beforeEach(async ({ page }) => {
+  const project = test.info().project.name;
+  if (!project.startsWith("webkit")) return;
+  if (!capabilities.has(project)) capabilities.set(project, await probeNativeBlur(page));
+  const capability = capabilities.get(project)!;
+  await test.info().attach(`native-capability-${project}`, {
+    contentType: "application/json",
+    body: Buffer.from(JSON.stringify(capability)),
+  });
+  // 采集取到陈旧帧时，任何「没有模糊」的读数都不可归因于引擎，必须硬失败。
+  if (capability.state === "capture-broken")
+    throw new Error(
+      `Native capture is not live (changedFraction=${capability.liveness.changedFraction}); refusing to certify paint`,
+    );
+  // 只有强制合成层才出模糊 = 可提示修复的缺陷，不得用 skip 掩盖。
+  if (capability.state === "needs-compositing-hint")
+    throw new Error(
+      "WebKit paints backdrop-filter only behind a forced compositing layer; fix the surface compositing hint before accepting this engine",
+    );
+  if (capability.state === "no-blur")
+    test.skip(
+      true,
+      `WebKit native paint cannot composite backdrop-filter on this runner (varianceRatio=${capability.plain?.varianceRatio}, changedFraction=${capability.plain?.changedFraction}); re-evaluate when WebKitGTK gains compositing`,
+    );
+});
 test.beforeEach(async ({ browser }) => {
   await test.info().attach("native-host", { contentType: "application/json", body: Buffer.from(JSON.stringify({
     browser: browser.version(), project: test.info().project.name,

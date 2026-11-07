@@ -9,6 +9,20 @@ import { packageIntegrity, validateInstalledPackage, validatePackageFiles } from
 import { PUBLICATION_WAIT_MS, readPackument, validateArtifact, validateBeta, validateProvenance, validatePublished, validateRelease, waitForPublishedVersion } from "../scripts/lib/npm-release.mjs";
 
 const manifest = { ...JSON.parse(readFileSync("package.json", "utf8")), version: "0.1.0" };
+/** validatePackageFiles 会遍历 exports 的全部字符串值，清单必须从 manifest 派生而不是手写。 */
+const packageTargets = (target: {
+  main?: string; module?: string; types?: string; exports?: unknown;
+}): string[] => {
+  const targets: string[] = [];
+  const visit = (value: unknown) => {
+    if (typeof value === "string") targets.push(value);
+    else if (value && typeof value === "object") for (const child of Object.values(value)) visit(child);
+  };
+  for (const entry of [target.main, target.module, target.types])
+    if (typeof entry === "string") targets.push(entry);
+  visit(target.exports);
+  return targets.map((entry) => entry.replace(/^\.\//, ""));
+};
 const event = { action: "published", release: { draft: false, prerelease: false, tag_name: "v0.1.0" } };
 const directories: string[] = [];
 const fixture = () => {
@@ -193,10 +207,14 @@ describe("release artifacts", () => {
     expect(existsSync(outside)).toBe(true);
   });
   it("requires legal documents and entry points and rejects application and scratch output", () => {
-    const documents = ["LICENSE", "LICENSE.zh-CN.md", "OFL-1.1.txt", "CREDITS.md", "CREDITS.en.md", "CHANGELOG.md", "CHANGELOG.en.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md", "README.md", "README.en.md", "package.json"];
-    const files = [...documents, "dist/unitary-ui.es.js", "dist/unitary-ui.cjs", "dist/unitary-ui.css", "dist/tailwind-reference.css", "dist/types/lib/index.d.ts"];
+    const documents = ["LICENSE", "LICENSE.zh-CN.md", "OFL-1.1.txt", "CREDITS.md", "CREDITS.en.md", "CHANGELOG.md", "CHANGELOG.en.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md", "README.md", "README.en.md"];
+    const targets = packageTargets(manifest);
+    // 覆盖 exports 的每个子路径（./charts ./motion ./device ./code ./package.json）与全部文档。
+    const files = [...new Set([...documents, "package.json", ...targets])].sort();
     expect(validatePackageFiles(files, manifest)).toContain("dist/unitary-ui.css");
-    for (const omitted of ["OFL-1.1.txt", "THIRD_PARTY_NOTICES.en.md", "dist/types/lib/index.d.ts", "dist/tailwind-reference.css"]) expect(() => validatePackageFiles(files.filter(file => file !== omitted), manifest)).toThrow("Missing");
+    // 反例强度不降：派生清单里的每一项缺失都必须仍然抛 Missing。
+    for (const omitted of [...documents, ...targets])
+      expect(() => validatePackageFiles(files.filter(file => file !== omitted), manifest)).toThrow("Missing");
     for (const extra of ["dist/assets/demo.js", "dist/unitary-ui.es.js.map", "scripts/release.mjs", "dist/.scratch/private.txt", "../private"]) expect(() => validatePackageFiles([...files, extra], manifest)).toThrow();
   });
   it("checks installed chunk, declaration and font references without repository resolution", () => {

@@ -47,6 +47,9 @@ function runIndex(job: Job, command: string): number {
 }
 
 const browserInstall = "pnpm exec playwright install --with-deps chromium";
+// 夜间 docs-layout shard 含 glass-stability.spec.ts 的真实 Firefox/WebKit 回退腿，
+// 因此 e2e 作业必须装齐三个引擎；readme 截图仍只需要 Chromium。
+const e2eBrowserInstall = "pnpm exec playwright install --with-deps chromium firefox webkit";
 const ciJobs = [
   { id: "checks", runner: "ubuntu-24.04", timeout: 20, commands: ["lint", "typecheck", "typecheck:tests", "test"] },
   { id: "build-package", runner: "windows-2025", timeout: 90, commands: ["build", "test:package"] },
@@ -124,22 +127,22 @@ describe("GitHub Actions CI contracts", () => {
     expect(nightly.on).toHaveProperty("workflow_dispatch");
     expect(nightly.permissions).toEqual({ contents: "read" });
     expect(Object.keys(nightly.jobs).sort()).toEqual(["e2e", "readme-screenshots"]);
-    for (const [id, runner] of [
-      ["e2e", "windows-2025"],
-      ["readme-screenshots", "windows-2025"],
-    ]) {
+    for (const [id, runner, install] of [
+      ["e2e", "windows-2025", e2eBrowserInstall],
+      ["readme-screenshots", "windows-2025", browserInstall],
+    ] as const) {
       const job = nightly.jobs[id];
       expect(job["runs-on"]).toBe(runner);
       expect(job["timeout-minutes"]).toBe(60);
       expect(job.needs).toBeUndefined();
       expect(runIndex(job, "pnpm install --frozen-lockfile")).toBeLessThan(
-        runIndex(job, browserInstall),
+        runIndex(job, install),
       );
     }
     const e2e = nightly.jobs.e2e;
     expect(e2e.strategy).toEqual({ "fail-fast": false, matrix: { shard: [1, 2, 3, 4] } });
     const run = runIndex(e2e, "pnpm run test:docs-layout -- --shard=${{ matrix.shard }}/4 --reporter=list,json");
-    expect(runIndex(e2e, browserInstall)).toBeLessThan(run);
+    expect(runIndex(e2e, e2eBrowserInstall)).toBeLessThan(run);
     expect(e2e.steps[run].env?.PLAYWRIGHT_JSON_OUTPUT_FILE).toBe(
       ".scratch/playwright-report/results.json",
     );
@@ -193,15 +196,15 @@ describe("GitHub Actions CI contracts", () => {
 
   it("retains nightly reports and failure evidence from specific scratch directories", () => {
     const nightly = workflow("e2e-nightly");
-    for (const [id, directories] of [
-      ["e2e", ["playwright-report", "playwright-results", "website-playwright-results"]],
-      ["readme-screenshots", ["readme-screenshots"]],
+    for (const [id, directories, install] of [
+      ["e2e", ["playwright-report", "playwright-results", "website-playwright-results"], e2eBrowserInstall],
+      ["readme-screenshots", ["readme-screenshots"], browserInstall],
     ] as const) {
       const job = nightly.jobs[id];
       const uploads = job.steps.filter((step) => step.uses?.startsWith("actions/upload-artifact@"));
       expect(uploads.length).toBeGreaterThan(0);
       const audit = job.steps.findIndex((step) => step.id === "audit");
-      expect(audit).toBeGreaterThan(runIndex(job, browserInstall));
+      expect(audit).toBeGreaterThan(runIndex(job, install));
       const paths: string[] = [];
       for (const step of uploads) {
         expect(step.if).toMatch(/(?:failure\(\)|!cancelled\(\))/);

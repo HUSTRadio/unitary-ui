@@ -65,6 +65,9 @@ describe("DataTable structure", () => {
     expect(bodyRows()[0].textContent).toContain("12 KB");
     expect(container.querySelector("caption")?.textContent).toBe("Artifacts");
     expect(container.querySelector('[data-slot="data-table"]')?.getAttribute("data-state")).toBe("ready");
+    // DataTable 覆盖了 TableRoot 的 data-slot，滚动 owner 身份必须仍然可见，
+    // 否则 docs-layout 审计会把合法的表格横向滚动判成布局溢出。
+    expect(container.querySelector('[data-slot="data-table"]')?.getAttribute("data-scroll-owner")).toBe("table-root");
   });
 
   test("applies column alignment, width and class hooks", async () => {
