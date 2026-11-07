@@ -14,6 +14,26 @@ test("scroll audit respects ancestor clips without accepting visible escapes", a
   expect((await page.evaluate(collectLocalScrollOwners))[0].insideMain).toBe(false);
 });
 
+test("data-scroll-owner identifies a DataTable shell even when data-slot is overridden", async ({ page }) => {
+  // DataTable renders TableRoot with data-slot="data-table"; the stable contract attribute is
+  // what keeps the shell whitelisted as a canonical scroll primitive.
+  await page.setContent('<main id="main-content" style="width:300px;height:400px"><div data-slot="data-table" data-scroll-owner="table-root" style="width:300px;overflow-x:auto"><div style="width:600px">wide table</div></div></main>');
+  const owners = await page.evaluate(collectLocalScrollOwners);
+  expect(owners).toHaveLength(1);
+  expect(owners[0].componentScrollPrimitive).toBe("table-root");
+});
+
+test("an overflowing child inside a data-table subtree stays unwhitelisted", async ({ page }) => {
+  // Regression guard against widening the rule: data-table must never be reached through a
+  // closest() fallback, or every overflowing descendant of a DataTable would be excused.
+  await page.setContent('<main id="main-content" style="width:600px;height:400px"><div data-slot="data-table" data-scroll-owner="table-root" style="width:300px;overflow-x:auto"><div data-slot="docs-local-scroll" style="width:400px;overflow-x:auto"><div style="width:900px">nested overflow</div></div></div></main>');
+  const owners = await page.evaluate(collectLocalScrollOwners);
+  expect(owners).toHaveLength(2);
+  expect(owners[0].componentScrollPrimitive).toBe("table-root");
+  expect(owners[1].componentScrollPrimitive).toBeNull();
+  expect(owners[1].selector).toContain("data-slot=docs-local-scroll");
+});
+
 for (const theme of ["light", "dark"] as const) {
   for (const width of [390, 1280]) {
     test(`App Shell anchor navigation preserves its local owner at ${width}px (${theme})`, async ({ page }) => {

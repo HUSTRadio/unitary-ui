@@ -16,6 +16,24 @@ import { withPackageLock } from "../scripts/lib/package-script-lock.mjs";
 import { PACKAGE_NAME, packageIntegrity, readValidatedPackageArtifact } from "../scripts/lib/package-artifact.mjs";
 
 const directories: string[] = [];
+/**
+ * 发布物文件清单必须完整覆盖 manifest 声明的全部入口。
+ * 手写列表会随 exports 子路径增长而陈旧（./charts ./motion ./device ./code），
+ * 因此这里从 main/module/types + exports 递归派生，并去掉 "./" 前缀。
+ */
+const packageTargets = (manifest: {
+  main?: string; module?: string; types?: string; exports?: unknown;
+}): string[] => {
+  const targets: string[] = [];
+  const visit = (value: unknown) => {
+    if (typeof value === "string") targets.push(value);
+    else if (value && typeof value === "object") for (const child of Object.values(value)) visit(child);
+  };
+  for (const entry of [manifest.main, manifest.module, manifest.types])
+    if (typeof entry === "string") targets.push(entry);
+  visit(manifest.exports);
+  return targets.map((target) => target.replace(/^\.\//, ""));
+};
 const temp = () => {
   const directory = mkdtempSync(path.join(os.tmpdir(), "unitary-docs-package-test-"));
   directories.push(directory);
@@ -297,8 +315,7 @@ describe("registry docs recovery from an original release checkout", () => {
     const bytes = Buffer.from("original validated artifact");
     const integrity = packageIntegrity(bytes);
     const documents = ["LICENSE", "LICENSE.zh-CN.md", "OFL-1.1.txt", "CREDITS.md", "CREDITS.en.md", "CHANGELOG.md", "CHANGELOG.en.md", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.en.md", "README.md", "README.en.md"];
-    const files = [...documents, "package.json", ...[manifest.main, manifest.module, manifest.types,
-      manifest.exports["./styles.css"], manifest.exports["./tailwind-reference.css"]].map(target => target.replace(/^\.\//, ""))].sort();
+    const files = [...new Set([...documents, "package.json", ...packageTargets(manifest)])].sort();
     const receipt = { name: PACKAGE_NAME, version: manifest.version, integrity, commit };
     const summary = {
       ...receipt, filename: `hustradio-unitary-ui-${manifest.version}.tgz`,

@@ -111,6 +111,9 @@ try {
         },
         devDependencies: {
           typescript: versionOf("typescript"),
+          // Next 15 在 "Checking validity of types" 阶段要求 @types/node；缺它会直接
+          // 以 "you do not have the required package(s) installed" 中止构建。
+          "@types/node": versionOf("@types/node"),
           "@types/react": versionOf("@types/react"),
           "@types/react-dom": versionOf("@types/react-dom"),
         },

@@ -90,13 +90,16 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browser
-        run: pnpm exec playwright install --with-deps chromium
+      # test:package 在打包后的 docs 消费端跑 docs-layout，其中 glass-stability.spec.ts
+      # 会真实 launch Firefox/WebKit；只装 Chromium 会让该步骤报 "Executable doesn't exist"。
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
 
       - name: Build application
         run: pnpm run build
 
-      # test:package rebuilds the library and checks SSR/imports and published CSS in Chromium.
+      # test:package rebuilds the library and checks SSR/imports and published CSS,
+      # including the docs-layout matrix on the packaged consumer (real engine legs).
       - name: Verify package contracts
         run: pnpm run test:package
 

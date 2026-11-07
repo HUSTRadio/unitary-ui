@@ -150,6 +150,9 @@ const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
         className,
       )}
       {...props}
+      /* 滚动 owner 契约：消费方（如 DataTable）会覆盖 data-slot，因此另置一个
+         稳定属性标识「本元素是表格滚动原语」，供 e2e 局部滚动审计识别。 */
+      data-scroll-owner="table-root"
     />
   ),
 );

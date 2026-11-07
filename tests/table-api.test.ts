@@ -62,6 +62,9 @@ describe("Table container contract", () => {
 
     expect(html).toContain('data-slot="table-root"');
     expect(html.match(/data-slot="table-root"/g)).toHaveLength(1);
+    // 滚动 owner 契约：DataTable 会覆盖 data-slot，因此 TableRoot 另置一个稳定属性，
+    // 供 docs-layout 的局部滚动审计识别（见 tests/e2e/helpers/scroll-owner-bounds.ts）。
+    expect(html.match(/data-scroll-owner="table-root"/g)).toHaveLength(1);
     expect(html).toContain("border-gray-alpha-400");
     expect(html).toContain("<table");
   });

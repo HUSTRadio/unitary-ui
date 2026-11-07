@@ -143,7 +143,7 @@ export const INDIRECT_INPUT_GROUPS = [
       foundation-contract.test.ts global-token-catalog.test.ts layer-tokens.test.ts motion-duration-governance.test.ts
       overlay-backdrop-tokens.test.ts overlay-blur-boundary.test.ts radius-tokens.test.ts raw-color-governance.test.ts
       surface-shadow-contract.test.ts texture-materials.test.ts texture-theme.test.tsx
-      theme-switching.test.ts theme-token-pairing.test.ts token-namespace.test.ts
+      theme-coverage-contract.test.ts theme-switching.test.ts theme-token-pairing.test.ts token-namespace.test.ts
       typography-tokens.test.ts visual-fixes-regression.test.ts audit/uni-token-contract.test.ts`),
     inputs: [
       "src/**",
@@ -180,15 +180,16 @@ export const INDIRECT_INPUT_GROUPS = [
       unitFiles(`badge-api.test.ts bottom-sheet.test.tsx breadcrumbs-api.test.tsx book.test.tsx button-api.test.ts
       checkbox-api.test.ts checkbox-matrix.test.ts code-api.test.ts collapse-api.test.tsx combobox-api.test.ts
       context-card-api.test.ts context-card-visual-contract.test.ts context-menu-api.test.ts copy-button-api.test.ts
-      description-api.test.ts destructive-action-modal-state.test.tsx dots-menu-api.test.ts drawer-api.test.ts
+      data-table-api.test.tsx description-api.test.ts destructive-action-modal-state.test.tsx dots-menu-api.test.ts drawer-api.test.ts
       edit-menu-exit-timing.test.ts empty-state-api.test.ts error-boundary.test.tsx feedback-rating-bar.test.tsx
-      fieldset-api.test.tsx hamburger-menu-modes.test.tsx input-api.test.ts json-view-api.test.ts keyboard-input-api.test.ts
+      field-api.test.tsx fieldset-api.test.tsx hamburger-menu-modes.test.tsx input-api.test.ts
+      json-view-api.test.ts keyboard-input-api.test.ts
       label-api.test.ts layout-primitives.test.tsx menu.test.ts middle-truncate-api.test.ts modal-api.test.ts
       modal-typography-geometry.test.ts multi-select-api.test.tsx nav-surface-parity.test.tsx phone-mockframe.test.ts
       progress-api.test.ts quick-actions-api.test.tsx qz-public-api.test.ts radio-api.test.tsx relative-time-card.test.tsx
       search-input-api.test.ts select-api.test.ts select-consumer-contract.test.ts separator-api.test.ts sheet-api.test.ts
       side-panel-api.test.tsx slider-api.test.tsx slider-toggle-docs-alignment.test.ts split-button-api.test.ts
-      status-dot-visual.test.tsx step-point-geometry.test.tsx table-api.test.ts table-consumers.test.ts switch-api.test.tsx
+      status-dot-visual.test.tsx step-point-geometry.test.tsx table-api.test.ts table-consumers.test.ts task-api.test.tsx switch-api.test.tsx
       text-with-copy-button-api.test.ts textarea-api.test.ts toast-api.test.ts toggle-api.test.ts tooltip-api.test.ts
       tooltip-tip.test.ts video-api.test.ts`),
     inputs: ["src/**", "docs/site/**", "docs/llm/**", "docs/geist-markdown-refs/**", "public/**"],
@@ -367,6 +368,12 @@ export const BROWSER_INPUT_GROUPS = [
     inputs: ["docs/site/src/content/**", "docs/site/src/components/docs-prose*"],
   },
   { specs: names("edit-menu"), owners: names("edit-menu") },
+  {
+    // 单元格编辑与日志跟随都是组件 + 文档示例驱动的交互，按 owner 精确登记。
+    specs: names("data-table-edit"),
+    owners: names("data-table"),
+  },
+  { specs: names("log-view-follow"), owners: names("log-view") },
   { specs: names("sheet-motion"), owners: names("sheet") },
   {
     specs: names("motion-hitu"),

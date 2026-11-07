@@ -72,6 +72,15 @@ function codeOnly(text: string, isCss: boolean): string {
     .join("\n");
 }
 
+/**
+ * 裸时长（`.15s` / `200ms`）只有落在样式上下文里才承担动效语义。
+ * 文档页与指南的自然语言散文（「默认 1s 起、2 倍增长、30s 封顶」）不是渲染样式，
+ * 属于审计范围外（docs/audits/motion-duration-audit-2026-09-20.md §D）——散文里的
+ * 数字+单位若被当作时长档位，只会把叙述登记进账本。因此裸时长必须与样式构造同现；
+ * 无歧义的 Tailwind 形式（duration-*、animate-[*]、delay-[*]）不经过该门。
+ */
+const STYLE_CONTEXT = /(?:duration|animation|transition|animate|keyframes|--uni-|ease-|timing-function)/;
+
 /** 行内时长字面量（归一化为 "<数字><ms|s>"）。仅剔除 delay 值，保留同行时长。 */
 function lineDurationLiterals(line: string): string[] {
   if (TOKEN_DEF.test(line)) return [];
@@ -83,6 +92,7 @@ function lineDurationLiterals(line: string): string[] {
   for (const m of timing.matchAll(/\bduration-\[?(\d+(?:\.\d+)?)(m?s)?\]?/g)) {
     literals.push(m[1] + (m[2] ?? "ms"));
   }
+  if (!STYLE_CONTEXT.test(timing)) return literals;
   // Tailwind arbitrary animation 用下划线分隔值；它在这里与空格一样是合法边界。
   for (const m of timing.matchAll(/(?<![a-zA-Z0-9.#%/-])(\d+(?:\.\d+)?|\.\d+)(ms|s)(?![a-zA-Z0-9])/g)) {
     literals.push(Number(m[1]) + m[2]);
@@ -263,6 +273,11 @@ describe("motion duration literal governance", () => {
     ["delay-[60ms] duration-(--uni-duration-base)", []],
     ["animation-delay: 60ms, .1s;", []],
     ['const source = "/capture-1.4s";', []],
+    // 散文里的数字+单位是叙述，不是时长档位（审计范围外）；样式上下文里的同样形式仍要检出。
+    ['" 指数退避（默认 1s 起、2 倍增长、30s 封顶），两个适配器共用同一套参数。",', []],
+    ['" exponential backoff (1s start, 2x growth, 30s cap), so both adapters take the same options.",', []],
+    ["animation: fade var(--ease-out) 2s;", ["2s"]],
+    ['style={{ animation: "spin 1s linear infinite" }}', ["1s"]],
   ] as const)("detects duration values without treating delay as duration: %s", (source, expected) => {
     expect([...new Set(lineDurationLiterals(source))]).toEqual(expected);
   });
