@@ -50,6 +50,9 @@ const browserInstall = "pnpm exec playwright install --with-deps chromium";
 // 夜间 docs-layout shard 含 glass-stability.spec.ts 的真实 Firefox/WebKit 回退腿，
 // 因此 e2e 作业必须装齐三个引擎；readme 截图仍只需要 Chromium。
 const e2eBrowserInstall = "pnpm exec playwright install --with-deps chromium firefox webkit";
+// build-package 的 test:package 在打包后的 docs 消费端跑同一套 docs-layout，
+// 同样包含真实引擎回退腿，不能在只装 Chromium 的作业里执行。
+const packageBrowserInstall = e2eBrowserInstall;
 const ciJobs = [
   { id: "checks", runner: "ubuntu-24.04", timeout: 20, commands: ["lint", "typecheck", "typecheck:tests", "test"] },
   { id: "build-package", runner: "windows-2025", timeout: 90, commands: ["build", "test:package"] },
@@ -62,7 +65,7 @@ describe("GitHub Actions CI contracts", () => {
     expect(runIndex(ci.jobs.checks, "pnpm install --frozen-lockfile")).toBeLessThan(runIndex(ci.jobs.checks, "pnpm run typecheck:templates"));
     const job = ci.jobs["build-package"];
     for (const command of ["build:templates", "test:templates:package", "test:templates"])
-      expect(runIndex(job, browserInstall)).toBeLessThan(runIndex(job, `pnpm run ${command}`));
+      expect(runIndex(job, packageBrowserInstall)).toBeLessThan(runIndex(job, `pnpm run ${command}`));
   });
 
   it("checks master pushes, pull requests and manual runs with read-only permissions", () => {
@@ -107,17 +110,17 @@ describe("GitHub Actions CI contracts", () => {
     expect(install).toBeLessThan(runIndex(job, "pnpm run test"));
   });
 
-  it("installs Chromium before browser-backed package and documentation checks", () => {
+  it("installs the browsers each job consumes before browser-backed checks", () => {
     const ci = workflow("ci");
-    for (const [id, command] of [
-      ["build-package", "test:package"],
-      ["docs", "docs:llm:check"],
-    ]) {
+    for (const [id, command, install] of [
+      ["build-package", "test:package", packageBrowserInstall],
+      ["docs", "docs:llm:check", browserInstall],
+    ] as const) {
       const job = ci.jobs[id];
       expect(runIndex(job, "pnpm install --frozen-lockfile")).toBeLessThan(
-        runIndex(job, browserInstall),
+        runIndex(job, install),
       );
-      expect(runIndex(job, browserInstall)).toBeLessThan(runIndex(job, `pnpm run ${command}`));
+      expect(runIndex(job, install)).toBeLessThan(runIndex(job, `pnpm run ${command}`));
     }
   });
 
